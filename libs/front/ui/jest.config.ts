@@ -1,8 +1,8 @@
 export default {
-  displayName: 'front-electron',
-  preset: '../../jest.preset.js',
+  displayName: 'owl-writey-ui',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/front-electron',
+  coverageDirectory: '../../../coverage/libs/front/ui',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
