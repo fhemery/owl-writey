@@ -6,24 +6,24 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/webpack:webpack",
       "options": {
-        "command": "webpack-cli build",
-        "args": ["node-env=production"]
-      },
-      "configurations": {
-        "development": {
-          "args": ["node-env=development"]
-        }
+        "webpackConfig": "apps/back/webpack.config.js",
+        "main": "apps/back/src/main.ts",
+        "tsConfig": "apps/back/tsconfig.app.json",
+        "optimization": false,
+        "outputHashing": "none",
+        "sourceMap": true,
+        "outputPath": "dist/apps/back/",
+        "compiler": "tsc",
+        "target": "node"
       }
     },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
       "options": {
-        "buildTarget": "back:build",
-        "runBuildTargetDependencies": false
+        "buildTarget": "back:build"
       },
       "configurations": {
         "development": {
@@ -32,7 +32,13 @@
         "production": {
           "buildTarget": "back:build:production"
         }
-      }
+      },
+      "dependsOn": [
+        {
+          "projects": [],
+          "target": "build"
+        }
+      ]
     }
   }
 }
