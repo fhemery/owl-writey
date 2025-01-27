@@ -62,7 +62,6 @@
       "skipTests": true
     },
     "@nx/nest:library": {
-      "skipTests": false,
       "unitTestRunner": "jest"
     }
   },

@@ -17,6 +17,7 @@
     "paths": {
       "@owl-writey/ping": ["libs/back/ping/src/index.ts"],
       "@owl/back/test-utils": ["libs/back/test-utils/src/index.ts"],
+      "@owl/back/user": ["libs/back/user/src/index.ts"],
       "@owl/front/auth": ["libs/front/auth/src/index.ts"],
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
       "@owl/ui": ["libs/front/ui/src/index.ts"]

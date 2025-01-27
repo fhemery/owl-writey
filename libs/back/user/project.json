@@ -1,0 +1,16 @@
+{
+  "name": "user",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/back/user/src",
+  "projectType": "library",
+  "tags": ["back"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/back/user/jest.config.ts"
+      }
+    }
+  }
+}
