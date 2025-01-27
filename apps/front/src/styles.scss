@@ -20,7 +20,10 @@ html {
   height: 100%;
   // Emit theme-dependent styles for common features used across multiple components.
   @include mat.all-component-themes($my-theme);
-  --mat-dialog-container-max-width: unset;
+
+  & {
+    --mat-dialog-container-max-width: unset;
+  }
 }
 
 :root {
