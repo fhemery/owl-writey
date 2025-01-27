@@ -36,7 +36,7 @@ export class FirebaseAuthService {
       // This is a tricky workaround, because the "authState" observable does not update immediately,
       // therefore the Guard executes with the old value.
       setTimeout(() => {
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('/dashboard');
       }, 10);
       return !!user;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

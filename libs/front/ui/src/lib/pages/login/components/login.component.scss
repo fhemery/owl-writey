@@ -1,0 +1,28 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  .login-form {
+    text-align: center;
+    align-self: center;
+
+    input:focus {
+      color: black;
+    }
+  }
+
+  .login-card {
+    padding: 50px;
+  }
+}
+

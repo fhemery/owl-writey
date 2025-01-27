@@ -58,7 +58,8 @@
     },
     "@nx/angular:component": {
       "style": "scss",
-      "prefix": "owl"
+      "prefix": "owl",
+      "skipTests": true
     }
   },
   "defaultProject": "electron-shell-electron-shell"

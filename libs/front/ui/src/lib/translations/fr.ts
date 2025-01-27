@@ -5,6 +5,7 @@ export const uiFr = {
         name: 'Owl-Writey',
       },
       loginLink: 'Connexion',
+      registerLink: 'Inscription',
       logoutLink: 'Déconnexion',
     },
     footer: {
@@ -18,6 +19,21 @@ export const uiFr = {
       },
       version: {
         label: 'Version {{version}}',
+      },
+    },
+  },
+  auth: {
+    title: 'Connexion',
+    error: 'Erreur de connexion',
+    form: {
+      email: {
+        label: 'Email',
+      },
+      password: {
+        label: 'Mot de passe',
+      },
+      submitButton: {
+        label: 'Connexion',
       },
     },
   },

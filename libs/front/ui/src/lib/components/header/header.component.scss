@@ -20,7 +20,9 @@
 
   &__login-button,
   &__logout-button {
-    margin-right: 1rem;
+    & > * {
+      margin-right: 1rem;
+    }
   }
 
   a,
