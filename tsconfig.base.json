@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@owl/front/auth": ["libs/front/auth/src/index.ts"],
+      "@owl/front/infra": ["libs/front/infra/src/index.ts"],
       "@owl/ui": ["libs/front/ui/src/index.ts"]
     }
   },

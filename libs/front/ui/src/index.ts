@@ -1,1 +1,1 @@
-export * from './lib/owl-writey-ui/owl-writey-ui.component';
+export * from './lib/owl-writey-ui.component';

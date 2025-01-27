@@ -1,0 +1,39 @@
+<div class="header" id="header">
+  <div class="header__logo">
+    <mat-icon class="icon--secondary icon--big">content_paste</mat-icon>
+    <span class="header__title">Checkly</span>
+  </div>
+  <div
+    class="header__menu"
+    (click)="toggleMenu()"
+    (keyup.enter)="toggleMenu()"
+    tabindex="0"
+  >
+    <mat-icon class="icon--secondary icon--big">menu</mat-icon>
+  </div>
+  <div class="header__name">{{ 'home.title' | translate }}</div>
+  <div class="header__user">
+    @if (user(); as usr) {
+    <mat-icon class="profile-icon" [matMenuTriggerFor]="headerMenu"
+      >account_circle</mat-icon
+    >
+    <mat-menu #headerMenu="matMenu">
+      <a routerLink="/logout">
+        <button mat-menu-item id="btn-logout">
+          {{ 'home.header.menu.logout' | translate }}
+        </button>
+      </a>
+    </mat-menu>
+    <div class="profile__username">{{ usr.username }}</div>
+    } @else {
+    <a routerLink="/login">
+      <button class="button-primary">{{ 'home.login' | translate }}</button></a
+    >
+    <a routerLink="/register">
+      <button class="button-secondary">
+        {{ 'home.register' | translate }}
+      </button>
+    </a>
+    }
+  </div>
+</div>

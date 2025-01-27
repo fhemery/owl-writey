@@ -1,0 +1,77 @@
+@import "../../../sass/abstract/mixins";
+
+.header {
+  background-color: var(--color-primary);
+  height: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-bottom: 3px solid var(--color-primary-dark);
+  z-index: 10;
+
+  &__logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2rem;
+
+    color: var(--color-secondary);
+
+    @include respond($xs) {
+      display: none;
+    }
+  }
+
+  &__title {
+    font-size: 2.5rem;
+  }
+
+  &__menu {
+    display: none;
+    color: var(--color-secondary);
+    padding-left: 2rem;
+    padding-right: 4rem;
+
+    @include respond($xs) {
+      margin: 1rem 1rem;
+      display: block;
+    }
+  }
+  
+  &__name {
+    flex: 1 0 auto;
+
+    font-size: 2.5rem;
+    color: var(--color-white);
+    text-align: center;
+
+    @include respond($xs) {
+      margin-left: -4.5rem;
+    }
+  }
+
+  &__user {
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+
+    & > * {
+      margin: 0 1rem;
+    }
+
+    .profile-icon {
+      width: 5rem;
+      height: 5rem;
+      font-size: 5rem;
+      color: var(--color-secondary);
+    }
+
+    .profile__username {
+      font-size: 2.5rem;
+      color: var(--color-white);
+      font-weight: bold;
+    }
+  }
+}
