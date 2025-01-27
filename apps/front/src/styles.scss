@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+
+$my-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$green-palette,
+      tertiary: mat.$violet-palette,
+    ),
+  )
+);
+
+@include mat.core();
+@include mat.color-variants-backwards-compatibility($my-theme);
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+  // Emit theme-dependent styles for common features used across multiple components.
+  @include mat.all-component-themes($my-theme);
+  --mat-dialog-container-max-width: unset;
+}
+
+:root {
+  --color-primary: #f7ecc6;
+  --color-primary-light: #bcd5bc;
+  --color-accent: #41006d;
+  --color-accent-light: #a582c0;
+
+  --color-inactive: #838282;
+
+  --color-error: #b00020;
+  --color-error-background: #f8d7da;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  height: 100%;
+  font-size: 1rem;
+}
+
+.mat-mdc-card-header-text {
+  flex: 1;
+}
+
+.alert {
+  padding: 1.25rem 2.5rem;
+  background-color: var(--color-error-background);
+  color: var(--color-error);
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+}
+
+.form-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
+.dense {
+  @include mat.all-component-densities(-5);
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: var(--color-primary) !important;
+}
+
+.mat-mdc-snack-bar-container.snack-error .mdc-snackbar__surface {
+  background-color: var(--color-error-background) !important;
+}
+
+.mat-mdc-snack-bar-container.snack-error .mdc-snackbar__label {
+  color: var(--color-accent) !important;
+}
+
+.mdc-icon-button.mat-warn mat-icon {
+  color: #ba1a1a;
+}

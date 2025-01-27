@@ -1,43 +1,27 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  inject,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterLink } from '@angular/router';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { AuthService } from '@owl/front/auth';
-import { Observable } from 'rxjs';
-import { User } from '@angular/fire/auth';
+import { Router, RouterLink } from '@angular/router';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatButton } from '@angular/material/button';
+import { FirebaseAuthService } from '@owl/front/auth';
 
 @Component({
   selector: 'owl-header',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    RouterLink,
-    MatIcon,
-    MatMenuTrigger,
-    MatMenu,
-    MatMenuItem,
-  ],
+  imports: [CommonModule, TranslateModule, RouterLink, MatToolbar, MatButton],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  private readonly authService = inject(AuthService);
+  private readonly authService = inject(FirebaseAuthService);
+  private readonly router = inject(Router);
 
-  user: Observable<User | null> = this.authService.user$;
+  user = this.authService.user;
+  isLoginEnabled = this.authService.isLoginEnabled;
 
-  @Output() menuToggle = new EventEmitter<void>();
-
-  toggleMenu() {
-    this.menuToggle.next();
+  async logout() {
+    await this.router.navigateByUrl('/login/logout');
   }
 }

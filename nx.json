@@ -52,10 +52,13 @@
     },
     "@nx/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "prefix": "owl",
+      "style": "scss"
     },
     "@nx/angular:component": {
-      "style": "css"
+      "style": "scss",
+      "prefix": "owl"
     }
   },
   "defaultProject": "electron-shell-electron-shell"
