@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import {
   Auth,
   authState,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   User,
@@ -38,8 +39,29 @@ export class FirebaseAuthService {
       setTimeout(() => {
         this.router.navigateByUrl('/dashboard');
       }, 10);
+
       return !!user;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async register(login: string, password: string): Promise<boolean> {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        this.auth,
+        login,
+        password
+      );
+      // This is a tricky workaround, because the "authState" observable does not update immediately,
+      // therefore the Guard executes with the old value.
+      if (user) {
+        setTimeout(() => {
+          this.router.navigateByUrl('/dashboard');
+        }, 10);
+      }
+      return !!user;
     } catch (e) {
       return false;
     }

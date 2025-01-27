@@ -1,0 +1,99 @@
+<div class="register-page">
+  <h2>{{ 'register.title' | translate }}</h2>
+  @if (registerError()) {
+  <p class="alert">
+    <span class="error-panel">{{ 'register.error' | translate }}</span>
+  </p>
+  }
+
+  <div class="register-form">
+    <mat-card class="login-card">
+      <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" id="loginForm">
+          <div>
+            <mat-form-field>
+              <mat-label>{{
+                'register.form.email.label' | translate
+              }}</mat-label>
+              <input matInput formControlName="email" name="email" />
+              <mat-error>
+                @if(registerForm.get('email')?.hasError('required')) {
+                {{ 'register.form.error.email.required' | translate }}
+                } @else if(registerForm.get('email')?.hasError('email')) {
+                {{ 'register.form.error.email.invalid' | translate }}
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>{{
+                'register.form.password.label' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                name="password"
+                autocomplete="off"
+              />
+              <mat-error>
+                @if(registerForm.get('password')?.hasError('required')) {
+                {{ 'register.form.error.password.required' | translate }}
+                } @else if(registerForm.get('password')?.hasError('minlength'))
+                {
+                {{ 'register.form.error.password.minlength' | translate }}
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>{{
+                'register.form.repeatPassword.label' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="repeatPassword"
+                name="repeatPassword"
+                autocomplete="off"
+              />
+              <mat-error>
+                @if(registerForm.get('repeatPassword')?.hasError('required')) {
+                {{ 'register.form.error.password.required' | translate }}
+                } @else if
+                (registerForm.get('repeatPassword')?.hasError('minlength')) {
+                {{ 'register.form.error.password.minlength' | translate }}
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+          @if (registerForm.get('password')?.valid &&
+          registerForm.get('repeatPassword')?.valid &&
+          registerForm.hasError('passwordsNotMatch')) {
+          <div class="form-error">
+            {{ 'register.form.error.passwordNotMatching' | translate }}
+          </div>
+          }
+          <div class="register-form__submit">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              id="registerBtn"
+              [disabled]="!registerForm.valid"
+            >
+              {{ 'register.form.submitButton.label' | translate }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="login-link">
+    {{ 'register.login.label' | translate }}
+    <a routerLink="/login">{{ 'register.login.link' | translate }}</a>
+  </div>
+</div>

@@ -1,15 +1,16 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { TranslationHubService } from '@owl/front/infra';
-import { uiFr } from './translations/fr';
 import { RouterOutlet } from '@angular/router';
+import { TranslationHubService } from '@owl/front/infra';
+
 import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { uiFr } from './translations/fr';
 
 @Component({
   selector: 'owl-writey-ui',

@@ -14,6 +14,7 @@ import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FirebaseAuthService } from '@owl/front/auth';
 
@@ -31,6 +32,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
     MatLabel,
     MatButton,
     TranslateModule,
+    RouterLink,
   ],
   standalone: true,
 })

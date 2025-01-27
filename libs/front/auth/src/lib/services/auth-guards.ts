@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { FirebaseAuthService } from './firebase-auth.service';
 
 export const authGuard = async () => {

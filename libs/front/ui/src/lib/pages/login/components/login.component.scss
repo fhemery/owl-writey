@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: auto;
+  align-items: center;
 
   h2 {
     text-align: center;
@@ -13,6 +13,8 @@
   }
 
   .login-form {
+    width: 80%;
+
     text-align: center;
     align-self: center;
 
@@ -21,8 +23,11 @@
     }
   }
 
+  mat-form-field {
+    width: 100%;
+  }
+
   .login-card {
     padding: 50px;
   }
 }
-

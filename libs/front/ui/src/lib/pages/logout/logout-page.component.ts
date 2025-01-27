@@ -5,7 +5,6 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { FirebaseAuthService } from '@owl/front/auth';
 
 @Component({

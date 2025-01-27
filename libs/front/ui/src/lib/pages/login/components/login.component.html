@@ -1,37 +1,53 @@
 <div class="login-page">
   <h2>{{ 'auth.title' | translate }}</h2>
   @if (loginError()) {
-    <p>
-      <span class="error-panel">{{ 'auth.error' | translate }}</span>
-    </p>
+  <p class="alert">
+    <span class="error-panel">{{ 'auth.error' | translate }}</span>
+  </p>
   }
 
   <div class="login-form">
     <mat-card class="login-card">
       <mat-card-content>
-
         <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" id="loginForm">
           <div>
             <mat-form-field>
               <mat-label>{{ 'auth.form.email.label' | translate }}</mat-label>
-              <input matInput formControlName="login" name="login">
+              <input matInput formControlName="login" name="login" />
             </mat-form-field>
           </div>
           <div>
             <mat-form-field>
-              <mat-label>{{ 'auth.form.password.label' | translate }}</mat-label>
-              <input matInput type="password" formControlName="password" name="password" autocomplete="off">
+              <mat-label>{{
+                'auth.form.password.label' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                name="password"
+                autocomplete="off"
+              />
             </mat-form-field>
           </div>
           <div>
-            <button mat-raised-button color="primary" type="submit" id="loginBtn"
-                    [disabled]="!checkoutForm.valid">{{ 'auth.form.submitButton.label' | translate }}
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              id="loginBtn"
+              [disabled]="!checkoutForm.valid"
+            >
+              {{ 'auth.form.submitButton.label' | translate }}
             </button>
           </div>
         </form>
       </mat-card-content>
     </mat-card>
+  </div>
 
+  <div class="register-link">
+    {{ 'auth.register.label' | translate }}
+    <a routerLink="/register">{{ 'auth.register.link' | translate }}</a>
   </div>
 </div>
-

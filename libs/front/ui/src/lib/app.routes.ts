@@ -1,9 +1,11 @@
 import { Route } from '@angular/router';
-import { HomePageComponent } from './pages/home/home-page.component';
 import { authGuard, notAuthGuard } from '@owl/front/auth';
+
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
+import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
+import { RegisterPageComponent } from './pages/register/register-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -29,5 +31,10 @@ export const appRoutes: Route[] = [
         canActivate: [authGuard],
       },
     ],
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent,
+    canActivate: [notAuthGuard],
   },
 ];

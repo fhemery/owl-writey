@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   effect,
@@ -6,16 +7,16 @@ import {
   provideAppInitializer,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { appRoutes } from '@owl/ui';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { environment } from '../../environments/environment';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
+import { appRoutes } from '@owl/ui';
+
+import { environment } from '../../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

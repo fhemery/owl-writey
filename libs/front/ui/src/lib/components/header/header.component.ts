@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { Router, RouterLink } from '@angular/router';
-import { MatToolbar } from '@angular/material/toolbar';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { FirebaseAuthService } from '@owl/front/auth';
 
 @Component({
