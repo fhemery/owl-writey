@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "affected:lint": "nx affected:lint --parallel=3",
+    "affected:lint": "nx affected --target=eslint:lint --parallel=true --maxParallel=3",
     "affected:test": "nx affected:test --parallel=3",
     "commit": "git-cz",
     "commitlint": "commitlint",

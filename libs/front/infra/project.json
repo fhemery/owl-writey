@@ -12,9 +12,6 @@
       "options": {
         "jestConfig": "libs/front/infra/jest.config.ts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }
