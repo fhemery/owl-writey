@@ -13,7 +13,9 @@ export const moduleTestInit = (): void => {
     app = new NestE2eTestApplication();
   } else {
     beforeAll(async () => {
-      app = await new IntegrationTestApplicationBuilder().build(UsersModule);
+      app = await new IntegrationTestApplicationBuilder()
+        .withFakeInMemoryDb()
+        .build(UsersModule);
     });
   }
 

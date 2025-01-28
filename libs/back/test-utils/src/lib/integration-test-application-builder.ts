@@ -6,7 +6,7 @@ import {
   ValueProvider,
 } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { Role } from '@owl/shared/contracts';
 
@@ -19,10 +19,13 @@ export class IntegrationTestApplicationBuilder {
   private _app: INestApplication | null = null;
   private _providers: ValueProvider[] = [];
   private _mocks: ResettableMock[] = [];
+  private _useInMemoryDb = false;
 
   async build(module: Type): Promise<NestTestApplication> {
     let builder = Test.createTestingModule({
-      imports: [module],
+      imports: this._useInMemoryDb
+        ? [this.generateDbConfig(), module]
+        : [module],
     });
 
     this._providers.forEach((p) => {
@@ -37,6 +40,23 @@ export class IntegrationTestApplicationBuilder {
     await this._app.init();
 
     return new NestIntegrationTestApplication(this._app, this._mocks);
+  }
+
+  generateDbConfig() {
+    return TypeOrmModule.forRoot({
+      type: 'better-sqlite3',
+      database: ':memory:',
+      synchronize: true,
+      dropSchema: true,
+      autoLoadEntities: true,
+      entities: [],
+      logging: ['error'],
+    });
+  }
+
+  withFakeInMemoryDb(): IntegrationTestApplicationBuilder {
+    this._useInMemoryDb = true;
+    return this;
   }
 
   withUser(

@@ -4,7 +4,11 @@ export enum Role {
 }
 
 export interface UserDto {
-  id: string;
+  uid: string;
   name: string;
   email?: string;
+}
+
+export interface UserToCreateDto {
+  name: string;
 }
