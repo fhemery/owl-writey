@@ -41,6 +41,21 @@ describe('/api/users', () => {
         );
         expect(userResponse.status).toBe(200);
         expect(userResponse.body?.name).toBe('Alice');
+        expect(userResponse.body?.email).toBeDefined();
+      });
+
+      it('should not return email if user is not the one logged in', async () => {
+        FakeAuthMiddleware.SetUser('alice');
+        const response = await userUtils.createUser({
+          name: 'Alice',
+        });
+
+        FakeAuthMiddleware.SetUser('bob');
+        const userResponse = await app.get<UserDto>(
+          response.responseHeaders?.location || ''
+        );
+        expect(userResponse.status).toBe(200);
+        expect(userResponse.body?.email).toBeUndefined();
       });
     });
   });
@@ -55,6 +70,26 @@ describe('/api/users', () => {
           user
         );
         expect(response.status).toBe(401);
+      });
+
+      it('should return 400 if user is not provided', async () => {
+        FakeAuthMiddleware.SetUser('alice');
+        const user: UserToCreateDto = {} as UserToCreateDto;
+        const response = await app.post<UserToCreateDto, void>(
+          '/api/users',
+          user
+        );
+        expect(response.status).toBe(400);
+      });
+
+      it('should return 400 if user is empty', async () => {
+        FakeAuthMiddleware.SetUser('alice');
+        const user: UserToCreateDto = { name: '' };
+        const response = await app.post<UserToCreateDto, void>(
+          '/api/users',
+          user
+        );
+        expect(response.status).toBe(400);
       });
     });
 
