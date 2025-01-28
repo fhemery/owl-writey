@@ -9,6 +9,7 @@ export class FakeAuthMiddleware implements NestMiddleware {
 
   static SetUser(
     uid: string | null,
+    email: string | null = null,
     roles: Role[] = [],
     isEmailVerified = true
   ): void {
@@ -18,7 +19,7 @@ export class FakeAuthMiddleware implements NestMiddleware {
     }
     FakeAuthMiddleware.currentUser = {
       uid,
-      email: `${uid}@mail.com`,
+      email: email || `${uid}@mail.com`,
       roles: roles,
       isEmailVerified,
     };

@@ -1,8 +1,4 @@
 {
-  "jest.nodeEnv": {
-    "@@USAGE": "1 = E2E, 0= Integration",
-    "E2E_TEST": "0"
-  },
   "jest.runMode": "on-demand",
   "[typescript]": {
     "editor.autoClosingBrackets": "never"

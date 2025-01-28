@@ -9,9 +9,8 @@ import {
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
-import { Role } from '@owl/shared/contracts';
 
-import { FakeAuthMiddleware } from './fake-auth-middleware.service';
+import { FakeAuthMiddleware } from './internal/fake-auth-middleware.service';
 import { ResettableMock } from './model/resettable-mock';
 import { NestIntegrationTestApplication } from './nest-integration-test-application';
 import { NestTestApplication } from './nest-test-application';
@@ -57,15 +56,6 @@ export class IntegrationTestApplicationBuilder {
 
   withFakeInMemoryDb(): IntegrationTestApplicationBuilder {
     this._useInMemoryDb = true;
-    return this;
-  }
-
-  withUser(
-    uid: string,
-    roles = [Role.User],
-    isEmailVerified = true
-  ): IntegrationTestApplicationBuilder {
-    FakeAuthMiddleware.SetUser(uid, roles, isEmailVerified);
     return this;
   }
 

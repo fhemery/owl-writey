@@ -1,12 +1,12 @@
 import { describe } from 'node:test';
 
-import { FakeAuthMiddleware } from '@owl/back/test-utils';
+import { TestUserBuilder } from '@owl/back/test-utils';
 import { UserDto, UserToCreateDto } from '@owl/shared/contracts';
 
 import { app, moduleTestInit } from './module-test-init';
 import { UserTestUtils } from './utils/user-test-utils';
 
-describe('/api/users', () => {
+describe('/api/users', async () => {
   moduleTestInit();
   let userUtils: UserTestUtils;
 
@@ -17,13 +17,14 @@ describe('/api/users', () => {
   describe('GET /{id}', () => {
     describe('Error cases', () => {
       it('should 401 if user is not logged in', async () => {
-        FakeAuthMiddleware.SetUser(null);
+        await app.logAs(null);
         const response = await app.get('/api/users/unknown');
         expect(response.status).toBe(401);
       });
 
       it('should return 404 if user does not exist', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        await app.logAs(TestUserBuilder.Alice());
+
         const response = await app.get('/api/users/unknown');
         expect(response.status).toBe(404);
       });
@@ -31,7 +32,8 @@ describe('/api/users', () => {
 
     describe('Success cases', () => {
       it('should retrieve create user', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        await app.logAs(TestUserBuilder.Alice());
+
         const response = await userUtils.createUser({
           name: 'Alice',
         });
@@ -45,12 +47,12 @@ describe('/api/users', () => {
       });
 
       it('should not return email if user is not the one logged in', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        await app.logAs(TestUserBuilder.Alice());
         const response = await userUtils.createUser({
           name: 'Alice',
         });
 
-        FakeAuthMiddleware.SetUser('bob');
+        app.logAs(TestUserBuilder.Bob());
         const userResponse = await app.get<UserDto>(
           response.responseHeaders?.location || ''
         );
@@ -63,7 +65,7 @@ describe('/api/users', () => {
   describe('POST /', () => {
     describe('error cases', () => {
       it('should return 401 if user is not logged in', async () => {
-        FakeAuthMiddleware.SetUser(null);
+        await app.logAs(null);
         const user: UserToCreateDto = { name: 'Alice' };
         const response = await app.post<UserToCreateDto, void>(
           '/api/users',
@@ -73,7 +75,7 @@ describe('/api/users', () => {
       });
 
       it('should return 400 if user is not provided', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        app.logAs(TestUserBuilder.Alice());
         const user: UserToCreateDto = {} as UserToCreateDto;
         const response = await app.post<UserToCreateDto, void>(
           '/api/users',
@@ -83,7 +85,8 @@ describe('/api/users', () => {
       });
 
       it('should return 400 if user is empty', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        await app.logAs(TestUserBuilder.Alice());
+
         const user: UserToCreateDto = { name: '' };
         const response = await app.post<UserToCreateDto, void>(
           '/api/users',
@@ -95,7 +98,8 @@ describe('/api/users', () => {
 
     describe('success cases', () => {
       it('should create a user', async () => {
-        FakeAuthMiddleware.SetUser('alice');
+        await app.logAs(TestUserBuilder.Alice());
+
         const user: UserToCreateDto = { name: 'Alice' };
         const response = await app.post<UserToCreateDto, void>(
           '/api/users',
