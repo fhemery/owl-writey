@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -14,11 +14,7 @@ import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
-
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'owl-register',
@@ -34,17 +30,14 @@ import { UserService } from '../services/user.service';
     ReactiveFormsModule,
     MatFormField,
     MatLabel,
-    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authService = inject(FirebaseAuthService);
-  // TODO This has nothing to do here. Send to register page.
-  private readonly router = inject(Router);
-  private readonly userService = inject(UserService);
+
+  register = output<RegisterData>();
 
   registerForm = this.formBuilder.group(
     {
@@ -70,23 +63,13 @@ export class RegisterComponent {
     }
   );
 
-  registerError = signal(false);
-
   async onSubmit(): Promise<void> {
     const values = this.registerForm.value;
-    this.registerError.set(false);
-
-    const result = await this.authService.register(
-      values.email || '',
-      values.password || ''
-    );
-    if (!result) {
-      this.registerError.set(true);
-      return;
-    }
-
-    await this.userService.createUser(values.name || '');
-    await this.router.navigateByUrl('/dashboard');
+    this.register.emit({
+      name: values.name || '',
+      email: values.email || '',
+      password: values.password || '',
+    });
   }
 }
 
@@ -105,4 +88,10 @@ function areIdenticalPasswords(): ValidatorFn {
 
     return null;
   };
+}
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
 }

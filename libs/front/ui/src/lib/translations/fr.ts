@@ -50,33 +50,36 @@ export const uiFr = {
       link: 'Connexion',
     },
     form: {
-      // TODO Put error inside the objects for maintainability
       error: {
         passwordNotMatching: 'Les mots de passe ne correspondent pas',
-        email: {
+      },
+      email: {
+        label: 'Email',
+        error: {
           required: 'Le mot de passe est obligatoire',
           invalid: "Le format de l'email est incorrect",
         },
-        password: {
-          required: 'Le mot de passe est obligatoire',
-          minlength: 'Le mot de passe doit contenir au moins 8 caractères',
-        },
-        name: {
+      },
+      name: {
+        label: 'Pseudo',
+        error: {
           required: 'Le pseudo est obligatoire',
           minlength: 'Le pseudo doit contenir au moins 3 caractères',
         },
       },
-      email: {
-        label: 'Email',
-      },
-      name: {
-        label: 'Pseudo',
-      },
       password: {
         label: 'Mot de passe',
+        error: {
+          required: 'Le mot de passe est obligatoire',
+          minlength: 'Le mot de passe doit contenir au moins 8 caractères',
+        },
       },
       repeatPassword: {
         label: 'Répéter le mot de passe',
+        error: {
+          required: 'Champ obligatoire',
+          minlength: 'Au moins 8 caractères',
+        },
       },
       submitButton: {
         label: 'Inscription',

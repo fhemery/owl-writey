@@ -1,1 +1,15 @@
-<owl-register></owl-register>
+<div class="register-page">
+  <h2>{{ 'register.title' | translate }}</h2>
+  @if (registerError()) {
+  <p class="alert">
+    <span class="error-panel">{{ 'register.error' | translate }}</span>
+  </p>
+  }
+
+  <owl-register (register)="register($event)"></owl-register>
+
+  <div class="login-link">
+    {{ 'register.login.label' | translate }}
+    <a routerLink="/login">{{ 'register.login.link' | translate }}</a>
+  </div>
+</div>

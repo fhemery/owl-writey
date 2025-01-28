@@ -1,0 +1,9 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  owl-register {
+    width: 80%;
+  }
+}
