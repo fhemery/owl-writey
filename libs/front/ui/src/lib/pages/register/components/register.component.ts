@@ -14,9 +14,11 @@ import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FirebaseAuthService } from '@owl/front/auth';
+
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'owl-register',
@@ -40,9 +42,16 @@ import { FirebaseAuthService } from '@owl/front/auth';
 export class RegisterComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(FirebaseAuthService);
+  // TODO This has nothing to do here. Send to register page.
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
 
   registerForm = this.formBuilder.group(
     {
+      name: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
       email: new FormControl<string>('', [
         Validators.required,
         Validators.email,
@@ -73,7 +82,11 @@ export class RegisterComponent {
     );
     if (!result) {
       this.registerError.set(true);
+      return;
     }
+
+    await this.userService.createUser(values.name || '');
+    await this.router.navigateByUrl('/dashboard');
   }
 }
 

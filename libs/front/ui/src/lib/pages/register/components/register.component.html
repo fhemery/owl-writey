@@ -13,6 +13,21 @@
           <div>
             <mat-form-field>
               <mat-label>{{
+                'register.form.name.label' | translate
+              }}</mat-label>
+              <input matInput formControlName="name" name="name" />
+              <mat-error>
+                @if(registerForm.get('name')?.hasError('required')) {
+                {{ 'register.form.error.name.required' | translate }}
+                } @else if(registerForm.get('name')?.hasError('minlength')) {
+                {{ 'register.form.error.name.minlength' | translate }}
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>{{
                 'register.form.email.label' | translate
               }}</mat-label>
               <input matInput formControlName="email" name="email" />

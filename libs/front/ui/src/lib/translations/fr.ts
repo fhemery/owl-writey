@@ -50,6 +50,7 @@ export const uiFr = {
       link: 'Connexion',
     },
     form: {
+      // TODO Put error inside the objects for maintainability
       error: {
         passwordNotMatching: 'Les mots de passe ne correspondent pas',
         email: {
@@ -60,9 +61,16 @@ export const uiFr = {
           required: 'Le mot de passe est obligatoire',
           minlength: 'Le mot de passe doit contenir au moins 8 caractères',
         },
+        name: {
+          required: 'Le pseudo est obligatoire',
+          minlength: 'Le pseudo doit contenir au moins 3 caractères',
+        },
       },
       email: {
         label: 'Email',
+      },
+      name: {
+        label: 'Pseudo',
       },
       password: {
         label: 'Mot de passe',

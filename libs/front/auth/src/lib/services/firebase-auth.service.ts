@@ -34,11 +34,9 @@ export class FirebaseAuthService {
   async login(login: string, password: string): Promise<boolean> {
     try {
       const user = await signInWithEmailAndPassword(this.auth, login, password);
-      // This is a tricky workaround, because the "authState" observable does not update immediately,
-      // therefore the Guard executes with the old value.
-      setTimeout(() => {
-        this.router.navigateByUrl('/dashboard');
-      }, 10);
+
+      await waitFor(20);
+      await this.router.navigateByUrl('/dashboard');
 
       return !!user;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,25 +52,20 @@ export class FirebaseAuthService {
         login,
         password
       );
-      // This is a tricky workaround, because the "authState" observable does not update immediately,
-      // therefore the Guard executes with the old value.
-      if (user) {
-        setTimeout(() => {
-          this.router.navigateByUrl('/dashboard');
-        }, 10);
-      }
+      await waitFor(20);
       return !!user;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
 
   async logout() {
     await signOut(this.auth);
-    // This is a tricky workaround, because the "authState" observable does not update immediately,
-    // therefore the Guard executes with the old value.
-    setTimeout(() => {
-      this.router.navigateByUrl('');
-    }, 10);
+    await waitFor(20);
+    await this.router.navigateByUrl('');
   }
+}
+
+async function waitFor(time: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 20));
 }
