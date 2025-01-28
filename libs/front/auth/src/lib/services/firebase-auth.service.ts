@@ -67,5 +67,5 @@ export class FirebaseAuthService {
 }
 
 async function waitFor(time: number): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 20));
+  await new Promise((resolve) => setTimeout(resolve, time));
 }

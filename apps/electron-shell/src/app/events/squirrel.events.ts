@@ -4,7 +4,7 @@
 
 import { spawn } from 'child_process';
 import { app } from 'electron';
-import { basename,join, resolve } from 'path';
+import { basename, join, resolve } from 'path';
 
 import { environment } from '../../environments/environment';
 
@@ -67,7 +67,7 @@ export default class SquirrelEvents {
         'close',
         () => setTimeout(app.quit, 1000)
       );
-    } catch (error) {
+    } catch {
       setTimeout(app.quit, 1000);
     }
   }
