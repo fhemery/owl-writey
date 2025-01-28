@@ -21,7 +21,7 @@ export class HeaderComponent {
   user = this.authService.user;
   isLoginEnabled = this.authService.isLoginEnabled;
 
-  async logout() {
+  async logout(): Promise<void> {
     await this.router.navigateByUrl('/login/logout');
   }
 }

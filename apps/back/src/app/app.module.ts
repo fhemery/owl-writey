@@ -16,7 +16,7 @@ import { ConnectionData } from './utils/datasource';
   ],
 })
 export class AppModule {
-  public configure(consumer: MiddlewareConsumer) {
+  public configure(consumer: MiddlewareConsumer): void {
     consumer
       .apply(AuthMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });

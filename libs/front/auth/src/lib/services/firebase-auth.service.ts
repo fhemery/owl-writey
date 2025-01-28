@@ -59,13 +59,13 @@ export class FirebaseAuthService {
     }
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     await signOut(this.auth);
     await waitFor(20);
     await this.router.navigateByUrl('');
   }
 }
 
-async function waitFor(time: number): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, time));
+async function waitFor(timeInMs: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, timeInMs));
 }

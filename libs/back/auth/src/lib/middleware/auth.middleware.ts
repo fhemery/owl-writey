@@ -11,7 +11,11 @@ export interface RequestModel extends Request {
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly firebaseService: AuthService) {}
 
-  public async use(req: RequestModel, _: Response, next: NextFunction) {
+  public async use(
+    req: RequestModel,
+    _: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { authorization } = req.headers;
       if (!authorization) {

@@ -18,7 +18,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
 export class LogoutPageComponent implements OnInit {
   private readonly authService = inject(FirebaseAuthService);
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     await this.authService.logout();
   }
 }

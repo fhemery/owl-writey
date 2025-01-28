@@ -13,7 +13,7 @@ export class TranslationHubService {
     browserLanguages: readonly string[],
     availableLanguages: string[],
     defaultLanguage: string
-  ) {
+  ): void {
     this.translateService.setDefaultLang(defaultLanguage);
 
     const languageToUse = this.determineLanguage(
@@ -23,7 +23,7 @@ export class TranslationHubService {
     this.translateService.use(languageToUse || defaultLanguage);
   }
 
-  loadTranslations(language: string, translations: Translations) {
+  loadTranslations(language: string, translations: Translations): void {
     this.translateService.setTranslation(language, translations, true);
   }
 

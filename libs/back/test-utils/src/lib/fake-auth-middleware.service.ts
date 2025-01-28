@@ -11,7 +11,7 @@ export class FakeAuthMiddleware implements NestMiddleware {
     uid: string | null,
     roles: Role[] = [],
     isEmailVerified = true
-  ) {
+  ): void {
     if (!uid) {
       FakeAuthMiddleware.currentUser = null;
       return;
@@ -24,11 +24,15 @@ export class FakeAuthMiddleware implements NestMiddleware {
     };
   }
 
-  static Reset() {
+  static Reset(): void {
     FakeAuthMiddleware.currentUser = null;
   }
 
-  public async use(req: RequestModel, _: Response, next: NextFunction) {
+  public async use(
+    req: RequestModel,
+    _: Response,
+    next: NextFunction
+  ): Promise<void> {
     req.user = FakeAuthMiddleware.currentUser;
     next();
   }

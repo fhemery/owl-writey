@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { FirebaseAuthService } from './firebase-auth.service';
 
-export const authGuard = async () => {
+export const authGuard = async (): Promise<boolean> => {
   const authService = inject(FirebaseAuthService);
   const router = inject(Router);
 
@@ -14,7 +14,7 @@ export const authGuard = async () => {
   return isLoggedIn;
 };
 
-export const notAuthGuard = async () => {
+export const notAuthGuard = async (): Promise<boolean> => {
   const authService = inject(FirebaseAuthService);
   const router = inject(Router);
 

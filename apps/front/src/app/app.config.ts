@@ -37,7 +37,9 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 
-export function initializeAuth(authService: FirebaseAuthService) {
+export function initializeAuth(
+  authService: FirebaseAuthService
+): Promise<void> {
   let onResolve: () => void;
   const promise = new Promise<void>((resolve) => {
     onResolve = resolve;

@@ -46,11 +46,11 @@ export class AuthService {
     return match[1];
   }
 
-  async setRoles(uid: string, roles: Role[]) {
+  async setRoles(uid: string, roles: Role[]): Promise<void> {
     await this.repository.setRoles(uid, roles);
   }
 
-  async addRole(uid: string, role: Role) {
+  async addRole(uid: string, role: Role): Promise<void> {
     const user = await this.repository.getUserByUid(uid);
     if (!user.roles.includes(role)) {
       user.roles.push(role);
@@ -58,7 +58,7 @@ export class AuthService {
     }
   }
 
-  async removeRole(uid: string, role: Role) {
+  async removeRole(uid: string, role: Role): Promise<void> {
     const user = await this.repository.getUserByUid(uid);
     if ((user.roles || []).includes(role)) {
       user.roles = user.roles.filter((r) => r !== role);
@@ -66,11 +66,11 @@ export class AuthService {
     }
   }
 
-  async setVerified(uid: string) {
+  async setVerified(uid: string): Promise<void> {
     await this.repository.setVerifiedUser(uid);
   }
 
-  async changePassword(uid: string, password: string) {
+  async changePassword(uid: string, password: string): Promise<void> {
     await this.repository.changePassword(uid, password);
   }
 }

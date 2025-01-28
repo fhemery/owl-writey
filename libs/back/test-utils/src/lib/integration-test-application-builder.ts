@@ -1,4 +1,5 @@
 import {
+  DynamicModule,
   INestApplication,
   InjectionToken,
   Type,
@@ -42,7 +43,7 @@ export class IntegrationTestApplicationBuilder {
     return new NestIntegrationTestApplication(this._app, this._mocks);
   }
 
-  generateDbConfig() {
+  generateDbConfig(): DynamicModule {
     return TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: ':memory:',

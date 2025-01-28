@@ -37,13 +37,13 @@ export class FirebaseAuthRepository implements AuthRepository {
       }));
   }
 
-  async setRoles(uid: string, roles: Role[]) {
+  async setRoles(uid: string, roles: Role[]): Promise<void> {
     await admin.auth().setCustomUserClaims(uid, {
       roles,
     });
   }
 
-  async setVerifiedUser(uid: string) {
+  async setVerifiedUser(uid: string): Promise<void> {
     await admin.auth().updateUser(uid, {
       emailVerified: true,
     });

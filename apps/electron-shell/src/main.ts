@@ -5,18 +5,18 @@ import ElectronEvents from './app/events/electron.events';
 import SquirrelEvents from './app/events/squirrel.events';
 
 export default class Main {
-  static initialize() {
+  static initialize(): void {
     if (SquirrelEvents.handleEvents()) {
       // squirrel event handled (except first run event) and app will exit in 1000ms, so don't do anything else
       app.quit();
     }
   }
 
-  static bootstrapApp() {
+  static bootstrapApp(): void {
     App.main(app, BrowserWindow);
   }
 
-  static bootstrapAppEvents() {
+  static bootstrapAppEvents(): void {
     ElectronEvents.bootstrapElectronEvents();
 
     // initialize auto updater service
