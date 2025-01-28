@@ -1,18 +1,18 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class InitUserTable1737992926152 implements MigrationInterface {
+export class InitUserProfilesTable1737992926152 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'user_profiles',
         columns: [
           {
-            name: 'id',
+            name: 'uid',
             type: 'varchar(36)',
             isPrimary: true,
-            isGenerated: false,
           },
           { name: 'email', type: 'varchar(255)', isUnique: true },
+          { name: 'name', type: 'varchar(255)' },
         ],
       })
     );
