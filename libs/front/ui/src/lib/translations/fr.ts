@@ -7,6 +7,7 @@ export const uiFr = {
       app: {
         name: 'Owl-Writey',
       },
+      dashboardLink: 'Dashboard',
       loginLink: 'Connexion',
       registerLink: 'Inscription',
       logoutLink: 'Déconnexion',

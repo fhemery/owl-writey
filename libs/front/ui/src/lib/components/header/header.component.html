@@ -18,6 +18,9 @@
   </div>
   } @else {
   <div class="header__logout-button">
+    <button mat-raised-button color="secondary" routerLink="/dashboard">
+      <mat-icon>home</mat-icon> {{ 'home.header.dashboardLink' | translate }}
+    </button>
     <button mat-raised-button color="secondary" (click)="logout()">
       {{ 'home.header.logoutLink' | translate }}
     </button>
