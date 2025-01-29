@@ -29,6 +29,21 @@ export class ExerciseRepository {
     }
   }
 
+  async getAll(userId: string | null): Promise<Exercise[]> {
+    let entities: ExerciseEntity[];
+    if (!userId) {
+      entities = await this.repository.find();
+    } else {
+      entities = await this.repository
+        .createQueryBuilder('exercise')
+        .leftJoinAndSelect('exercise.participants', 'participant')
+        .where('participant.participantUid = :userId', { userId })
+        .getMany();
+    }
+
+    return entities.map((entity) => entity.toExercise());
+  }
+
   async get(id: string): Promise<Exercise | null> {
     const entity = await this.repository.findOne({
       where: { id },

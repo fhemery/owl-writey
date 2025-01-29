@@ -14,6 +14,7 @@ import {
   ExerciseParticipantRole,
   ExerciseToCreateDto,
   ExerciseType,
+  GetAllExercisesResponseDto,
 } from '@owl/shared/contracts';
 import { IsEnum, IsString, MinLength } from 'class-validator';
 import { v4 as uuidV4 } from 'uuid';
@@ -38,6 +39,17 @@ export class ExercisesController {
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersController: UsersController
   ) {}
+
+  @Get('')
+  @Auth()
+  async getAll(
+    @Req() request: RequestWithUser
+  ): Promise<GetAllExercisesResponseDto> {
+    const exercises = await this.exerciseRepository.getAll(request.user.uid);
+    return {
+      exercises: exercises.map(toExerciseDto),
+    };
+  }
 
   @Post('')
   @Auth()

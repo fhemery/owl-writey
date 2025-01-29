@@ -1,3 +1,7 @@
+export interface GetAllExercisesResponseDto {
+  exercises: ExerciseDto[];
+}
+
 export interface ExerciseDto {
   id: string;
   name: string;

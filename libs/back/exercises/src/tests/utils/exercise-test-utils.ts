@@ -1,5 +1,9 @@
 import { NestTestApplication } from '@owl/back/test-utils';
-import { ExerciseDto, ExerciseToCreateDto } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExerciseToCreateDto,
+  GetAllExercisesResponseDto,
+} from '@owl/shared/contracts';
 
 export class ExerciseTestUtils {
   constructor(private readonly app: NestTestApplication) {}
@@ -22,6 +26,17 @@ export class ExerciseTestUtils {
     expect(response.status).toBe(200);
     if (!response.body) {
       fail('No body found for exercise');
+    }
+    return response.body;
+  }
+
+  async getAll(): Promise<GetAllExercisesResponseDto> {
+    const response = await this.app.get<GetAllExercisesResponseDto>(
+      '/api/exercises'
+    );
+    expect(response.status).toBe(200);
+    if (!response.body) {
+      fail('No body found for exercises');
     }
     return response.body;
   }

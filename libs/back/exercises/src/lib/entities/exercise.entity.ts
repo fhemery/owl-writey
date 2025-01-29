@@ -1,6 +1,7 @@
+import { ExerciseType } from '@owl/shared/contracts';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { Exercise } from '../model/exercise';
+import { Exercise, ExerciseFactory } from '../model/exercise';
 import { ExerciseParticipantEntity } from './exercice-participant.entity';
 
 @Entity({ name: 'exercises' })
@@ -30,5 +31,23 @@ export class ExerciseEntity {
     entity.type = exercise.type;
     entity.data = exercise.data;
     return entity;
+  }
+
+  toExercise(): Exercise {
+    const exercise = ExerciseFactory.From(
+      this.id,
+      this.name,
+      this.type as ExerciseType,
+      this.data
+    );
+    for (const participantEntity of this.participants || []) {
+      exercise.addParticipant(
+        participantEntity.participantUid,
+        participantEntity.name,
+        participantEntity.role
+      );
+    }
+
+    return exercise;
   }
 }
