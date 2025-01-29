@@ -1,7 +1,7 @@
 export const exerciseFr = {
   exercise: {
     new: {
-      title: 'Nouvel exerice',
+      title: 'Nouvel exercice',
     },
     form: {
       name: {
