@@ -35,7 +35,6 @@ export class ExquisiteFormCorpseComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.parentForm) {
-      console.log('we are screwed');
       return;
     }
     this.form = this.parentForm.get('details') as FormGroup;

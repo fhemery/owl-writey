@@ -1,14 +1,19 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
 
+import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
+
 describe('POST /exercises', () => {
   moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
+  let userUtils: UserTestUtils;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     exerciseUtils = new ExerciseTestUtils(app);
+    userUtils = new UserTestUtils(app);
+    await userUtils.createIfNotExists(TestUserBuilder.Alice());
   });
 
   describe('error cases', () => {
@@ -77,7 +82,7 @@ describe('POST /exercises', () => {
 
       expect(exercise.participants).toHaveLength(1);
       expect(exercise.participants[0].uid).toBe(alice.uid);
-      //expect(exercise.participants[0].name).toBe(alice.name);
+      expect(exercise.participants[0].name).toBe(alice.name);
       expect(exercise.participants[0].isAdmin).toBe(true);
     });
   });
