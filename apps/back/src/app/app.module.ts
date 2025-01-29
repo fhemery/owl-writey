@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
+import { ExercisesModule } from '@owl/back/exercises';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
 import * as admin from 'firebase-admin';
@@ -13,6 +14,7 @@ import { ConnectionData } from './utils/datasource';
     TypeOrmModule.forRoot({ ...ConnectionData, autoLoadEntities: true }),
     PingModule,
     UsersModule,
+    ExercisesModule,
   ],
 })
 export class AppModule {
