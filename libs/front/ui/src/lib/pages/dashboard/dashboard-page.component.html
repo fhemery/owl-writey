@@ -1,15 +1,17 @@
 <div class="dashboard-page">
   <div class="dashboard-page__header">
     <h1>{{ 'dashboard.exercises.title' | translate }}</h1>
-    <a
+    <button
+      mat-fab
       routerLink="/exercises/new"
-      class="link"
       [title]="'dashboard.exercices.createAlt' | translate"
     >
       <mat-icon>add</mat-icon>
-    </a>
+    </button>
   </div>
   <div class="dashboard-page__panel">
-    <owl-dashboard-exercises [exercises]="[]"></owl-dashboard-exercises>
+    <owl-dashboard-exercises
+      [exercises]="exercises()"
+    ></owl-dashboard-exercises>
   </div>
 </div>

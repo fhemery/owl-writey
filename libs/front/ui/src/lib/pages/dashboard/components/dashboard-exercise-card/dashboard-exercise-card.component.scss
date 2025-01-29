@@ -1,0 +1,17 @@
+.exercise-card {
+  max-width: 20%;
+
+  mat-card-title {
+    text-align: center;
+  }
+
+  mat-card-content {
+    text-align: center;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}

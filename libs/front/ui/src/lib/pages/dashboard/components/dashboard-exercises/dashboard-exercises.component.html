@@ -1,0 +1,16 @@
+<div class="dashboard-exercises">
+  @if(!exercises()) {
+  <div class="dashboard-no-exercise">
+    {{ 'dashboard.exercises.loading' | translate }}
+  </div>
+  } @else { @for(exercise of exercises(); track exercise.id) {
+  <owl-dashboard-exercise-card
+    [exercise]="exercise"
+  ></owl-dashboard-exercise-card>
+  } @empty {
+  <div class="dashboard-no-exercise">
+    <p>{{ 'dashboard.exercises.noExercise.label' | translate }}</p>
+    <p>{{ 'dashboard.exercises.noExercise.create' | translate }}</p>
+  </div>
+  } }
+</div>

@@ -7,6 +7,8 @@ export const dashboardFr = {
         label: "Vous n'avez pas encore d'exercice",
         create: 'Créez un exercice',
       },
+      loading: 'Chargement des exercices en cours...',
+      playAlt: 'Jouer',
     },
   },
 };

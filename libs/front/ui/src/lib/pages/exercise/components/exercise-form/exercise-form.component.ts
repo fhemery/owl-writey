@@ -35,6 +35,7 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
   styleUrl: './exercise-form.component.scss',
 })
 export class ExerciseFormComponent {
+  ExerciceType = ExerciseType;
   exercise = input<ExerciseDto | null>(null);
   update = output<ExerciseDto>();
 
@@ -45,7 +46,9 @@ export class ExerciseFormComponent {
       Validators.required,
       Validators.minLength(3),
     ]),
-    type: new FormControl<string>('exquisiteCorpse', [Validators.required]),
+    type: new FormControl<string>(ExerciseType.ExquisiteCorpse, [
+      Validators.required,
+    ]),
     details: new FormGroup({}),
   });
 

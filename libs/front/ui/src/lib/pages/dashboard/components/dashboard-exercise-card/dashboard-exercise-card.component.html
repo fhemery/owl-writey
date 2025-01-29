@@ -1,0 +1,29 @@
+<div class="exercise-card">
+  @let ex = exercise();
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ ex.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ 'general.exercises.type.' + ex.type | translate }}</p>
+    </mat-card-content>
+    <mat-card-footer>
+      <div class="exercise-card__footer">
+        <!-- <a
+          routerLink="/exercises/{{ ex.id }}"
+          class="link"
+          [title]="'dashboard.exercises.editAlt' | translate"
+        >
+          <mat-icon class="accent">edit</mat-icon>
+        </a> -->
+        <a
+          routerLink="/exercises/{{ ex.id }}"
+          class="link"
+          [title]="'dashboard.exercises.playAlt' | translate"
+        >
+          <mat-icon class="accent">play_arrow</mat-icon>
+        </a>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

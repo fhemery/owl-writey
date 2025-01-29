@@ -2,6 +2,13 @@ import { dashboardFr } from '../pages/dashboard/translations/dashboard.fr';
 import { exerciseFr } from '../pages/exercise/translations/exercise.fr';
 
 export const uiFr = {
+  general: {
+    exercises: {
+      type: {
+        ExquisiteCorpse: 'Cadavre exquis',
+      },
+    },
+  },
   home: {
     header: {
       app: {

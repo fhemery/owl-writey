@@ -34,7 +34,8 @@
           />
         </div>
 
-        @switch (exerciseForm.get('type')?.value) { @case ('exquisiteCorpse') {
+        @switch (exerciseForm.get('type')?.value) { @case
+        (ExerciceType.ExquisiteCorpse) {
         <owl-exquisite-form-corpse
           [parentForm]="exerciseForm"
         ></owl-exquisite-form-corpse>
