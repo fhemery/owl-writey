@@ -1,6 +1,3 @@
 {
-  "jest.runMode": "on-demand",
-  "[typescript]": {
-    "editor.autoClosingBrackets": "never"
-  }
+  "jest.runMode": "on-demand"
 }

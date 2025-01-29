@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { authGuard, notAuthGuard } from '@owl/front/auth';
 
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
+import { ExerciseNewPageComponent } from './pages/exercise/exercise-new-page.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
@@ -36,5 +37,15 @@ export const appRoutes: Route[] = [
     path: 'register',
     component: RegisterPageComponent,
     canActivate: [notAuthGuard],
+  },
+  {
+    path: 'exercises',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'new',
+        component: ExerciseNewPageComponent,
+      },
+    ],
   },
 ];

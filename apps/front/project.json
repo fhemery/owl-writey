@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/front",
         "index": "apps/front/src/index.html",
         "browser": "apps/front/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/front/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

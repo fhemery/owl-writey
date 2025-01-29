@@ -89,3 +89,17 @@ body {
 .mdc-icon-button.mat-warn mat-icon {
   color: #ba1a1a;
 }
+
+.link {
+  color: var(--color-accent);
+  text-decoration: none;
+  cursor: pointer;
+
+  mat-icon {
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}

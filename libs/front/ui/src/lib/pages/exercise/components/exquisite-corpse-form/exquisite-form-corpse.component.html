@@ -1,0 +1,47 @@
+@if (form){
+<div [formGroup]="form">
+  <mat-form-field>
+    <mat-label>{{
+      'exercise.form.exquisiteCorpse.nbIterations.label' | translate
+    }}</mat-label>
+    <input
+      matInput
+      formControlName="nbIterations"
+      name="nbIterations"
+      type="number"
+      autocomplete="off"
+    />
+    <mat-error>
+      @if(form.get('nbIterations')?.hasError('required')) {
+      {{
+        'exercise.form.exquisiteCorpse.nbIterations.error.required' | translate
+      }}
+      } @else if(form.get('nbIterations')?.hasError('min')) {
+      {{ 'exercise.form.exquisiteCorpse.nbIterations.error.min' | translate }}
+      }
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{
+      'exercise.form.exquisiteCorpse.initialText.label' | translate
+    }}</mat-label>
+    <textarea
+      matInput
+      formControlName="initialText"
+      name="initialText"
+      autocomplete="off"
+    ></textarea>
+    <mat-error>
+      @if(form.get('initialText')?.hasError('required')) {
+      {{
+        'exercise.form.exquisiteCorpse.initialText.error.required' | translate
+      }}
+      } @else if(form.get('initialText')?.hasError('minlength')) {
+      {{
+        'exercise.form.exquisiteCorpse.initialText.error.minlength' | translate
+      }}
+      }
+    </mat-error>
+  </mat-form-field>
+</div>
+}

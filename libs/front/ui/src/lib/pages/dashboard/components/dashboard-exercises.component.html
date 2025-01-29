@@ -1,0 +1,8 @@
+<div class="dashboard-exercises">
+  @for(exercise of exercises(); track exercise.id) { } @empty {
+  <div class="dashboard-no-exercise">
+    <p>{{ 'dashboard.exercises.noExercise.label' | translate }}</p>
+    <p>{{ 'dashboard.exercises.noExercise.create' | translate }}</p>
+  </div>
+  }
+</div>

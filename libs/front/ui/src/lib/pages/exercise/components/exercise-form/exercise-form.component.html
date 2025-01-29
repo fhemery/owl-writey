@@ -1,0 +1,57 @@
+<div class="exercise-form">
+  <mat-card class="exercise-card">
+    <mat-card-content>
+      <form
+        [formGroup]="exerciseForm"
+        (ngSubmit)="onSubmit()"
+        id="exerciseForm"
+      >
+        <div>
+          <mat-form-field>
+            <mat-label>{{ 'exercise.form.name.label' | translate }}</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              name="name"
+              autocomplete="off"
+            />
+            <mat-error>
+              @if(exerciseForm.get('name')?.hasError('required')) {
+              {{ 'exercise.form.name.error.required' | translate }}
+              } @else if(exerciseForm.get('name')?.hasError('minlength')) {
+              {{ 'exercise.form.name.error.minlength' | translate }}
+              }
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <input
+            [hidden]="true"
+            formControlName="type"
+            name="type"
+            value="exquisiteCorpse"
+            readonly="true"
+          />
+        </div>
+
+        @switch (exerciseForm.get('type')?.value) { @case ('exquisiteCorpse') {
+        <owl-exquisite-form-corpse
+          [parentForm]="exerciseForm"
+        ></owl-exquisite-form-corpse>
+        } }
+
+        <div class="exercise-form__submit">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            id="exerciseBtn"
+            [disabled]="!exerciseForm.valid"
+          >
+            {{ 'exercise.form.submitButton.label' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,3 +1,6 @@
+import { dashboardFr } from '../pages/dashboard/translations/dashboard.fr';
+import { exerciseFr } from '../pages/exercise/translations/exercise.fr';
+
 export const uiFr = {
   home: {
     header: {
@@ -86,4 +89,6 @@ export const uiFr = {
       },
     },
   },
+  ...dashboardFr,
+  ...exerciseFr,
 };

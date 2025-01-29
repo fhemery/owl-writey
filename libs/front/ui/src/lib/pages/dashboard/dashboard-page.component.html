@@ -1,1 +1,15 @@
-<p>dashboard-page works!</p>
+<div class="dashboard-page">
+  <div class="dashboard-page__header">
+    <h1>{{ 'dashboard.exercises.title' | translate }}</h1>
+    <a
+      routerLink="/exercises/new"
+      class="link"
+      [title]="'dashboard.exercices.createAlt' | translate"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+  </div>
+  <div class="dashboard-page__panel">
+    <owl-dashboard-exercises [exercises]="[]"></owl-dashboard-exercises>
+  </div>
+</div>
