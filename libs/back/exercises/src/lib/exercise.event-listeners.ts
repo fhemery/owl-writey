@@ -19,6 +19,9 @@ export class ExerciseEventListeners {
       includeContent: true,
     });
 
-    event.socket.emit(exquisiteCorpseEvents.updates, exercise?.content);
+    event.userDetails.socket.emit(
+      exquisiteCorpseEvents.updates,
+      exercise?.content
+    );
   }
 }

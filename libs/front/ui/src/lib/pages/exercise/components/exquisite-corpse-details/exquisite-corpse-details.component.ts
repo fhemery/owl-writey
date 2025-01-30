@@ -22,6 +22,7 @@ export class ExquisiteCorpseDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO : handle memory leak
+    this.#exquisiteCorpseService.doConnect();
     this.#exquisiteCorpseService.updates.subscribe((content) => {
       this.content.set(content);
     });

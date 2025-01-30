@@ -26,12 +26,14 @@ describe('Exquisite Corpse Exercise', () => {
     ioClient = io('http://localhost:3456', {
       autoConnect: false,
       transports: ['websocket', 'polling'],
+      auth: { token: TestUserBuilder.Alice().uid },
     });
   });
 
   describe('Exquisite corpse', () => {
     it('should return the content via socket', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      const alice = TestUserBuilder.Alice();
+      app.logAs(alice);
       const id = await exerciseUtils.createExercise(
         ExerciseTestBuilder.ExquisiteCorpse()
       );

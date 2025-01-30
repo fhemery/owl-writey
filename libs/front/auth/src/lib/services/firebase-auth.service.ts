@@ -31,6 +31,10 @@ export class FirebaseAuthService {
     { initialValue: null }
   );
 
+  getToken(): Promise<string> | undefined {
+    return this.user()?.getIdToken();
+  }
+
   async login(login: string, password: string): Promise<boolean> {
     try {
       const user = await signInWithEmailAndPassword(this.auth, login, password);

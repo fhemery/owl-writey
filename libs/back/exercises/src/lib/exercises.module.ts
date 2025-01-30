@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '@owl/back/auth';
 import { UsersModule } from '@owl/back/user';
 
 import {
@@ -19,6 +20,7 @@ import { WsGatewayGateway } from './ws-gateway.gateway';
       ExerciseParticipantEntity,
       ExerciseContentEntity,
     ]),
+    AuthModule,
     UsersModule,
   ],
   controllers: [ExercisesController],
