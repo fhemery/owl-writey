@@ -6,6 +6,12 @@
     </div>
     <p>{{ scene.text }}</p>
   </div>
+  } @if(!content.currentWriter) {
+  <div class="exCo-details__takeTurn">
+    <button mat-raised-button (click)="takeTurn()">
+      {{ 'exercise.exquisiteCorpse.takeTurn.label' | translate }}
+    </button>
+  </div>
   } } @else {
   {{ 'exercise.exquisiteCorpse.loading' | translate }}
   }

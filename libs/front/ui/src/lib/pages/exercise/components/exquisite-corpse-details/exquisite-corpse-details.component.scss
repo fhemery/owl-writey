@@ -6,6 +6,12 @@
     padding: 1rem 2rem;
   }
 
+  &__takeTurn {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
   .scene-id-and-author {
     font-size: 0.8rem;
     width: fit-content;

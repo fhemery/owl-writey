@@ -51,5 +51,10 @@ export const exerciseFr = {
     page: {
       loading: "Chargement de l'exercice en cours...",
     },
+    exquisiteCorpse: {
+      takeTurn: {
+        label: 'À mon tour !',
+      },
+    },
   },
 };
