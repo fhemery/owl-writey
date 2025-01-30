@@ -35,7 +35,7 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
   styleUrl: './exercise-form.component.scss',
 })
 export class ExerciseFormComponent {
-  ExerciceType = ExerciseType;
+  ExerciseType = ExerciseType;
   exercise = input<ExerciseDto | null>(null);
   update = output<ExerciseDto>();
 

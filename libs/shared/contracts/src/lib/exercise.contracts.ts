@@ -30,3 +30,19 @@ export enum ExerciseParticipantRole {
 export enum ExerciseType {
   ExquisiteCorpse = 'ExquisiteCorpse',
 }
+
+export interface ExquisiteCorpseContentDto {
+  scenes: ExquisiteCorpseSceneDto[];
+  currentWriter?: AuthorDto;
+}
+
+export interface ExquisiteCorpseSceneDto {
+  id: number;
+  text: string;
+  author: AuthorDto;
+}
+
+export interface AuthorDto {
+  id: string;
+  name: string;
+}

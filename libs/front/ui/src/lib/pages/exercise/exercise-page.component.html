@@ -1,1 +1,21 @@
-<p>exercise-page works!</p>
+<div class="exercise-page">
+  @if(exercise(); as exercise) {
+  <div class="exercise-page__header">
+    <h1>{{ exercise.name }}</h1>
+    <div class="exercise-page__type">
+      {{ 'general.exercises.type.' + exercise.type | translate }}
+    </div>
+  </div>
+  <div class="exercise-page__body">
+    @switch (exercise.type) { @case (ExerciseType.ExquisiteCorpse) {
+    <owl-exquisite-corpse-details
+      [exercise]="exercise"
+    ></owl-exquisite-corpse-details>
+    } }
+  </div>
+  } @else {
+  <div class="exercise-page__loading">
+    <p>{{ 'exercise.page.loading' | translate }}</p>
+  </div>
+  }
+</div>

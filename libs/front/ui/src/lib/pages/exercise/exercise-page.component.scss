@@ -1,0 +1,8 @@
+.exercise-page {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

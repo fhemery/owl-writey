@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ExerciseToCreateDto } from '@owl/shared/contracts';
+import { ExerciseDto, ExerciseToCreateDto } from '@owl/shared/contracts';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -20,5 +20,11 @@ export class ExerciseService {
       throw new Error('Location header not found while creating exercise');
     }
     return locationHeader.split('/').pop() ?? '';
+  }
+
+  async getOne(id: string): Promise<ExerciseDto> {
+    return await firstValueFrom(
+      this.#httpClient.get<ExerciseDto>(`/api/exercises/${id}`)
+    );
   }
 }

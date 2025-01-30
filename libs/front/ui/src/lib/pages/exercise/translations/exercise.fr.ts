@@ -48,5 +48,8 @@ export const exerciseFr = {
         },
       },
     },
+    page: {
+      loading: "Chargement de l'exercice en cours...",
+    },
   },
 };

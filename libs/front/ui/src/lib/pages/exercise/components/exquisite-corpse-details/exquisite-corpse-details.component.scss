@@ -1,0 +1,20 @@
+.exCo-details {
+  margin-top: 2rem;
+  &__scene {
+    border: 1px solid var(--color-primary);
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+  }
+
+  .scene-id-and-author {
+    font-size: 0.8rem;
+    width: fit-content;
+    border: 1px solid var(--color-primary);
+    border-radius: 1rem;
+    padding: 0 1rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    background-color: white;
+    margin-top: -1.5rem;
+  }
+}
