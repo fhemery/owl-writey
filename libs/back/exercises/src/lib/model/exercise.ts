@@ -52,6 +52,19 @@ export class ExquisiteCorpseExercise extends Exercise<
     );
     return new ExquisiteCorpseContent([firstScene], undefined);
   }
+
+  setTurn(author: Author): void {
+    const inFifteenMinutes = new Date();
+    inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
+
+    if (!this.content) {
+      throw new Error('Exercise content is not initialized'); // TODO : Throw a business error (or better, ensure it is initialized)
+    }
+    this.content.currentWriter = new ExquisiteCorpseNextActor(
+      author,
+      inFifteenMinutes
+    );
+  }
 }
 
 export class ExerciseParticipant {
@@ -65,7 +78,7 @@ export class ExerciseParticipant {
 export class ExquisiteCorpseContent {
   constructor(
     readonly scenes: ExquisiteCorpseScene[],
-    readonly currentWriter?: ExquisiteCorpseNextActor
+    public currentWriter?: ExquisiteCorpseNextActor
   ) {}
 }
 

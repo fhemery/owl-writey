@@ -34,4 +34,8 @@ export class ExquisiteCorpseService extends Socket {
   connectToExercise(exerciseId: string): void {
     this.emit(exquisiteCorpseEvents.connect, { id: exerciseId });
   }
+
+  takeTurn(exerciseId: string): void {
+    this.emit(exquisiteCorpseEvents.takeTurn, { id: exerciseId });
+  }
 }

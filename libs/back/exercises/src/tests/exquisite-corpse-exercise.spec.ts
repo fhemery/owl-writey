@@ -41,5 +41,27 @@ describe('Exquisite Corpse Exercise', () => {
       expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
       aliceSocket.disconnect();
     });
+
+    it('should be able to take turn if no one currently has it', async () => {
+      const alice = TestUserBuilder.Alice();
+      app.logAs(alice);
+      const id = await exerciseUtils.createExercise(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      const aliceSocket = wsUtils.connect(alice.uid, port);
+      aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+      const data = await wsUtils.waitFor<ExquisiteCorpseContentDto>(
+        aliceSocket,
+        exquisiteCorpseEvents.updates
+      );
+
+      console.log('Received', JSON.stringify(data));
+      expect(data.currentWriter?.author.id).toBe(alice.uid);
+
+      // TODO FIX
+      // TODO Check it is saved
+      // TODO Send to room instead of user
+    });
   });
 });
