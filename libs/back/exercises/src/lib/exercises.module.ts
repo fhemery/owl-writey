@@ -6,6 +6,7 @@ import { ExerciseParticipantEntity } from './entities/exercice-participant.entit
 import { ExerciseEntity } from './entities/exercise.entity';
 import { ExerciseRepository } from './exercise.repository';
 import { ExercisesController } from './exercises.controller';
+import { WsGatewayGateway } from './ws-gateway.gateway';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { ExercisesController } from './exercises.controller';
     UsersModule,
   ],
   controllers: [ExercisesController],
-  providers: [ExerciseRepository],
+  providers: [ExerciseRepository, WsGatewayGateway],
   exports: [],
 })
 export class ExercisesModule {}

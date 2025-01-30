@@ -15,6 +15,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { appRoutes } from '@owl/ui';
+import { SocketIoModule } from 'ngx-socket-io';
 
 import { environment } from '../../environments/environment';
 
@@ -32,7 +33,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       BrowserAnimationsModule,
       MatSnackBarModule,
-      TranslateModule.forRoot()
+      TranslateModule.forRoot(),
+      SocketIoModule.forRoot({ url: 'http://localhost:3000' })
     ),
   ],
 };
