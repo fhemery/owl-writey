@@ -2,7 +2,7 @@ import { ExerciseType } from '@owl/shared/contracts';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 import { Exercise, ExerciseFactory } from '../model/exercise';
-import { ExerciseParticipantEntity } from './exercice-participant.entity';
+import { ExerciseParticipantEntity } from './exercise-participant.entity';
 
 @Entity({ name: 'exercises' })
 export class ExerciseEntity {
@@ -29,7 +29,8 @@ export class ExerciseEntity {
     entity.id = exercise.id;
     entity.name = exercise.name;
     entity.type = exercise.type;
-    entity.data = exercise.data;
+    entity.data = exercise.config;
+
     return entity;
   }
 

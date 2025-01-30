@@ -3,9 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
-import { ExerciseParticipantEntity } from './entities/exercice-participant.entity';
-import { ExerciseEntity } from './entities/exercise.entity';
+import {
+  ExerciseContentEntity,
+  ExerciseEntity,
+  ExerciseParticipantEntity,
+} from './entities';
 import { Exercise, ExerciseFactory } from './model/exercise';
+import { ExerciseFilter } from './model/exercise-filter';
 
 @Injectable()
 export class ExerciseRepository {
@@ -13,10 +17,17 @@ export class ExerciseRepository {
     @InjectRepository(ExerciseEntity)
     private readonly repository: Repository<ExerciseEntity>,
     @InjectRepository(ExerciseParticipantEntity)
-    private readonly participantRepository: Repository<ExerciseParticipantEntity>
+    private readonly participantRepository: Repository<ExerciseParticipantEntity>,
+    @InjectRepository(ExerciseContentEntity)
+    private readonly contentRepository: Repository<ExerciseContentEntity>
   ) {}
 
   async create(exercise: Exercise): Promise<void> {
+    if (exercise.content) {
+      const contentEntity = ExerciseContentEntity.From(exercise);
+      await this.contentRepository.save(contentEntity);
+    }
+
     const entity = ExerciseEntity.From(exercise);
     await this.repository.save(entity);
 
@@ -44,7 +55,10 @@ export class ExerciseRepository {
     return entities.map((entity) => entity.toExercise());
   }
 
-  async get(id: string): Promise<Exercise | null> {
+  async get(
+    id: string,
+    filters: ExerciseFilter = {}
+  ): Promise<Exercise | null> {
     const entity = await this.repository.findOne({
       where: { id },
       relations: ['participants'],
@@ -53,11 +67,23 @@ export class ExerciseRepository {
       return null;
     }
 
+    let content: unknown = undefined;
+    if (filters.includeContent) {
+      const contentEntity = await this.contentRepository.findOne({
+        where: { id },
+      });
+      if (!contentEntity) {
+        return null;
+      }
+      content = contentEntity.content;
+    }
+
     const exercise = ExerciseFactory.From(
       entity.id,
       entity.name,
       entity.type as ExerciseType,
-      entity.data
+      entity.data,
+      content
     );
     for (const participantEntity of entity.participants) {
       exercise.addParticipant(

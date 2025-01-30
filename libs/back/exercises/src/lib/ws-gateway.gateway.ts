@@ -1,6 +1,8 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { OnGatewayConnection, WebSocketGateway } from '@nestjs/websockets';
-import { ExquisiteCorpseContentDto } from '@owl/shared/contracts';
 import { Socket } from 'socket.io';
+
+import { UntypedWsEvent } from './events/ws-events';
 
 @WebSocketGateway({
   cors: {
@@ -8,6 +10,8 @@ import { Socket } from 'socket.io';
   },
 })
 export class WsGatewayGateway implements OnGatewayConnection {
+  constructor(private eventEmitter: EventEmitter2) {}
+
   async handleConnection(client: Socket): Promise<void> {
     // Join user-specific room
     // client.join(`user_${client.data.user.userId}`);
@@ -16,8 +20,10 @@ export class WsGatewayGateway implements OnGatewayConnection {
     // Set up dynamic event handling
     client.onAny(async (eventName, payload) => {
       console.log('Received event:', eventName, payload);
+      const eventToDispatch = new UntypedWsEvent(eventName, payload, client);
 
-      const response: ExquisiteCorpseContentDto = {
+      this.eventEmitter.emit(eventName, eventToDispatch);
+      /*const response: ExquisiteCorpseContentDto = {
         scenes: [
           {
             id: 1,
@@ -37,8 +43,8 @@ export class WsGatewayGateway implements OnGatewayConnection {
           },
         ],
         currentWriter: undefined,
-      };
-      client.emit('exCorpse:updates', response); //TODO extract the event name into a constant
+      };*/
+      //client.emit('exCorpse:updates', response); //TODO extract the event name into a constant
       //await this.messageDispatcher.dispatchMessage(eventName, args[0], client);
     });
   }

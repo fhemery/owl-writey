@@ -5,11 +5,18 @@ export class ExerciseFactory {
     id: string,
     name: string,
     type: ExerciseType,
-    data: unknown
+    config: unknown,
+    content?: unknown
   ): Exercise {
+    // TODO : We need this to be an abstract factory to build the objects properly...
     switch (type) {
       case ExerciseType.ExquisiteCorpse:
-        return new ExquisiteCorpseExercise(id, name, data);
+        return new ExquisiteCorpseExercise(
+          id,
+          name,
+          config as ExquisiteCorpseConfig,
+          content as ExquisiteCorpseContent
+        );
       default:
         throw new Error('Unknown exercise type');
     }
@@ -22,7 +29,8 @@ export abstract class Exercise {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly data: unknown
+    readonly config: unknown,
+    readonly content: unknown
   ) {}
 
   addParticipant(
@@ -40,8 +48,21 @@ export abstract class Exercise {
 
 export class ExquisiteCorpseExercise extends Exercise {
   override type = ExerciseType.ExquisiteCorpse;
-  constructor(id: string, name: string, data: unknown) {
-    super(id, name, data);
+  constructor(
+    id: string,
+    name: string,
+    config: ExquisiteCorpseConfig,
+    content?: ExquisiteCorpseContent
+  ) {
+    if (!content) {
+      const firstScene = new ExquisiteCorpseScene(
+        1,
+        config.initialText,
+        new Author('a', 'Anonymous')
+      ); // TODO : We need to find a way to pass the author (we do not have it...)
+      content = new ExquisiteCorpseContent([firstScene], undefined);
+    }
+    super(id, name, config, content);
   }
 }
 
@@ -51,4 +72,31 @@ export class ExerciseParticipant {
     readonly name: string,
     readonly role: ExerciseParticipantRole
   ) {}
+}
+
+export class ExquisiteCorpseContent {
+  constructor(
+    readonly scenes: ExquisiteCorpseScene[],
+    readonly currentWriter?: ExquisiteCorpseNextActor
+  ) {}
+}
+
+export class ExquisiteCorpseConfig {
+  constructor(readonly nbIterations: number, readonly initialText: string) {}
+}
+
+export class ExquisiteCorpseScene {
+  constructor(
+    readonly id: number,
+    readonly text: string,
+    readonly author: Author
+  ) {}
+}
+
+export class Author {
+  constructor(readonly id: string, readonly name: string) {}
+}
+
+export class ExquisiteCorpseNextActor {
+  constructor(readonly author: Author, readonly until: Date) {}
 }

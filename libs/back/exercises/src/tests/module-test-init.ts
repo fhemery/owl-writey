@@ -7,10 +7,11 @@ import { ExercisesModule } from '../lib/exercises.module';
 
 export let app: NestTestApplication;
 
-export const moduleTestInit = async (): Promise<void> => {
+export const moduleTestInit = async (port?: number): Promise<void> => {
   beforeAll(async () => {
     app = await new IntegrationTestApplicationBuilder()
       .withFakeInMemoryDb()
+      .withPortExposition(port)
       .build(ExercisesModule);
   });
 

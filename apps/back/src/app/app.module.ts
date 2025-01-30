@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
 import { ExercisesModule } from '@owl/back/exercises';
@@ -12,6 +13,7 @@ import { ConnectionData } from './utils/datasource';
   imports: [
     AuthModule,
     TypeOrmModule.forRoot({ ...ConnectionData, autoLoadEntities: true }),
+    EventEmitterModule.forRoot(),
     PingModule,
     UsersModule,
     ExercisesModule,

@@ -91,7 +91,7 @@ function toExerciseDto(exercise: Exercise): ExerciseDto {
     id: exercise.id,
     name: exercise.name,
     type: exercise.type,
-    data: exercise.data,
+    data: exercise.config,
     participants: exercise.getParticipants().map((p) => ({
       uid: p.uid,
       name: p.name,

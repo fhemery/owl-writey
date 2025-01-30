@@ -6,6 +6,7 @@ import {
   ValidationPipe,
   ValueProvider,
 } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
@@ -20,12 +21,13 @@ export class IntegrationTestApplicationBuilder {
   private _providers: ValueProvider[] = [];
   private _mocks: ResettableMock[] = [];
   private _useInMemoryDb = false;
+  private _portNumber?: number;
 
   async build(module: Type): Promise<NestTestApplication> {
     let builder = Test.createTestingModule({
       imports: this._useInMemoryDb
-        ? [this.generateDbConfig(), module]
-        : [module],
+        ? [this.generateDbConfig(), EventEmitterModule.forRoot(), module]
+        : [EventEmitterModule.forRoot(), module],
     });
 
     this._providers.forEach((p) => {
@@ -38,6 +40,9 @@ export class IntegrationTestApplicationBuilder {
     this._app.useGlobalPipes(new ValidationPipe());
     this._app.use(new FakeAuthMiddleware().use);
     await this._app.init();
+    if (this._portNumber) {
+      this._app.listen(this._portNumber);
+    }
 
     return new NestIntegrationTestApplication(this._app, this._mocks);
   }
@@ -86,6 +91,13 @@ export class IntegrationTestApplicationBuilder {
     value: string
   ): IntegrationTestApplicationBuilder {
     process.env[key] = value;
+    return this;
+  }
+
+  withPortExposition(
+    port: number | undefined
+  ): IntegrationTestApplicationBuilder {
+    this._portNumber = port;
     return this;
   }
 }

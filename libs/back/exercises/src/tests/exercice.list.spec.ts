@@ -4,7 +4,6 @@ import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
-
 describe('POST /exercises', () => {
   moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
