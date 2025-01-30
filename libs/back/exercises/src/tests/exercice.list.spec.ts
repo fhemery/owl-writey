@@ -1,8 +1,8 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
+import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 describe('POST /exercises', () => {
   moduleTestInit();
@@ -34,7 +34,9 @@ describe('POST /exercises', () => {
   it('should return the list of exercises the user participates in', async () => {
     app.logAs(TestUserBuilder.Alice());
 
-    const id = await exerciseUtils.createExercise(validExerciseToCreate);
+    const id = await exerciseUtils.createExercise(
+      ExerciseTestBuilder.ExquisiteCorpse()
+    );
 
     const response = await exerciseUtils.getAll();
     expect(response.exercises.find((e) => e.id === id)).toBeDefined();
@@ -42,7 +44,9 @@ describe('POST /exercises', () => {
 
   it('should return only the exercises the user participates in', async () => {
     app.logAs(TestUserBuilder.Alice());
-    const id = await exerciseUtils.createExercise(validExerciseToCreate);
+    const id = await exerciseUtils.createExercise(
+      ExerciseTestBuilder.ExquisiteCorpse()
+    );
 
     app.logAs(TestUserBuilder.Bob());
 
@@ -50,10 +54,3 @@ describe('POST /exercises', () => {
     expect(response.exercises.find((e) => e.id === id)).toBeUndefined();
   });
 });
-
-// TODO remove duplicate
-const validExerciseToCreate: ExerciseToCreateDto = {
-  name: 'A valid exercise',
-  type: ExerciseType.ExquisiteCorpse,
-  data: {},
-};

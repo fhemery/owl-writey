@@ -1,36 +1,13 @@
 import { ExerciseParticipantRole, ExerciseType } from '@owl/shared/contracts';
 
-export class ExerciseFactory {
-  static From(
-    id: string,
-    name: string,
-    type: ExerciseType,
-    config: unknown,
-    content?: unknown
-  ): Exercise {
-    // TODO : We need this to be an abstract factory to build the objects properly...
-    switch (type) {
-      case ExerciseType.ExquisiteCorpse:
-        return new ExquisiteCorpseExercise(
-          id,
-          name,
-          config as ExquisiteCorpseConfig,
-          content as ExquisiteCorpseContent
-        );
-      default:
-        throw new Error('Unknown exercise type');
-    }
-  }
-}
-
-export abstract class Exercise {
+export abstract class Exercise<Config = unknown, Content = unknown> {
   abstract readonly type: ExerciseType;
-  private readonly participants: ExerciseParticipant[] = [];
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly config: unknown,
-    readonly content: unknown
+    readonly participants: ExerciseParticipant[],
+    readonly config: Config,
+    public content?: Content
   ) {}
 
   addParticipant(
@@ -46,23 +23,34 @@ export abstract class Exercise {
   }
 }
 
-export class ExquisiteCorpseExercise extends Exercise {
+export class ExquisiteCorpseExercise extends Exercise<
+  ExquisiteCorpseConfig,
+  ExquisiteCorpseContent
+> {
   override type = ExerciseType.ExquisiteCorpse;
   constructor(
     id: string,
     name: string,
+    participants: ExerciseParticipant[],
     config: ExquisiteCorpseConfig,
     content?: ExquisiteCorpseContent
   ) {
+    super(id, name, participants, config, content);
     if (!content) {
-      const firstScene = new ExquisiteCorpseScene(
-        1,
-        config.initialText,
-        new Author('a', 'Anonymous')
-      ); // TODO : We need to find a way to pass the author (we do not have it...)
-      content = new ExquisiteCorpseContent([firstScene], undefined);
+      this.content = this.initContent();
     }
-    super(id, name, config, content);
+  }
+  initContent(): ExquisiteCorpseContent {
+    if (!this.participants.length) {
+      throw new Error('Exercise should have at least one participant');
+    }
+    const firstParticipant = this.participants[0];
+    const firstScene = new ExquisiteCorpseScene(
+      1,
+      this.config.initialText,
+      new Author(firstParticipant.uid, firstParticipant.name)
+    );
+    return new ExquisiteCorpseContent([firstScene], undefined);
   }
 }
 
@@ -82,7 +70,14 @@ export class ExquisiteCorpseContent {
 }
 
 export class ExquisiteCorpseConfig {
-  constructor(readonly nbIterations: number, readonly initialText: string) {}
+  constructor(readonly nbIterations: number, readonly initialText: string) {
+    if (nbIterations < 1) {
+      throw new Error('nbIterations must be at least 1');
+    }
+    if (initialText.length === 0) {
+      throw new Error('initialText must not be empty');
+    }
+  }
 }
 
 export class ExquisiteCorpseScene {

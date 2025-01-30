@@ -7,7 +7,7 @@ import { UserTestUtils } from 'libs/back/user/src/tests/utils/user-test-utils';
 import { io, Socket } from 'socket.io-client';
 
 import { app, moduleTestInit } from './module-test-init';
-import { ExerciceTestBuilder } from './utils/exercice-factory';
+import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('Exquisite Corpse Exercise', () => {
@@ -33,7 +33,7 @@ describe('Exquisite Corpse Exercise', () => {
     it('should return the content via socket', async () => {
       app.logAs(TestUserBuilder.Alice());
       const id = await exerciseUtils.createExercise(
-        ExerciceTestBuilder.ExquisiteCorpse()
+        ExerciseTestBuilder.ExquisiteCorpse()
       );
 
       ioClient.connect();
@@ -43,6 +43,10 @@ describe('Exquisite Corpse Exercise', () => {
           exquisiteCorpseEvents.updates,
           (data: ExquisiteCorpseContentDto) => {
             expect(data.scenes).toHaveLength(1);
+            expect(data.scenes[0].author.id).toBe(TestUserBuilder.Alice().uid);
+            expect(data.scenes[0].author.name).toBe(
+              TestUserBuilder.Alice().name
+            );
             resolve();
           }
         );

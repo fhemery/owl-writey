@@ -8,7 +8,8 @@ import {
   ExerciseEntity,
   ExerciseParticipantEntity,
 } from './entities';
-import { Exercise, ExerciseFactory } from './model/exercise';
+import { Exercise } from './model/exercise';
+import { ExerciseFactory } from './model/exercise-factory';
 import { ExerciseFilter } from './model/exercise-filter';
 
 @Injectable()
@@ -72,10 +73,9 @@ export class ExerciseRepository {
       const contentEntity = await this.contentRepository.findOne({
         where: { id },
       });
-      if (!contentEntity) {
-        return null;
+      if (contentEntity) {
+        content = contentEntity.content;
       }
-      content = contentEntity.content;
     }
 
     const exercise = ExerciseFactory.From(
@@ -83,15 +83,9 @@ export class ExerciseRepository {
       entity.name,
       entity.type as ExerciseType,
       entity.data,
+      entity.participants.map((p) => p.toParticipant()),
       content
     );
-    for (const participantEntity of entity.participants) {
-      exercise.addParticipant(
-        participantEntity.participantUid,
-        participantEntity.name,
-        participantEntity.role
-      );
-    }
     return exercise;
   }
 }

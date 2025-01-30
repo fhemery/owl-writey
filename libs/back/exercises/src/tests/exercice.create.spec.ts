@@ -1,8 +1,8 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
+import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises', () => {
@@ -28,13 +28,13 @@ describe('POST /exercises', () => {
       app.logAs(TestUserBuilder.Alice());
 
       const response = await app.post('/api/exercises', {
-        ...validExerciseToCreate,
+        ...ExerciseTestBuilder.ExquisiteCorpse(),
         name: undefined,
       });
       expect(response.status).toBe(400);
 
       const otherResponse = await app.post('/api/exercises', {
-        ...validExerciseToCreate,
+        ...ExerciseTestBuilder.ExquisiteCorpse(),
         name: 'ab',
       });
       expect(otherResponse.status).toBe(400);
@@ -44,7 +44,7 @@ describe('POST /exercises', () => {
       app.logAs(TestUserBuilder.Alice());
 
       const response = await app.post('/api/exercises', {
-        ...validExerciseToCreate,
+        ...ExerciseTestBuilder.ExquisiteCorpse(),
         type: 'Not a valid type',
       });
       expect(response.status).toBe(400);
@@ -55,7 +55,10 @@ describe('POST /exercises', () => {
     it('should return 201 and id if the exercise is created', async () => {
       app.logAs(TestUserBuilder.Alice());
 
-      const response = await app.post('/api/exercises', validExerciseToCreate);
+      const response = await app.post(
+        '/api/exercises',
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
       expect(response.status).toBe(201);
       expect(response.responseHeaders?.location).toContain('/api/exercises/');
     });
@@ -63,7 +66,10 @@ describe('POST /exercises', () => {
     it('should be able to retrieve the created exercise', async () => {
       app.logAs(TestUserBuilder.Alice());
 
-      const response = await app.post('/api/exercises', validExerciseToCreate);
+      const response = await app.post(
+        '/api/exercises',
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
 
       expect(response.responseHeaders?.location).toBeDefined();
       const getResponse = await app.get(
@@ -77,7 +83,9 @@ describe('POST /exercises', () => {
       const alice = TestUserBuilder.Alice();
       app.logAs(alice);
 
-      const id = await exerciseUtils.createExercise(validExerciseToCreate);
+      const id = await exerciseUtils.createExercise(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
       const exercise = await exerciseUtils.get(id);
 
       expect(exercise.participants).toHaveLength(1);
@@ -87,9 +95,3 @@ describe('POST /exercises', () => {
     });
   });
 });
-
-const validExerciseToCreate: ExerciseToCreateDto = {
-  name: 'A valid exercise',
-  type: ExerciseType.ExquisiteCorpse,
-  data: {},
-};

@@ -20,7 +20,8 @@ import { IsEnum, IsString, MinLength } from 'class-validator';
 import { v4 as uuidV4 } from 'uuid';
 
 import { ExerciseRepository } from './exercise.repository';
-import { Exercise, ExerciseFactory } from './model/exercise';
+import { Exercise, ExerciseParticipant } from './model/exercise';
+import { ExerciseFactory } from './model/exercise-factory';
 
 export class ExerciseToCreateDtoImpl implements ExerciseToCreateDto {
   @IsString()
@@ -64,12 +65,14 @@ export class ExercisesController {
       id,
       exerciseDto.name,
       exerciseDto.type,
-      exerciseDto.data
-    );
-    exercise.addParticipant(
-      request.user.uid,
-      user.name,
-      ExerciseParticipantRole.Admin
+      exerciseDto.data,
+      [
+        new ExerciseParticipant(
+          request.user.uid,
+          user.name,
+          ExerciseParticipantRole.Admin
+        ),
+      ]
     );
     await this.exerciseRepository.create(exercise);
 
