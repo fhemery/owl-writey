@@ -1,5 +1,8 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { ExquisiteCorpseContentDto } from '@owl/shared/contracts';
+import {
+  ExquisiteCorpseContentDto,
+  exquisiteCorpseEvents,
+} from '@owl/shared/contracts';
 import { UserTestUtils } from 'libs/back/user/src/tests/utils/user-test-utils';
 import { io, Socket } from 'socket.io-client';
 
@@ -34,12 +37,15 @@ describe('Exquisite Corpse Exercise', () => {
       );
 
       ioClient.connect();
-      ioClient.emit('exCorpse:connect', { id });
+      ioClient.emit(exquisiteCorpseEvents.connect, { id });
       await new Promise<void>((resolve) => {
-        ioClient.on('exCorpse:updates', (data: ExquisiteCorpseContentDto) => {
-          expect(data.scenes).toHaveLength(1);
-          resolve();
-        });
+        ioClient.on(
+          exquisiteCorpseEvents.updates,
+          (data: ExquisiteCorpseContentDto) => {
+            expect(data.scenes).toHaveLength(1);
+            resolve();
+          }
+        );
       });
       ioClient.disconnect();
     });

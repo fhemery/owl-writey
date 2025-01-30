@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
 import { WsEvent } from './events/ws-events';
 import { ExerciseRepository } from './exercise.repository';
@@ -10,17 +11,14 @@ class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 export class ExerciseEventListeners {
   constructor(private readonly exerciseRepository: ExerciseRepository) {}
 
-  @OnEvent('exCorpse:connect')
+  @OnEvent(exquisiteCorpseEvents.connect)
   async handleExquisiteCorpseConnection(
     event: ExquisiteCorpseConnectionEvent
   ): Promise<void> {
-    console.log('Received event:', event.name);
     const exercise = await this.exerciseRepository.get(event.payload.id, {
       includeContent: true,
     });
 
-    event.socket.emit('exCorpse:updates', exercise?.content);
-
-    // handle and process "OrderCreatedEvent" event
+    event.socket.emit(exquisiteCorpseEvents.updates, exercise?.content);
   }
 }

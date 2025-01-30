@@ -9,4 +9,5 @@ export const environment: ApplicationEnvironment = {
     messagingSenderId: '172241987983',
     appId: '1:172241987983:web:57e8419e8ea60f8c8c03fa',
   },
+  baseBackendUrl: 'http://localhost:3000',
 };

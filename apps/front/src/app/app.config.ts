@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { appRoutes } from '@owl/ui';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

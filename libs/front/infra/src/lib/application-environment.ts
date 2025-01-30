@@ -7,4 +7,5 @@ export interface ApplicationEnvironment {
     messagingSenderId: string;
     appId: string;
   };
+  baseBackendUrl: string;
 }

@@ -23,29 +23,6 @@ export class WsGatewayGateway implements OnGatewayConnection {
       const eventToDispatch = new UntypedWsEvent(eventName, payload, client);
 
       this.eventEmitter.emit(eventName, eventToDispatch);
-      /*const response: ExquisiteCorpseContentDto = {
-        scenes: [
-          {
-            id: 1,
-            text: 'Il était une fois...',
-            author: {
-              id: '1',
-              name: 'Alice',
-            },
-          },
-          {
-            id: 2,
-            text: '... un lapin blanc.',
-            author: {
-              id: '2',
-              name: 'Bob',
-            },
-          },
-        ],
-        currentWriter: undefined,
-      };*/
-      //client.emit('exCorpse:updates', response); //TODO extract the event name into a constant
-      //await this.messageDispatcher.dispatchMessage(eventName, args[0], client);
     });
   }
 }
