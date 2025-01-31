@@ -1,5 +1,6 @@
-import { UserDto } from '@owl/shared/contracts';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+import { User } from './model/user';
 
 @Entity({ name: 'user_profiles' })
 export class UserEntity {
@@ -12,7 +13,7 @@ export class UserEntity {
   @Column('varchar')
   name!: string;
 
-  static From(user: UserDto): UserEntity {
+  static From(user: User): UserEntity {
     const entity = new UserEntity();
     entity.uid = user.uid;
     entity.email = user.email || '';
