@@ -3,6 +3,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
 import { ExercisesModule } from '@owl/back/exercises';
+import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
 import * as admin from 'firebase-admin';
@@ -17,6 +18,7 @@ import { ConnectionData } from './utils/datasource';
     PingModule,
     UsersModule,
     ExercisesModule,
+    NovelsModule,
   ],
 })
 export class AppModule {

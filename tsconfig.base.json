@@ -17,6 +17,7 @@
     "paths": {
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],
+      "@owl/back/novels": ["libs/back/novels/src/index.ts"],
       "@owl/back/ping": ["libs/back/ping/src/index.ts"],
       "@owl/back/test-utils": ["libs/back/test-utils/src/index.ts"],
       "@owl/back/user": ["libs/back/user/src/index.ts"],

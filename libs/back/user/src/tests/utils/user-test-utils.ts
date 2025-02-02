@@ -28,7 +28,12 @@ export class UserTestUtils {
     this.app.logAs(user);
     const response = await this.app.get(`/api/users/${user.uid}`);
     if (response.status === 404) {
-      await this.createUser(user);
+      const response = await this.createUser(user);
+      if (response.status !== 201) {
+        fail(
+          `User creation failed with status ${response.status}. Maybe UsersModule is not part of the app?`
+        );
+      }
     }
   }
 }
