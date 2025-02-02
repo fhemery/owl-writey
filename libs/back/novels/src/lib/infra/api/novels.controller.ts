@@ -33,7 +33,6 @@ export class NovelsController {
       novel.description,
       request.user.uid
     );
-    console.log('novelToCreate', JSON.stringify(novelToCreate));
     const id = await this.createNovelCommand.execute(novelToCreate);
 
     request.res?.location(`/api/novels/${id}`);

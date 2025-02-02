@@ -1,20 +1,16 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelToCreateDto } from '@owl/shared/contracts';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
 import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('/novels', () => {
   moduleTestInit();
-  let userUtils: UserTestUtils;
   let novelUtils: NovelTestUtils;
 
   beforeEach(async () => {
-    userUtils = new UserTestUtils(app);
     novelUtils = new NovelTestUtils(app);
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
   });
 
   describe('POST /', () => {
