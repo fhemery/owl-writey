@@ -12,6 +12,24 @@
     margin-top: 1rem;
   }
 
+  &__editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > * {
+      margin-bottom: 1rem;
+    }
+
+    quill-editor::ng-deep {
+      .ql-container {
+        height: 10rem;
+        max-height: 10rem;
+        overflow: auto;
+      }
+    }
+  }
+
   .scene-id-and-author {
     font-size: 0.8rem;
     width: fit-content;

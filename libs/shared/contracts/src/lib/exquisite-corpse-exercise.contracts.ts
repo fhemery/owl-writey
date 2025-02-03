@@ -5,6 +5,7 @@ export const exquisiteCorpseEvents = {
   connect: `${exquisiteCorpseEventPrefix}:connect`,
   updates: `${exquisiteCorpseEventPrefix}:updates`,
   takeTurn: `${exquisiteCorpseEventPrefix}:takeTurn`,
+  submitTurn: `${exquisiteCorpseEventPrefix}:submitTurn`,
 };
 
 export interface ExquisiteCorpseContentDto {

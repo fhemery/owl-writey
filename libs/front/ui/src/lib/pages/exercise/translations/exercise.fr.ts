@@ -56,6 +56,12 @@ export const exerciseFr = {
         label: 'À mon tour !',
         alreadyOngoing: 'Au tour de {{author}} !',
       },
+      yourTurn: {
+        label: 'À vous de jouer !',
+      },
+      submitTurn: {
+        label: 'Soumettre',
+      },
     },
   },
 };

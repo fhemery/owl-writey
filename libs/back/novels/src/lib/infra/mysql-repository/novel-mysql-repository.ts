@@ -12,9 +12,6 @@ export class NovelMysqlRepository implements NovelRepository {
     @InjectRepository(NovelEntity)
     private readonly repo: Repository<NovelEntity>
   ) {}
-  get(novelId: string, userId: string): Promise<Novel> {
-    throw new Error('Method not implemented.');
-  }
 
   async save(novel: Novel): Promise<void> {
     const entity = NovelEntity.From(novel);

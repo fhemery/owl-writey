@@ -10,6 +10,7 @@ import {
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
 import { ExerciseDto, ExquisiteCorpseContentDto } from '@owl/shared/contracts';
+import { interval } from 'rxjs';
 
 import { ExquisiteCorpseService } from './exquisite-corpse.service';
 
@@ -19,6 +20,7 @@ type ExquisiteCorpseState = {
   currentUserId: string;
   loading: boolean;
   error?: string;
+  time: number;
 };
 
 const initialState: ExquisiteCorpseState = {
@@ -27,6 +29,7 @@ const initialState: ExquisiteCorpseState = {
   currentUserId: '',
   loading: true,
   error: undefined,
+  time: 0,
 };
 
 export const ExquisiteCorpseStore = signalStore(
@@ -48,12 +51,34 @@ export const ExquisiteCorpseStore = signalStore(
     takeTurn(): void {
       service.takeTurn(store.exercise()?.id || '');
     },
+    submitTurn(content: string): void {
+      service.submitTurn(store.exercise()?.id || '', content);
+    },
   })),
   withComputed((store) => ({
     isCurrentUserTurn: computed(
       () => store.content()?.currentWriter?.author.id === store.currentUserId()
     ),
-    canTakeTurn: computed(() => !store.content()?.currentWriter),
+    canTakeTurn: computed(() => {
+      if (!store.content()?.currentWriter) {
+        return true;
+      }
+
+      const until = store.content()?.currentWriter?.until;
+      if (until && new Date(until) < new Date()) {
+        return true;
+      }
+
+      return false;
+    }),
+    timeRemaining: computed(() => {
+      const until = store.content()?.currentWriter?.until;
+      if (!until) return 0;
+      const nowTime = new Date().getTime();
+      const untilTime = new Date(until).getTime();
+      if (untilTime < nowTime) return 0;
+      return Math.round((new Date(until).getTime() - store.time()) / 1000); // This is an awful trick to get a countdown.
+    }),
   })),
   withHooks({
     onInit: async (store) => {
@@ -71,6 +96,12 @@ export const ExquisiteCorpseStore = signalStore(
         ...state,
         currentUserId: auth.user()?.uid,
       }));
+      interval(1000).subscribe(() => {
+        patchState(store, (state) => ({
+          ...state,
+          time: new Date().getTime(),
+        }));
+      });
     },
   })
 );

@@ -15,6 +15,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { appRoutes } from '@owl/ui';
+import { provideQuillConfig } from 'ngx-quill';
 
 import { environment } from '../environments/environment';
 
@@ -28,6 +29,22 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       const auth = inject(FirebaseAuthService);
       return initializeAuth(auth);
+    }),
+    provideQuillConfig({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ header: 1 }, { header: 2 }], // custom button values
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+          [{ direction: 'rtl' }], // text direction
+
+          [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+          ['clean'], // remove formatting button
+        ],
+      },
     }),
     importProvidersFrom(
       BrowserAnimationsModule,

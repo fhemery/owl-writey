@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 
 export const wsUtils = {
   connect: (uid: string, port = 3456): Socket => {
-    return io('http://localhost:3456', {
+    return io(`http://localhost:${port}`, {
       transports: ['websocket', 'polling'],
       auth: { token: uid },
     });

@@ -9,6 +9,10 @@ import { Author, ExquisiteCorpseExercise } from './model/exercise';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}
+class ExquisiteCorpseSubmitTurnEvent extends WsEvent<{
+  id: string;
+  content: string;
+}> {}
 
 @Injectable()
 export class ExerciseEventListeners {
@@ -44,6 +48,25 @@ export class ExerciseEventListeners {
     }
 
     exercise.setTurn(new Author(user.uid, user.name)); // TODO: We need a userService, userController won't do the trick, we have no request to pass...
+
+    await this.exerciseRepository.saveContent(exercise);
+
+    event.userDetails.socket.emit(
+      exquisiteCorpseEvents.updates,
+      exercise.content
+    );
+  }
+
+  // TODO test this method
+  @OnEvent(exquisiteCorpseEvents.submitTurn)
+  async handleExquisiteCorpseSubmitTurn(
+    event: ExquisiteCorpseSubmitTurnEvent
+  ): Promise<void> {
+    const exercise = (await this.exerciseRepository.get(event.payload.id, {
+      includeContent: true,
+    })) as ExquisiteCorpseExercise;
+
+    exercise.submitTurn(event.userDetails.user.uid, event.payload.content);
 
     await this.exerciseRepository.saveContent(exercise);
 

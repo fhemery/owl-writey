@@ -5,7 +5,7 @@
     <div class="scene-id-and-author">
       {{ scene.id }} - {{ scene.author.name }}
     </div>
-    <p>{{ scene.text }}</p>
+    <p [innerHTML]="scene.text"></p>
   </div>
   }
   <div class="exCo__currentTurn">
@@ -16,7 +16,25 @@
       </button>
     </div>
 
-    } @else if (store.isCurrentUserTurn()) { YOUR TURN } @else {
+    } @else if (store.isCurrentUserTurn()) {
+    <div class="exCo-details__editor">
+      <h2>{{ 'exercise.exquisiteCorpse.yourTurn.label' | translate }}</h2>
+      <!-- TODO add remaining time
+       {{ store.timeRemaining() }}
+        -->
+      <quill-editor
+        (onContentChanged)="updateContent($event)"
+        placeholder=""
+      ></quill-editor>
+      <button
+        mat-raised-button
+        (click)="submitTurn()"
+        [disabled]="!newContent()"
+      >
+        {{ 'exercise.exquisiteCorpse.submitTurn.label' | translate }}
+      </button>
+    </div>
+    } @else {
     <button mat-raised-button disabled>
       {{
         'exercise.exquisiteCorpse.takeTurn.alreadyOngoing'
@@ -29,4 +47,3 @@
   {{ 'exercise.exquisiteCorpse.loading' | translate }}
   }
 </div>
-{{ store.content() | json }}

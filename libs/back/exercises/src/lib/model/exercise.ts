@@ -65,6 +65,23 @@ export class ExquisiteCorpseExercise extends Exercise<
       inFifteenMinutes
     );
   }
+  submitTurn(uid: string, content: string): void {
+    if (
+      this.content?.currentWriter?.author.id !== uid ||
+      this.content.currentWriter.until < new Date()
+    ) {
+      throw new Error('It is not your turn');
+    }
+
+    const nextSceneId = this.content.scenes.length + 1;
+    const nextScene = new ExquisiteCorpseScene(
+      nextSceneId,
+      content,
+      this.content.currentWriter.author
+    );
+    this.content.scenes.push(nextScene);
+    this.content.currentWriter = undefined;
+  }
 }
 
 export class ExerciseParticipant {
