@@ -8,7 +8,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
-import { UsersController } from '@owl/back/user';
+import { UsersService } from '@owl/back/user';
 import {
   ExerciseDto,
   ExerciseParticipantRole,
@@ -38,7 +38,7 @@ export class ExerciseToCreateDtoImpl implements ExerciseToCreateDto {
 export class ExercisesController {
   constructor(
     private readonly exerciseRepository: ExerciseRepository,
-    private readonly usersController: UsersController
+    private readonly usersService: UsersService
   ) {}
 
   @Get('')
@@ -59,7 +59,7 @@ export class ExercisesController {
     @Req() request: RequestWithUser
   ): Promise<void> {
     const id = uuidV4();
-    const user = await this.usersController.getUser(request.user.uid, request);
+    const user = await this.usersService.get(request.user.uid);
 
     const exercise = ExerciseFactory.From(
       id,
@@ -69,7 +69,7 @@ export class ExercisesController {
       [
         new ExerciseParticipant(
           request.user.uid,
-          user.name,
+          user?.name || 'Unknown',
           ExerciseParticipantRole.Admin
         ),
       ]

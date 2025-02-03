@@ -47,7 +47,7 @@ export class ExerciseEventListeners {
       return;
     }
 
-    exercise.setTurn(new Author(user.uid, user.name)); // TODO: We need a userService, userController won't do the trick, we have no request to pass...
+    exercise.setTurn(new Author(user.uid, user.name));
 
     await this.exerciseRepository.saveContent(exercise);
 

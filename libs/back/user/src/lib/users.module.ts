@@ -10,7 +10,7 @@ import { UsersService } from './users.service';
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), AuthModule],
   controllers: [UsersController],
-  providers: [UserRepository, UsersController, UsersService],
-  exports: [UsersController, UsersService], // TODO remove UsersController from here, replacing with userService
+  providers: [UserRepository, UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}
