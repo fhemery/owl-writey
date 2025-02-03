@@ -54,6 +54,7 @@ export const exerciseFr = {
     exquisiteCorpse: {
       takeTurn: {
         label: 'À mon tour !',
+        alreadyOngoing: 'Au tour de {{author}} !',
       },
     },
   },

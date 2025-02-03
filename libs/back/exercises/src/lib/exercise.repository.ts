@@ -88,4 +88,14 @@ export class ExerciseRepository {
     );
     return exercise;
   }
+
+  async saveContent(exercise: Exercise): Promise<void> {
+    let entity = await this.contentRepository.findOneBy({ id: exercise.id });
+    if (!entity) {
+      entity = ExerciseContentEntity.From(exercise);
+    } else {
+      entity.content = exercise.content;
+    }
+    await this.contentRepository.save(entity);
+  }
 }

@@ -1,19 +1,32 @@
 <div class="exCo-details">
-  @if(content(); as content) { @for(scene of content.scenes; track scene.id) {
+  @if(store.content(); as content) { @for(scene of content.scenes; track
+  scene.id) {
   <div class="exCo-details__scene">
     <div class="scene-id-and-author">
       {{ scene.id }} - {{ scene.author.name }}
     </div>
     <p>{{ scene.text }}</p>
   </div>
-  } @if(!content.currentWriter) {
-  <div class="exCo-details__takeTurn">
-    <button mat-raised-button (click)="takeTurn()">
-      {{ 'exercise.exquisiteCorpse.takeTurn.label' | translate }}
+  }
+  <div class="exCo__currentTurn">
+    @if(store.canTakeTurn()) {
+    <div class="exCo-details__takeTurn">
+      <button mat-raised-button (click)="takeTurn()">
+        {{ 'exercise.exquisiteCorpse.takeTurn.label' | translate }}
+      </button>
+    </div>
+
+    } @else if (store.isCurrentUserTurn()) { YOUR TURN } @else {
+    <button mat-raised-button disabled>
+      {{
+        'exercise.exquisiteCorpse.takeTurn.alreadyOngoing'
+          | translate : { author: content.currentWriter?.author?.name }
+      }}
     </button>
+    }
   </div>
-  } } @else {
+  } @else {
   {{ 'exercise.exquisiteCorpse.loading' | translate }}
   }
 </div>
-{{ content() | json }}
+{{ store.content() | json }}
