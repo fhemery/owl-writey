@@ -1,0 +1,21 @@
+<div class="not-found-page">
+  <h1>{{ 'notFound.title' | translate }}</h1>
+
+  <div class="not-found-page__icon">
+    <mat-icon>question_mark</mat-icon>
+  </div>
+  <p>{{ 'notFound.message' | translate }}</p>
+
+  <div class="not-found-page__buttons">
+    <a routerLink="/">
+      <button mat-raised-button>{{ 'notFound.link.home' | translate }}</button>
+    </a>
+    @if(user()) {
+    <a routerLink="/dashboard">
+      <button mat-raised-button routerLink="/dashboard">
+        <mat-icon>home</mat-icon> {{ 'notFound.link.dashboard' | translate }}
+      </button>
+    </a>
+    }
+  </div>
+</div>

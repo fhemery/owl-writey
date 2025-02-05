@@ -1,5 +1,6 @@
 import { dashboardFr } from '../pages/dashboard/translations/dashboard.fr';
 import { exerciseFr } from '../pages/exercise/translations/exercise.fr';
+import { notFoundFr } from '../pages/not-found/translations/not-found.fr';
 
 export const uiFr = {
   general: {
@@ -99,4 +100,5 @@ export const uiFr = {
   },
   ...dashboardFr,
   ...exerciseFr,
+  ...notFoundFr,
 };

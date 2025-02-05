@@ -1,0 +1,30 @@
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 2rem 0;
+
+  & > * {
+    margin-bottom: 1rem;
+  }
+
+  &__icon {
+    font-size: 5rem;
+    color: var(--color-primary);
+
+    mat-icon {
+      font-size: 5rem;
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+
+    & > * {
+      margin: 0 1rem;
+    }
+  }
+}

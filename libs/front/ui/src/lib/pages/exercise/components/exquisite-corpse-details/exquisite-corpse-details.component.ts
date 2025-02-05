@@ -38,7 +38,6 @@ export class ExquisiteCorpseDetailsComponent implements OnInit {
   }
 
   updateContent($event: ContentChange): void {
-    // TODO : Vérifier les CSRF (même si ça doit être bon avec Angular)
     this.newContent.set(($event.html?.replace(/&nbsp;/g, ' ') || '').trim());
   }
 

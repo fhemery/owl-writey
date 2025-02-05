@@ -70,7 +70,6 @@ export class ExerciseEventListeners {
     );
   }
 
-  // TODO test this method
   @OnEvent(exquisiteCorpseEvents.submitTurn)
   async handleExquisiteCorpseSubmitTurn(
     event: ExquisiteCorpseSubmitTurnEvent

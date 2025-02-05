@@ -22,9 +22,18 @@ export class ExerciseService {
     return locationHeader.split('/').pop() ?? '';
   }
 
-  async getOne(id: string): Promise<ExerciseDto> {
-    return await firstValueFrom(
-      this.#httpClient.get<ExerciseDto>(`/api/exercises/${id}`)
-    );
+  async getOne(id: string): Promise<ExerciseDto | null> {
+    try {
+      return await firstValueFrom(
+        this.#httpClient.get<ExerciseDto>(`/api/exercises/${id}`)
+      );
+    } catch (error) {
+      const httpError = error as { status?: number };
+      if (httpError.status === 404) {
+        return null;
+      }
+      console.error('Error while fetching exercise', error);
+      throw error;
+    }
   }
 }
