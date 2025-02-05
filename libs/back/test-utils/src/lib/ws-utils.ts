@@ -29,7 +29,7 @@ export class TestWebSocket {
       payload
     );
     this.socket.emit(eventName, payload);
-    await waitFor(100);
+    await waitFor(150);
   }
 
   getLatest<EventType>(eventName: string): EventType {

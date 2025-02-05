@@ -24,10 +24,6 @@ export class WsGatewayGateway implements OnGatewayConnection {
   ) {}
 
   async handleConnection(client: Socket): Promise<void> {
-    // Join user-specific room
-    // client.join(`user_${client.data.user.userId}`);
-    // client.emit('connected', { status: 'authenticated' });
-    console.log('auth token: ', client.handshake.auth);
     const token = client.handshake.auth['token'];
     let userDetails: WsUserDetails;
     try {
@@ -37,7 +33,6 @@ export class WsGatewayGateway implements OnGatewayConnection {
         client,
         this.server
       );
-      console.log('Found user', user.uid);
     } catch (e) {
       console.error('Failed to authenticate user:', e);
       client.disconnect();
@@ -46,7 +41,6 @@ export class WsGatewayGateway implements OnGatewayConnection {
 
     // Set up dynamic event handling
     client.onAny(async (eventName, payload) => {
-      console.log('Received event:', eventName, payload, userDetails.user.uid);
       const eventToDispatch = new UntypedWsEvent(
         eventName,
         payload,

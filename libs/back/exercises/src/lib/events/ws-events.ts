@@ -6,10 +6,26 @@ export class WsUser {
 
 export class WsUserDetails {
   constructor(
-    public user: WsUser,
-    public socket: Socket,
-    public server: Server // TODO we need an encapsulation to avoid server usage abuses
+    public readonly user: WsUser,
+    private readonly socket: Socket,
+    private readonly server: Server
   ) {}
+
+  sendToUser(eventName: string, payload: unknown): void {
+    this.socket.emit(eventName, payload);
+  }
+
+  sendToRoom(room: string, eventName: string, payload: unknown): void {
+    this.server.to(room).emit(eventName, payload);
+  }
+
+  joinRoom(room: string): void {
+    this.socket.join(room);
+  }
+
+  leaveRoom(room: string): void {
+    this.socket.leave(room);
+  }
 }
 
 export class WsEvent<T> {

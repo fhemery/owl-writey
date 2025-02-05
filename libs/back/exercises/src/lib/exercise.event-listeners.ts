@@ -35,10 +35,10 @@ export class ExerciseEventListeners {
       return; // TODO : what do we do if room does not exist?
     }
 
-    event.userDetails.socket.join(this.getRoom(exercise.id));
+    event.userDetails.joinRoom(this.getRoom(exercise.id));
     // TODO add user to its own room as well just in case
 
-    event.userDetails.socket.emit(
+    event.userDetails.sendToUser(
       exquisiteCorpseEvents.updates,
       exercise?.content
     );
@@ -60,9 +60,11 @@ export class ExerciseEventListeners {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    event.userDetails.server
-      .to(this.getRoom(exercise.id))
-      .emit(exquisiteCorpseEvents.updates, exercise.content);
+    event.userDetails.sendToRoom(
+      this.getRoom(exercise.id),
+      exquisiteCorpseEvents.updates,
+      exercise.content
+    );
   }
 
   // TODO test this method
@@ -78,7 +80,8 @@ export class ExerciseEventListeners {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    event.userDetails.server.emit(
+    event.userDetails.sendToUser(
+      // TODO : this obviously does not work, need to send to room
       exquisiteCorpseEvents.updates,
       exercise.content
     );
