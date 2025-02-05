@@ -12,6 +12,10 @@
     margin-top: 1rem;
   }
 
+  &__currentTurn {
+    padding: 1rem 0;
+  }
+
   &__editor {
     display: flex;
     flex-direction: column;
