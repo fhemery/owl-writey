@@ -6,6 +6,7 @@ import { ExerciseDto, ExquisiteCorpseContentDto } from '@owl/shared/contracts';
 import { ContentChange, QuillEditorComponent } from 'ngx-quill';
 import { SocketIoModule } from 'ngx-socket-io';
 
+import { TimeDiffPipe } from '../../../../services/time.pipe';
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';
 import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
 
@@ -17,6 +18,7 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
     TranslateModule,
     MatButton,
     QuillEditorComponent,
+    TimeDiffPipe,
   ],
   providers: [ExquisiteCorpseService, ExquisiteCorpseStore],
   templateUrl: './exquisite-corpse-details.component.html',

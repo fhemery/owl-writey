@@ -19,9 +19,7 @@
     } @else if (store.isCurrentUserTurn()) {
     <div class="exCo-details__editor">
       <h2>{{ 'exercise.exquisiteCorpse.yourTurn.label' | translate }}</h2>
-      <!-- TODO add remaining time
-       {{ store.timeRemaining() }}
-        -->
+      {{ store.content()?.currentWriter?.until | timeDiff | async }}
       <quill-editor
         (onContentChanged)="updateContent($event)"
         placeholder=""

@@ -9,6 +9,40 @@ export const uiFr = {
         ExquisiteCorpse: 'Cadavre exquis',
       },
     },
+    time: {
+      ago: 'Il y a {{time}}',
+      left: 'Il reste {{time}}',
+      units: {
+        year: {
+          singular: 'an',
+          plural: 'ans',
+        },
+        month: {
+          singular: 'mois',
+          plural: 'mois',
+        },
+        week: {
+          singular: 'week',
+          plural: 'weeks',
+        },
+        day: {
+          singular: 'jour',
+          plural: 'jours',
+        },
+        hour: {
+          singular: 'heure',
+          plural: 'heures',
+        },
+        minute: {
+          singular: 'minute',
+          plural: 'minutes',
+        },
+        second: {
+          singular: 'seconde',
+          plural: 'secondes',
+        },
+      },
+    },
   },
   home: {
     header: {
