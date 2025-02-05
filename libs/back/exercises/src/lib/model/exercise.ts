@@ -1,5 +1,7 @@
 import { ExerciseParticipantRole, ExerciseType } from '@owl/shared/contracts';
 
+import { ExerciseException } from './exercise-exception';
+
 export abstract class Exercise<Config = unknown, Content = unknown> {
   abstract readonly type: ExerciseType;
   constructor(
@@ -58,7 +60,7 @@ export class ExquisiteCorpseExercise extends Exercise<
     inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
 
     if (!this.content) {
-      throw new Error('Exercise content is not initialized'); // TODO : Throw a business error (or better, ensure it is initialized)
+      throw new ExerciseException('Exercise content is not initialized');
     }
     this.content.currentWriter = new ExquisiteCorpseNextActor(
       author,

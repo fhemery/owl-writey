@@ -32,11 +32,14 @@ export class ExerciseEventListeners {
       includeContent: true,
     });
     if (!exercise) {
-      return; // TODO : what do we do if room does not exist?
+      console.error(
+        'Trying to connect to an exercise that does not exist',
+        event.payload.id
+      );
+      return;
     }
 
     event.userDetails.joinRoom(this.getRoom(exercise.id));
-    // TODO add user to its own room as well just in case
 
     event.userDetails.sendToUser(
       exquisiteCorpseEvents.updates,
