@@ -1,11 +1,15 @@
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 export class WsUser {
   constructor(public uid: string) {}
 }
 
 export class WsUserDetails {
-  constructor(public user: WsUser, public socket: Socket) {}
+  constructor(
+    public user: WsUser,
+    public socket: Socket,
+    public server: Server // TODO we need an encapsulation to avoid server usage abuses
+  ) {}
 }
 
 export class WsEvent<T> {

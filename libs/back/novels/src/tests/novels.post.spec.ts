@@ -5,7 +5,7 @@ import { app, moduleTestInit } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
 import { NovelTestUtils } from './utils/novel-test-utils';
 
-describe('/novels', () => {
+describe('/api/novels', () => {
   moduleTestInit();
   let novelUtils: NovelTestUtils;
 

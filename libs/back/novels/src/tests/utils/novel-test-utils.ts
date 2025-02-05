@@ -5,6 +5,7 @@ export class NovelTestUtils {
   constructor(private readonly app: NestTestApplication) {}
 
   create(novel: NovelToCreateDto): Promise<ApiResponse<void>> {
+    // return request(app.getHttp...).post('/api/novels').send(novel);
     return this.app.post<NovelToCreateDto, void>('/api/novels', novel);
   }
   async get(id: string | undefined): Promise<ApiResponse<NovelDto>> {

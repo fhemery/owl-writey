@@ -20,6 +20,9 @@ export class ExerciseEventListeners {
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
   ) {}
+  private getRoom(exerciseId: string): string {
+    return `ex-${exerciseId}`;
+  }
 
   @OnEvent(exquisiteCorpseEvents.connect)
   async handleExquisiteCorpseConnection(
@@ -28,6 +31,12 @@ export class ExerciseEventListeners {
     const exercise = await this.exerciseRepository.get(event.payload.id, {
       includeContent: true,
     });
+    if (!exercise) {
+      return; // TODO : what do we do if room does not exist?
+    }
+
+    event.userDetails.socket.join(this.getRoom(exercise.id));
+    // TODO add user to its own room as well just in case
 
     event.userDetails.socket.emit(
       exquisiteCorpseEvents.updates,
@@ -51,10 +60,9 @@ export class ExerciseEventListeners {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    event.userDetails.socket.emit(
-      exquisiteCorpseEvents.updates,
-      exercise.content
-    );
+    event.userDetails.server
+      .to(this.getRoom(exercise.id))
+      .emit(exquisiteCorpseEvents.updates, exercise.content);
   }
 
   // TODO test this method
@@ -70,7 +78,7 @@ export class ExerciseEventListeners {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    event.userDetails.socket.emit(
+    event.userDetails.server.emit(
       exquisiteCorpseEvents.updates,
       exercise.content
     );

@@ -1,4 +1,4 @@
-import { TestUserBuilder, wsUtils } from '@owl/back/test-utils';
+import { TestUserBuilder, WsUtils } from '@owl/back/test-utils';
 import {
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
@@ -15,11 +15,17 @@ describe('Exquisite Corpse Exercise', () => {
 
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
+  let wsUtils: WsUtils;
 
   beforeEach(async () => {
     exerciseUtils = new ExerciseTestUtils(app);
     userUtils = new UserTestUtils(app);
+    wsUtils = new WsUtils();
     await userUtils.createIfNotExists(TestUserBuilder.Alice());
+  });
+
+  afterEach(() => {
+    wsUtils.disconnectAll();
   });
 
   describe('Exquisite corpse', () => {
@@ -30,16 +36,14 @@ describe('Exquisite Corpse Exercise', () => {
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 
-      const aliceSocket = wsUtils.connect(alice.uid, port);
-      aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
-      const data = await wsUtils.waitFor<ExquisiteCorpseContentDto>(
-        aliceSocket,
+      const aliceSocket = wsUtils.connectWs(alice.uid, port);
+      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+      const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
         exquisiteCorpseEvents.updates
       );
       expect(data.scenes).toHaveLength(1);
       expect(data.scenes[0].author.id).toBe(TestUserBuilder.Alice().uid);
       expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
-      aliceSocket.disconnect();
     });
 
     it('should be able to take turn if no one currently has it', async () => {
@@ -49,19 +53,34 @@ describe('Exquisite Corpse Exercise', () => {
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 
-      const aliceSocket = wsUtils.connect(alice.uid, port);
-      aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
-      const data = await wsUtils.waitFor<ExquisiteCorpseContentDto>(
-        aliceSocket,
+      const aliceSocket = wsUtils.connectWs(alice.uid, port);
+      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+      await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+      const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
         exquisiteCorpseEvents.updates
       );
 
-      console.log('Received', JSON.stringify(data));
       expect(data.currentWriter?.author.id).toBe(alice.uid);
+      expect(data.currentWriter?.author.name).toBe(alice.name);
+    });
 
-      // TODO FIX
-      // TODO Check it is saved
-      // TODO Send to room instead of user
+    it('should forward updates to the room, not only the current user', async () => {
+      const alice = TestUserBuilder.Alice();
+      app.logAs(alice);
+      const id = await exerciseUtils.createExercise(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      const aliceSocket = wsUtils.connectWs(alice.uid, port);
+      const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+      await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+      await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+
+      const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
+        exquisiteCorpseEvents.updates
+      );
+      expect(event.currentWriter?.author.id).toBe(alice.uid);
     });
   });
 });
