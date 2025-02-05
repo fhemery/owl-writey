@@ -33,12 +33,17 @@
       </button>
     </div>
     } @else {
-    <button mat-raised-button disabled>
-      {{
-        'exercise.exquisiteCorpse.takeTurn.alreadyOngoing'
-          | translate : { author: content.currentWriter?.author?.name }
-      }}
-    </button>
+    <div class="exCo-details__waitingFor">
+      <button mat-raised-button disabled>
+        {{
+          'exercise.exquisiteCorpse.takeTurn.alreadyOngoing'
+            | translate : { author: content.currentWriter?.author?.name }
+        }}
+      </button>
+      <div>
+        {{ content.currentWriter?.until | timeDiff | async }}
+      </div>
+    </div>
     }
   </div>
   } @else {
