@@ -29,58 +29,162 @@ describe('Exquisite Corpse Exercise', () => {
   });
 
   describe('Exquisite corpse', () => {
-    it('should return the content via socket', async () => {
-      const alice = TestUserBuilder.Alice();
-      app.logAs(alice);
-      const id = await exerciseUtils.createExercise(
-        ExerciseTestBuilder.ExquisiteCorpse()
-      );
+    describe(exquisiteCorpseEvents.connect, () => {
+      it('should return the content via socket', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
 
-      const aliceSocket = wsUtils.connectWs(alice.uid, port);
-      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
-      const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
-        exquisiteCorpseEvents.updates
-      );
-      expect(data.scenes).toHaveLength(1);
-      expect(data.scenes[0].author.id).toBe(TestUserBuilder.Alice().uid);
-      expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(data.scenes).toHaveLength(1);
+        expect(data.scenes[0].author.id).toBe(TestUserBuilder.Alice().uid);
+        expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
+      });
     });
 
-    it('should be able to take turn if no one currently has it', async () => {
-      const alice = TestUserBuilder.Alice();
-      app.logAs(alice);
-      const id = await exerciseUtils.createExercise(
-        ExerciseTestBuilder.ExquisiteCorpse()
-      );
+    describe(exquisiteCorpseEvents.takeTurn, () => {
+      it('should be able to take turn if no one currently has it', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
 
-      const aliceSocket = wsUtils.connectWs(alice.uid, port);
-      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
-      await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
-      const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
-        exquisiteCorpseEvents.updates
-      );
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
 
-      expect(data.currentWriter?.author.id).toBe(alice.uid);
-      expect(data.currentWriter?.author.name).toBe(alice.name);
+        expect(data.currentWriter?.author.id).toBe(alice.uid);
+        expect(data.currentWriter?.author.name).toBe(alice.name);
+      });
+
+      it('should not give turn if another user has already taken it', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+
+        // ACT
+        await bobSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+
+        // ASSERT
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+
+        expect(data.currentWriter?.author.id).toBe(alice.uid);
+        expect(data.currentWriter?.author.name).toBe(alice.name);
+      });
+
+      it('should forward updates to the room, not only the current user', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+
+        const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(event.currentWriter?.author.id).toBe(alice.uid);
+      });
     });
 
-    it('should forward updates to the room, not only the current user', async () => {
-      const alice = TestUserBuilder.Alice();
-      app.logAs(alice);
-      const id = await exerciseUtils.createExercise(
-        ExerciseTestBuilder.ExquisiteCorpse()
-      );
+    describe(exquisiteCorpseEvents.submitTurn, () => {
+      it("should be able to submit turn if it is no one's turn", async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
 
-      const aliceSocket = wsUtils.connectWs(alice.uid, port);
-      const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
-      await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
-      await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
-      await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.submitTurn, {
+          id,
+          content: 'new content',
+        });
 
-      const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
-        exquisiteCorpseEvents.updates
-      );
-      expect(event.currentWriter?.author.id).toBe(alice.uid);
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(data.scenes).toHaveLength(1);
+      });
+
+      it("should be able to submit turn if it is someone else's turn", async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
+          id,
+        });
+        await bobSocket.emit(exquisiteCorpseEvents.submitTurn, {
+          id,
+          content: 'Content',
+        });
+
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(data.scenes).toHaveLength(1);
+      });
+
+      it('should be able to work with correct user submitting', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
+          id,
+        });
+        await aliceSocket.emit(exquisiteCorpseEvents.submitTurn, {
+          id,
+          content: 'Content',
+        });
+
+        const data = bobSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(data.scenes).toHaveLength(2);
+        expect(data.scenes[1].text).toBe('Content');
+        expect(data.scenes[1].author.id).toBe(alice.uid);
+        expect(data.scenes[1].author.name).toBe(alice.name);
+      });
     });
   });
 });

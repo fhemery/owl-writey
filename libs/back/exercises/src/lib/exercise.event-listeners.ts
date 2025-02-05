@@ -83,8 +83,8 @@ export class ExerciseEventListeners {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    event.userDetails.sendToUser(
-      // TODO : this obviously does not work, need to send to room
+    event.userDetails.sendToRoom(
+      this.getRoom(exercise.id),
       exquisiteCorpseEvents.updates,
       exercise.content
     );
