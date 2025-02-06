@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { UsersService } from '@owl/back/user';
+import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
-import { WsEvent } from './events/ws-events';
 import { ExerciseRepository } from './exercise.repository';
 import { Author, ExquisiteCorpseExercise } from './model/exercise';
 

@@ -7,14 +7,14 @@ import {
 import { WsAuthService } from '@owl/back/auth';
 import { Server, Socket } from 'socket.io';
 
-import { UntypedWsEvent, WsUser, WsUserDetails } from './events/ws-events';
+import { UntypedWsEvent, WsSession, WsUser } from './model';
 
 @WebSocketGateway({
   cors: {
     origin: '*',
   },
 })
-export class WsGatewayGateway implements OnGatewayConnection {
+export class WsGateway implements OnGatewayConnection {
   @WebSocketServer()
   server!: Server;
 
@@ -25,14 +25,10 @@ export class WsGatewayGateway implements OnGatewayConnection {
 
   async handleConnection(client: Socket): Promise<void> {
     const token = client.handshake.auth['token'];
-    let userDetails: WsUserDetails;
+    let userDetails: WsSession;
     try {
       const user = await this.wsAuthService.authenticate(token);
-      userDetails = new WsUserDetails(
-        new WsUser(user.uid),
-        client,
-        this.server
-      );
+      userDetails = new WsSession(new WsUser(user.uid), client, this.server);
     } catch (e) {
       console.error('Failed to authenticate user:', e);
       client.disconnect();

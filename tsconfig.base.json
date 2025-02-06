@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@owl/back/websocket": ["libs/back/infra/websocket/src/index.ts"],
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],
       "@owl/back/novels": ["libs/back/novels/src/index.ts"],

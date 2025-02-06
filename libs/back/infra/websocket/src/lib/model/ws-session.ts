@@ -1,10 +1,8 @@
 import { Server, Socket } from 'socket.io';
 
-export class WsUser {
-  constructor(public uid: string) {}
-}
+import { WsUser } from './ws-user';
 
-export class WsUserDetails {
+export class WsSession {
   constructor(
     public readonly user: WsUser,
     private readonly socket: Socket,
@@ -27,13 +25,3 @@ export class WsUserDetails {
     this.socket.leave(room);
   }
 }
-
-export class WsEvent<T> {
-  constructor(
-    public name: string,
-    public payload: T,
-    public userDetails: WsUserDetails
-  ) {}
-}
-
-export class UntypedWsEvent extends WsEvent<unknown> {}
