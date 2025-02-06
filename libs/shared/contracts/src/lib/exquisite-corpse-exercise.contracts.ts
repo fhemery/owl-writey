@@ -6,6 +6,7 @@ export const exquisiteCorpseEvents = {
   updates: `${exquisiteCorpseEventPrefix}:updates`,
   takeTurn: `${exquisiteCorpseEventPrefix}:takeTurn`,
   submitTurn: `${exquisiteCorpseEventPrefix}:submitTurn`,
+  cancelTurn: `${exquisiteCorpseEventPrefix}:cancelTurn`,
 };
 
 export interface ExquisiteCorpseContentDto {

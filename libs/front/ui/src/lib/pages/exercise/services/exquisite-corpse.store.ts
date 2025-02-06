@@ -53,6 +53,9 @@ export const ExquisiteCorpseStore = signalStore(
     submitTurn(content: string): void {
       service.submitTurn(store.exercise()?.id || '', content);
     },
+    cancelTurn(): void {
+      service.cancelTurn(store.exercise()?.id || '');
+    },
     checkTurn(): void {
       console.log('Checking turn');
       const until = store.content()?.currentWriter?.until;

@@ -88,4 +88,23 @@ export class ExerciseEventListeners {
       exercise.content
     );
   }
+
+  @OnEvent(exquisiteCorpseEvents.cancelTurn)
+  async handleExquisiteCorpseCancelTurn(
+    event: ExquisiteCorpseTakeTurnEvent
+  ): Promise<void> {
+    const exercise = (await this.exerciseRepository.get(event.payload.id, {
+      includeContent: true,
+    })) as ExquisiteCorpseExercise;
+
+    exercise.cancelTurn(event.userDetails.user.uid);
+
+    await this.exerciseRepository.saveContent(exercise);
+
+    event.userDetails.sendToRoom(
+      this.getRoom(exercise.id),
+      exquisiteCorpseEvents.updates,
+      exercise.content
+    );
+  }
 }

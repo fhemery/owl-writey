@@ -46,4 +46,8 @@ export class ExquisiteCorpseDetailsComponent implements OnInit {
   submitTurn(): void {
     this.store.submitTurn(this.newContent());
   }
+
+  cancelTurn(): void {
+    this.store.cancelTurn();
+  }
 }

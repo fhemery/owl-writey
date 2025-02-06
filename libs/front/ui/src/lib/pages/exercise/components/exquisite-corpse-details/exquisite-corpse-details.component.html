@@ -24,13 +24,18 @@
         (onContentChanged)="updateContent($event)"
         placeholder=""
       ></quill-editor>
-      <button
-        mat-raised-button
-        (click)="submitTurn()"
-        [disabled]="!newContent()"
-      >
-        {{ 'exercise.exquisiteCorpse.submitTurn.label' | translate }}
-      </button>
+      <div class="exCo-details__editor-buttons">
+        <button
+          mat-raised-button
+          (click)="submitTurn()"
+          [disabled]="!newContent()"
+        >
+          {{ 'exercise.exquisiteCorpse.submitTurn.label' | translate }}
+        </button>
+        <button mat-raised-button (click)="cancelTurn()" color="warn">
+          {{ 'exercise.exquisiteCorpse.cancelTurn.label' | translate }}
+        </button>
+      </div>
     </div>
     } @else {
     <div class="exCo-details__waitingFor">

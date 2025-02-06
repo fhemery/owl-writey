@@ -186,5 +186,46 @@ describe('Exquisite Corpse Exercise', () => {
         expect(data.scenes[1].author.name).toBe(alice.name);
       });
     });
+
+    describe(exquisiteCorpseEvents.cancelTurn, () => {
+      it("should be able to cancel turn if it is not user's turn", async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.cancelTurn, { id });
+
+        const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(event.currentWriter?.author.id).toBe(alice.uid);
+      });
+      it('should be able to cancel turn if it is your turn', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const id = await exerciseUtils.createExercise(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.cancelTurn, { id });
+
+        const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(event.currentWriter).toBe(undefined);
+      });
+    });
   });
 });

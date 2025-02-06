@@ -67,6 +67,12 @@ export class ExquisiteCorpseExercise extends Exercise<
       inFifteenMinutes
     );
   }
+  cancelTurn(userId: string): void {
+    if (this.content?.currentWriter?.author.id !== userId) {
+      throw new ExerciseException('It is not your turn, you cannot cancel');
+    }
+    this.content.currentWriter = undefined;
+  }
   submitTurn(uid: string, content: string): void {
     if (
       this.content?.currentWriter?.author.id !== uid ||

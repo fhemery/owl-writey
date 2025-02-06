@@ -42,4 +42,8 @@ export class ExquisiteCorpseService extends Socket {
   submitTurn(exerciseId: string, content: string): void {
     this.emit(exquisiteCorpseEvents.submitTurn, { id: exerciseId, content });
   }
+
+  cancelTurn(exerciseId: string): void {
+    this.emit(exquisiteCorpseEvents.cancelTurn, { id: exerciseId });
+  }
 }

@@ -62,6 +62,9 @@ export const exerciseFr = {
       submitTurn: {
         label: 'Soumettre',
       },
+      cancelTurn: {
+        label: 'Rendre la main',
+      },
     },
   },
 };
