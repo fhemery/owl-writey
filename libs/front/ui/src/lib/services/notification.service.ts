@@ -12,12 +12,14 @@ export class NotificationService {
   public showSuccess(message: string): void {
     this.#snackbar.open(message, this.#translateService.instant('general.ok'), {
       panelClass: 'snack-success',
+      duration: 5000,
     });
   }
 
   public showError(message: string): void {
     this.#snackbar.open(message, this.#translateService.instant('general.ok'), {
       panelClass: 'snack-error',
+      duration: 5000,
     });
   }
 

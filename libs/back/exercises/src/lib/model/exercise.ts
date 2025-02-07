@@ -1,4 +1,8 @@
-import { ExerciseParticipantRole, ExerciseType } from '@owl/shared/contracts';
+import {
+  exerciseErrors,
+  ExerciseParticipantRole,
+  ExerciseType,
+} from '@owl/shared/contracts';
 
 import { ExerciseException } from './exercise-exception';
 
@@ -45,7 +49,7 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
       this.participants.filter((p) => p.role === ExerciseParticipantRole.Admin)
         .length === 1
     ) {
-      throw new ExerciseException('Cannot remove the only admin');
+      throw new ExerciseException(exerciseErrors.removeLastAdmin);
     }
     this.participants = this.participants.filter(
       (p) => p.uid !== participantId

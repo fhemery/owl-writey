@@ -35,3 +35,7 @@ export interface AuthorDto {
   id: string;
   name: string;
 }
+
+export const exerciseErrors = {
+  removeLastAdmin: 'Cannot remove the last admin of an exercise',
+};

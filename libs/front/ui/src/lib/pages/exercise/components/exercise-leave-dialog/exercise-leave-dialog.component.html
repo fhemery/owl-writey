@@ -1,0 +1,8 @@
+<owl-confirm-dialog
+  [title]="'exercise.leave.title' | translate"
+  [confirmLabel]="'general.yes' | translate"
+  [cancelLabel]="'general.no' | translate"
+  (confirm)="leave($event)"
+>
+  {{ 'exercise.leave.message' | translate }}
+</owl-confirm-dialog>

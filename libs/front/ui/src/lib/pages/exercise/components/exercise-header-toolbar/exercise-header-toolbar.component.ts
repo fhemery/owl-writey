@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseDto } from '@owl/shared/contracts';
 
+import { ExerciseLeaveDialogComponent } from '../exercise-leave-dialog/exercise-leave-dialog.component';
 import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-share-dialog.component';
 
 @Component({
@@ -32,5 +33,11 @@ export class ExerciseHeaderToolbarComponent {
 
   edit(): void {
     throw new Error('Method not implemented.');
+  }
+
+  leave(): void {
+    this.dialog.open(ExerciseLeaveDialogComponent, {
+      data: { id: this.exercise().id },
+    });
   }
 }

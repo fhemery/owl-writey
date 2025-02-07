@@ -1,5 +1,5 @@
 <div class="confirm-dialog">
-  <wowe-base-dialog (close)="closeDialog()">
+  <owl-base-dialog (close)="closeDialog()">
     <ng-container ngProjectAs="dialog-title">
       <div class="confirm-dialog__header">{{ title() }}</div>
     </ng-container>
@@ -9,11 +9,22 @@
       </div>
     </ng-container>
     <ng-container ngProjectAs="dialog-actions">
-      <button mat-raised-button color="warn" class="confirm-dialog__confirm-btn" [disabled]="!confirmEnabled()"
-              (click)="doConfirm()">{{ confirmLabel() }}
+      <button
+        mat-raised-button
+        color="warn"
+        class="confirm-dialog__confirm-btn"
+        [disabled]="!confirmEnabled()"
+        (click)="doConfirm()"
+      >
+        {{ confirmLabel() }}
       </button>
-      <button mat-raised-button class="confirm-dialog__cancel-btn" (click)="closeDialog()">{{ cancelLabel() }}
+      <button
+        mat-raised-button
+        class="confirm-dialog__cancel-btn"
+        (click)="closeDialog()"
+      >
+        {{ cancelLabel() }}
       </button>
     </ng-container>
-  </wowe-base-dialog>
+  </owl-base-dialog>
 </div>

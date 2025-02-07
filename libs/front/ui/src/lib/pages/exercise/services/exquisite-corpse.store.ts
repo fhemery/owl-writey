@@ -57,7 +57,6 @@ export const ExquisiteCorpseStore = signalStore(
       service.cancelTurn(store.exercise()?.id || '');
     },
     checkTurn(): void {
-      console.log('Checking turn');
       const until = store.content()?.currentWriter?.until;
       if (until && new Date(until) < new Date()) {
         patchState(store, (state) => ({

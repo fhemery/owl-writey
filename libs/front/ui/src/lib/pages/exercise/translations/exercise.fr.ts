@@ -55,6 +55,9 @@ export const exerciseFr = {
       link: {
         label: 'Partager',
       },
+      leave: {
+        label: "Quitter l'exercice",
+      },
       edit: {
         label: 'Modifier',
       },
@@ -71,6 +74,15 @@ export const exerciseFr = {
         copied: 'Lien copié dans le presse-papier !',
       },
       close: 'Fermer',
+    },
+    leave: {
+      title: "Quitter l'exercice",
+      message: 'Êtes-vous sûr de vouloir quitter cet exercice ?',
+      result: {
+        ok: "Vous avez bien quitté l'exercice",
+        errorLastAdmin: "Vous êtes le dernier administrateur de l'exercice",
+        unknownError: 'Une erreur est survenue',
+      },
     },
     participate: {
       success: "Vous avez bien rejoint l'exercice !",

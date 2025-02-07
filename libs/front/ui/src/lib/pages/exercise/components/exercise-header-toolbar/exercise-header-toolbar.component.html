@@ -31,4 +31,14 @@
   </div>
 
   }
+  <div class="exercise-toolbar__leave">
+    <a
+      (click)="leave()"
+      (keyup.enter)="leave()"
+      tabindex="0"
+      [title]="'exercise.toolbar.leave.label' | translate"
+    >
+      <mat-icon>logout</mat-icon>
+    </a>
+  </div>
 </div>

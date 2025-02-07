@@ -1,7 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ExerciseDto, ExerciseToCreateDto } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  exerciseErrors,
+  ExerciseToCreateDto,
+} from '@owl/shared/contracts';
 import { firstValueFrom } from 'rxjs';
+
+export enum RemoveParticipantResult {
+  Success = 'Success',
+  ErrorLastAdmin = 'ErrorLastAdmin',
+  UnknownError = 'UnknownError',
+}
 
 @Injectable({
   providedIn: 'root',
@@ -50,5 +60,31 @@ export class ExerciseService {
     } catch {
       return false;
     }
+  }
+
+  async removeParticipant(
+    exerciseId: string,
+    userId: string
+  ): Promise<RemoveParticipantResult> {
+    try {
+      const response = await firstValueFrom(
+        this.#httpClient.delete(
+          `/api/exercises/${exerciseId}/participants/${userId}`,
+          { observe: 'response' }
+        )
+      );
+      if (response.status === 204) {
+        return RemoveParticipantResult.Success;
+      }
+    } catch (e) {
+      const httpError = e as { status?: number; message?: string };
+      if (
+        httpError.status === 400 &&
+        httpError.message === exerciseErrors.removeLastAdmin
+      ) {
+        return RemoveParticipantResult.ErrorLastAdmin;
+      }
+    }
+    return RemoveParticipantResult.UnknownError;
   }
 }

@@ -22,11 +22,15 @@ export class ExerciseParticipatePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const isAdded = await this.#exerciseService.addParticipant(this.id());
     if (!isAdded) {
-      this.#notificationService.showError(this.#translateService.instant('exercise.participate.error'));
+      this.#notificationService.showError(
+        this.#translateService.instant('exercise.participate.error')
+      );
       await this.#router.navigateByUrl('/dashboard');
     } else {
-      this.#notificationService.showSuccess(this.#translateService.instant('exercise.participate.success'));
-      this.#router.navigateByUrl(`/exercises/${this.id}`);
+      this.#notificationService.showSuccess(
+        this.#translateService.instant('exercise.participate.success')
+      );
+      this.#router.navigateByUrl(`/exercises/${this.id()}`);
     }
   }
 }

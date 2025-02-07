@@ -8,10 +8,12 @@ import {
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
+
 @Component({
   selector: 'owl-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButton],
+  imports: [CommonModule, TranslateModule, MatButton, BaseDialogComponent],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
