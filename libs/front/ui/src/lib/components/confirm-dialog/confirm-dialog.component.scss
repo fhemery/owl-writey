@@ -1,0 +1,21 @@
+.confirm-dialog {
+  border-radius: .25rem;
+
+  min-width: 50vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  &__header {
+    text-align: center;
+  }
+
+  &__content {
+    padding: .675rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+}

@@ -4,6 +4,7 @@ import { authGuard, notAuthGuard } from '@owl/front/auth';
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
 import { ExerciseNewPageComponent } from './pages/exercise/exercise-new-page.component';
 import { ExercisePageComponent } from './pages/exercise/exercise-page.component';
+import { ExerciseParticipatePageComponent } from './pages/exercise/exercise-participate-page.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
@@ -51,6 +52,10 @@ export const appRoutes: Route[] = [
       {
         path: 'new',
         component: ExerciseNewPageComponent,
+      },
+      {
+        path: ':id/participate',
+        component: ExerciseParticipatePageComponent,
       },
       {
         path: ':id',

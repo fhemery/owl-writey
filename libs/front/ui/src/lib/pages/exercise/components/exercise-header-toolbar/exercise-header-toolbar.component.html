@@ -1,0 +1,34 @@
+<div class="exercise-toolbar">
+  @if(isAdmin()) {
+  <div class="exercise-toolbar__link">
+    <a
+      (click)="generateLink()"
+      (keyup.enter)="generateLink()"
+      tabindex="0"
+      [title]="'exercise.toolbar.link.label' | translate"
+    >
+      <mat-icon>link</mat-icon>
+    </a>
+  </div>
+  <div class="exercise-toolbar__edit">
+    <a
+      [routerLink]="'/exercises/' + exercise().id + '/edit'"
+      tabindex="0"
+      [title]="'exercise.toolbar.edit.label' | translate"
+    >
+      <mat-icon>edit</mat-icon>
+    </a>
+  </div>
+  <div class="exercise-toolbar__delete">
+    <a
+      (click)="delete()"
+      (keyup.enter)="delete()"
+      tabindex="0"
+      [title]="'exercise.toolbar.delete.label' | translate"
+    >
+      <mat-icon>delete</mat-icon>
+    </a>
+  </div>
+
+  }
+</div>

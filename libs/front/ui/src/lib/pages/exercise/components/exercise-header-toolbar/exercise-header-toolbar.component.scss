@@ -1,0 +1,29 @@
+.exercise-toolbar {
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin: 0 0.5rem;
+  }
+
+  a {
+    cursor: pointer;
+
+    mat-icon {
+      font-size: 1.2rem;
+      color: var(--color-accent);
+      transition: all 0.2s;
+
+      &:hover {
+        filter: (brightness(0.8));
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .exercise-toolbar__delete {
+    mat-icon {
+      color: var(--color-error);
+    }
+  }
+}

@@ -51,7 +51,33 @@ export const exerciseFr = {
     page: {
       loading: "Chargement de l'exercice en cours...",
     },
+    toolbar: {
+      link: {
+        label: 'Partager',
+      },
+      edit: {
+        label: 'Modifier',
+      },
+      delete: {
+        label: 'Supprimer',
+      },
+    },
+    share: {
+      title: "Inviter d'autres Plumes",
+      link: {
+        label:
+          "Envoi leur ce lien de partage pour qu'iels puissent rejoindre l'exercice",
+        copy: 'Copier',
+        copied: 'Lien copié dans le presse-papier !',
+      },
+      close: 'Fermer',
+    },
+    participate: {
+      success: "Vous avez bien rejoint l'exercice !",
+      error: 'Une erreur est survenue lors de votre participation',
+    },
     exquisiteCorpse: {
+      loading: "Chargement de l'exercice en cours...",
       takeTurn: {
         label: 'À mon tour !',
         alreadyOngoing: 'Au tour de {{author}} !',

@@ -1,0 +1,31 @@
+<owl-base-dialog (close)="close()">
+  <ng-container ngProjectAs="dialog-title">
+    <h2>{{ 'exercise.share.title' | translate }}</h2>
+  </ng-container>
+  <ng-container ngProjectAs="dialog-content">
+    <div class="share-dialog__content">
+      <p>{{ 'exercise.share.link.label' | translate }}</p>
+      <div class="share-dialog__link">
+        <div class="share-dialog__link--input">
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              [value]="getLink()"
+              readonly
+              (click)="copyLink()"
+            />
+          </mat-form-field>
+        </div>
+        <button mat-raised-button (click)="copyLink()">
+          {{ 'exercise.share.link.copy' | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container ngProjectAs="dialog-actions">
+    <button mat-raised-button (click)="close()">
+      {{ 'exercise.share.close' | translate }}
+    </button>
+  </ng-container>
+</owl-base-dialog>

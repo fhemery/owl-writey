@@ -36,4 +36,19 @@ export class ExerciseService {
       throw error;
     }
   }
+
+  async addParticipant(exerciseId: string): Promise<boolean> {
+    try {
+      const response = await firstValueFrom(
+        this.#httpClient.post(
+          `/api/exercises/${exerciseId}/participants`,
+          null,
+          { observe: 'response' }
+        )
+      );
+      return response.status === 204;
+    } catch {
+      return false;
+    }
+  }
 }

@@ -1,0 +1,40 @@
+.dialog {
+  min-width: 30rem;
+  min-height: 12.5rem;
+
+  border: 1px solid var(--color-primary);
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 3.5rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-primary);
+  }
+
+  &__title {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  &__close {
+    position: absolute;
+    color: var(--color-accent-light);
+    right: .25rem;
+    top: 0;
+    padding: .25rem;
+  }
+
+  &__content {
+    padding: .675rem .25rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__actions {
+    padding: .675rem .25rem;
+    display: flex;
+    justify-content: space-around;
+  }
+}

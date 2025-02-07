@@ -1,0 +1,19 @@
+<div class="confirm-dialog">
+  <wowe-base-dialog (close)="closeDialog()">
+    <ng-container ngProjectAs="dialog-title">
+      <div class="confirm-dialog__header">{{ title() }}</div>
+    </ng-container>
+    <ng-container ngProjectAs="dialog-content">
+      <div class="confirm-dialog__content">
+        <ng-content></ng-content>
+      </div>
+    </ng-container>
+    <ng-container ngProjectAs="dialog-actions">
+      <button mat-raised-button color="warn" class="confirm-dialog__confirm-btn" [disabled]="!confirmEnabled()"
+              (click)="doConfirm()">{{ confirmLabel() }}
+      </button>
+      <button mat-raised-button class="confirm-dialog__cancel-btn" (click)="closeDialog()">{{ cancelLabel() }}
+      </button>
+    </ng-container>
+  </wowe-base-dialog>
+</div>

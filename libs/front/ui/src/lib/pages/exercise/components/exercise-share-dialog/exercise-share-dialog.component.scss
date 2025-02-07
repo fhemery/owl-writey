@@ -1,0 +1,24 @@
+.share-dialog {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  &__link {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+
+    &--input {
+      flex: 1 1 auto;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

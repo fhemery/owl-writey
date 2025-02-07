@@ -4,6 +4,7 @@ import { notFoundFr } from '../pages/not-found/translations/not-found.fr';
 
 export const uiFr = {
   general: {
+    ok: 'OK',
     exercises: {
       type: {
         ExquisiteCorpse: 'Cadavre exquis',

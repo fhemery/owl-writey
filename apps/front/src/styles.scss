@@ -36,6 +36,7 @@ html {
 
   --color-error: #b00020;
   --color-error-background: #f8d7da;
+  --color-success-background: #d4edda;
 }
 
 * {
@@ -78,8 +79,21 @@ body {
   @include mat.all-component-densities(-5);
 }
 
-.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+.mat-mdc-snack-bar-container.snack-info .mdc-snackbar__surface {
   background-color: var(--color-primary) !important;
+}
+
+.mat-mdc-snack-bar-container.snack-info .mdc-snackbar__label {
+  color: var(--color-accent) !important;
+}
+
+.mat-mdc-snack-bar-container.snack-success .mdc-snackbar__surface {
+  background-color: var(--color-success-background) !important;
+}
+
+.mat-mdc-snack-bar-container.snack-success .mdc-snackbar__label,
+.mat-mdc-snack-bar-container.snack-success .mdc-button__label {
+  color: var(--color-accent) !important;
 }
 
 .mat-mdc-snack-bar-container.snack-error .mdc-snackbar__surface {
