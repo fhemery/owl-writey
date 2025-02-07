@@ -41,6 +41,42 @@ export class ExerciseRepository {
     }
   }
 
+  async save(exercise: Exercise): Promise<void> {
+    if (exercise.content) {
+      this.saveContent(exercise);
+    }
+
+    let entity = await this.repository.findOne({
+      where: { id: exercise.id },
+      relations: ['participants'],
+    });
+
+    if (!entity) {
+      entity = ExerciseEntity.From(exercise);
+    } else {
+      entity.name = exercise.name;
+      entity.type = exercise.type;
+      entity.data = exercise.config;
+    }
+    await this.repository.save(entity);
+
+    await this.saveParticipants(exercise, entity);
+  }
+
+  async saveParticipants(
+    exercise: Exercise,
+    entity: ExerciseEntity
+  ): Promise<void> {
+    await this.participantRepository.delete({ exerciseId: entity.id });
+    for (const participant of exercise.getParticipants()) {
+      const participantEntity = ExerciseParticipantEntity.From(
+        participant,
+        entity
+      );
+      await this.participantRepository.save(participantEntity);
+    }
+  }
+
   async getAll(userId: string | null): Promise<Exercise[]> {
     let entities: ExerciseEntity[];
     if (!userId) {

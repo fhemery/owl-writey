@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -21,6 +22,7 @@ import { v4 as uuidV4 } from 'uuid';
 
 import { ExerciseRepository } from './exercise.repository';
 import { Exercise, ExerciseParticipant } from './model/exercise';
+import { ExerciseException } from './model/exercise-exception';
 import { ExerciseFactory } from './model/exercise-factory';
 
 export class ExerciseToCreateDtoImpl implements ExerciseToCreateDto {
@@ -86,6 +88,38 @@ export class ExercisesController {
       throw new NotFoundException();
     }
     return toExerciseDto(exercise);
+  }
+
+  @Post(':id/participants')
+  @Auth()
+  async addParticipant(
+    @Param('id') id: string,
+    @Req() request: RequestWithUser
+  ): Promise<void> {
+    const exercise = await this.exerciseRepository.get(id);
+    if (!exercise) {
+      throw new NotFoundException();
+    }
+
+    const user = await this.usersService.get(request.user.uid);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    try {
+      exercise.addParticipant(
+        request.user.uid,
+        user.name,
+        ExerciseParticipantRole.Participant
+      );
+    } catch (err) {
+      if (err instanceof ExerciseException) {
+        throw new BadRequestException(err.message);
+      }
+    }
+
+    await this.exerciseRepository.save(exercise);
+    request.res?.status(204);
   }
 }
 

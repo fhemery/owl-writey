@@ -8,6 +8,7 @@ import {
 export class ExerciseTestUtils {
   constructor(private readonly app: NestTestApplication) {}
 
+  // TODO rewrite using ApiResponse. If we want the id, we just do {id}
   async createExercise(exercise: ExerciseToCreateDto): Promise<string> {
     const response = await this.app.post<ExerciseToCreateDto, void>(
       '/api/exercises',

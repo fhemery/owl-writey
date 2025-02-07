@@ -15,9 +15,12 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
   addParticipant(
     uid: string,
     name: string,
-    Admin: ExerciseParticipantRole
+    role: ExerciseParticipantRole
   ): void {
-    this.participants.push(new ExerciseParticipant(uid, name, Admin));
+    if (this.participants.some((p) => p.uid === uid)) {
+      throw new ExerciseException('Participant already exists');
+    }
+    this.participants.push(new ExerciseParticipant(uid, name, role));
   }
 
   getParticipants(): ExerciseParticipant[] {
