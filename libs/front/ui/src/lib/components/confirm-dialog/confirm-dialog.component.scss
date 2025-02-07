@@ -1,7 +1,5 @@
 .confirm-dialog {
-  border-radius: .25rem;
-
-  min-width: 50vw;
+  border-radius: 0.25rem;
 
   display: flex;
   flex-direction: column;
@@ -12,7 +10,7 @@
   }
 
   &__content {
-    padding: .675rem 1.25rem;
+    padding: 0.675rem 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

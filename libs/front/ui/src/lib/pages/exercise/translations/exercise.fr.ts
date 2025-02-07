@@ -76,12 +76,21 @@ export const exerciseFr = {
       close: 'Fermer',
     },
     leave: {
-      title: "Quitter l'exercice",
+      title: "Quitter l'exercice ?",
       message: 'Êtes-vous sûr de vouloir quitter cet exercice ?',
       result: {
         ok: "Vous avez bien quitté l'exercice",
         errorLastAdmin: "Vous êtes le dernier administrateur de l'exercice",
         unknownError: 'Une erreur est survenue',
+      },
+    },
+    delete: {
+      title: "Supprimer l'exercice ?",
+      message:
+        'Êtes-vous sûr de vouloir supprimer cet exercice ? Tous les textes seront perdus.',
+      result: {
+        ok: 'Exercice supprimé',
+        error: 'Une erreur est survenue',
       },
     },
     participate: {

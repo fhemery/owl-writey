@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseDto } from '@owl/shared/contracts';
 
+import { ExerciseDeleteDialogComponent } from '../exercise-delete-dialog/exercise-delete-dialog.component';
 import { ExerciseLeaveDialogComponent } from '../exercise-leave-dialog/exercise-leave-dialog.component';
 import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-share-dialog.component';
 
@@ -28,7 +29,9 @@ export class ExerciseHeaderToolbarComponent {
   }
 
   delete(): void {
-    throw new Error('Method not implemented.');
+    this.dialog.open(ExerciseDeleteDialogComponent, {
+      data: { id: this.exercise().id },
+    });
   }
 
   edit(): void {

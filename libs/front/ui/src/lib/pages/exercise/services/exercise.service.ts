@@ -87,4 +87,17 @@ export class ExerciseService {
     }
     return RemoveParticipantResult.UnknownError;
   }
+
+  async delete(exerciseId: string): Promise<boolean> {
+    try {
+      const response = await firstValueFrom(
+        this.#httpClient.delete(`/api/exercises/${exerciseId}`, {
+          observe: 'response',
+        })
+      );
+      return response.status === 204;
+    } catch {
+      return false;
+    }
+  }
 }
