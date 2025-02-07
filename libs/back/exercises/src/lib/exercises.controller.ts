@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -116,6 +117,31 @@ export class ExercisesController {
       if (err instanceof ExerciseException) {
         throw new BadRequestException(err.message);
       }
+    }
+
+    await this.exerciseRepository.save(exercise);
+    request.res?.status(204);
+  }
+
+  @Delete(':id/participants/:participantId')
+  @Auth()
+  async removeParticipant(
+    @Param('id') tournamentId: string,
+    @Param('participantId') participantId: string,
+    @Req() request: RequestWithUser
+  ): Promise<void> {
+    const exercise = await this.exerciseRepository.get(tournamentId);
+    if (!exercise) {
+      throw new NotFoundException();
+    }
+
+    try {
+      exercise.removeParticipant(request.user.uid, participantId);
+    } catch (err) {
+      if (err instanceof ExerciseException) {
+        throw new BadRequestException(err.message);
+      }
+      throw err;
     }
 
     await this.exerciseRepository.save(exercise);

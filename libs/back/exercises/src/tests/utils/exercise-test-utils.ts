@@ -1,4 +1,4 @@
-import { NestTestApplication } from '@owl/back/test-utils';
+import { ApiResponse, NestTestApplication } from '@owl/back/test-utils';
 import {
   ExerciseDto,
   ExerciseToCreateDto,
@@ -40,5 +40,18 @@ export class ExerciseTestUtils {
       fail('No body found for exercises');
     }
     return response.body;
+  }
+
+  async addParticipant(exerciseId: string): Promise<ApiResponse<void>> {
+    return await this.app.post(`/api/exercises/${exerciseId}/participants`, {});
+  }
+
+  async removeParticipant(
+    exerciseId: string,
+    participantId: string
+  ): Promise<ApiResponse<void>> {
+    return await this.app.delete(
+      `/api/exercises/${exerciseId}/participants/${participantId}`
+    );
   }
 }

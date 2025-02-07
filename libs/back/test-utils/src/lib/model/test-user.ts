@@ -33,4 +33,12 @@ export class TestUserBuilder {
   static Bob(): RegisteredTestUser {
     return new RegisteredTestUser('bob-uid', 'bob@test.com', 'password', 'Bob');
   }
+  static Carol(): RegisteredTestUser {
+    return new RegisteredTestUser(
+      'carol-uid',
+      'carol@test.com',
+      'password',
+      'Carol'
+    );
+  }
 }
