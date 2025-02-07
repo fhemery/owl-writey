@@ -134,4 +134,10 @@ export class ExerciseRepository {
     }
     await this.contentRepository.save(entity);
   }
+
+  async delete(exerciseId: string): Promise<void> {
+    await this.contentRepository.delete({ id: exerciseId });
+    await this.participantRepository.delete({ exerciseId });
+    await this.repository.delete({ id: exerciseId });
+  }
 }

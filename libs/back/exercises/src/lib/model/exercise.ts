@@ -55,6 +55,13 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
       (p) => p.uid !== participantId
     );
   }
+
+  checkDelete(userId: string): void {
+    const user = this.participants.find((p) => p.uid === userId);
+    if (!user || user.role !== ExerciseParticipantRole.Admin) {
+      throw new ExerciseException('You are not an admin');
+    }
+  }
 }
 
 export class ExquisiteCorpseExercise extends Exercise<

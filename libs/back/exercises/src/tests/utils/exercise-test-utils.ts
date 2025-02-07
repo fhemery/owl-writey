@@ -31,6 +31,10 @@ export class ExerciseTestUtils {
     return response.body;
   }
 
+  async getOne(exerciseId: string): Promise<ApiResponse<ExerciseDto>> {
+    return await this.app.get<ExerciseDto>(`/api/exercises/${exerciseId}`);
+  }
+
   async getAll(): Promise<GetAllExercisesResponseDto> {
     const response = await this.app.get<GetAllExercisesResponseDto>(
       '/api/exercises'
@@ -53,5 +57,9 @@ export class ExerciseTestUtils {
     return await this.app.delete(
       `/api/exercises/${exerciseId}/participants/${participantId}`
     );
+  }
+
+  async delete(exerciseId: string): Promise<ApiResponse<void>> {
+    return await this.app.delete(`/api/exercises/${exerciseId}`);
   }
 }
