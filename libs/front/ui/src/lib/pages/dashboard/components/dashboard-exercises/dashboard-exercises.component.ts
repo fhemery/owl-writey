@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto } from '@owl/shared/contracts';
+import { ExerciseSummaryDto } from '@owl/shared/contracts';
 
 import { DashboardExerciseCardComponent } from '../dashboard-exercise-card/dashboard-exercise-card.component';
 
@@ -12,5 +12,5 @@ import { DashboardExerciseCardComponent } from '../dashboard-exercise-card/dashb
   styleUrl: './dashboard-exercises.component.scss',
 })
 export class DashboardExercisesComponent {
-  exercises = input<ExerciseDto[] | null>();
+  exercises = input<ExerciseSummaryDto[] | null>();
 }

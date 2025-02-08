@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseDto } from '@owl/shared/contracts';
 
@@ -12,7 +11,7 @@ import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-
 
 @Component({
   selector: 'owl-exercise-header-toolbar',
-  imports: [CommonModule, MatIcon, TranslateModule, RouterLink],
+  imports: [CommonModule, MatIcon, TranslateModule],
   templateUrl: './exercise-header-toolbar.component.html',
   styleUrl: './exercise-header-toolbar.component.scss',
 })

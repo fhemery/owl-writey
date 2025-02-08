@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
+import {
+  ExerciseSummaryDto,
+  GetAllExercisesResponseDto,
+} from '@owl/shared/contracts';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -9,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
 export class DashboardService {
   readonly #httpClient = inject(HttpClient);
 
-  async getExercises(): Promise<ExerciseDto[]> {
+  async getExercises(): Promise<ExerciseSummaryDto[]> {
     const response = await firstValueFrom(
       this.#httpClient.get<GetAllExercisesResponseDto>('/api/exercises')
     );

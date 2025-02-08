@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
 import { ExercisesModule } from '@owl/back/exercises';
@@ -7,6 +8,7 @@ import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
 import * as admin from 'firebase-admin';
+import { join } from 'path';
 
 import { ConnectionData } from './utils/datasource';
 
@@ -14,6 +16,11 @@ import { ConnectionData } from './utils/datasource';
   imports: [
     AuthModule,
     TypeOrmModule.forRoot({ ...ConnectionData, autoLoadEntities: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'client'),
+      renderPath: '{*splat}',
+      exclude: ['/api*'],
+    }),
     EventEmitterModule.forRoot(),
     PingModule,
     UsersModule,
@@ -25,7 +32,7 @@ export class AppModule {
   public configure(consumer: MiddlewareConsumer): void {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
+      .forRoutes({ path: '{*splat}', method: RequestMethod.ALL });
 
     admin.initializeApp({
       credential: admin.credential.cert({

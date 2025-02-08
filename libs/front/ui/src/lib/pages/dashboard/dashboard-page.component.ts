@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto } from '@owl/shared/contracts';
+import { ExerciseSummaryDto } from '@owl/shared/contracts';
 
 import { DashboardExercisesComponent } from './components/dashboard-exercises/dashboard-exercises.component';
 import { DashboardService } from './services/dashboard.service';
@@ -23,7 +23,7 @@ import { DashboardService } from './services/dashboard.service';
 export class DashboardPageComponent implements OnInit {
   readonly dashboardService = inject(DashboardService);
 
-  exercises = signal<ExerciseDto[] | null>(null);
+  exercises = signal<ExerciseSummaryDto[] | null>(null);
 
   async ngOnInit(): Promise<void> {
     const exercices = await this.dashboardService.getExercises();
