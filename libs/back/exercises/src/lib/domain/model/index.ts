@@ -1,5 +1,6 @@
+export * from './exceptions/exercice-not-found.exception';
+export * from './exceptions/exercise-exception';
 export * from './exercise';
-export * from './exercise-exception';
 export * from './exercise-factory';
 export * from './exercise-filter';
 export * from './exercise-summary';

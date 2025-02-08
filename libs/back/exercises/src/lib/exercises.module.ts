@@ -11,6 +11,7 @@ import {
   ListExercisesQuery,
 } from './domain/ports';
 import { CreateExerciseCommand } from './domain/ports/in/commands';
+import { DeleteExerciseCommand } from './domain/ports/in/commands/delete-exercise.command';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
@@ -41,6 +42,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     ListExercisesQuery,
     CreateExerciseCommand,
     GetExerciseQuery,
+    DeleteExerciseCommand,
   ],
   exports: [],
 })

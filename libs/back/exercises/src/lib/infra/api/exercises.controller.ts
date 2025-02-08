@@ -4,24 +4,22 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
   NotFoundException,
   Param,
   Post,
   Req,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
-import { UsersService } from '@owl/back/user';
 import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
 
 import { ExerciseToCreate } from '../../domain/model';
-import { ExerciseException } from '../../domain/model/exercise-exception';
+import { ExerciseNotFoundException } from '../../domain/model/exceptions/exercice-not-found.exception';
+import { ExerciseException } from '../../domain/model/exceptions/exercise-exception';
+import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
-  ExerciseRepository,
-  GetExerciseQuery,
-  ListExercisesQuery,
-} from '../../domain/ports';
-import { CreateExerciseCommand } from '../../domain/ports/in/commands';
+  CreateExerciseCommand,
+  DeleteExerciseCommand,
+} from '../../domain/ports/in/commands';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
 import {
   toExerciseDto,
@@ -34,9 +32,7 @@ export class ExercisesController {
     private readonly listExercisesQuery: ListExercisesQuery,
     private readonly createExerciseCommand: CreateExerciseCommand,
     private readonly getExerciseQuery: GetExerciseQuery,
-    @Inject(ExerciseRepository)
-    private readonly exerciseRepository: ExerciseRepository,
-    private readonly usersService: UsersService
+    private readonly deleteExerciseCommand: DeleteExerciseCommand
   ) {}
 
   @Get('')
@@ -83,18 +79,13 @@ export class ExercisesController {
     @Param('id') exerciseId: string,
     @Req() request: RequestWithUser
   ): Promise<void> {
-    const exercise = await this.exerciseRepository.get(exerciseId);
-    if (!exercise) {
-      throw new NotFoundException();
-    }
-
     try {
-      exercise.checkDelete(request.user.uid);
-
-      await this.exerciseRepository.delete(exerciseId);
+      await this.deleteExerciseCommand.execute(request.user.uid, exerciseId);
     } catch (err) {
       if (err instanceof ExerciseException) {
         throw new BadRequestException(err.message);
+      } else if (err instanceof ExerciseNotFoundException) {
+        throw new NotFoundException();
       }
       throw err;
     }
