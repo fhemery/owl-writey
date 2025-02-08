@@ -1,8 +1,9 @@
 import { ExerciseType } from '@owl/shared/contracts';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { Exercise } from '../model/exercise';
-import { ExerciseFactory } from '../model/exercise-factory';
+import { ExerciseSummary } from '../domain/model';
+import { Exercise } from '../domain/model/exercise';
+import { ExerciseFactory } from '../domain/model/exercise-factory';
 import { ExerciseParticipantEntity } from './exercise-participant.entity';
 
 @Entity({ name: 'exercises' })
@@ -44,5 +45,9 @@ export class ExerciseEntity {
       this.participants.map((p) => p.toParticipant())
     );
     return exercise;
+  }
+
+  toExerciseSummary(): ExerciseSummary {
+    return new ExerciseSummary(this.id, this.name, this.type as ExerciseType);
   }
 }

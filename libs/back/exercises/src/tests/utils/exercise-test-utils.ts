@@ -8,6 +8,10 @@ import {
 export class ExerciseTestUtils {
   constructor(private readonly app: NestTestApplication) {}
 
+  async list(): Promise<ApiResponse<GetAllExercisesResponseDto>> {
+    return await this.app.get<GetAllExercisesResponseDto>('/api/exercises');
+  }
+
   // TODO rewrite using ApiResponse. If we want the id, we just do {id}
   async createExercise(exercise: ExerciseToCreateDto): Promise<string> {
     const response = await this.app.post<ExerciseToCreateDto, void>(
@@ -33,17 +37,6 @@ export class ExerciseTestUtils {
 
   async getOne(exerciseId: string): Promise<ApiResponse<ExerciseDto>> {
     return await this.app.get<ExerciseDto>(`/api/exercises/${exerciseId}`);
-  }
-
-  async getAll(): Promise<GetAllExercisesResponseDto> {
-    const response = await this.app.get<GetAllExercisesResponseDto>(
-      '/api/exercises'
-    );
-    expect(response.status).toBe(200);
-    if (!response.body) {
-      fail('No body found for exercises');
-    }
-    return response.body;
   }
 
   async addParticipant(exerciseId: string): Promise<ApiResponse<void>> {

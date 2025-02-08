@@ -1,5 +1,11 @@
 export interface GetAllExercisesResponseDto {
-  exercises: ExerciseDto[];
+  exercises: ExerciseSummaryDto[];
+}
+
+export interface ExerciseSummaryDto {
+  id: string;
+  name: string;
+  type: ExerciseType;
 }
 
 export interface ExerciseDto {

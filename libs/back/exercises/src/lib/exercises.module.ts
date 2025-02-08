@@ -4,7 +4,7 @@ import { AuthModule } from '@owl/back/auth';
 import { UsersModule } from '@owl/back/user';
 import { WebsocketModule } from '@owl/back/websocket';
 
-import { ExerciseRepository } from './domain/ports';
+import { ExerciseRepository, ListExercisesQuery } from './domain/ports';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
@@ -30,6 +30,7 @@ import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-c
   providers: [
     ExquisiteCorpseEventHandlers,
     { provide: ExerciseRepository, useClass: ExerciseTypeOrmRepository },
+    ListExercisesQuery,
   ],
   exports: [],
 })

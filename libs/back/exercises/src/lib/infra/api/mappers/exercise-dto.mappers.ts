@@ -1,6 +1,21 @@
-import { ExerciseDto, ExerciseParticipantRole } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExerciseParticipantRole,
+  ExerciseSummaryDto,
+} from '@owl/shared/contracts';
 
-import { Exercise } from '../../../model/exercise';
+import { ExerciseSummary } from '../../../domain/model';
+import { Exercise } from '../../../domain/model/exercise';
+
+export function toExerciseSummaryDto(
+  exercise: ExerciseSummary
+): ExerciseSummaryDto {
+  return {
+    id: exercise.id,
+    name: exercise.name,
+    type: exercise.type,
+  };
+}
 
 export function toExerciseDto(exercise: Exercise): ExerciseDto {
   return {

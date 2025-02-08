@@ -4,8 +4,8 @@ import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
+import { Author, ExquisiteCorpseExercise } from '../../domain/model/exercise';
 import { ExerciseRepository } from '../../domain/ports';
-import { Author, ExquisiteCorpseExercise } from '../../model/exercise';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}

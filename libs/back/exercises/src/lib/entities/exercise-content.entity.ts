@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-import { Exercise } from '../model/exercise';
+import { Exercise } from '../domain/model/exercise';
 
 @Entity({ name: 'exercise_content' })
 export class ExerciseContentEntity {

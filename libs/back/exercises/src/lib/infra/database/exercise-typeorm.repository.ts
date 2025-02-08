@@ -3,15 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
+import { ExerciseSummary } from '../../domain/model';
+import { Exercise } from '../../domain/model/exercise';
+import { ExerciseFactory } from '../../domain/model/exercise-factory';
+import { ExerciseFilter } from '../../domain/model/exercise-filter';
 import { ExerciseRepository } from '../../domain/ports';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
   ExerciseParticipantEntity,
 } from '../../entities';
-import { Exercise } from '../../model/exercise';
-import { ExerciseFactory } from '../../model/exercise-factory';
-import { ExerciseFilter } from '../../model/exercise-filter';
 
 @Injectable()
 export class ExerciseTypeOrmRepository implements ExerciseRepository {
@@ -46,7 +47,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     await this.saveParticipants(exercise, entity);
   }
 
-  async getAll(userId: string | null): Promise<Exercise[]> {
+  async getAll(userId: string | null): Promise<ExerciseSummary[]> {
     let entities: ExerciseEntity[];
     if (!userId) {
       entities = await this.repository.find();
@@ -58,7 +59,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
         .getMany();
     }
 
-    return entities.map((entity) => entity.toExercise());
+    return entities.map((entity) => entity.toExerciseSummary());
   }
 
   async get(

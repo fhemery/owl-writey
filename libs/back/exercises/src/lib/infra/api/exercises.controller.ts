@@ -19,16 +19,20 @@ import {
 } from '@owl/shared/contracts';
 import { v4 as uuidV4 } from 'uuid';
 
-import { ExerciseRepository } from '../../domain/ports';
-import { ExerciseParticipant } from '../../model/exercise';
-import { ExerciseException } from '../../model/exercise-exception';
-import { ExerciseFactory } from '../../model/exercise-factory';
+import { ExerciseParticipant } from '../../domain/model/exercise';
+import { ExerciseException } from '../../domain/model/exercise-exception';
+import { ExerciseFactory } from '../../domain/model/exercise-factory';
+import { ExerciseRepository, ListExercisesQuery } from '../../domain/ports';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
-import { toExerciseDto } from './mappers/exercise-dto.mappers';
+import {
+  toExerciseDto,
+  toExerciseSummaryDto,
+} from './mappers/exercise-dto.mappers';
 
 @Controller('exercises')
 export class ExercisesController {
   constructor(
+    private readonly listExercisesQuery: ListExercisesQuery,
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
@@ -39,9 +43,9 @@ export class ExercisesController {
   async getAll(
     @Req() request: RequestWithUser
   ): Promise<GetAllExercisesResponseDto> {
-    const exercises = await this.exerciseRepository.getAll(request.user.uid);
+    const exercises = await this.listExercisesQuery.execute(request.user.uid);
     return {
-      exercises: exercises.map(toExerciseDto),
+      exercises: exercises.map(toExerciseSummaryDto),
     };
   }
 

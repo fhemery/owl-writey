@@ -19,38 +19,40 @@ describe('POST /exercises', () => {
     it('should return 401 if the user is not logged', async () => {
       app.logAs(null);
 
-      const response = await app.get('/api/exercises');
+      const response = await exerciseUtils.list();
       expect(response.status).toBe(401);
     });
   });
 
-  it('should return empty list if user has no exercises he participates in', async () => {
-    app.logAs(TestUserBuilder.Bob());
+  describe('success cases', () => {
+    it('should return empty list if user has no exercises he participates in', async () => {
+      app.logAs(TestUserBuilder.Bob());
 
-    const response = await exerciseUtils.getAll();
-    expect(response.exercises).toEqual([]);
-  });
+      const { body } = await exerciseUtils.list();
+      expect(body?.exercises).toEqual([]);
+    });
 
-  it('should return the list of exercises the user participates in', async () => {
-    app.logAs(TestUserBuilder.Alice());
+    it('should return the list of exercises the user participates in', async () => {
+      app.logAs(TestUserBuilder.Alice());
 
-    const id = await exerciseUtils.createExercise(
-      ExerciseTestBuilder.ExquisiteCorpse()
-    );
+      const id = await exerciseUtils.createExercise(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
 
-    const response = await exerciseUtils.getAll();
-    expect(response.exercises.find((e) => e.id === id)).toBeDefined();
-  });
+      const { body } = await exerciseUtils.list();
+      expect(body?.exercises.find((e) => e.id === id)).toBeDefined();
+    });
 
-  it('should return only the exercises the user participates in', async () => {
-    app.logAs(TestUserBuilder.Alice());
-    const id = await exerciseUtils.createExercise(
-      ExerciseTestBuilder.ExquisiteCorpse()
-    );
+    it('should return only the exercises the user participates in', async () => {
+      app.logAs(TestUserBuilder.Alice());
+      const id = await exerciseUtils.createExercise(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
 
-    app.logAs(TestUserBuilder.Bob());
+      app.logAs(TestUserBuilder.Bob());
 
-    const response = await exerciseUtils.getAll();
-    expect(response.exercises.find((e) => e.id === id)).toBeUndefined();
+      const { body } = await exerciseUtils.list();
+      expect(body?.exercises.find((e) => e.id === id)).toBeUndefined();
+    });
   });
 });

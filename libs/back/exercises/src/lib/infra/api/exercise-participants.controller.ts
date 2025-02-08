@@ -12,8 +12,8 @@ import { Auth, RequestWithUser } from '@owl/back/auth';
 import { UsersService } from '@owl/back/user';
 import { ExerciseParticipantRole } from '@owl/shared/contracts';
 
+import { ExerciseException } from '../../domain/model/exercise-exception';
 import { ExerciseRepository } from '../../domain/ports';
-import { ExerciseException } from '../../model/exercise-exception';
 
 @Controller('exercises/:exerciseId/participants')
 export class ExerciseParticipantsController {
