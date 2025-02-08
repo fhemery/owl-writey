@@ -12,7 +12,7 @@ export interface ExerciseDto {
   id: string;
   name: string;
   type: ExerciseType;
-  data: unknown;
+  data: unknown; // TODO: Can we change this to config?
   participants: ExerciseParticipantDto[];
 }
 
@@ -25,7 +25,7 @@ export interface ExerciseParticipantDto {
 export interface ExerciseToCreateDto {
   name: string;
   type: ExerciseType;
-  data: unknown;
+  data: unknown; // TODO : Change this to config
 }
 
 export enum ExerciseParticipantRole {

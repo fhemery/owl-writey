@@ -12,17 +12,12 @@ import {
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { UsersService } from '@owl/back/user';
-import {
-  ExerciseDto,
-  ExerciseParticipantRole,
-  GetAllExercisesResponseDto,
-} from '@owl/shared/contracts';
-import { v4 as uuidV4 } from 'uuid';
+import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
 
-import { ExerciseParticipant } from '../../domain/model/exercise';
+import { ExerciseToCreate } from '../../domain/model';
 import { ExerciseException } from '../../domain/model/exercise-exception';
-import { ExerciseFactory } from '../../domain/model/exercise-factory';
 import { ExerciseRepository, ListExercisesQuery } from '../../domain/ports';
+import { CreateExerciseCommand } from '../../domain/ports/in/commands';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
 import {
   toExerciseDto,
@@ -33,6 +28,7 @@ import {
 export class ExercisesController {
   constructor(
     private readonly listExercisesQuery: ListExercisesQuery,
+    private readonly createExerciseCommand: CreateExerciseCommand,
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
@@ -55,23 +51,10 @@ export class ExercisesController {
     @Body() exerciseDto: ExerciseToCreateDtoImpl,
     @Req() request: RequestWithUser
   ): Promise<void> {
-    const id = uuidV4();
-    const user = await this.usersService.get(request.user.uid);
-
-    const exercise = ExerciseFactory.From(
-      id,
-      exerciseDto.name,
-      exerciseDto.type,
-      exerciseDto.data,
-      [
-        new ExerciseParticipant(
-          request.user.uid,
-          user?.name || 'Unknown',
-          ExerciseParticipantRole.Admin
-        ),
-      ]
+    const id = await this.createExerciseCommand.execute(
+      request.user.uid,
+      new ExerciseToCreate(exerciseDto.name, exerciseDto.type, exerciseDto.data)
     );
-    await this.exerciseRepository.save(exercise);
 
     request.res?.location(`/api/exercises/${id}`);
   }
