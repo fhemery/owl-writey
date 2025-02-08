@@ -4,8 +4,8 @@ import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
-import { ExerciseRepository } from './exercise.repository';
-import { Author, ExquisiteCorpseExercise } from './model/exercise';
+import { ExerciseRepository } from '../../exercise.repository';
+import { Author, ExquisiteCorpseExercise } from '../../model/exercise';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}
@@ -15,7 +15,7 @@ class ExquisiteCorpseSubmitTurnEvent extends WsEvent<{
 }> {}
 
 @Injectable()
-export class ExerciseEventListeners {
+export class ExquisiteCorpseEventHandlers {
   constructor(
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService

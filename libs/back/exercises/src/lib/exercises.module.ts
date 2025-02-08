@@ -9,9 +9,10 @@ import {
   ExerciseEntity,
   ExerciseParticipantEntity,
 } from './entities';
-import { ExerciseEventListeners } from './exercise.event-listeners';
 import { ExerciseRepository } from './exercise.repository';
-import { ExercisesController } from './exercises.controller';
+import { ExerciseParticipantsController } from './infra/api/exercise-participants.controller';
+import { ExercisesController } from './infra/api/exercises.controller';
+import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exercise.event-listeners';
 
 @Module({
   imports: [
@@ -24,8 +25,8 @@ import { ExercisesController } from './exercises.controller';
     UsersModule,
     WebsocketModule,
   ],
-  controllers: [ExercisesController],
-  providers: [ExerciseRepository, ExerciseEventListeners],
+  controllers: [ExercisesController, ExerciseParticipantsController],
+  providers: [ExerciseRepository, ExquisiteCorpseEventHandlers],
   exports: [],
 })
 export class ExercisesModule {}
