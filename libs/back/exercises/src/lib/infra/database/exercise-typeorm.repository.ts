@@ -24,24 +24,6 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     private readonly contentRepository: Repository<ExerciseContentEntity>
   ) {}
 
-  async create(exercise: Exercise): Promise<void> {
-    if (exercise.content) {
-      const contentEntity = ExerciseContentEntity.From(exercise);
-      await this.contentRepository.save(contentEntity);
-    }
-
-    const entity = ExerciseEntity.From(exercise);
-    await this.repository.save(entity);
-
-    for (const participant of exercise.getParticipants()) {
-      const participantEntity = ExerciseParticipantEntity.From(
-        participant,
-        entity
-      );
-      await this.participantRepository.save(participantEntity);
-    }
-  }
-
   async save(exercise: Exercise): Promise<void> {
     if (exercise.content) {
       this.saveContent(exercise);
@@ -132,6 +114,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     exercise: Exercise,
     entity: ExerciseEntity
   ): Promise<void> {
+    // TODO : can we improve this to not delete ?
     await this.participantRepository.delete({ exerciseId: entity.id });
     for (const participant of exercise.getParticipants()) {
       const participantEntity = ExerciseParticipantEntity.From(

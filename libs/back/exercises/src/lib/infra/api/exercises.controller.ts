@@ -67,7 +67,7 @@ export class ExercisesController {
         ),
       ]
     );
-    await this.exerciseRepository.create(exercise);
+    await this.exerciseRepository.save(exercise);
 
     request.res?.location(`/api/exercises/${id}`);
   }
