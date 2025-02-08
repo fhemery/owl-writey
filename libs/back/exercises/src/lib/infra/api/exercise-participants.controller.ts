@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Delete,
+  Inject,
   NotFoundException,
   Param,
   Post,
@@ -11,12 +12,13 @@ import { Auth, RequestWithUser } from '@owl/back/auth';
 import { UsersService } from '@owl/back/user';
 import { ExerciseParticipantRole } from '@owl/shared/contracts';
 
-import { ExerciseRepository } from '../../exercise.repository';
+import { ExerciseRepository } from '../../domain/ports';
 import { ExerciseException } from '../../model/exercise-exception';
 
 @Controller('exercises/:exerciseId/participants')
 export class ExerciseParticipantsController {
   constructor(
+    @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
   ) {}

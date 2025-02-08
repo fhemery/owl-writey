@@ -4,15 +4,16 @@ import { AuthModule } from '@owl/back/auth';
 import { UsersModule } from '@owl/back/user';
 import { WebsocketModule } from '@owl/back/websocket';
 
+import { ExerciseRepository } from './domain/ports';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
   ExerciseParticipantEntity,
 } from './entities';
-import { ExerciseRepository } from './exercise.repository';
 import { ExerciseParticipantsController } from './infra/api/exercise-participants.controller';
 import { ExercisesController } from './infra/api/exercises.controller';
-import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exercise.event-listeners';
+import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.repository';
+import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
 
 @Module({
   imports: [
@@ -26,7 +27,10 @@ import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exercise.ev
     WebsocketModule,
   ],
   controllers: [ExercisesController, ExerciseParticipantsController],
-  providers: [ExerciseRepository, ExquisiteCorpseEventHandlers],
+  providers: [
+    ExquisiteCorpseEventHandlers,
+    { provide: ExerciseRepository, useClass: ExerciseTypeOrmRepository },
+  ],
   exports: [],
 })
 export class ExercisesModule {}

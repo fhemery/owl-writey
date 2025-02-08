@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Post,
@@ -18,7 +19,7 @@ import {
 } from '@owl/shared/contracts';
 import { v4 as uuidV4 } from 'uuid';
 
-import { ExerciseRepository } from '../../exercise.repository';
+import { ExerciseRepository } from '../../domain/ports';
 import { ExerciseParticipant } from '../../model/exercise';
 import { ExerciseException } from '../../model/exercise-exception';
 import { ExerciseFactory } from '../../model/exercise-factory';
@@ -28,6 +29,7 @@ import { toExerciseDto } from './mappers/exercise-dto.mappers';
 @Controller('exercises')
 export class ExercisesController {
   constructor(
+    @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
   ) {}

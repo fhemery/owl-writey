@@ -3,17 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
+import { ExerciseRepository } from '../../domain/ports';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
   ExerciseParticipantEntity,
-} from './entities';
-import { Exercise } from './model/exercise';
-import { ExerciseFactory } from './model/exercise-factory';
-import { ExerciseFilter } from './model/exercise-filter';
+} from '../../entities';
+import { Exercise } from '../../model/exercise';
+import { ExerciseFactory } from '../../model/exercise-factory';
+import { ExerciseFilter } from '../../model/exercise-filter';
 
 @Injectable()
-export class ExerciseRepository {
+export class ExerciseTypeOrmRepository implements ExerciseRepository {
   constructor(
     @InjectRepository(ExerciseEntity)
     private readonly repository: Repository<ExerciseEntity>,
@@ -61,20 +62,6 @@ export class ExerciseRepository {
     await this.repository.save(entity);
 
     await this.saveParticipants(exercise, entity);
-  }
-
-  async saveParticipants(
-    exercise: Exercise,
-    entity: ExerciseEntity
-  ): Promise<void> {
-    await this.participantRepository.delete({ exerciseId: entity.id });
-    for (const participant of exercise.getParticipants()) {
-      const participantEntity = ExerciseParticipantEntity.From(
-        participant,
-        entity
-      );
-      await this.participantRepository.save(participantEntity);
-    }
   }
 
   async getAll(userId: string | null): Promise<Exercise[]> {
@@ -139,5 +126,19 @@ export class ExerciseRepository {
     await this.contentRepository.delete({ id: exerciseId });
     await this.participantRepository.delete({ exerciseId });
     await this.repository.delete({ id: exerciseId });
+  }
+
+  private async saveParticipants(
+    exercise: Exercise,
+    entity: ExerciseEntity
+  ): Promise<void> {
+    await this.participantRepository.delete({ exerciseId: entity.id });
+    for (const participant of exercise.getParticipants()) {
+      const participantEntity = ExerciseParticipantEntity.From(
+        participant,
+        entity
+      );
+      await this.participantRepository.save(participantEntity);
+    }
   }
 }

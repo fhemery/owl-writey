@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
-import { ExerciseRepository } from '../../exercise.repository';
+import { ExerciseRepository } from '../../domain/ports';
 import { Author, ExquisiteCorpseExercise } from '../../model/exercise';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
@@ -17,6 +17,7 @@ class ExquisiteCorpseSubmitTurnEvent extends WsEvent<{
 @Injectable()
 export class ExquisiteCorpseEventHandlers {
   constructor(
+    @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
   ) {}
