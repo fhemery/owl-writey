@@ -16,7 +16,11 @@ import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
 
 import { ExerciseToCreate } from '../../domain/model';
 import { ExerciseException } from '../../domain/model/exercise-exception';
-import { ExerciseRepository, ListExercisesQuery } from '../../domain/ports';
+import {
+  ExerciseRepository,
+  GetExerciseQuery,
+  ListExercisesQuery,
+} from '../../domain/ports';
 import { CreateExerciseCommand } from '../../domain/ports/in/commands';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
 import {
@@ -29,6 +33,7 @@ export class ExercisesController {
   constructor(
     private readonly listExercisesQuery: ListExercisesQuery,
     private readonly createExerciseCommand: CreateExerciseCommand,
+    private readonly getExerciseQuery: GetExerciseQuery,
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
     private readonly usersService: UsersService
@@ -60,8 +65,12 @@ export class ExercisesController {
   }
 
   @Get(':id')
-  async get(@Param('id') id: string): Promise<ExerciseDto> {
-    const exercise = await this.exerciseRepository.get(id);
+  @Auth()
+  async get(
+    @Param('id') id: string,
+    @Req() request: RequestWithUser
+  ): Promise<ExerciseDto> {
+    const exercise = await this.getExerciseQuery.execute(request.user.uid, id);
     if (!exercise) {
       throw new NotFoundException();
     }

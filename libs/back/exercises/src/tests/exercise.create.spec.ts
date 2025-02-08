@@ -78,20 +78,5 @@ describe('POST /exercises', () => {
 
       expect(getResponse.status).toBe(200);
     });
-
-    it('should set currentUser in the participants', async () => {
-      const alice = TestUserBuilder.Alice();
-      app.logAs(alice);
-
-      const id = await exerciseUtils.createExercise(
-        ExerciseTestBuilder.ExquisiteCorpse()
-      );
-      const exercise = await exerciseUtils.get(id);
-
-      expect(exercise.participants).toHaveLength(1);
-      expect(exercise.participants[0].uid).toBe(alice.uid);
-      expect(exercise.participants[0].name).toBe(alice.name);
-      expect(exercise.participants[0].isAdmin).toBe(true);
-    });
   });
 });

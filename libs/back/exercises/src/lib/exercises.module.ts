@@ -7,6 +7,7 @@ import { WebsocketModule } from '@owl/back/websocket';
 import {
   ExerciseRepository,
   ExerciseUserFacade,
+  GetExerciseQuery,
   ListExercisesQuery,
 } from './domain/ports';
 import { CreateExerciseCommand } from './domain/ports/in/commands';
@@ -39,6 +40,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     { provide: ExerciseUserFacade, useClass: UserFacadeImpl },
     ListExercisesQuery,
     CreateExerciseCommand,
+    GetExerciseQuery,
   ],
   exports: [],
 })

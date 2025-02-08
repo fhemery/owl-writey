@@ -91,6 +91,7 @@ describe('DELETE /exercises/:id/participants/:id', () => {
         TestUserBuilder.Bob().uid
       );
 
+      app.logAs(TestUserBuilder.Alice());
       const response = await exerciseUtils.get(exerciseId);
       const bob = response.participants.find(
         (p) => p.uid === TestUserBuilder.Bob().uid

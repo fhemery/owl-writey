@@ -26,6 +26,13 @@ export class ExerciseTestUtils {
     return response.locationId;
   }
 
+  async create(exercise: ExerciseToCreateDto): Promise<ApiResponse<void>> {
+    return await this.app.post<ExerciseToCreateDto, void>(
+      '/api/exercises',
+      exercise
+    );
+  }
+
   async get(id: string): Promise<ExerciseDto> {
     const response = await this.app.get<ExerciseDto>(`/api/exercises/${id}`);
     expect(response.status).toBe(200);
