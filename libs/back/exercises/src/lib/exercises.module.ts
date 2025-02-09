@@ -9,6 +9,7 @@ import {
   ExerciseUserFacade,
   GetExerciseQuery,
   ListExercisesQuery,
+  NotificationFacade,
 } from './domain/ports';
 import { CreateExerciseCommand } from './domain/ports/in/commands';
 import { DeleteExerciseCommand } from './domain/ports/in/commands/delete-exercise.command';
@@ -21,6 +22,7 @@ import { ExerciseParticipantsController } from './infra/api/exercise-participant
 import { ExercisesController } from './infra/api/exercises.controller';
 import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.repository';
 import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
+import { WsNotificationsImpl } from './infra/notifications/ws-notifications.impl';
 import { UserFacadeImpl } from './infra/user/user.facade.impl';
 
 @Module({
@@ -39,6 +41,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     ExquisiteCorpseEventHandlers,
     { provide: ExerciseRepository, useClass: ExerciseTypeOrmRepository },
     { provide: ExerciseUserFacade, useClass: UserFacadeImpl },
+    { provide: NotificationFacade, useClass: WsNotificationsImpl },
     ListExercisesQuery,
     CreateExerciseCommand,
     GetExerciseQuery,
