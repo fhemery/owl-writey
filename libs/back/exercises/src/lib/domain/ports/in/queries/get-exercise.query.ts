@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { Exercise } from '../../../model';
 import { ExerciseRepository } from '../../out';
-import e = require('express');
 
 @Injectable()
 export class GetExerciseQuery {
