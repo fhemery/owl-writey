@@ -33,7 +33,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should return the content via socket', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -52,7 +52,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should be able to take turn if no one currently has it', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -70,7 +70,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should not give turn if another user has already taken it', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -95,7 +95,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should forward updates to the room, not only the current user', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -116,7 +116,7 @@ describe('Exquisite Corpse Exercise', () => {
       it("should be able to submit turn if it is no one's turn", async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -136,7 +136,7 @@ describe('Exquisite Corpse Exercise', () => {
       it("should be able to submit turn if it is someone else's turn", async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -160,7 +160,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should be able to work with correct user submitting', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -191,7 +191,7 @@ describe('Exquisite Corpse Exercise', () => {
       it("should be able to cancel turn if it is not user's turn", async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
@@ -210,7 +210,7 @@ describe('Exquisite Corpse Exercise', () => {
       it('should be able to cancel turn if it is your turn', async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
-        const id = await exerciseUtils.createExercise(
+        const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 

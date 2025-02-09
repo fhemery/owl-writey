@@ -35,7 +35,7 @@ describe('POST /exercises', () => {
     it('should return the list of exercises the user participates in', async () => {
       app.logAs(TestUserBuilder.Alice());
 
-      const id = await exerciseUtils.createExercise(
+      const id = await exerciseUtils.createAndGetId(
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 
@@ -45,7 +45,7 @@ describe('POST /exercises', () => {
 
     it('should return only the exercises the user participates in', async () => {
       app.logAs(TestUserBuilder.Alice());
-      const id = await exerciseUtils.createExercise(
+      const id = await exerciseUtils.createAndGetId(
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 

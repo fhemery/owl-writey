@@ -12,12 +12,8 @@ export class ExerciseTestUtils {
     return await this.app.get<GetAllExercisesResponseDto>('/api/exercises');
   }
 
-  // TODO rewrite using ApiResponse. If we want the id, we just do {id}
-  async createExercise(exercise: ExerciseToCreateDto): Promise<string> {
-    const response = await this.app.post<ExerciseToCreateDto, void>(
-      '/api/exercises',
-      exercise
-    );
+  async createAndGetId(exercise: ExerciseToCreateDto): Promise<string> {
+    const response = await this.create(exercise);
     expect(response.status).toBe(201);
     if (!response.locationId) {
       fail('No location id found for created exercise');

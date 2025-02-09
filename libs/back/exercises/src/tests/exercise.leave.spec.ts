@@ -20,7 +20,7 @@ describe('DELETE /exercises/:id/participants/:id', () => {
     await userUtils.createIfNotExists(TestUserBuilder.Carol());
 
     await app.logAs(TestUserBuilder.Alice());
-    exerciseId = await exerciseUtils.createExercise(
+    exerciseId = await exerciseUtils.createAndGetId(
       ExerciseTestBuilder.ExquisiteCorpse()
     );
   });

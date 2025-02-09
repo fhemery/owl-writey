@@ -64,7 +64,7 @@ describe('GET /exercises/:id', () => {
       const alice = TestUserBuilder.Alice();
       app.logAs(alice);
 
-      const id = await exerciseUtils.createExercise(
+      const id = await exerciseUtils.createAndGetId(
         ExerciseTestBuilder.ExquisiteCorpse()
       );
       const exercise = await exerciseUtils.get(id);

@@ -19,7 +19,7 @@ describe('POST /exercises/:id/participants', () => {
     await userUtils.createIfNotExists(TestUserBuilder.Bob());
 
     await app.logAs(TestUserBuilder.Alice());
-    exerciseId = await exerciseUtils.createExercise(
+    exerciseId = await exerciseUtils.createAndGetId(
       ExerciseTestBuilder.ExquisiteCorpse()
     );
   });
