@@ -1,15 +1,12 @@
 import { ExerciseType } from '@owl/shared/contracts';
 
-import {
-  Author,
-  Exercise,
-  ExerciseParticipant,
-  ExquisiteCorpseConfig,
-  ExquisiteCorpseContent,
-  ExquisiteCorpseExercise,
-  ExquisiteCorpseNextActor,
-  ExquisiteCorpseScene,
-} from './exercise';
+import { Exercise, ExerciseParticipant } from './exercise';
+import { ExerciseUser } from './exercise-user';
+import { ExquisiteCorpseNextActor } from './exercises/exquisite-corpse';
+import { ExquisiteCorpseScene } from './exercises/exquisite-corpse';
+import { ExquisiteCorpseConfig } from './exercises/exquisite-corpse';
+import { ExquisiteCorpseContent } from './exercises/exquisite-corpse';
+import { ExquisiteCorpseExercise } from './exercises/exquisite-corpse';
 
 export class ExerciseFactory {
   static From(
@@ -51,13 +48,13 @@ const exquisiteCorpseConverter = {
         return new ExquisiteCorpseScene(
           scene.id,
           scene.text,
-          new Author(scene.author.id, scene.author.name)
+          new ExerciseUser(scene.author.uid, scene.author.name)
         );
       }),
       cont.currentWriter
         ? new ExquisiteCorpseNextActor(
-            new Author(
-              cont.currentWriter.author.id,
+            new ExerciseUser(
+              cont.currentWriter.author.uid,
               cont.currentWriter.author.name
             ),
             cont.currentWriter.until

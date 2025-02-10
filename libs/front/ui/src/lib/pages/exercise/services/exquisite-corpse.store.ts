@@ -73,7 +73,7 @@ export const ExquisiteCorpseStore = signalStore(
   })),
   withComputed((store) => ({
     isCurrentUserTurn: computed(
-      () => store.content()?.currentWriter?.author.id === store.currentUserId()
+      () => store.content()?.currentWriter?.author.uid === store.currentUserId()
     ),
     canTakeTurn: computed(() => {
       if (!store.content()?.currentWriter) {

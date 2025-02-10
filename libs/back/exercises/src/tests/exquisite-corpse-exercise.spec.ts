@@ -43,7 +43,7 @@ describe('Exquisite Corpse Exercise', () => {
           exquisiteCorpseEvents.updates
         );
         expect(data.scenes).toHaveLength(1);
-        expect(data.scenes[0].author.id).toBe(TestUserBuilder.Alice().uid);
+        expect(data.scenes[0].author.uid).toBe(TestUserBuilder.Alice().uid);
         expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
       });
     });
@@ -63,7 +63,7 @@ describe('Exquisite Corpse Exercise', () => {
           exquisiteCorpseEvents.updates
         );
 
-        expect(data.currentWriter?.author.id).toBe(alice.uid);
+        expect(data.currentWriter?.author.uid).toBe(alice.uid);
         expect(data.currentWriter?.author.name).toBe(alice.name);
       });
 
@@ -88,7 +88,7 @@ describe('Exquisite Corpse Exercise', () => {
           exquisiteCorpseEvents.updates
         );
 
-        expect(data.currentWriter?.author.id).toBe(alice.uid);
+        expect(data.currentWriter?.author.uid).toBe(alice.uid);
         expect(data.currentWriter?.author.name).toBe(alice.name);
       });
 
@@ -108,7 +108,7 @@ describe('Exquisite Corpse Exercise', () => {
         const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
           exquisiteCorpseEvents.updates
         );
-        expect(event.currentWriter?.author.id).toBe(alice.uid);
+        expect(event.currentWriter?.author.uid).toBe(alice.uid);
       });
     });
 
@@ -182,7 +182,7 @@ describe('Exquisite Corpse Exercise', () => {
         );
         expect(data.scenes).toHaveLength(2);
         expect(data.scenes[1].text).toBe('Content');
-        expect(data.scenes[1].author.id).toBe(alice.uid);
+        expect(data.scenes[1].author.uid).toBe(alice.uid);
         expect(data.scenes[1].author.name).toBe(alice.name);
       });
     });
@@ -205,7 +205,7 @@ describe('Exquisite Corpse Exercise', () => {
         const event = bobSocket.getLatest<ExquisiteCorpseContentDto>(
           exquisiteCorpseEvents.updates
         );
-        expect(event.currentWriter?.author.id).toBe(alice.uid);
+        expect(event.currentWriter?.author.uid).toBe(alice.uid);
       });
       it('should be able to cancel turn if it is your turn', async () => {
         const alice = TestUserBuilder.Alice();

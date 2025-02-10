@@ -38,7 +38,7 @@ export enum ExerciseType {
 }
 
 export interface AuthorDto {
-  id: string;
+  uid: string;
   name: string;
 }
 

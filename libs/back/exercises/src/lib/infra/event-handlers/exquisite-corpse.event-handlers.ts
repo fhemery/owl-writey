@@ -4,7 +4,8 @@ import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
-import { Author, ExquisiteCorpseExercise } from '../../domain/model/exercise';
+import { ExerciseUser } from '../../domain/model';
+import { ExquisiteCorpseExercise } from '../../domain/model/exercises/exquisite-corpse';
 import { ExerciseRepository } from '../../domain/ports';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
@@ -60,7 +61,7 @@ export class ExquisiteCorpseEventHandlers {
       return;
     }
 
-    exercise.setTurn(new Author(user.uid, user.name));
+    exercise.setTurn(new ExerciseUser(user.uid, user.name));
 
     await this.exerciseRepository.saveContent(exercise);
 
