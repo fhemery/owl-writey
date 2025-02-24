@@ -63,7 +63,7 @@ export class ExerciseFormComponent {
       name: values.name || '',
       type: values.type as ExerciseType,
       status: ExerciseStatus.Ongoing,
-      data: values.details,
+      config: values.details,
       participants: [],
     });
   }

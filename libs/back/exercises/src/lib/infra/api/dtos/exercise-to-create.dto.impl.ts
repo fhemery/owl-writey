@@ -9,5 +9,5 @@ export class ExerciseToCreateDtoImpl implements ExerciseToCreateDto {
   @IsEnum(ExerciseType)
   type!: ExerciseType;
 
-  data!: unknown;
+  config!: unknown;
 }

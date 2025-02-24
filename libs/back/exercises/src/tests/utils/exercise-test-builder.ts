@@ -5,7 +5,7 @@ export class ExerciseTestBuilder {
     return {
       name: 'Exquisite Corpse',
       type: ExerciseType.ExquisiteCorpse,
-      data: {
+      config: {
         nbIterations: 5,
         initialText: 'Once upon a time...',
       },

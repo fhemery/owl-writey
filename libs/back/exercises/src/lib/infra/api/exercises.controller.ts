@@ -57,7 +57,11 @@ export class ExercisesController {
   ): Promise<void> {
     const id = await this.createExerciseCommand.execute(
       request.user.uid,
-      new ExerciseToCreate(exerciseDto.name, exerciseDto.type, exerciseDto.data)
+      new ExerciseToCreate(
+        exerciseDto.name,
+        exerciseDto.type,
+        exerciseDto.config
+      )
     );
 
     request.res?.location(`/api/exercises/${id}`);

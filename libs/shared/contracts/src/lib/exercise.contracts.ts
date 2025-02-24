@@ -14,7 +14,7 @@ export interface ExerciseDto {
   name: string;
   type: ExerciseType;
   status: ExerciseStatus;
-  data: unknown; // TODO: Can we change this to config?
+  config: unknown;
   participants: ExerciseParticipantDto[];
 }
 
@@ -27,7 +27,7 @@ export interface ExerciseParticipantDto {
 export interface ExerciseToCreateDto {
   name: string;
   type: ExerciseType;
-  data: unknown; // TODO : Change this to config
+  config: unknown;
 }
 
 export enum ExerciseParticipantRole {
