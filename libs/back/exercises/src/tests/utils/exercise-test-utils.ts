@@ -29,6 +29,10 @@ export class ExerciseTestUtils {
     );
   }
 
+  async finish(exerciseId: string): Promise<ApiResponse<void>> {
+    return await this.app.post(`/api/exercises/${exerciseId}/finish`, {});
+  }
+
   async get(id: string): Promise<ExerciseDto> {
     const response = await this.app.get<ExerciseDto>(`/api/exercises/${id}`);
     expect(response.status).toBe(200);

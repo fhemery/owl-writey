@@ -59,4 +59,9 @@ export class ExerciseGeneralInfo {
       (p) => p.uid !== participantId
     );
   }
+  isParticipantAdmin(userId: string): boolean {
+    return this.#allParticipants.some(
+      (p) => p.uid === userId && p.role === ExerciseParticipantRole.Admin
+    );
+  }
 }

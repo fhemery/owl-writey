@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -19,6 +20,7 @@ import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
   CreateExerciseCommand,
   DeleteExerciseCommand,
+  FinishExerciseCommand,
 } from '../../domain/ports/in/exercises';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
 import {
@@ -32,7 +34,8 @@ export class ExercisesController {
     private readonly listExercisesQuery: ListExercisesQuery,
     private readonly createExerciseCommand: CreateExerciseCommand,
     private readonly getExerciseQuery: GetExerciseQuery,
-    private readonly deleteExerciseCommand: DeleteExerciseCommand
+    private readonly deleteExerciseCommand: DeleteExerciseCommand,
+    private readonly finishExerciseCommand: FinishExerciseCommand
   ) {}
 
   @Get('')
@@ -90,5 +93,24 @@ export class ExercisesController {
       throw err;
     }
     request.res?.status(204);
+  }
+
+  @Post(':id/finish')
+  @Auth()
+  @HttpCode(204)
+  async finish(
+    @Param('id') exerciseId: string,
+    @Req() request: RequestWithUser
+  ): Promise<void> {
+    try {
+      await this.finishExerciseCommand.execute(request.user.uid, exerciseId);
+    } catch (err) {
+      if (err instanceof ExerciseException) {
+        throw new BadRequestException(err.message);
+      } else if (err instanceof ExerciseNotFoundException) {
+        throw new NotFoundException();
+      }
+      throw err;
+    }
   }
 }

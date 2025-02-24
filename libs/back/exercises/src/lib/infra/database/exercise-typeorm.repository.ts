@@ -41,6 +41,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
       entity.name = exercise.generalInfo.name;
       entity.type = exercise.type;
       entity.data = exercise.config;
+      entity.status = exercise.generalInfo.status;
     }
     await this.repository.save(entity);
 

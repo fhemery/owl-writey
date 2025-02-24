@@ -1,4 +1,8 @@
-import { ExerciseParticipantRole, ExerciseType } from '@owl/shared/contracts';
+import {
+  ExerciseParticipantRole,
+  ExerciseStatus,
+  ExerciseType,
+} from '@owl/shared/contracts';
 
 import { ExerciseException } from './exceptions/exercise-exception';
 import { ExerciseGeneralInfo } from './exercise-general-info';
@@ -8,7 +12,7 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
 
   constructor(
     readonly id: string,
-    readonly generalInfo: ExerciseGeneralInfo,
+    public generalInfo: ExerciseGeneralInfo,
     readonly config: Config,
     public content?: Content
   ) {}
@@ -34,6 +38,17 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
     if (!user || user.role !== ExerciseParticipantRole.Admin) {
       throw new ExerciseException('You are not an admin');
     }
+  }
+
+  finish(userId: string): void {
+    if (!this.generalInfo.isParticipantAdmin(userId)) {
+      throw new ExerciseException('You are not an admin');
+    }
+    this.generalInfo = new ExerciseGeneralInfo(
+      this.generalInfo.name,
+      ExerciseStatus.Finished,
+      this.generalInfo.participants
+    );
   }
 }
 

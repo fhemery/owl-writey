@@ -12,7 +12,11 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto, ExerciseType } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExerciseStatus,
+  ExerciseType,
+} from '@owl/shared/contracts';
 
 import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite-form-corpse.component';
 
@@ -58,6 +62,7 @@ export class ExerciseFormComponent {
       id: this.exercise()?.id || '',
       name: values.name || '',
       type: values.type as ExerciseType,
+      status: ExerciseStatus.Ongoing,
       data: values.details,
       participants: [],
     });
