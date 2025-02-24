@@ -1,4 +1,5 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
+import { ExerciseStatus } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
@@ -40,7 +41,9 @@ describe('POST /exercises', () => {
       );
 
       const { body } = await exerciseUtils.list();
-      expect(body?.exercises.find((e) => e.id === id)).toBeDefined();
+      const exercise = body?.exercises.find((e) => e.id === id);
+      expect(exercise).toBeDefined();
+      expect(exercise?.status).toBe(ExerciseStatus.Ongoing);
     });
 
     it('should return only the exercises the user participates in', async () => {

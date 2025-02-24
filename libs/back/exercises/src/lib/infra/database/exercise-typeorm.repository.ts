@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
+import { ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
 import { ExerciseGeneralInfo, ExerciseSummary } from '../../domain/model';
@@ -88,7 +88,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
       entity.id,
       new ExerciseGeneralInfo(
         entity.name,
-        ExerciseStatus.Ongoing,
+        entity.status,
         entity.participants.map((p) => p.toParticipant())
       ),
       entity.type as ExerciseType,

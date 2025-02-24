@@ -1,4 +1,5 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
+import { ExerciseStatus } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
@@ -58,6 +59,7 @@ describe('GET /exercises/:id', () => {
       expect(status).toBe(200);
       expect(body?.name).toBe(exercise.name);
       expect(body?.id).toBe(locationId);
+      expect(body?.status).toBe(ExerciseStatus.Ongoing);
     });
 
     it('should set currentUser in the participants', async () => {

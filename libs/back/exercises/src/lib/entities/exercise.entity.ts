@@ -11,6 +11,16 @@ export class ExerciseEntity {
   @PrimaryColumn()
   id!: string;
 
+  @Column({
+    type: 'varchar',
+    length: 12,
+    transformer: {
+      to: (value: ExerciseStatus) => value,
+      from: (value: string) => value as ExerciseStatus,
+    },
+  })
+  status!: ExerciseStatus;
+
   @Column({ type: 'varchar', length: 255 })
   name!: string;
 
@@ -30,6 +40,7 @@ export class ExerciseEntity {
     const entity = new ExerciseEntity();
     entity.id = exercise.id;
     entity.name = exercise.generalInfo.name;
+    entity.status = exercise.generalInfo.status;
     entity.type = exercise.type;
     entity.data = exercise.config;
 
@@ -41,7 +52,7 @@ export class ExerciseEntity {
       this.id,
       new ExerciseGeneralInfo(
         this.name,
-        ExerciseStatus.Ongoing, // TODO: Store and retrieve this !
+        this.status,
         this.participants.map((p) => p.toParticipant())
       ),
       this.type as ExerciseType,
@@ -51,6 +62,11 @@ export class ExerciseEntity {
   }
 
   toExerciseSummary(): ExerciseSummary {
-    return new ExerciseSummary(this.id, this.name, this.type as ExerciseType);
+    return new ExerciseSummary(
+      this.id,
+      this.name,
+      this.type as ExerciseType,
+      this.status
+    );
   }
 }

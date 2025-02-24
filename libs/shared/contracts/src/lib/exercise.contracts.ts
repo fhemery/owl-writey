@@ -6,12 +6,14 @@ export interface ExerciseSummaryDto {
   id: string;
   name: string;
   type: ExerciseType;
+  status: ExerciseStatus;
 }
 
 export interface ExerciseDto {
   id: string;
   name: string;
   type: ExerciseType;
+  status: ExerciseStatus;
   data: unknown; // TODO: Can we change this to config?
   participants: ExerciseParticipantDto[];
 }
@@ -48,5 +50,6 @@ export const exerciseErrors = {
 
 export enum ExerciseStatus {
   Ongoing = 'Ongoing',
+  Finished = 'Finished',
   Archived = 'Archived',
 }

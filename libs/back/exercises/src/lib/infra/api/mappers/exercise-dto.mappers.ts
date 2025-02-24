@@ -14,6 +14,7 @@ export function toExerciseSummaryDto(
     id: exercise.id,
     name: exercise.name,
     type: exercise.type,
+    status: exercise.status,
   };
 }
 
@@ -23,6 +24,7 @@ export function toExerciseDto(exercise: Exercise): ExerciseDto {
     name: exercise.generalInfo.name,
     type: exercise.type,
     data: exercise.config,
+    status: exercise.generalInfo.status,
     participants: exercise.getParticipants().map((p) => ({
       uid: p.uid,
       name: p.name,
