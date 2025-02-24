@@ -45,3 +45,8 @@ export interface AuthorDto {
 export const exerciseErrors = {
   removeLastAdmin: 'Cannot remove the last admin of an exercise',
 };
+
+export enum ExerciseStatus {
+  Ongoing = 'Ongoing',
+  Archived = 'Archived',
+}

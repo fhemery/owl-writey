@@ -1,9 +1,10 @@
 import { Inject } from '@nestjs/common';
-import { ExerciseParticipantRole } from '@owl/shared/contracts';
+import { ExerciseParticipantRole, ExerciseStatus } from '@owl/shared/contracts';
 import { v4 as uuidV4 } from 'uuid';
 
 import {
   ExerciseFactory,
+  ExerciseGeneralInfo,
   ExerciseParticipant,
   ExerciseToCreate,
 } from '../../../model';
@@ -29,16 +30,15 @@ export class CreateExerciseCommand {
 
     const exercise = ExerciseFactory.From(
       id,
-      exerciseToCreate.name,
-      exerciseToCreate.type,
-      exerciseToCreate.config,
-      [
+      new ExerciseGeneralInfo(exerciseToCreate.name, ExerciseStatus.Ongoing, [
         new ExerciseParticipant(
           user.uid,
           user.name,
           ExerciseParticipantRole.Admin
         ),
-      ]
+      ]),
+      exerciseToCreate.type,
+      exerciseToCreate.config
     );
     await this.exerciseRepository.save(exercise);
     return id;

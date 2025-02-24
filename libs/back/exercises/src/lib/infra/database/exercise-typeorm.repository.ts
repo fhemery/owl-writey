@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
-import { ExerciseSummary } from '../../domain/model';
+import { ExerciseGeneralInfo, ExerciseSummary } from '../../domain/model';
 import { Exercise } from '../../domain/model/exercise';
 import { ExerciseFactory } from '../../domain/model/exercise-factory';
 import { ExerciseFilter } from '../../domain/model/exercise-filter';
@@ -38,7 +38,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     if (!entity) {
       entity = ExerciseEntity.From(exercise);
     } else {
-      entity.name = exercise.name;
+      entity.name = exercise.generalInfo.name;
       entity.type = exercise.type;
       entity.data = exercise.config;
     }
@@ -86,10 +86,13 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
 
     const exercise = ExerciseFactory.From(
       entity.id,
-      entity.name,
+      new ExerciseGeneralInfo(
+        entity.name,
+        ExerciseStatus.Ongoing,
+        entity.participants.map((p) => p.toParticipant())
+      ),
       entity.type as ExerciseType,
       entity.data,
-      entity.participants.map((p) => p.toParticipant()),
       content
     );
     return exercise;

@@ -11,7 +11,7 @@ export class GetExerciseQuery {
   ) {}
   async execute(userId: string, exerciseId: string): Promise<Exercise | null> {
     const exercise = await this.exerciseRepository.get(exerciseId);
-    if (exercise && exercise.participants.some((p) => p.uid === userId)) {
+    if (exercise && exercise.getParticipants().some((p) => p.uid === userId)) {
       return exercise;
     }
     return null;

@@ -1,7 +1,8 @@
 import { ExerciseType } from '@owl/shared/contracts';
 
 import { ExerciseException } from '../exceptions/exercise-exception';
-import { Exercise, ExerciseParticipant } from '../exercise';
+import { Exercise } from '../exercise';
+import { ExerciseGeneralInfo } from '../exercise-general-info';
 import { ExerciseUser } from '../exercise-user';
 
 export class ExquisiteCorpseExercise extends Exercise<
@@ -11,21 +12,21 @@ export class ExquisiteCorpseExercise extends Exercise<
   override type = ExerciseType.ExquisiteCorpse;
   constructor(
     id: string,
-    name: string,
-    participants: ExerciseParticipant[],
+    generalInfo: ExerciseGeneralInfo,
     config: ExquisiteCorpseConfig,
     content?: ExquisiteCorpseContent
   ) {
-    super(id, name, participants, config, content);
+    super(id, generalInfo, config, content);
     if (!content) {
       this.content = this.initContent();
     }
   }
   initContent(): ExquisiteCorpseContent {
-    if (!this.participants.length) {
+    const participants = this.generalInfo.participants;
+    if (!participants.length) {
       throw new Error('Exercise should have at least one participant');
     }
-    const firstParticipant = this.participants[0];
+    const firstParticipant = participants[0];
     const firstScene = new ExquisiteCorpseScene(
       1,
       this.config.initialText,

@@ -1,6 +1,7 @@
 import { ExerciseType } from '@owl/shared/contracts';
 
-import { Exercise, ExerciseParticipant } from './exercise';
+import { Exercise } from './exercise';
+import { ExerciseGeneralInfo } from './exercise-general-info';
 import { ExerciseUser } from './exercise-user';
 import { ExquisiteCorpseNextActor } from './exercises/exquisite-corpse';
 import { ExquisiteCorpseScene } from './exercises/exquisite-corpse';
@@ -11,18 +12,16 @@ import { ExquisiteCorpseExercise } from './exercises/exquisite-corpse';
 export class ExerciseFactory {
   static From(
     id: string,
-    name: string,
+    generalInfo: ExerciseGeneralInfo,
     type: ExerciseType,
     config: unknown,
-    participants: ExerciseParticipant[],
     content?: unknown
   ): Exercise {
     switch (type) {
       case ExerciseType.ExquisiteCorpse:
         return new ExquisiteCorpseExercise(
           id,
-          name,
-          participants,
+          generalInfo,
           exquisiteCorpseConverter.toConfig(config),
           exquisiteCorpseConverter.toContent(content)
         );

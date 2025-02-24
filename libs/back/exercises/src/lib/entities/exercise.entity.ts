@@ -1,7 +1,7 @@
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { ExerciseSummary } from '../domain/model';
+import { ExerciseGeneralInfo, ExerciseSummary } from '../domain/model';
 import { Exercise } from '../domain/model/exercise';
 import { ExerciseFactory } from '../domain/model/exercise-factory';
 import { ExerciseParticipantEntity } from './exercise-participant.entity';
@@ -29,7 +29,7 @@ export class ExerciseEntity {
   static From(exercise: Exercise): ExerciseEntity {
     const entity = new ExerciseEntity();
     entity.id = exercise.id;
-    entity.name = exercise.name;
+    entity.name = exercise.generalInfo.name;
     entity.type = exercise.type;
     entity.data = exercise.config;
 
@@ -39,10 +39,13 @@ export class ExerciseEntity {
   toExercise(): Exercise {
     const exercise = ExerciseFactory.From(
       this.id,
-      this.name,
+      new ExerciseGeneralInfo(
+        this.name,
+        ExerciseStatus.Ongoing, // TODO: Store and retrieve this !
+        this.participants.map((p) => p.toParticipant())
+      ),
       this.type as ExerciseType,
-      this.data,
-      this.participants.map((p) => p.toParticipant())
+      this.data
     );
     return exercise;
   }

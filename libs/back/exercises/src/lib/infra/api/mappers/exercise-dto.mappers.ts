@@ -20,7 +20,7 @@ export function toExerciseSummaryDto(
 export function toExerciseDto(exercise: Exercise): ExerciseDto {
   return {
     id: exercise.id,
-    name: exercise.name,
+    name: exercise.generalInfo.name,
     type: exercise.type,
     data: exercise.config,
     participants: exercise.getParticipants().map((p) => ({
