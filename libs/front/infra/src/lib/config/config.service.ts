@@ -16,7 +16,7 @@ export class ConfigService {
   async init(environment: ApplicationEnvironment): Promise<void> {
     if (this.initialized) {
       throw new Error(
-        'Environment is already set. Please call StoriesConfigurationService.init only once.'
+        'Environment is already set. Please call ConfigService.init only once.'
       );
     }
     this.initialized = true;
@@ -30,7 +30,7 @@ export class ConfigService {
   get environment(): Signal<ApplicationConfiguration> {
     if (!this.initialized) {
       throw new Error(
-        'Environment is not set. Please call StoriesConfigurationService.init from the root of the application.'
+        'Environment is not set. Please call ConfigService.init from the root of the application.'
       );
     }
     return this.#environment as Signal<ApplicationConfiguration>;
