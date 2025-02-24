@@ -83,6 +83,23 @@ describe('DELETE /exercises/:id/participants/:id', () => {
       expect(response.status).toBe(204);
     });
 
+    it('should return 204 even if exercise is finished', async () => {
+      app.logAs(TestUserBuilder.Bob());
+
+      const response = await exerciseUtils.addParticipant(exerciseId);
+      expect(response.status).toBe(204);
+
+      app.logAs(TestUserBuilder.Alice());
+      await exerciseUtils.finish(exerciseId);
+
+      app.logAs(TestUserBuilder.Bob());
+      const removeResponse = await exerciseUtils.removeParticipant(
+        exerciseId,
+        TestUserBuilder.Bob().uid
+      );
+      expect(removeResponse.status).toBe(204);
+    });
+
     it('should have removed participant to the list', async () => {
       app.logAs(TestUserBuilder.Bob());
       await exerciseUtils.addParticipant(exerciseId);

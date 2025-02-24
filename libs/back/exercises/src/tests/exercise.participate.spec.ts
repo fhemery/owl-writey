@@ -44,6 +44,16 @@ describe('POST /exercises/:id/participants', () => {
       );
       expect(response.status).toBe(400);
     });
+
+    it('should return 400 if exercise is finished', async () => {
+      app.logAs(TestUserBuilder.Alice());
+
+      await exerciseUtils.finish(exerciseId);
+
+      app.logAs(TestUserBuilder.Bob());
+      const response = await exerciseUtils.addParticipant(exerciseId);
+      expect(response.status).toBe(400);
+    });
   });
 
   describe('success cases', () => {

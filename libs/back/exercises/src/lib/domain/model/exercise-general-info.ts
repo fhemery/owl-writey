@@ -27,6 +27,9 @@ export class ExerciseGeneralInfo {
     name: string,
     role: ExerciseParticipantRole
   ): void {
+    if (this.status === ExerciseStatus.Finished) {
+      throw new ExerciseException('Exercise is finished');
+    }
     if (this.#allParticipants.some((p) => p.uid === uid)) {
       throw new ExerciseException('Participant already exists');
     }
