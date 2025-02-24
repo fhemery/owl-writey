@@ -11,7 +11,7 @@ export class WsNotificationsImpl implements NotificationFacade {
     event: string,
     payload: Payload
   ): Promise<void> {
-    this.notifyUser(userId, event, payload);
+    this.wsNotifService.notifyUser(userId, event, payload);
     return Promise.resolve();
   }
   notifyRoom<Payload>(
@@ -20,7 +20,7 @@ export class WsNotificationsImpl implements NotificationFacade {
     payload: Payload,
     excludeUserId?: string
   ): Promise<void> {
-    this.notifyRoom(roomId, event, payload, excludeUserId);
+    this.wsNotifService.notifyRoom(roomId, event, payload, excludeUserId);
     return Promise.resolve();
   }
 }

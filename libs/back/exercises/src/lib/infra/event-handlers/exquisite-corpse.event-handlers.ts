@@ -4,9 +4,13 @@ import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
-import { ExerciseUser } from '../../domain/model';
+import { exerciseConstants } from '../../domain/model/exercise-constants';
 import { ExquisiteCorpseExercise } from '../../domain/model/exercises/exquisite-corpse';
-import { ExerciseRepository } from '../../domain/ports';
+import {
+  ConnectToExquisiteCorpseCommand,
+  ExerciseRepository,
+} from '../../domain/ports';
+import { TakeTurnCommand } from '../../domain/ports/in/exquisite-corpse/take-turn.command';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}
@@ -20,32 +24,28 @@ export class ExquisiteCorpseEventHandlers {
   constructor(
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly connectCommand: ConnectToExquisiteCorpseCommand,
+    private readonly takeTurnCommand: TakeTurnCommand
   ) {}
-  private getRoom(exerciseId: string): string {
-    return `ex-${exerciseId}`;
-  }
 
   @OnEvent(exquisiteCorpseEvents.connect)
   async handleExquisiteCorpseConnection(
     event: ExquisiteCorpseConnectionEvent
   ): Promise<void> {
-    const exercise = await this.exerciseRepository.get(event.payload.id, {
-      includeContent: true,
-    });
-    if (!exercise) {
-      console.error(
-        'Trying to connect to an exercise that does not exist',
-        event.payload.id
-      );
-      return;
-    }
+    const exerciseId = event.payload.id;
+    const exercise = await this.connectCommand.execute(
+      event.userDetails.user.uid,
+      exerciseId
+    );
 
-    event.userDetails.joinRoom(this.getRoom(exercise.id));
-
+    // TODO fix design issue. Doing this to notification service
+    // sends it every time to user.
+    // I think this is where the front should handle it more properly, filtering the exercise
+    event.userDetails.joinRoom(exerciseConstants.getRoom(exerciseId));
     event.userDetails.sendToUser(
       exquisiteCorpseEvents.updates,
-      exercise?.content
+      exercise.content
     );
   }
 
@@ -53,22 +53,9 @@ export class ExquisiteCorpseEventHandlers {
   async handleExquisiteCorpseTakeTurn(
     event: ExquisiteCorpseTakeTurnEvent
   ): Promise<void> {
-    const exercise = (await this.exerciseRepository.get(event.payload.id, {
-      includeContent: true,
-    })) as ExquisiteCorpseExercise;
-    const user = await this.usersService.get(event.userDetails.user.uid);
-    if (!user) {
-      return;
-    }
-
-    exercise.setTurn(new ExerciseUser(user.uid, user.name));
-
-    await this.exerciseRepository.saveContent(exercise);
-
-    event.userDetails.sendToRoom(
-      this.getRoom(exercise.id),
-      exquisiteCorpseEvents.updates,
-      exercise.content
+    await this.takeTurnCommand.execute(
+      event.userDetails.user.uid,
+      event.payload.id
     );
   }
 
@@ -85,7 +72,7 @@ export class ExquisiteCorpseEventHandlers {
     await this.exerciseRepository.saveContent(exercise);
 
     event.userDetails.sendToRoom(
-      this.getRoom(exercise.id),
+      exerciseConstants.getRoom(exercise.id),
       exquisiteCorpseEvents.updates,
       exercise.content
     );
@@ -104,7 +91,7 @@ export class ExquisiteCorpseEventHandlers {
     await this.exerciseRepository.saveContent(exercise);
 
     event.userDetails.sendToRoom(
-      this.getRoom(exercise.id),
+      exerciseConstants.getRoom(exercise.id),
       exquisiteCorpseEvents.updates,
       exercise.content
     );

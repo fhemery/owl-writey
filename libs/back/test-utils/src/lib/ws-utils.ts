@@ -15,7 +15,7 @@ export class TestWebSocket {
       console.log(
         `[TestWebSocket ${this.uid}] I did receive event`,
         eventName,
-        payload
+        JSON.stringify(payload)
       );
       this.events.push(new TestWsEvent(eventName, payload));
     });

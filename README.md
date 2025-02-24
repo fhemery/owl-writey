@@ -2,8 +2,6 @@
 
 ## Setup
 
-> npm i -g pnpm electron-builder nx
-
 > pnpm install
 
 ## Running the project locally

@@ -8,6 +8,7 @@ import { ExerciseException } from './exceptions/exercise-exception';
 
 export abstract class Exercise<Config = unknown, Content = unknown> {
   abstract readonly type: ExerciseType;
+
   constructor(
     readonly id: string,
     readonly name: string,

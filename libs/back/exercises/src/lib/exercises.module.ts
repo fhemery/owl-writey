@@ -5,14 +5,16 @@ import { UsersModule } from '@owl/back/user';
 import { WebsocketModule } from '@owl/back/websocket';
 
 import {
+  ConnectToExquisiteCorpseCommand,
+  CreateExerciseCommand,
+  DeleteExerciseCommand,
   ExerciseRepository,
   ExerciseUserFacade,
   GetExerciseQuery,
   ListExercisesQuery,
   NotificationFacade,
 } from './domain/ports';
-import { CreateExerciseCommand } from './domain/ports/in/commands';
-import { DeleteExerciseCommand } from './domain/ports/in/commands/delete-exercise.command';
+import { TakeTurnCommand } from './domain/ports/in/exquisite-corpse/take-turn.command';
 import {
   ExerciseContentEntity,
   ExerciseEntity,
@@ -46,6 +48,8 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     CreateExerciseCommand,
     GetExerciseQuery,
     DeleteExerciseCommand,
+    ConnectToExquisiteCorpseCommand,
+    TakeTurnCommand,
   ],
   exports: [],
 })

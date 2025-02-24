@@ -19,7 +19,7 @@ import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
   CreateExerciseCommand,
   DeleteExerciseCommand,
-} from '../../domain/ports/in/commands';
+} from '../../domain/ports/in/exercises';
 import { ExerciseToCreateDtoImpl } from './dtos/exercise-to-create.dto.impl';
 import {
   toExerciseDto,
