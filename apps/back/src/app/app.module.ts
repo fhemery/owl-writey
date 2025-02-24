@@ -19,8 +19,7 @@ import { ConnectionData } from './utils/datasource';
     TypeOrmModule.forRoot({ ...ConnectionData, autoLoadEntities: true }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, 'client'),
-      renderPath: '{*splat}',
-      exclude: ['/api*'],
+      exclude: ['/api{*any}'],
     }),
     EventEmitterModule.forRoot(),
     PingModule,

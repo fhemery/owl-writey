@@ -43,4 +43,6 @@ Thumbs.db
 
 .angular
 .env
+.env.local
+.env.prod
 TODO.md
