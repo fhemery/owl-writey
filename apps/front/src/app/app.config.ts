@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
+import { ConfigService } from '@owl/front/infra';
 import { appRoutes } from '@owl/ui';
 import { provideQuillConfig } from 'ngx-quill';
 
@@ -29,7 +30,8 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideAppInitializer(() => {
       const auth = inject(FirebaseAuthService);
-      return initializeAuth(auth);
+      const config = inject(ConfigService);
+      return Promise.all([config.init(environment), initializeAuth(auth)]);
     }),
     provideQuillConfig({
       modules: {

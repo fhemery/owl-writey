@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { EnvironmentService } from '@owl/front/infra';
+import { ConfigService } from '@owl/front/infra';
 import {
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
@@ -15,10 +15,10 @@ export class ExquisiteCorpseService extends Socket {
   );
 
   constructor() {
-    const env = inject(EnvironmentService).env;
+    const env = inject(ConfigService).environment();
 
     super({
-      url: env.baseBackendUrl,
+      url: env.baseUrl,
       options: {
         autoConnect: false, // Prevent automatic connection
       },

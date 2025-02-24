@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatInput } from '@angular/material/input';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ConfigService } from '@owl/front/infra';
 
 import { BaseDialogComponent } from '../../../../components/base-dialog/base-dialog.component';
 import { NotificationService } from '../../../../services/notification.service';
@@ -26,6 +27,7 @@ export class ExerciseShareDialogComponent {
   readonly #notificator = inject(NotificationService);
   readonly matDialogData = inject(MAT_DIALOG_DATA);
   readonly translateService = inject(TranslateService);
+  readonly config = inject(ConfigService).environment();
 
   readonly exerciseId = this.matDialogData.id;
 
@@ -33,9 +35,7 @@ export class ExerciseShareDialogComponent {
     this.#matDialog.close();
   }
   getLink(): string {
-    return (
-      'http://localhost:4200/exercises/' + this.exerciseId + '/participate'
-    );
+    return `${this.config.baseUrl}/exercises/${this.exerciseId}/participate`;
   }
   copyLink(): void {
     navigator.clipboard.writeText(this.getLink());
