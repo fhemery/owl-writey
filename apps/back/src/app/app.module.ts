@@ -7,6 +7,7 @@ import { ExercisesModule } from '@owl/back/exercises';
 import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
+import { ConfigModule } from '@owl-writey/config';
 import * as admin from 'firebase-admin';
 import { join } from 'path';
 
@@ -23,6 +24,7 @@ import { ConnectionData } from './utils/datasource';
     }),
     EventEmitterModule.forRoot(),
     PingModule,
+    ConfigModule,
     UsersModule,
     ExercisesModule,
     NovelsModule,
