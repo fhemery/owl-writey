@@ -1,19 +1,19 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { UsersService } from '@owl/back/user';
 import { WsEvent } from '@owl/back/websocket';
 import { exquisiteCorpseEvents } from '@owl/shared/contracts';
 
 import { exerciseConstants } from '../../domain/model/exercise-constants';
-import { ExquisiteCorpseExercise } from '../../domain/model/exercises/exquisite-corpse';
 import {
+  CancelTurnCommand,
   ConnectToExquisiteCorpseCommand,
-  ExerciseRepository,
+  SubmitTurnCommand,
+  TakeTurnCommand,
 } from '../../domain/ports';
-import { TakeTurnCommand } from '../../domain/ports/in/exquisite-corpse/take-turn.command';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}
+class ExquisiteCorpseCancelTurnEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseSubmitTurnEvent extends WsEvent<{
   id: string;
   content: string;
@@ -22,11 +22,10 @@ class ExquisiteCorpseSubmitTurnEvent extends WsEvent<{
 @Injectable()
 export class ExquisiteCorpseEventHandlers {
   constructor(
-    @Inject(ExerciseRepository)
-    private readonly exerciseRepository: ExerciseRepository,
-    private readonly usersService: UsersService,
     private readonly connectCommand: ConnectToExquisiteCorpseCommand,
-    private readonly takeTurnCommand: TakeTurnCommand
+    private readonly takeTurnCommand: TakeTurnCommand,
+    private readonly submitTurnCommand: SubmitTurnCommand,
+    private readonly cancelTurnCommand: CancelTurnCommand
   ) {}
 
   @OnEvent(exquisiteCorpseEvents.connect)
@@ -63,37 +62,20 @@ export class ExquisiteCorpseEventHandlers {
   async handleExquisiteCorpseSubmitTurn(
     event: ExquisiteCorpseSubmitTurnEvent
   ): Promise<void> {
-    const exercise = (await this.exerciseRepository.get(event.payload.id, {
-      includeContent: true,
-    })) as ExquisiteCorpseExercise;
-
-    exercise.submitTurn(event.userDetails.user.uid, event.payload.content);
-
-    await this.exerciseRepository.saveContent(exercise);
-
-    event.userDetails.sendToRoom(
-      exerciseConstants.getRoom(exercise.id),
-      exquisiteCorpseEvents.updates,
-      exercise.content
+    await this.submitTurnCommand.execute(
+      event.userDetails.user.uid,
+      event.payload.id,
+      event.payload.content
     );
   }
 
   @OnEvent(exquisiteCorpseEvents.cancelTurn)
   async handleExquisiteCorpseCancelTurn(
-    event: ExquisiteCorpseTakeTurnEvent
+    event: ExquisiteCorpseCancelTurnEvent
   ): Promise<void> {
-    const exercise = (await this.exerciseRepository.get(event.payload.id, {
-      includeContent: true,
-    })) as ExquisiteCorpseExercise;
-
-    exercise.cancelTurn(event.userDetails.user.uid);
-
-    await this.exerciseRepository.saveContent(exercise);
-
-    event.userDetails.sendToRoom(
-      exerciseConstants.getRoom(exercise.id),
-      exquisiteCorpseEvents.updates,
-      exercise.content
+    await this.cancelTurnCommand.execute(
+      event.userDetails.user.uid,
+      event.payload.id
     );
   }
 }

@@ -188,7 +188,7 @@ describe('Exquisite Corpse Exercise', () => {
     });
 
     describe(exquisiteCorpseEvents.cancelTurn, () => {
-      it("should be able to cancel turn if it is not user's turn", async () => {
+      it("should not be able to cancel turn if it is not user's turn", async () => {
         const alice = TestUserBuilder.Alice();
         app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
