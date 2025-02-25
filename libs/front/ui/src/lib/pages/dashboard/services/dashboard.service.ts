@@ -12,9 +12,14 @@ import { firstValueFrom } from 'rxjs';
 export class DashboardService {
   readonly #httpClient = inject(HttpClient);
 
-  async getExercises(): Promise<ExerciseSummaryDto[]> {
+  async getExercises(params: {
+    displayFinished: boolean;
+  }): Promise<ExerciseSummaryDto[]> {
+    const queryString = params.displayFinished ? '?includeFinished=true' : '';
     const response = await firstValueFrom(
-      this.#httpClient.get<GetAllExercisesResponseDto>('/api/exercises')
+      this.#httpClient.get<GetAllExercisesResponseDto>(
+        `/api/exercises${queryString}`
+      )
     );
     return response.exercises;
   }

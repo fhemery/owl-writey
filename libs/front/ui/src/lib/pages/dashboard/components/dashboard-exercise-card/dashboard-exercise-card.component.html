@@ -9,6 +9,13 @@
     </mat-card-content>
     <mat-card-footer>
       <div class="exercise-card__footer">
+        @if(ex.status === ExerciseStatus.Finished) {
+        <div class="exercise-card__finished">
+          <mat-icon [matTooltip]="'dashboard.exercises.finished' | translate"
+            >check_box</mat-icon
+          >
+        </div>
+        }
         <!-- <a
           routerLink="/exercises/{{ ex.id }}"
           class="link"

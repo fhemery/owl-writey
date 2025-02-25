@@ -10,6 +10,16 @@
       <mat-icon>link</mat-icon>
     </a>
   </div>
+  <div class="exercise-toolbar__finish">
+    <a
+      (click)="finish()"
+      (keyup.enter)="finish()"
+      tabindex="0"
+      [title]="'exercise.toolbar.finish.label' | translate"
+    >
+      <mat-icon class="success">check_box</mat-icon>
+    </a>
+  </div>
   <!-- <div class="exercise-toolbar__edit">
     <a
       [routerLink]="'/exercises/' + exercise().id + '/edit'"

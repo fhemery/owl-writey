@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseDto } from '@owl/shared/contracts';
 
 import { ExerciseDeleteDialogComponent } from '../exercise-delete-dialog/exercise-delete-dialog.component';
+import { ExerciseFinishDialogComponent } from '../exercise-finish-dialog/exercise-finish-dialog.component';
 import { ExerciseLeaveDialogComponent } from '../exercise-leave-dialog/exercise-leave-dialog.component';
 import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-share-dialog.component';
 
@@ -39,6 +40,12 @@ export class ExerciseHeaderToolbarComponent {
 
   leave(): void {
     this.dialog.open(ExerciseLeaveDialogComponent, {
+      data: { id: this.exercise().id },
+    });
+  }
+
+  finish(): void {
+    this.dialog.open(ExerciseFinishDialogComponent, {
       data: { id: this.exercise().id },
     });
   }

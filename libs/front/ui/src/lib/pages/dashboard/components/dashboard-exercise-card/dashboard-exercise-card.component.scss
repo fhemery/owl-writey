@@ -12,4 +12,9 @@
     justify-content: space-around;
     align-items: center;
   }
+
+  &__finished mat-icon {
+    color: var(--color-success);
+    cursor: help;
+  }
 }

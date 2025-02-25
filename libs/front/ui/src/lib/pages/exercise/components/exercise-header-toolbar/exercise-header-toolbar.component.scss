@@ -26,4 +26,10 @@
       color: var(--color-error);
     }
   }
+
+  .exercise-toolbar__finish {
+    mat-icon {
+      color: var(--color-success);
+    }
+  }
 }

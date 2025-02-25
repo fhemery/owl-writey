@@ -84,6 +84,15 @@ export const exerciseFr = {
         unknownError: 'Une erreur est survenue',
       },
     },
+    finish: {
+      title: "Terminer l'exercice ?",
+      message:
+        "Une fois l'exercice terminé, vous ne pourrez plus y participer.",
+      result: {
+        ok: 'Exercice marqué comme Terminé',
+        unknownError: 'Une erreur est survenue',
+      },
+    },
     delete: {
       title: "Supprimer l'exercice ?",
       message:

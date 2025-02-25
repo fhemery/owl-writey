@@ -8,9 +8,10 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseSummaryDto } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseSummaryDto } from '@owl/shared/contracts';
 
 @Component({
   selector: 'owl-dashboard-exercise-card',
@@ -22,6 +23,7 @@ import { ExerciseSummaryDto } from '@owl/shared/contracts';
     MatCardContent,
     MatCardFooter,
     MatIcon,
+    MatTooltip,
     RouterLink,
     TranslateModule,
   ],
@@ -29,5 +31,6 @@ import { ExerciseSummaryDto } from '@owl/shared/contracts';
   styleUrl: './dashboard-exercise-card.component.scss',
 })
 export class DashboardExerciseCardComponent {
+  ExerciseStatus = ExerciseStatus;
   exercise = input.required<ExerciseSummaryDto>();
 }
