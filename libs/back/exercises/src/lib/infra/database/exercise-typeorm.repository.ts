@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
 import { Repository } from 'typeorm';
 
-import { ExerciseGeneralInfo, ExerciseSummary } from '../../domain/model';
+import {
+  ExerciseGeneralInfo,
+  ExerciseSummary,
+  QueryFilter,
+} from '../../domain/model';
 import { Exercise } from '../../domain/model/exercise';
 import { ExerciseFactory } from '../../domain/model/exercise-factory';
 import { ExerciseFilter } from '../../domain/model/exercise-filter';
@@ -48,16 +52,30 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     await this.saveParticipants(exercise, entity);
   }
 
-  async getAll(userId: string | null): Promise<ExerciseSummary[]> {
+  async getAll(
+    userId: string | null,
+    queryFilter: QueryFilter
+  ): Promise<ExerciseSummary[]> {
     let entities: ExerciseEntity[];
     if (!userId) {
-      entities = await this.repository.find();
+      if (queryFilter.includeFinished) {
+        entities = await this.repository.find();
+      } else {
+        entities = await this.repository.find({
+          where: { status: ExerciseStatus.Ongoing },
+        });
+      }
     } else {
-      entities = await this.repository
+      let query = this.repository
         .createQueryBuilder('exercise')
         .leftJoinAndSelect('exercise.participants', 'participant')
-        .where('participant.participantUid = :userId', { userId })
-        .getMany();
+        .where('participant.participantUid = :userId', { userId });
+      if (!queryFilter.includeFinished) {
+        query = query.andWhere('exercise.status = :status', {
+          status: ExerciseStatus.Ongoing,
+        });
+      }
+      entities = await query.getMany();
     }
 
     return entities.map((entity) => entity.toExerciseSummary());

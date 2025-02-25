@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { ExerciseSummary } from '../../../model';
+import { ExerciseSummary, QueryFilter } from '../../../model';
 import { ExerciseRepository } from '../../out';
 
 @Injectable()
@@ -10,7 +10,10 @@ export class ListExercisesQuery {
     private readonly exerciseRepository: ExerciseRepository
   ) {}
 
-  async execute(userId: string): Promise<ExerciseSummary[]> {
-    return await this.exerciseRepository.getAll(userId);
+  async execute(
+    userId: string,
+    queryFilter: QueryFilter
+  ): Promise<ExerciseSummary[]> {
+    return await this.exerciseRepository.getAll(userId, queryFilter);
   }
 }

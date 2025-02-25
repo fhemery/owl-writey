@@ -5,7 +5,7 @@ import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { app, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
-describe('POST /exercises', () => {
+describe('GET /exercises', () => {
   moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
@@ -44,6 +44,31 @@ describe('POST /exercises', () => {
       const exercise = body?.exercises.find((e) => e.id === id);
       expect(exercise).toBeDefined();
       expect(exercise?.status).toBe(ExerciseStatus.Ongoing);
+    });
+
+    it('should not by default return finished exercises', async () => {
+      app.logAs(TestUserBuilder.Alice());
+
+      const finishedId = await exerciseUtils.createAndFinish(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      const { body } = await exerciseUtils.list();
+      const exercise = body?.exercises.find((e) => e.id === finishedId);
+      expect(exercise).toBeUndefined();
+    });
+
+    it('should return finished exercises if the user asks so', async () => {
+      app.logAs(TestUserBuilder.Alice());
+
+      const finishedId = await exerciseUtils.createAndFinish(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      const { body } = await exerciseUtils.list({ includeFinished: true });
+      const exercise = body?.exercises.find((e) => e.id === finishedId);
+      expect(exercise).toBeDefined();
+      expect(exercise?.status).toBe(ExerciseStatus.Finished);
     });
 
     it('should return only the exercises the user participates in', async () => {

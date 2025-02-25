@@ -8,8 +8,13 @@ import {
 export class ExerciseTestUtils {
   constructor(private readonly app: NestTestApplication) {}
 
-  async list(): Promise<ApiResponse<GetAllExercisesResponseDto>> {
-    return await this.app.get<GetAllExercisesResponseDto>('/api/exercises');
+  async list(params?: {
+    includeFinished?: boolean;
+  }): Promise<ApiResponse<GetAllExercisesResponseDto>> {
+    const queryString = params?.includeFinished ? '?includeFinished=true' : '';
+    return await this.app.get<GetAllExercisesResponseDto>(
+      `/api/exercises${queryString}`
+    );
   }
 
   async createAndGetId(exercise: ExerciseToCreateDto): Promise<string> {
@@ -20,6 +25,13 @@ export class ExerciseTestUtils {
     }
 
     return response.locationId;
+  }
+
+  async createAndFinish(exercise: ExerciseToCreateDto): Promise<string> {
+    const id = await this.createAndGetId(exercise);
+    await this.finish(id);
+
+    return id;
   }
 
   async create(exercise: ExerciseToCreateDto): Promise<ApiResponse<void>> {

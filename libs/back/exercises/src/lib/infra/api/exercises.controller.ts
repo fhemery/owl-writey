@@ -8,14 +8,18 @@ import {
   NotFoundException,
   Param,
   Post,
+  Query,
   Req,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
 
-import { ExerciseToCreate } from '../../domain/model';
-import { ExerciseNotFoundException } from '../../domain/model/exceptions/exercice-not-found.exception';
-import { ExerciseException } from '../../domain/model/exceptions/exercise-exception';
+import {
+  ExerciseException,
+  ExerciseNotFoundException,
+  ExerciseToCreate,
+  QueryFilter,
+} from '../../domain/model';
 import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
   CreateExerciseCommand,
@@ -41,9 +45,13 @@ export class ExercisesController {
   @Get('')
   @Auth()
   async getAll(
-    @Req() request: RequestWithUser
+    @Req() request: RequestWithUser,
+    @Query('includeFinished') includeFinished?: string
   ): Promise<GetAllExercisesResponseDto> {
-    const exercises = await this.listExercisesQuery.execute(request.user.uid);
+    const exercises = await this.listExercisesQuery.execute(
+      request.user.uid,
+      new QueryFilter(includeFinished === 'true')
+    );
     return {
       exercises: exercises.map(toExerciseSummaryDto),
     };

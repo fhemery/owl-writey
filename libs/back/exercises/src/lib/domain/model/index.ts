@@ -8,3 +8,4 @@ export * from './exercise-to-create';
 export * from './exercise-user';
 export * from './exercises/exquisite-corpse';
 export * from './exercise-general-info';
+export * from './query-filter';
