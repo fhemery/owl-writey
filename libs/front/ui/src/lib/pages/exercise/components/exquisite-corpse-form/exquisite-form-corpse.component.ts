@@ -41,10 +41,7 @@ export class ExquisiteFormCorpseComponent implements OnInit {
 
     this.form.addControl(
       'nbIterations',
-      new FormControl<number | null>(null, [
-        Validators.required,
-        Validators.min(1),
-      ])
+      new FormControl<number | null>(null, [Validators.min(1)])
     );
     this.form.addControl(
       'initialText',

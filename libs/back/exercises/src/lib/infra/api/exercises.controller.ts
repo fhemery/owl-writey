@@ -63,16 +63,22 @@ export class ExercisesController {
     @Body() exerciseDto: ExerciseToCreateDtoImpl,
     @Req() request: RequestWithUser
   ): Promise<void> {
-    const id = await this.createExerciseCommand.execute(
-      request.user.uid,
-      new ExerciseToCreate(
-        exerciseDto.name,
-        exerciseDto.type,
-        exerciseDto.config
-      )
-    );
-
-    request.res?.location(`/api/exercises/${id}`);
+    try {
+      const id = await this.createExerciseCommand.execute(
+        request.user.uid,
+        new ExerciseToCreate(
+          exerciseDto.name,
+          exerciseDto.type,
+          exerciseDto.config
+        )
+      );
+      request.res?.location(`/api/exercises/${id}`);
+    } catch (err) {
+      if (err instanceof ExerciseException) {
+        throw new BadRequestException(err.message);
+      }
+      throw err;
+    }
   }
 
   @Get(':id')

@@ -26,6 +26,7 @@ export class SubmitTurnCommand {
     exercise.submitTurn(userId, content);
 
     if (
+      exercise.config.nbIterations &&
       (exercise.content?.scenes?.length || 0) > exercise.config.nbIterations
     ) {
       exercise.finish();

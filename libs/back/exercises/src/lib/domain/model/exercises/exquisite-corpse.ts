@@ -92,12 +92,19 @@ export class ExquisiteCorpseContent {
   ) {}
 }
 export class ExquisiteCorpseConfig {
-  constructor(readonly nbIterations: number, readonly initialText: string) {
-    if (nbIterations < 1) {
-      throw new Error('nbIterations must be at least 1');
+  constructor(
+    readonly initialText: string,
+    readonly nbIterations: number | null = null
+  ) {
+    if (nbIterations && nbIterations < 1) {
+      throw new ExerciseException(
+        'Exquisite corpse: if provided, config.nbIterations must be at least 1'
+      );
     }
-    if (initialText.length === 0) {
-      throw new Error('initialText must not be empty');
+    if (!initialText || initialText.length === 0) {
+      throw new ExerciseException(
+        'Exquisite corpse: config.initialText must not be empty'
+      );
     }
   }
 }

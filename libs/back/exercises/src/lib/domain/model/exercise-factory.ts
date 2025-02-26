@@ -3,11 +3,13 @@ import { ExerciseType } from '@owl/shared/contracts';
 import { Exercise } from './exercise';
 import { ExerciseGeneralInfo } from './exercise-general-info';
 import { ExerciseUser } from './exercise-user';
-import { ExquisiteCorpseNextActor } from './exercises/exquisite-corpse';
-import { ExquisiteCorpseScene } from './exercises/exquisite-corpse';
-import { ExquisiteCorpseConfig } from './exercises/exquisite-corpse';
-import { ExquisiteCorpseContent } from './exercises/exquisite-corpse';
-import { ExquisiteCorpseExercise } from './exercises/exquisite-corpse';
+import {
+  ExquisiteCorpseConfig,
+  ExquisiteCorpseContent,
+  ExquisiteCorpseExercise,
+  ExquisiteCorpseNextActor,
+  ExquisiteCorpseScene,
+} from './exercises/exquisite-corpse';
 
 export class ExerciseFactory {
   static From(
@@ -34,7 +36,7 @@ export class ExerciseFactory {
 const exquisiteCorpseConverter = {
   toConfig(config: unknown): ExquisiteCorpseConfig {
     const cfg = config as ExquisiteCorpseConfig;
-    return new ExquisiteCorpseConfig(cfg.nbIterations, cfg.initialText);
+    return new ExquisiteCorpseConfig(cfg.initialText, cfg.nbIterations);
   },
 
   toContent(content: unknown): ExquisiteCorpseContent | undefined {
