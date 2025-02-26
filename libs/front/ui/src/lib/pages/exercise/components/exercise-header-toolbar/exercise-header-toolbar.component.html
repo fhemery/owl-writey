@@ -10,6 +10,7 @@
       <mat-icon>link</mat-icon>
     </a>
   </div>
+    @if (exercise().status !== ExerciseStatus.Finished){
   <div class="exercise-toolbar__finish">
     <a
       (click)="finish()"
@@ -20,6 +21,7 @@
       <mat-icon class="success">check_box</mat-icon>
     </a>
   </div>
+    }
   <!-- <div class="exercise-toolbar__edit">
     <a
       [routerLink]="'/exercises/' + exercise().id + '/edit'"

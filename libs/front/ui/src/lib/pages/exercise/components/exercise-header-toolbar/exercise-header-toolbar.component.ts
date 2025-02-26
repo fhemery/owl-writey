@@ -3,7 +3,7 @@ import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto } from '@owl/shared/contracts';
+import { ExerciseDto, ExerciseStatus } from '@owl/shared/contracts';
 
 import { ExerciseDeleteDialogComponent } from '../exercise-delete-dialog/exercise-delete-dialog.component';
 import { ExerciseFinishDialogComponent } from '../exercise-finish-dialog/exercise-finish-dialog.component';
@@ -49,4 +49,6 @@ export class ExerciseHeaderToolbarComponent {
       data: { id: this.exercise().id },
     });
   }
+
+  protected readonly ExerciseStatus = ExerciseStatus;
 }

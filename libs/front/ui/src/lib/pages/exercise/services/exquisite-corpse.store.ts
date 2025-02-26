@@ -10,7 +10,11 @@ import {
   withState,
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { ExerciseDto, ExquisiteCorpseContentDto } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExerciseStatus,
+  ExquisiteCorpseContentDto,
+} from '@owl/shared/contracts';
 import { interval } from 'rxjs';
 
 import { ExquisiteCorpseService } from './exquisite-corpse.service';
@@ -74,6 +78,12 @@ export const ExquisiteCorpseStore = signalStore(
   withComputed((store) => ({
     isCurrentUserTurn: computed(
       () => store.content()?.currentWriter?.author.uid === store.currentUserId()
+    ),
+    isFinished: computed(
+      () =>
+        store.exercise()?.status === ExerciseStatus.Finished ||
+        (store.content()?.scenes?.length || 0) >
+          (store.exercise()?.config as { nbIterations: number }).nbIterations
     ),
     canTakeTurn: computed(() => {
       if (!store.content()?.currentWriter) {

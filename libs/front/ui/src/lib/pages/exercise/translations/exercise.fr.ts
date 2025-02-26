@@ -108,6 +108,7 @@ export const exerciseFr = {
     },
     exquisiteCorpse: {
       loading: "Chargement de l'exercice en cours...",
+      finished: "L'exercice est terminé !",
       takeTurn: {
         label: 'À mon tour !',
         alreadyOngoing: 'Au tour de {{author}} !',

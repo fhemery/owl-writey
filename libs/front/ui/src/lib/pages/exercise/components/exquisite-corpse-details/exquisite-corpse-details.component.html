@@ -8,6 +8,11 @@
     <p [innerHTML]="scene.text"></p>
   </div>
   }
+    @if(store.isFinished()) {
+      <div class="exCo-details__finished">
+        {{ 'exercise.exquisiteCorpse.finished' | translate }}
+      </div>
+    } @else {
   <div class="exCo-details__currentTurn">
     @if(store.canTakeTurn()) {
     <div class="exCo-details__takeTurn">
@@ -51,6 +56,7 @@
     </div>
     }
   </div>
+    }
   } @else {
   {{ 'exercise.exquisiteCorpse.loading' | translate }}
   }
