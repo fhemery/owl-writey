@@ -46,3 +46,5 @@ Thumbs.db
 .env.local
 .env.prod
 TODO.md
+
+/*.log
