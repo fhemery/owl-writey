@@ -1,4 +1,4 @@
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
 
 import { ExerciseException } from '../exceptions/exercise-exception';
 import { Exercise } from '../exercise';
@@ -36,8 +36,9 @@ export class ExquisiteCorpseExercise extends Exercise<
   }
 
   setTurn(author: ExerciseUser): void {
-    const inFifteenMinutes = new Date();
-    inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
+    if (this.generalInfo.status !== ExerciseStatus.Ongoing) {
+      throw new ExerciseException('Exercise is finished');
+    }
 
     if (
       this.content?.currentWriter &&
@@ -52,6 +53,9 @@ export class ExquisiteCorpseExercise extends Exercise<
     if (!this.content) {
       throw new ExerciseException('Exercise content is not initialized');
     }
+
+    const inFifteenMinutes = new Date();
+    inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
     this.content.currentWriter = new ExquisiteCorpseNextActor(
       author,
       inFifteenMinutes

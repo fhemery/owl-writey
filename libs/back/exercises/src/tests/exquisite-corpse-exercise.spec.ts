@@ -128,6 +128,25 @@ describe('Exquisite Corpse Exercise', () => {
         expect(data.currentWriter?.author.name).toBe(alice.name);
       });
 
+      it('should not give turn if exercise is finished', async () => {
+        const alice = TestUserBuilder.Alice();
+        await app.logAs(alice);
+        const id = await exerciseUtils.createAndFinish(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, { id });
+
+        // ASSERT
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+
+        expect(data.currentWriter).toBeUndefined();
+      });
+
       it('should forward updates to the room, not only the current user', async () => {
         const alice = TestUserBuilder.Alice();
         await app.logAs(alice);
@@ -169,7 +188,7 @@ describe('Exquisite Corpse Exercise', () => {
         expect(data.scenes).toHaveLength(1);
       });
 
-      it("should be able to submit turn if it is someone else's turn", async () => {
+      it("should not be able to submit turn if it is someone else's turn", async () => {
         const alice = TestUserBuilder.Alice();
         await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
@@ -183,6 +202,30 @@ describe('Exquisite Corpse Exercise', () => {
           id,
         });
         await bobSocket.emit(exquisiteCorpseEvents.submitTurn, {
+          id,
+          content: 'Content',
+        });
+
+        const data = aliceSocket.getLatest<ExquisiteCorpseContentDto>(
+          exquisiteCorpseEvents.updates
+        );
+        expect(data.scenes).toHaveLength(1);
+      });
+
+      it('should not be able to submit turn if exercise is finished', async () => {
+        const alice = TestUserBuilder.Alice();
+        await app.logAs(alice);
+        const id = await exerciseUtils.createAndGetId(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
+          id,
+        });
+        await exerciseUtils.finish(id);
+        await aliceSocket.emit(exquisiteCorpseEvents.submitTurn, {
           id,
           content: 'Content',
         });
