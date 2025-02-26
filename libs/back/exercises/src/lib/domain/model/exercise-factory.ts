@@ -58,7 +58,7 @@ const exquisiteCorpseConverter = {
               cont.currentWriter.author.uid,
               cont.currentWriter.author.name
             ),
-            cont.currentWriter.until
+            new Date(cont.currentWriter.until)
           )
         : undefined
     );

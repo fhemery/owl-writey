@@ -40,13 +40,7 @@ export class ExquisiteCorpseExercise extends Exercise<
       throw new ExerciseException('Exercise is finished');
     }
 
-    if (
-      this.content?.currentWriter &&
-      this.content.currentWriter.author.uid !== author.uid &&
-      //TODO : Need to refactor this, both unpacking the date and make this if a one-liner
-      new Date(this.content.currentWriter.until).getTime() >
-        new Date().getTime()
-    ) {
+    if (!this.isTurnAvailable()) {
       throw new ExerciseException('It is not your turn');
     }
 
@@ -61,6 +55,14 @@ export class ExquisiteCorpseExercise extends Exercise<
       inFifteenMinutes
     );
   }
+
+  private isTurnAvailable(): boolean {
+    if (!this.content?.currentWriter) {
+      return true;
+    }
+    return this.content.currentWriter.until.getTime() < new Date().getTime();
+  }
+
   cancelTurn(userId: string): void {
     if (this.content?.currentWriter?.author.uid !== userId) {
       throw new ExerciseException('It is not your turn, you cannot cancel');
