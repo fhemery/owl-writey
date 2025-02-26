@@ -12,6 +12,7 @@
   }
 
   .dashboard-no-exercise {
+    grid-column: 1 / span all;
     padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
