@@ -1,5 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 
+import { waitFor } from './test-utils';
+
 export class TestWsEvent {
   constructor(
     public readonly eventName: string,
@@ -60,10 +62,4 @@ export class WsUtils {
       socket.disconnect();
     }
   }
-}
-
-function waitFor(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 }

@@ -32,50 +32,66 @@ export class ExquisiteCorpseEventHandlers {
   async handleExquisiteCorpseConnection(
     event: ExquisiteCorpseConnectionEvent
   ): Promise<void> {
-    const exerciseId = event.payload.id;
-    const exercise = await this.connectCommand.execute(
-      event.userDetails.user.uid,
-      exerciseId
-    );
+    try {
+      const exerciseId = event.payload.id;
+      const exercise = await this.connectCommand.execute(
+        event.userDetails.user.uid,
+        exerciseId
+      );
 
-    // TODO fix design issue. Doing this to notification service
-    // sends it every time to user.
-    // I think this is where the front should handle it more properly, filtering the exercise
-    event.userDetails.joinRoom(exerciseConstants.getRoom(exerciseId));
-    event.userDetails.sendToUser(
-      exquisiteCorpseEvents.updates,
-      exercise.content
-    );
+      // TODO fix design issue. Doing this to notification service
+      // sends it every time to user.
+      // I think this is where the front should handle it more properly, filtering the exercise
+      event.userDetails.joinRoom(exerciseConstants.getRoom(exerciseId));
+      event.userDetails.sendToUser(
+        exquisiteCorpseEvents.updates,
+        exercise.content
+      );
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @OnEvent(exquisiteCorpseEvents.takeTurn)
   async handleExquisiteCorpseTakeTurn(
     event: ExquisiteCorpseTakeTurnEvent
   ): Promise<void> {
-    await this.takeTurnCommand.execute(
-      event.userDetails.user.uid,
-      event.payload.id
-    );
+    try {
+      await this.takeTurnCommand.execute(
+        event.userDetails.user.uid,
+        event.payload.id
+      );
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @OnEvent(exquisiteCorpseEvents.submitTurn)
   async handleExquisiteCorpseSubmitTurn(
     event: ExquisiteCorpseSubmitTurnEvent
   ): Promise<void> {
-    await this.submitTurnCommand.execute(
-      event.userDetails.user.uid,
-      event.payload.id,
-      event.payload.content
-    );
+    try {
+      await this.submitTurnCommand.execute(
+        event.userDetails.user.uid,
+        event.payload.id,
+        event.payload.content
+      );
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @OnEvent(exquisiteCorpseEvents.cancelTurn)
   async handleExquisiteCorpseCancelTurn(
     event: ExquisiteCorpseCancelTurnEvent
   ): Promise<void> {
-    await this.cancelTurnCommand.execute(
-      event.userDetails.user.uid,
-      event.payload.id
-    );
+    try {
+      await this.cancelTurnCommand.execute(
+        event.userDetails.user.uid,
+        event.payload.id
+      );
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

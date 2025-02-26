@@ -6,11 +6,15 @@ import {
   NotFoundException,
   Param,
   Post,
+  Req,
   Request,
+  Sse,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
+import { SseNotificationService } from '@owl/back/websocket';
 import { UserDto, UserToCreateDto } from '@owl/shared/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Observable } from 'rxjs';
 
 import { User } from './model/user';
 import { UsersService } from './users.service';
@@ -23,7 +27,10 @@ class UserToCreateDtoImpl implements UserToCreateDto {
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly notificationService: SseNotificationService
+  ) {}
 
   @Get(':id')
   @Auth()
@@ -39,6 +46,15 @@ export class UsersController {
       ...user,
       email: user.uid !== request.user.uid ? undefined : user.email,
     };
+  }
+
+  @Auth()
+  @Sse(':id/events')
+  async getEvents(@Req() request: RequestWithUser): Promise<Observable<any>> {
+    console.log('Subscribing to events for user', request.user.uid);
+    return Promise.resolve(
+      this.notificationService.registerUser(request.user.uid)
+    );
   }
 
   @Post('')

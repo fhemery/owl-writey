@@ -1,5 +1,11 @@
-import { TestUserBuilder, WsUtils } from '@owl/back/test-utils';
 import {
+  SseUtils,
+  TestUserBuilder,
+  waitFor,
+  WsUtils,
+} from '@owl/back/test-utils';
+import {
+  ConnectToExerciseEvent,
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
 } from '@owl/shared/contracts';
@@ -16,16 +22,20 @@ describe('Exquisite Corpse Exercise', () => {
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
   let wsUtils: WsUtils;
+  let sseUtils: SseUtils;
 
   beforeEach(async () => {
     exerciseUtils = new ExerciseTestUtils(app);
     userUtils = new UserTestUtils(app);
     wsUtils = new WsUtils();
+    sseUtils = new SseUtils();
     await userUtils.createIfNotExists(TestUserBuilder.Alice());
+    await userUtils.createIfNotExists(TestUserBuilder.Bob());
   });
 
   afterEach(() => {
     wsUtils.disconnectAll();
+    sseUtils.disconnectAll();
   });
 
   describe('Exquisite corpse', () => {
@@ -45,6 +55,32 @@ describe('Exquisite Corpse Exercise', () => {
         expect(data.scenes).toHaveLength(1);
         expect(data.scenes[0].author.uid).toBe(TestUserBuilder.Alice().uid);
         expect(data.scenes[0].author.name).toBe(TestUserBuilder.Alice().name);
+      });
+
+      it('should notify the other users when someone connects', async () => {
+        const alice = TestUserBuilder.Alice();
+        app.logAs(alice);
+        const exercise = ExerciseTestBuilder.ExquisiteCorpse();
+        const id = await exerciseUtils.createAndGetId(exercise);
+
+        const events = await sseUtils.connect(
+          `http://localhost:3456/api/users/${alice.uid}/events`
+        );
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        const bobSocket = wsUtils.connectWs(TestUserBuilder.Bob().uid, port);
+
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await bobSocket.emit(exquisiteCorpseEvents.connect, { id });
+
+        await waitFor(10);
+
+        const event = events.getLatest<ConnectToExerciseEvent>(
+          ConnectToExerciseEvent.eventName
+        );
+        expect(event).toBeDefined();
+        expect(event.data.exerciseName).toBe(exercise.name);
+        expect(event.data.author).toBe(TestUserBuilder.Bob().name);
       });
     });
 
@@ -69,7 +105,7 @@ describe('Exquisite Corpse Exercise', () => {
 
       it('should not give turn if another user has already taken it', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -94,7 +130,7 @@ describe('Exquisite Corpse Exercise', () => {
 
       it('should forward updates to the room, not only the current user', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );

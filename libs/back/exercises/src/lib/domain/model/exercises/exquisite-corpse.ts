@@ -39,6 +39,16 @@ export class ExquisiteCorpseExercise extends Exercise<
     const inFifteenMinutes = new Date();
     inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
 
+    if (
+      this.content?.currentWriter &&
+      this.content.currentWriter.author.uid !== author.uid &&
+      //TODO : Need to refactor this, both unpacking the date and make this if a one-liner
+      new Date(this.content.currentWriter.until).getTime() >
+        new Date().getTime()
+    ) {
+      throw new ExerciseException('It is not your turn');
+    }
+
     if (!this.content) {
       throw new ExerciseException('Exercise content is not initialized');
     }
