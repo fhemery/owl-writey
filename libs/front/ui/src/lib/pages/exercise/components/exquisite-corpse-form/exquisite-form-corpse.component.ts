@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -26,8 +25,6 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './exquisite-form-corpse.component.scss',
 })
 export class ExquisiteFormCorpseComponent implements OnInit {
-  private readonly formBuilder = inject(FormBuilder);
-
   @Input()
   parentForm?: FormGroup;
 

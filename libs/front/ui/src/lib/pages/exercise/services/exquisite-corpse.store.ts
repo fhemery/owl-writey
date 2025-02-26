@@ -91,11 +91,7 @@ export const ExquisiteCorpseStore = signalStore(
       }
 
       const until = store.content()?.currentWriter?.until;
-      if (until && new Date(until) < new Date()) {
-        return true;
-      }
-
-      return false;
+      return !!(until && new Date(until) < new Date());
     }),
   })),
   withHooks({
