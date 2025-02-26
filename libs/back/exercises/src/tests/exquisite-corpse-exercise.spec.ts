@@ -6,11 +6,13 @@ import {
 } from '@owl/back/test-utils';
 import {
   ConnectToExerciseEvent,
+  ExerciseStatus,
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
 } from '@owl/shared/contracts';
 import { UserTestUtils } from 'libs/back/user/src/tests/utils/user-test-utils';
 
+import { ExquisiteCorpseConfig } from '../lib/domain/model';
 import { app, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
@@ -263,6 +265,27 @@ describe('Exquisite Corpse Exercise', () => {
         expect(data.scenes[1].text).toBe('Content');
         expect(data.scenes[1].author.uid).toBe(alice.uid);
         expect(data.scenes[1].author.name).toBe(alice.name);
+      });
+
+      it('should finish the exercise when nb iterations is reached', async () => {
+        const alice = TestUserBuilder.Alice();
+        const exercise = ExerciseTestBuilder.ExquisiteCorpse();
+        exercise.config = new ExquisiteCorpseConfig(1, 'initial');
+        await app.logAs(alice);
+        const id = await exerciseUtils.createAndGetId(exercise);
+
+        const aliceSocket = wsUtils.connectWs(alice.uid, port);
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
+          id,
+        });
+        await aliceSocket.emit(exquisiteCorpseEvents.submitTurn, {
+          id,
+          content: 'Content',
+        });
+
+        const getResponse = await exerciseUtils.getOne(id);
+        expect(getResponse.body?.status).toBe(ExerciseStatus.Finished);
       });
     });
 

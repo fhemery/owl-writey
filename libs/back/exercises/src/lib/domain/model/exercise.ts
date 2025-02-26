@@ -40,8 +40,8 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
     }
   }
 
-  finish(userId: string): void {
-    if (!this.generalInfo.isParticipantAdmin(userId)) {
+  finish(userId?: string): void {
+    if (userId && !this.generalInfo.isParticipantAdmin(userId)) {
       throw new ExerciseException('You are not an admin');
     }
     this.generalInfo = new ExerciseGeneralInfo(

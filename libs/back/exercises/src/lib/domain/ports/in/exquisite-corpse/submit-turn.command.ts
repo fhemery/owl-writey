@@ -25,6 +25,13 @@ export class SubmitTurnCommand {
 
     exercise.submitTurn(userId, content);
 
+    if (
+      (exercise.content?.scenes?.length || 0) > exercise.config.nbIterations
+    ) {
+      exercise.finish();
+      await this.exerciseRepository.save(exercise);
+    }
+
     await this.exerciseRepository.saveContent(exercise);
 
     await this.notificationService.notifyRoom(
