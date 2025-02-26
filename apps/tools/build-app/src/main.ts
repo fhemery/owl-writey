@@ -40,4 +40,4 @@ async function doBuild(): Promise<void> {
   await compileApp(command);
 }
 
-doBuild();
+void doBuild();

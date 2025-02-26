@@ -6,7 +6,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('DELETE /exercises/:id/participants/:id', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -27,14 +27,14 @@ describe('DELETE /exercises/:id/participants/:id', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await exerciseUtils.removeParticipant(exerciseId, '1');
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if user is the only admin', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await exerciseUtils.removeParticipant(
         exerciseId,
@@ -44,10 +44,10 @@ describe('DELETE /exercises/:id/participants/:id', () => {
     });
 
     it('should return 400 if user removes someone else and is not admin', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       await exerciseUtils.addParticipant(exerciseId);
 
-      app.logAs(TestUserBuilder.Carol());
+      await app.logAs(TestUserBuilder.Carol());
       await exerciseUtils.addParticipant(exerciseId);
       const response = await exerciseUtils.removeParticipant(
         exerciseId,
@@ -59,7 +59,7 @@ describe('DELETE /exercises/:id/participants/:id', () => {
 
   describe('success cases', () => {
     it('should return 204 if participant removes him/herself', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.addParticipant(exerciseId);
       expect(response.status).toBe(204);
@@ -72,10 +72,10 @@ describe('DELETE /exercises/:id/participants/:id', () => {
     });
 
     it('should return 204 if admin removes participant', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       await exerciseUtils.addParticipant(exerciseId);
 
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       const response = await exerciseUtils.removeParticipant(
         exerciseId,
         TestUserBuilder.Bob().uid
@@ -84,15 +84,15 @@ describe('DELETE /exercises/:id/participants/:id', () => {
     });
 
     it('should return 204 even if exercise is finished', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.addParticipant(exerciseId);
       expect(response.status).toBe(204);
 
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       await exerciseUtils.finish(exerciseId);
 
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       const removeResponse = await exerciseUtils.removeParticipant(
         exerciseId,
         TestUserBuilder.Bob().uid
@@ -101,14 +101,14 @@ describe('DELETE /exercises/:id/participants/:id', () => {
     });
 
     it('should have removed participant to the list', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       await exerciseUtils.addParticipant(exerciseId);
       await exerciseUtils.removeParticipant(
         exerciseId,
         TestUserBuilder.Bob().uid
       );
 
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       const response = await exerciseUtils.get(exerciseId);
       const bob = response.participants.find(
         (p) => p.uid === TestUserBuilder.Bob().uid

@@ -17,11 +17,11 @@ export class WsSession {
     this.server.to(room).emit(eventName, payload);
   }
 
-  joinRoom(room: string): void {
-    this.socket.join(room);
+  async joinRoom(room: string): Promise<void> {
+    await this.socket.join(room);
   }
 
-  leaveRoom(room: string): void {
-    this.socket.leave(room);
+  async leaveRoom(room: string): Promise<void> {
+    await this.socket.leave(room);
   }
 }

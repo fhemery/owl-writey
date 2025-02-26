@@ -1,7 +1,7 @@
 import { app, moduleTestInit } from './module-test-init';
 
 describe('Ping', () => {
-  moduleTestInit();
+  void moduleTestInit();
 
   it('should return "pong"', async () => {
     const response = await app.get('/api/ping');

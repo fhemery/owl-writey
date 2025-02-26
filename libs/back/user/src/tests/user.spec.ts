@@ -52,7 +52,7 @@ describe('/api/users', async () => {
           name: 'Alice',
         });
 
-        app.logAs(TestUserBuilder.Bob());
+        await app.logAs(TestUserBuilder.Bob());
         const userResponse = await app.get<UserDto>(
           response.responseHeaders?.location || ''
         );
@@ -75,7 +75,7 @@ describe('/api/users', async () => {
       });
 
       it('should return 400 if user is not provided', async () => {
-        app.logAs(TestUserBuilder.Alice());
+        await app.logAs(TestUserBuilder.Alice());
         const user: UserToCreateDto = {} as UserToCreateDto;
         const response = await app.post<UserToCreateDto, void>(
           '/api/users',

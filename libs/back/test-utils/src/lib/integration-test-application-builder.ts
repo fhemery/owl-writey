@@ -41,7 +41,7 @@ export class IntegrationTestApplicationBuilder {
     this._app.use(new FakeAuthMiddleware().use);
     await this._app.init();
     if (this._portNumber) {
-      this._app.listen(this._portNumber);
+      await this._app.listen(this._portNumber);
     }
 
     return new NestIntegrationTestApplication(this._app, this._mocks);

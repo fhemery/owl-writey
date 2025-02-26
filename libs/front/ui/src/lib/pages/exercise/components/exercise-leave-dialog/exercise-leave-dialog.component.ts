@@ -41,7 +41,7 @@ export class ExerciseLeaveDialogComponent {
         this.#notificationService.showSuccess(
           this.#translateService.instant('exercise.leave.result.ok')
         );
-        this.#router.navigateByUrl('/dashboard');
+        await this.#router.navigateByUrl('/dashboard');
         break;
       case 'ErrorLastAdmin':
         this.#notificationService.showError(

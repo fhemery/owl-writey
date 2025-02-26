@@ -7,7 +7,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises/:id/finish', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -27,21 +27,21 @@ describe('POST /exercises/:id/finish', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await exerciseUtils.finish(exerciseId);
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if user is not admin', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.finish(exerciseId);
       expect(response.status).toBe(400);
     });
 
     it('should return 404 if exercise does not exist', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.finish('unknownId');
       expect(response.status).toBe(404);
@@ -50,14 +50,14 @@ describe('POST /exercises/:id/finish', () => {
 
   describe('success cases', () => {
     it('should return 204 if user is admin', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const removeResponse = await exerciseUtils.finish(exerciseId);
       expect(removeResponse.status).toBe(204);
     });
 
     it('should have the set as finished in the list', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       await exerciseUtils.finish(exerciseId);
 
       const response = await exerciseUtils.getOne(exerciseId);

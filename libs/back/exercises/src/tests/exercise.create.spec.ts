@@ -7,7 +7,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -19,14 +19,14 @@ describe('POST /exercises', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await exerciseUtils.create({} as ExerciseToCreateDto);
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if name is empty or too short', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await exerciseUtils.create({
         ...ExerciseTestBuilder.ExquisiteCorpse(),
@@ -42,7 +42,7 @@ describe('POST /exercises', () => {
     });
 
     it('should return 400 if type is not valid', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await exerciseUtils.create({
         ...ExerciseTestBuilder.ExquisiteCorpse(),
@@ -54,7 +54,7 @@ describe('POST /exercises', () => {
 
   describe('success cases', () => {
     it('should return 201 and id if the exercise is created', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await exerciseUtils.create(
         ExerciseTestBuilder.ExquisiteCorpse()
@@ -64,7 +64,7 @@ describe('POST /exercises', () => {
     });
 
     it('should be able to retrieve the created exercise', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await exerciseUtils.create(
         ExerciseTestBuilder.ExquisiteCorpse()

@@ -33,7 +33,7 @@ export class ExerciseDeleteDialogComponent {
       this.#notificationService.showSuccess(
         this.#translateService.instant('exercise.delete.result.ok')
       );
-      this.#router.navigateByUrl('/dashboard');
+      await this.#router.navigateByUrl('/dashboard');
     } else {
       this.#notificationService.showError(
         this.#translateService.instant('exercise.delete.result.error')

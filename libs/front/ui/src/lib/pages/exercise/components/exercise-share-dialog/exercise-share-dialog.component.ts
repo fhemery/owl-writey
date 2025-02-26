@@ -37,8 +37,8 @@ export class ExerciseShareDialogComponent {
   getLink(): string {
     return `${this.config.baseUrl}/exercises/${this.exerciseId}/participate`;
   }
-  copyLink(): void {
-    navigator.clipboard.writeText(this.getLink());
+  async copyLink(): Promise<void> {
+    await navigator.clipboard.writeText(this.getLink());
     this.#notificator.showSuccess(
       this.translateService.instant('exercise.share.link.copied')
     );

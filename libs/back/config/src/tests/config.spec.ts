@@ -3,7 +3,7 @@ import { ConfigurationDto } from '@owl/shared/contracts';
 import { app, moduleTestInit, url } from './module-test-init';
 
 describe('GET /config', () => {
-  moduleTestInit();
+  void moduleTestInit();
 
   it('should return the correct configuration variables', async () => {
     const configResponse = await app.get<ConfigurationDto>('/api/config');

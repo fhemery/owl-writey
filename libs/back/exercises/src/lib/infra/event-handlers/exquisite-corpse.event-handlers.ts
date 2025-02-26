@@ -42,7 +42,7 @@ export class ExquisiteCorpseEventHandlers {
       // TODO fix design issue. Doing this to notification service
       // sends it every time to user.
       // I think this is where the front should handle it more properly, filtering the exercise
-      event.userDetails.joinRoom(exerciseConstants.getRoom(exerciseId));
+      await event.userDetails.joinRoom(exerciseConstants.getRoom(exerciseId));
       event.userDetails.sendToUser(
         exquisiteCorpseEvents.updates,
         exercise.content

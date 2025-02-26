@@ -6,7 +6,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises/:id/participants', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -26,7 +26,7 @@ describe('POST /exercises/:id/participants', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await app.post(
         `/api/exercises/${exerciseId}/participants`,
@@ -36,7 +36,7 @@ describe('POST /exercises/:id/participants', () => {
     });
 
     it('should return 400 if user is already in the list', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await app.post(
         `/api/exercises/${exerciseId}/participants`,
@@ -46,11 +46,11 @@ describe('POST /exercises/:id/participants', () => {
     });
 
     it('should return 400 if exercise is finished', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       await exerciseUtils.finish(exerciseId);
 
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       const response = await exerciseUtils.addParticipant(exerciseId);
       expect(response.status).toBe(400);
     });
@@ -58,7 +58,7 @@ describe('POST /exercises/:id/participants', () => {
 
   describe('success cases', () => {
     it('should return 204 if user is added', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await app.post(
         `/api/exercises/${exerciseId}/participants`,
@@ -67,7 +67,7 @@ describe('POST /exercises/:id/participants', () => {
       expect(response.status).toBe(204);
     });
     it('should have added participant to the list', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       await app.post(`/api/exercises/${exerciseId}/participants`, {});
 

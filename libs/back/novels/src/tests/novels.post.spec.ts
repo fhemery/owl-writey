@@ -6,7 +6,7 @@ import { NovelTestBuilder } from './utils/novel-test-builder';
 import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('/api/novels', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let novelUtils: NovelTestUtils;
 
   beforeEach(async () => {
@@ -16,14 +16,14 @@ describe('/api/novels', () => {
   describe('POST /', () => {
     describe('error cases', () => {
       it('should return 401 if user is not logged in', async () => {
-        app.logAs(null);
+        await app.logAs(null);
 
         const response = await novelUtils.create(NovelTestBuilder.Default());
         expect(response.status).toBe(401);
       });
 
       it('should return 400 if novel title is not provided', async () => {
-        app.logAs(TestUserBuilder.Alice());
+        await app.logAs(TestUserBuilder.Alice());
         const response = await novelUtils.create({
           ...NovelTestBuilder.Default(),
           title: undefined,
@@ -32,7 +32,7 @@ describe('/api/novels', () => {
       });
 
       it('should return 400 if novel title is empty', async () => {
-        app.logAs(TestUserBuilder.Alice());
+        await app.logAs(TestUserBuilder.Alice());
         const response = await app.post('/api/novels', {
           ...NovelTestBuilder.Default(),
           title: '',
@@ -43,13 +43,13 @@ describe('/api/novels', () => {
 
     describe('success cases', () => {
       it('should return 201 if novel is created', async () => {
-        app.logAs(TestUserBuilder.Alice());
+        await app.logAs(TestUserBuilder.Alice());
         const response = await novelUtils.create(NovelTestBuilder.Default());
         expect(response.status).toBe(201);
       });
 
       it('should be able to retrieve the novel after creation', async () => {
-        app.logAs(TestUserBuilder.Alice());
+        await app.logAs(TestUserBuilder.Alice());
         const novel = NovelTestBuilder.Default();
 
         const response = await novelUtils.create(novel);

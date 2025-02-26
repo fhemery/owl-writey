@@ -27,7 +27,7 @@ export class SubmitTurnCommand {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    this.notificationService.notifyRoom(
+    await this.notificationService.notifyRoom(
       exerciseConstants.getRoom(exercise.id),
       exquisiteCorpseEvents.updates,
       exercise.content

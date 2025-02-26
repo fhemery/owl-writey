@@ -7,7 +7,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('GET /exercises/:id', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -19,14 +19,14 @@ describe('GET /exercises/:id', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await exerciseUtils.getOne('1');
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if type is not valid', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const response = await app.post('/api/exercises', {
         ...ExerciseTestBuilder.ExquisiteCorpse(),
@@ -36,13 +36,13 @@ describe('GET /exercises/:id', () => {
     });
 
     it('should return 404 if user does not participate to exercise', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const { locationId } = await exerciseUtils.create(
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
       const response = await exerciseUtils.getOne(locationId ?? '');
       expect(response.status).toBe(404);
     });
@@ -50,7 +50,7 @@ describe('GET /exercises/:id', () => {
 
   describe('success cases', () => {
     it('should return 200 if exercise belongs to user', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       const exercise = ExerciseTestBuilder.ExquisiteCorpse();
 
       const { locationId } = await exerciseUtils.create(exercise);
@@ -64,7 +64,7 @@ describe('GET /exercises/:id', () => {
 
     it('should set currentUser in the participants', async () => {
       const alice = TestUserBuilder.Alice();
-      app.logAs(alice);
+      await app.logAs(alice);
 
       const id = await exerciseUtils.createAndGetId(
         ExerciseTestBuilder.ExquisiteCorpse()

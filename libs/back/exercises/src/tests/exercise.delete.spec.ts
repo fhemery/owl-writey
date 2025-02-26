@@ -6,7 +6,7 @@ import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('DELETE /exercises/:id', () => {
-  moduleTestInit();
+  void moduleTestInit();
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
 
@@ -27,14 +27,14 @@ describe('DELETE /exercises/:id', () => {
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
-      app.logAs(null);
+      await app.logAs(null);
 
       const response = await exerciseUtils.removeParticipant(exerciseId, '1');
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if user is not admin', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.delete(exerciseId);
       expect(response.status).toBe(400);
@@ -42,7 +42,7 @@ describe('DELETE /exercises/:id', () => {
 
     // TODO Check 404 on other tests
     it('should return 404 if exercise does not exist', async () => {
-      app.logAs(TestUserBuilder.Bob());
+      await app.logAs(TestUserBuilder.Bob());
 
       const response = await exerciseUtils.delete('unknownId');
       expect(response.status).toBe(404);
@@ -51,14 +51,14 @@ describe('DELETE /exercises/:id', () => {
 
   describe('success cases', () => {
     it('should return 204 if user is admin', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
 
       const removeResponse = await exerciseUtils.delete(exerciseId);
       expect(removeResponse.status).toBe(204);
     });
 
     it('should have removed exercise', async () => {
-      app.logAs(TestUserBuilder.Alice());
+      await app.logAs(TestUserBuilder.Alice());
       await exerciseUtils.delete(exerciseId);
 
       const response = await exerciseUtils.getOne(exerciseId);

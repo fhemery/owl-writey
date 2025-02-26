@@ -25,7 +25,7 @@ export class UserTestUtils {
   }
 
   async createIfNotExists(user: RegisteredTestUser): Promise<void> {
-    this.app.logAs(user);
+    await this.app.logAs(user);
     const response = await this.app.get(`/api/users/${user.uid}`);
     if (response.status === 404) {
       const response = await this.createUser(user);

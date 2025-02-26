@@ -31,7 +31,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
 
   async save(exercise: Exercise): Promise<void> {
     if (exercise.content) {
-      this.saveContent(exercise);
+      await this.saveContent(exercise);
     }
 
     let entity = await this.repository.findOne({

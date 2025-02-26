@@ -26,7 +26,7 @@ export const compileHelpers = {
     try {
       await fs.stat(folder);
       await fs.rm(folder, { recursive: true });
-    } catch (e) {
+    } catch {
       console.log('Directory does not exist, nevermind');
     }
     console.log('Cleaning up dist folder... DONE');

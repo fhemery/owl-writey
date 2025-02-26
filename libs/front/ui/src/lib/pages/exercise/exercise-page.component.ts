@@ -32,9 +32,9 @@ export class ExercisePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const exercise = await this.#service.getOne(this.id());
     if (!exercise) {
-      this.#router.navigate(['/404']);
+      await this.#router.navigate(['/404']);
       return;
     }
-    this.store.setExercise(exercise);
+    await this.store.setExercise(exercise);
   }
 }

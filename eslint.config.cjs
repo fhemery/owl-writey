@@ -10,6 +10,14 @@ module.exports = [
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.*?.json'], // Points to your TypeScript configuration
+        tsconfigRootDir: __dirname,
+      },
+    },
+    ignores: ['**/webpack.config.js'],
+
     rules: {
       '@nx/enforce-module-boundaries': [
         'error',
@@ -28,6 +36,7 @@ module.exports = [
         },
       ],
       '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
     },
   },
   {

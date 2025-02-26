@@ -23,7 +23,7 @@ export class CancelTurnCommand {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    this.notificationFacade.notifyRoom(
+    await this.notificationFacade.notifyRoom(
       exerciseConstants.getRoom(exercise.id),
       exquisiteCorpseEvents.updates,
       exercise.content

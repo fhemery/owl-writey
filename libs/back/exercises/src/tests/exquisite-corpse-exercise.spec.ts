@@ -17,7 +17,7 @@ import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('Exquisite Corpse Exercise', () => {
   const port = 3456;
-  moduleTestInit(port);
+  void moduleTestInit(port);
 
   let exerciseUtils: ExerciseTestUtils;
   let userUtils: UserTestUtils;
@@ -42,7 +42,7 @@ describe('Exquisite Corpse Exercise', () => {
     describe(exquisiteCorpseEvents.connect, () => {
       it('should return the content via socket', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -59,7 +59,7 @@ describe('Exquisite Corpse Exercise', () => {
 
       it('should notify the other users when someone connects', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const exercise = ExerciseTestBuilder.ExquisiteCorpse();
         const id = await exerciseUtils.createAndGetId(exercise);
 
@@ -87,7 +87,7 @@ describe('Exquisite Corpse Exercise', () => {
     describe(exquisiteCorpseEvents.takeTurn, () => {
       it('should be able to take turn if no one currently has it', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -151,7 +151,7 @@ describe('Exquisite Corpse Exercise', () => {
     describe(exquisiteCorpseEvents.submitTurn, () => {
       it("should be able to submit turn if it is no one's turn", async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -171,7 +171,7 @@ describe('Exquisite Corpse Exercise', () => {
 
       it("should be able to submit turn if it is someone else's turn", async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -195,7 +195,7 @@ describe('Exquisite Corpse Exercise', () => {
 
       it('should be able to work with correct user submitting', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -226,7 +226,7 @@ describe('Exquisite Corpse Exercise', () => {
     describe(exquisiteCorpseEvents.cancelTurn, () => {
       it("should not be able to cancel turn if it is not user's turn", async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
@@ -245,7 +245,7 @@ describe('Exquisite Corpse Exercise', () => {
       });
       it('should be able to cancel turn if it is your turn', async () => {
         const alice = TestUserBuilder.Alice();
-        app.logAs(alice);
+        await app.logAs(alice);
         const id = await exerciseUtils.createAndGetId(
           ExerciseTestBuilder.ExquisiteCorpse()
         );

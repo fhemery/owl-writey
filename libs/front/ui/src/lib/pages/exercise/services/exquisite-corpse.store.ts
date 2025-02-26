@@ -97,7 +97,7 @@ export const ExquisiteCorpseStore = signalStore(
       // We are not using promise, because making onInit async would
       // cause takeUntilDestroy to not work (if onInit is async, it will
       // throw us out of injection context)
-      service.doConnect().then(() => {
+      void service.doConnect().then(() => {
         service.updates.subscribe((content) => {
           store.updateContent(content);
         });

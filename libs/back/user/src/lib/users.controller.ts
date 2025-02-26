@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/websocket';
-import { UserDto, UserToCreateDto } from '@owl/shared/contracts';
+import { SseEvent, UserDto, UserToCreateDto } from '@owl/shared/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
@@ -50,8 +50,9 @@ export class UsersController {
 
   @Auth()
   @Sse(':id/events')
-  async getEvents(@Req() request: RequestWithUser): Promise<Observable<any>> {
-    console.log('Subscribing to events for user', request.user.uid);
+  async getEvents(
+    @Req() request: RequestWithUser
+  ): Promise<Observable<{ data: SseEvent }>> {
     return Promise.resolve(
       this.notificationService.registerUser(request.user.uid)
     );

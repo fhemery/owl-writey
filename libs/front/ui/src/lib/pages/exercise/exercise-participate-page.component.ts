@@ -30,7 +30,7 @@ export class ExerciseParticipatePageComponent implements OnInit {
       this.#notificationService.showSuccess(
         this.#translateService.instant('exercise.participate.success')
       );
-      this.#router.navigateByUrl(`/exercises/${this.id()}`);
+      await this.#router.navigateByUrl(`/exercises/${this.id()}`);
     }
   }
 }

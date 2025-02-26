@@ -35,7 +35,7 @@ export class WsGateway implements OnGatewayConnection {
       return;
     }
 
-    client.join('user-' + userDetails.user.uid);
+    await client.join('user-' + userDetails.user.uid);
 
     // Set up dynamic event handling
     client.onAny(async (eventName, payload) => {
