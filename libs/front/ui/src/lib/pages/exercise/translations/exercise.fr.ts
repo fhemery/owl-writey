@@ -26,10 +26,10 @@ export const exerciseFr = {
           text: "L'exercice du cadavre exquis est un jeu d'écriture collectif. Chaque participant.e écrit un texte à partir des précédents",
         },
         nbIterations: {
-          label: 'Nombre de scènes',
+          label: 'Nombre de tours',
           error: {
-            required: "Le nombre d'itérations est obligatoire",
-            min: "Le nombre d'itérations doit être supérieur à 1",
+            required: 'Le nombre de tours est obligatoire',
+            min: 'Le nombre de tours doit être supérieur à 1',
           },
           help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laissez vide ou mettre \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
