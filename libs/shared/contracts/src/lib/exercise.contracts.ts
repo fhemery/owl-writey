@@ -7,7 +7,7 @@ export interface ExerciseSummaryDto {
   name: string;
   type: ExerciseType;
   status: ExerciseStatus;
-  links: {
+  _links: {
     self: string;
   };
 }
@@ -19,6 +19,13 @@ export interface ExerciseDto {
   status: ExerciseStatus;
   config: unknown;
   participants: ExerciseParticipantDto[];
+  _links: {
+    self: string;
+    delete?: string;
+    finish?: string;
+    invite?: string;
+    leave?: string;
+  };
 }
 
 export interface ExerciseParticipantDto {

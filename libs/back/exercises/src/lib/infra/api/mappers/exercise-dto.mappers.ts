@@ -16,13 +16,20 @@ export function toExerciseSummaryDto(
     name: exercise.name,
     type: exercise.type,
     status: exercise.status,
-    links: {
+    _links: {
       self: `${baseAppUrl}/api/exercises/${exercise.id}`,
     },
   };
 }
 
-export function toExerciseDto(exercise: Exercise): ExerciseDto {
+export function toExerciseDto(
+  exercise: Exercise,
+  baseAppUrl: string,
+  userId: string
+): ExerciseDto {
+  const isUserAdmin = exercise
+    .getParticipants()
+    .some((p) => p.uid === userId && p.role === ExerciseParticipantRole.Admin);
   return {
     id: exercise.id,
     name: exercise.generalInfo.name,
@@ -34,5 +41,20 @@ export function toExerciseDto(exercise: Exercise): ExerciseDto {
       name: p.name,
       isAdmin: p.role === ExerciseParticipantRole.Admin,
     })),
+    _links: {
+      self: `${baseAppUrl}/api/exercises/${exercise.id}`,
+      delete: isUserAdmin
+        ? `${baseAppUrl}/api/exercises/${exercise.id}`
+        : undefined,
+      finish: isUserAdmin
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
+        : undefined,
+      invite: isUserAdmin
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
+        : undefined,
+      leave: isUserAdmin
+        ? undefined
+        : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
+    },
   };
 }

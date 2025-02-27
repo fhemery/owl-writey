@@ -93,7 +93,11 @@ export class ExercisesController {
     if (!exercise) {
       throw new NotFoundException();
     }
-    return toExerciseDto(exercise);
+    return toExerciseDto(
+      exercise,
+      process.env['BASE_API_URL'] || '',
+      request.user.uid
+    );
   }
 
   @Delete(':id')

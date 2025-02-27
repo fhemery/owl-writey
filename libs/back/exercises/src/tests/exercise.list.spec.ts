@@ -57,7 +57,7 @@ describe('GET /exercises', () => {
       const { body } = await exerciseUtils.list();
       const exercise = body?.exercises.find((e) => e.id === id);
       expect(exercise).toBeDefined();
-      expect(exercise?.links.self).toBe(`${baseAppUrl}/api/exercises/${id}`);
+      expect(exercise?._links.self).toBe(`${baseAppUrl}/api/exercises/${id}`);
     });
 
     it('should not by default return finished exercises', async () => {

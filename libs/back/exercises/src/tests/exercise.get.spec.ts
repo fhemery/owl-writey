@@ -1,8 +1,8 @@
-import { TestUserBuilder } from '@owl/back/test-utils';
+import { ApiResponseStatus, TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseStatus } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, moduleTestInit } from './module-test-init';
+import { app, baseAppUrl, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
@@ -15,6 +15,7 @@ describe('GET /exercises/:id', () => {
     exerciseUtils = new ExerciseTestUtils(app);
     userUtils = new UserTestUtils(app);
     await userUtils.createIfNotExists(TestUserBuilder.Alice());
+    await userUtils.createIfNotExists(TestUserBuilder.Bob());
   });
 
   describe('error cases', () => {
@@ -60,6 +61,61 @@ describe('GET /exercises/:id', () => {
       expect(body?.name).toBe(exercise.name);
       expect(body?.id).toBe(locationId);
       expect(body?.status).toBe(ExerciseStatus.Ongoing);
+    });
+
+    it('should return hateoas link to delete, finish and participate if exercise belongs to user', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = ExerciseTestBuilder.ExquisiteCorpse();
+
+      const { locationId } = await exerciseUtils.create(exercise);
+
+      const { status, body } = await exerciseUtils.getOne(locationId ?? '');
+      expect(status).toBe(200);
+      if (!body) {
+        fail('Body is empty');
+      }
+      expect(body._links.self).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}`
+      );
+      expect(body._links.delete).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}`
+      );
+      expect(body._links.finish).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}/finish`
+      );
+      expect(body._links.invite).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}/participants`
+      );
+      expect(body._links.leave).toBeUndefined();
+    });
+
+    it('should not return hateoas link to delete, finish and participate if user is not admin', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = ExerciseTestBuilder.ExquisiteCorpse();
+
+      const { locationId } = await exerciseUtils.create(exercise);
+      // TODO can we rewrite the tests to use the hateoas links?
+      // Problem is we need to shoot to the right api path, which is empty in test.
+      // But we might forget the base api path in the future...
+      await app.logAs(TestUserBuilder.Bob());
+      (await exerciseUtils.addParticipant(locationId ?? '')).expectStatus(
+        ApiResponseStatus.NO_CONTENT
+      );
+
+      const { status, body } = await exerciseUtils.getOne(locationId ?? '');
+      expect(status).toBe(200);
+      if (!body) {
+        fail('Body is empty');
+      }
+      expect(body._links.self).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}`
+      );
+      expect(body._links.delete).toBeUndefined();
+      expect(body._links.finish).toBeUndefined();
+      expect(body._links.invite).toBeUndefined();
+      expect(body._links.leave).toBe(
+        `${baseAppUrl}/api/exercises/${locationId}/participants/me`
+      );
     });
 
     it('should set currentUser in the participants', async () => {
