@@ -4,4 +4,58 @@
   mat-form-field {
     width: 100%;
   }
+
+  &__type {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+    align-content: center;
+
+    > *:first-child:last-child {
+      grid-column: 2 / span 2;
+    }
+
+    @media screen and (max-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+
+      > *:first-child:last-child {
+        grid-column: 2 / span 1;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+
+      > *:first-child:last-child {
+        grid-column: 1 / span 2;
+      }
+    }
+
+    margin-bottom: 1rem;
+
+    mat-card {
+      &.selected {
+        background-color: var(--color-success-background);
+        border: 1px solid var(--color-success)
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      mat-card-content {
+        text-align: center;
+      }
+
+      mat-card-title {
+        text-align: center;
+      }
+    }
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

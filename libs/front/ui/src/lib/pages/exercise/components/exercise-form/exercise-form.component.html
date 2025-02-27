@@ -24,7 +24,13 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div>
+        <div class="exercise-form__type">
+          <mat-card class="selected">
+            <mat-card-header>
+              <mat-card-title>{{'general.exercises.type.ExquisiteCorpse' | translate}}</mat-card-title></mat-card-header>
+            <mat-card-content>
+              {{'exercise.form.exquisiteCorpse.description.text' | translate}}
+            </mat-card-content>
           <input
             [hidden]="true"
             formControlName="type"
@@ -32,6 +38,7 @@
             value="exquisiteCorpse"
             readonly="true"
           />
+          </mat-card>
         </div>
 
         @switch (exerciseForm.get('type')?.value) { @case

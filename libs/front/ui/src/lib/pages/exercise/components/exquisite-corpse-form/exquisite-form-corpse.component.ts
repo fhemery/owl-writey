@@ -6,7 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import {
+  MatError,
+  MatFormField,
+  MatHint,
+  MatLabel,
+} from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -20,6 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatError,
     TranslateModule,
     ReactiveFormsModule,
+    MatHint,
   ],
   templateUrl: './exquisite-form-corpse.component.html',
   styleUrl: './exquisite-form-corpse.component.scss',
@@ -38,7 +44,7 @@ export class ExquisiteFormCorpseComponent implements OnInit {
 
     this.form.addControl(
       'nbIterations',
-      new FormControl<number | null>(null, [Validators.min(1)])
+      new FormControl<number | null>(null, [Validators.min(0)])
     );
     this.form.addControl(
       'initialText',

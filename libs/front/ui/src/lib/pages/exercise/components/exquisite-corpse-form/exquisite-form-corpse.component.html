@@ -1,9 +1,13 @@
 @if (form){
+
 <div [formGroup]="form">
   <mat-form-field>
     <mat-label>{{
       'exercise.form.exquisiteCorpse.nbIterations.label' | translate
-    }}</mat-label>
+    }}
+
+    </mat-label>
+
     <input
       matInput
       formControlName="nbIterations"
@@ -11,6 +15,7 @@
       type="number"
       autocomplete="off"
     />
+    <mat-hint>{{ 'exercise.form.exquisiteCorpse.nbIterations.help' | translate }}</mat-hint>
     <mat-error>
       @if(form.get('nbIterations')?.hasError('required')) {
       {{
@@ -31,6 +36,7 @@
       name="initialText"
       autocomplete="off"
     ></textarea>
+    <mat-hint>{{ 'exercise.form.exquisiteCorpse.initialText.help' | translate }}</mat-hint>
     <mat-error>
       @if(form.get('initialText')?.hasError('required')) {
       {{

@@ -22,12 +22,16 @@ export const exerciseFr = {
         label: 'Valider',
       },
       exquisiteCorpse: {
+        description: {
+          text: "L'exercice du cadavre exquis est un jeu d'écriture collectif. Chaque participant.e écrit un texte à partir des précédents",
+        },
         nbIterations: {
-          label: "Nombre d'itérations",
+          label: 'Nombre de scènes',
           error: {
             required: "Le nombre d'itérations est obligatoire",
             min: "Le nombre d'itérations doit être supérieur à 1",
           },
+          help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laissez vide ou mettre \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
         wordsLimit: {
           label: 'Limite de mots',
@@ -39,8 +43,8 @@ export const exerciseFr = {
           label: "L'auteur peut écrire une suite à son propre textes",
         },
         initialText: {
-          label: 'Texte initial',
-          help: "Le texte de départ de l'exercice",
+          label: 'Écrivez le début de votre histoire :',
+          help: "C'est le premier texte que verront vos participant.e.s. Il vous permet d'orienter l'histoire !",
           error: {
             required: 'Le texte initial est obligatoire',
             minlength: 'Le texte initial doit faire minimum 50 caractères',

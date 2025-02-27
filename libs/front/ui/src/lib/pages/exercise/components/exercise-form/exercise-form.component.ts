@@ -8,7 +8,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,6 +39,8 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
     ReactiveFormsModule,
     MatButton,
     ExquisiteFormCorpseComponent,
+    MatCardHeader,
+    MatCardTitle,
   ],
   templateUrl: './exercise-form.component.html',
   styleUrl: './exercise-form.component.scss',
