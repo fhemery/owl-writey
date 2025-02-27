@@ -8,6 +8,7 @@ import {
 import { ExercisesModule } from '../lib/exercises.module';
 
 export let app: NestTestApplication;
+export const baseAppUrl = 'http://localhost:3000';
 
 export const moduleTestInit = async (port?: number): Promise<void> => {
   beforeAll(async () => {
@@ -15,6 +16,7 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
       .withFakeInMemoryDb()
       .withPortExposition(port)
       .withMock(WsAuthService, new FakeWsAuthService())
+      .withEnvVariable('BASE_API_URL', 'http://localhost:3000')
       .build(ExercisesModule);
   });
 

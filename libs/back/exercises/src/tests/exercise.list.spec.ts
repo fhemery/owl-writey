@@ -2,7 +2,7 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseStatus } from '@owl/shared/contracts';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, moduleTestInit } from './module-test-init';
+import { app, baseAppUrl, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
@@ -45,6 +45,19 @@ describe('GET /exercises', () => {
       const exercise = body?.exercises.find((e) => e.id === id);
       expect(exercise).toBeDefined();
       expect(exercise?.status).toBe(ExerciseStatus.Ongoing);
+    });
+
+    it('[HATEOAS] should return the url of the exercise', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+
+      const id = await exerciseUtils.createAndGetId(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      const { body } = await exerciseUtils.list();
+      const exercise = body?.exercises.find((e) => e.id === id);
+      expect(exercise).toBeDefined();
+      expect(exercise?.links.self).toBe(`${baseAppUrl}/api/exercises/${id}`);
     });
 
     it('should not by default return finished exercises', async () => {

@@ -53,7 +53,9 @@ export class ExercisesController {
       new QueryFilter(includeFinished === 'true')
     );
     return {
-      exercises: exercises.map(toExerciseSummaryDto),
+      exercises: exercises.map((e) =>
+        toExerciseSummaryDto(e, process.env['BASE_API_URL'] || '')
+      ),
     };
   }
 

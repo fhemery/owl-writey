@@ -7,6 +7,9 @@ export interface ExerciseSummaryDto {
   name: string;
   type: ExerciseType;
   status: ExerciseStatus;
+  links: {
+    self: string;
+  };
 }
 
 export interface ExerciseDto {

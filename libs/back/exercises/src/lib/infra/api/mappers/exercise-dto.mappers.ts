@@ -8,13 +8,17 @@ import { ExerciseSummary } from '../../../domain/model';
 import { Exercise } from '../../../domain/model/exercise';
 
 export function toExerciseSummaryDto(
-  exercise: ExerciseSummary
+  exercise: ExerciseSummary,
+  baseAppUrl: string
 ): ExerciseSummaryDto {
   return {
     id: exercise.id,
     name: exercise.name,
     type: exercise.type,
     status: exercise.status,
+    links: {
+      self: `${baseAppUrl}/api/exercises/${exercise.id}`,
+    },
   };
 }
 
