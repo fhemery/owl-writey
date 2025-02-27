@@ -10,6 +10,7 @@
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1rem;
     align-content: center;
+    margin-bottom: 1rem;
 
     > *:first-child:last-child {
       grid-column: 2 / span 2;
@@ -30,8 +31,6 @@
         grid-column: 1 / span 2;
       }
     }
-
-    margin-bottom: 1rem;
 
     mat-card {
       &.selected {

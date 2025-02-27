@@ -48,7 +48,7 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
 export class ExerciseFormComponent {
   ExerciseType = ExerciseType;
   exercise = input<ExerciseDto | null>(null);
-  update = output<ExerciseDto>();
+  update = output<ExerciseFormData>();
 
   private readonly formBuilder = inject(FormBuilder);
 
@@ -71,7 +71,14 @@ export class ExerciseFormComponent {
       type: values.type as ExerciseType,
       status: ExerciseStatus.Ongoing,
       config: values.details,
-      participants: [],
     });
   }
+}
+
+interface ExerciseFormData {
+  id: string;
+  name: string;
+  type: ExerciseType;
+  status: ExerciseStatus;
+  config: unknown;
 }
