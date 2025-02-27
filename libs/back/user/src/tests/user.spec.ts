@@ -39,7 +39,7 @@ describe('/api/users', async () => {
         });
 
         const userResponse = await app.get<UserDto>(
-          response.responseHeaders?.location || ''
+          response.headers?.location || ''
         );
         expect(userResponse.status).toBe(200);
         expect(userResponse.body?.name).toBe('Alice');
@@ -54,7 +54,7 @@ describe('/api/users', async () => {
 
         await app.logAs(TestUserBuilder.Bob());
         const userResponse = await app.get<UserDto>(
-          response.responseHeaders?.location || ''
+          response.headers?.location || ''
         );
         expect(userResponse.status).toBe(200);
         expect(userResponse.body?.email).toBeUndefined();
@@ -107,9 +107,7 @@ describe('/api/users', async () => {
         );
 
         expect(response.status).toBe(201);
-        expect(response.responseHeaders?.location).toContain(
-          '/api/users/alice'
-        );
+        expect(response.headers?.location).toContain('/api/users/alice');
       });
     });
   });

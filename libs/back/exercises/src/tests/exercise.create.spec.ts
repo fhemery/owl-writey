@@ -1,21 +1,11 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseToCreateDto } from '@owl/shared/contracts';
+import { ExerciseDto, ExerciseToCreateDto } from '@owl/shared/contracts';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, moduleTestInit } from './module-test-init';
+import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
-import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises', () => {
   void moduleTestInit();
-  let exerciseUtils: ExerciseTestUtils;
-  let userUtils: UserTestUtils;
-
-  beforeEach(async () => {
-    exerciseUtils = new ExerciseTestUtils(app);
-    userUtils = new UserTestUtils(app);
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
-  });
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
@@ -60,7 +50,7 @@ describe('POST /exercises', () => {
         ExerciseTestBuilder.ExquisiteCorpse()
       );
       expect(response.status).toBe(201);
-      expect(response.responseHeaders?.location).toContain('/api/exercises/');
+      expect(response.headers?.location).toContain('/api/exercises/');
     });
 
     it('should be able to retrieve the created exercise', async () => {
@@ -70,12 +60,13 @@ describe('POST /exercises', () => {
         ExerciseTestBuilder.ExquisiteCorpse()
       );
 
-      expect(response.responseHeaders?.location).toBeDefined();
-      const getResponse = await app.get(
-        response.responseHeaders?.location ?? ''
+      expect(response.headers?.location).toBeDefined();
+      const getResponse = await app.get<ExerciseDto>(
+        response.headers?.location ?? ''
       );
 
       expect(getResponse.status).toBe(200);
+      expect(getResponse.body?._links.self).toBe(response.headers?.location);
     });
   });
 });

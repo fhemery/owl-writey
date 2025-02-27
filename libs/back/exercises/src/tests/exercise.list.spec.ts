@@ -1,21 +1,11 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseStatus } from '@owl/shared/contracts';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, baseAppUrl, moduleTestInit } from './module-test-init';
+import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
-import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('GET /exercises', () => {
   void moduleTestInit();
-  let exerciseUtils: ExerciseTestUtils;
-  let userUtils: UserTestUtils;
-
-  beforeEach(async () => {
-    exerciseUtils = new ExerciseTestUtils(app);
-    userUtils = new UserTestUtils(app);
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
-  });
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
@@ -57,7 +47,7 @@ describe('GET /exercises', () => {
       const { body } = await exerciseUtils.list();
       const exercise = body?.exercises.find((e) => e.id === id);
       expect(exercise).toBeDefined();
-      expect(exercise?._links.self).toBe(`${baseAppUrl}/api/exercises/${id}`);
+      expect(exercise?._links.self).toBe(`/api/exercises/${id}`);
     });
 
     it('should not by default return finished exercises', async () => {

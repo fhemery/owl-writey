@@ -1,22 +1,11 @@
 import { ApiResponseStatus, TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseStatus } from '@owl/shared/contracts';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, baseAppUrl, moduleTestInit } from './module-test-init';
+import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
-import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('GET /exercises/:id', () => {
   void moduleTestInit();
-  let exerciseUtils: ExerciseTestUtils;
-  let userUtils: UserTestUtils;
-
-  beforeEach(async () => {
-    exerciseUtils = new ExerciseTestUtils(app);
-    userUtils = new UserTestUtils(app);
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
-    await userUtils.createIfNotExists(TestUserBuilder.Bob());
-  });
 
   describe('error cases', () => {
     it('should return 401 if the user is not logged', async () => {
@@ -74,17 +63,11 @@ describe('GET /exercises/:id', () => {
       if (!body) {
         fail('Body is empty');
       }
-      expect(body._links.self).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}`
-      );
-      expect(body._links.delete).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}`
-      );
-      expect(body._links.finish).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}/finish`
-      );
+      expect(body._links.self).toBe(`/api/exercises/${locationId}`);
+      expect(body._links.delete).toBe(`/api/exercises/${locationId}`);
+      expect(body._links.finish).toBe(`/api/exercises/${locationId}/finish`);
       expect(body._links.invite).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}/participants`
+        `/api/exercises/${locationId}/participants`
       );
       expect(body._links.leave).toBeUndefined();
     });
@@ -107,14 +90,12 @@ describe('GET /exercises/:id', () => {
       if (!body) {
         fail('Body is empty');
       }
-      expect(body._links.self).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}`
-      );
+      expect(body._links.self).toBe(`/api/exercises/${locationId}`);
       expect(body._links.delete).toBeUndefined();
       expect(body._links.finish).toBeUndefined();
       expect(body._links.invite).toBeUndefined();
       expect(body._links.leave).toBe(
-        `${baseAppUrl}/api/exercises/${locationId}/participants/me`
+        `/api/exercises/${locationId}/participants/me`
       );
     });
 

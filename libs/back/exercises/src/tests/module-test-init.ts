@@ -3,12 +3,15 @@ import {
   FakeWsAuthService,
   IntegrationTestApplicationBuilder,
   NestTestApplication,
+  TestUserBuilder,
 } from '@owl/back/test-utils';
 
+import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { ExercisesModule } from '../lib/exercises.module';
+import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 export let app: NestTestApplication;
-export const baseAppUrl = 'http://localhost:3000';
+export let exerciseUtils: ExerciseTestUtils;
 
 export const moduleTestInit = async (port?: number): Promise<void> => {
   beforeAll(async () => {
@@ -16,8 +19,16 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
       .withFakeInMemoryDb()
       .withPortExposition(port)
       .withMock(WsAuthService, new FakeWsAuthService())
-      .withEnvVariable('BASE_API_URL', 'http://localhost:3000')
+      .withEnvVariable('BASE_API_URL', '')
       .build(ExercisesModule);
+    exerciseUtils = new ExerciseTestUtils(app);
+  });
+
+  beforeAll(async () => {
+    const userUtils = new UserTestUtils(app);
+    await userUtils.createIfNotExists(TestUserBuilder.Alice());
+    await userUtils.createIfNotExists(TestUserBuilder.Bob());
+    await userUtils.createIfNotExists(TestUserBuilder.Carol());
   });
 
   afterEach(async () => {

@@ -11,29 +11,21 @@ import {
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
 } from '@owl/shared/contracts';
-import { UserTestUtils } from 'libs/back/user/src/tests/utils/user-test-utils';
 
 import { ExquisiteCorpseConfig } from '../lib/domain/model';
-import { app, moduleTestInit } from './module-test-init';
+import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
-import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('Exquisite Corpse Exercise', () => {
   const port = 3456;
   void moduleTestInit(port);
 
-  let exerciseUtils: ExerciseTestUtils;
-  let userUtils: UserTestUtils;
   let wsUtils: WsUtils;
   let sseUtils: SseUtils;
 
   beforeEach(async () => {
-    exerciseUtils = new ExerciseTestUtils(app);
-    userUtils = new UserTestUtils(app);
     wsUtils = new WsUtils();
     sseUtils = new SseUtils();
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
-    await userUtils.createIfNotExists(TestUserBuilder.Bob());
   });
 
   afterEach(() => {
@@ -44,6 +36,7 @@ describe('Exquisite Corpse Exercise', () => {
   describe('Exquisite corpse', () => {
     describe('POST /api/exercises', () => {
       it('should throw 400 if initial text is not provided', async () => {
+        await app.logAs(TestUserBuilder.Alice());
         const exercise: ExerciseToCreateDto =
           ExerciseTestBuilder.FromExquisiteCorpse()
             .withConfigKey('initialText', null)
@@ -54,6 +47,7 @@ describe('Exquisite Corpse Exercise', () => {
       });
 
       it('should throw 400 if nbIterations is lower than 1', async () => {
+        await app.logAs(TestUserBuilder.Alice());
         const exercise: ExerciseToCreateDto =
           ExerciseTestBuilder.FromExquisiteCorpse()
             .withConfigKey('initialText', 'Initial text')
@@ -65,6 +59,7 @@ describe('Exquisite Corpse Exercise', () => {
       });
 
       it('should work if no nbIterations is provided', async () => {
+        await app.logAs(TestUserBuilder.Alice());
         const exercise: ExerciseToCreateDto =
           ExerciseTestBuilder.FromExquisiteCorpse()
             .withConfigKey('initialText', 'Initial text')

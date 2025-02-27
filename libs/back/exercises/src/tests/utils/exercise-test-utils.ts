@@ -5,6 +5,8 @@ import {
   GetAllExercisesResponseDto,
 } from '@owl/shared/contracts';
 
+import { app } from '../module-test-init';
+
 export class ExerciseTestUtils {
   constructor(private readonly app: NestTestApplication) {}
 
@@ -73,5 +75,16 @@ export class ExerciseTestUtils {
 
   async delete(exerciseId: string): Promise<ApiResponse<void>> {
     return await this.app.delete(`/api/exercises/${exerciseId}`);
+  }
+
+  async createAndRetrieve(exercise: ExerciseToCreateDto): Promise<ExerciseDto> {
+    const createResponse = await this.create(exercise);
+    const getResponse = await app.get<ExerciseDto>(
+      createResponse.headers?.location || ''
+    );
+    if (!getResponse.body) {
+      fail('Exercise not found');
+    }
+    return getResponse.body;
   }
 }

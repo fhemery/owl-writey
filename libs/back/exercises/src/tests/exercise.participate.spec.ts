@@ -1,23 +1,13 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
-import { app, moduleTestInit } from './module-test-init';
+import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
-import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 describe('POST /exercises/:id/participants', () => {
   void moduleTestInit();
-  let exerciseUtils: ExerciseTestUtils;
-  let userUtils: UserTestUtils;
-
   let exerciseId: string;
 
   beforeEach(async () => {
-    exerciseUtils = new ExerciseTestUtils(app);
-    userUtils = new UserTestUtils(app);
-    await userUtils.createIfNotExists(TestUserBuilder.Alice());
-    await userUtils.createIfNotExists(TestUserBuilder.Bob());
-
     await app.logAs(TestUserBuilder.Alice());
     exerciseId = await exerciseUtils.createAndGetId(
       ExerciseTestBuilder.ExquisiteCorpse()

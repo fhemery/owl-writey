@@ -8,11 +8,11 @@ export class ApiResponse<T> {
   constructor(
     readonly status: ApiResponseStatus,
     readonly body?: T | undefined,
-    readonly responseHeaders?: ApiResponseHeaders
+    readonly headers?: ApiResponseHeaders
   ) {}
 
   get locationId(): string | undefined {
-    return this.responseHeaders?.location?.split('/').pop();
+    return this.headers?.location?.split('/').pop();
   }
 
   expectStatus(expectedStatus: ApiResponseStatus): ApiResponse<T> {
