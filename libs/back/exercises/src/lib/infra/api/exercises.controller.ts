@@ -10,9 +10,17 @@ import {
   Post,
   Query,
   Req,
+  Sse,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
-import { ExerciseDto, GetAllExercisesResponseDto } from '@owl/shared/contracts';
+import { SseNotificationService } from '@owl/back/websocket';
+import {
+  ConnectionToExerciseSuccessfulEvent,
+  ExerciseDto,
+  GetAllExercisesResponseDto,
+  SseEvent,
+} from '@owl/shared/contracts';
+import { Observable } from 'rxjs';
 
 import {
   ExerciseException,
@@ -20,6 +28,7 @@ import {
   ExerciseToCreate,
   QueryFilter,
 } from '../../domain/model';
+import { exerciseConstants } from '../../domain/model/exercise-constants';
 import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
   CreateExerciseCommand,
@@ -39,7 +48,8 @@ export class ExercisesController {
     private readonly createExerciseCommand: CreateExerciseCommand,
     private readonly getExerciseQuery: GetExerciseQuery,
     private readonly deleteExerciseCommand: DeleteExerciseCommand,
-    private readonly finishExerciseCommand: FinishExerciseCommand
+    private readonly finishExerciseCommand: FinishExerciseCommand,
+    private readonly notificationService: SseNotificationService
   ) {}
 
   @Get('')
@@ -136,5 +146,33 @@ export class ExercisesController {
       }
       throw err;
     }
+  }
+
+  @Auth()
+  @Sse(':id/events')
+  async getEvents(
+    @Req() request: RequestWithUser,
+    @Param('id') id: string
+  ): Promise<Observable<{ data: SseEvent }>> {
+    const stream = this.notificationService.registerToRoom(
+      exerciseConstants.getRoom(id),
+      request.user.uid
+    );
+
+    // TODO : return error if user does not belong to exercise.
+    // TODO : 404 if exercise does not exist
+
+    const exercise = await this.getExerciseQuery.execute(request.user.uid, id);
+
+    if (!exercise) {
+      throw new NotFoundException();
+    }
+    stream.next({
+      data: new ConnectionToExerciseSuccessfulEvent(
+        exercise?.generalInfo.name || ''
+      ),
+    });
+
+    return stream;
   }
 }

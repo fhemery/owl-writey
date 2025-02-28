@@ -19,7 +19,7 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
       .withFakeInMemoryDb()
       .withPortExposition(port)
       .withMock(WsAuthService, new FakeWsAuthService())
-      .withEnvVariable('BASE_API_URL', '')
+      .withEnvVariable('BASE_API_URL', port ? `http://localhost:${port}` : '')
       .build(ExercisesModule);
     exerciseUtils = new ExerciseTestUtils(app);
   });
@@ -33,6 +33,7 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
 
   afterEach(async () => {
     await app.reset();
+    await exerciseUtils.reset();
   });
 
   afterAll(async () => {

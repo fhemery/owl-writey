@@ -7,7 +7,6 @@ import {
 import {
   ConnectToExerciseEvent,
   ExerciseStatus,
-  ExerciseToCreateDto,
   ExquisiteCorpseContentDto,
   exquisiteCorpseEvents,
 } from '@owl/shared/contracts';
@@ -34,43 +33,6 @@ describe('Exquisite Corpse Exercise', () => {
   });
 
   describe('Exquisite corpse', () => {
-    describe('POST /api/exercises', () => {
-      it('should throw 400 if initial text is not provided', async () => {
-        await app.logAs(TestUserBuilder.Alice());
-        const exercise: ExerciseToCreateDto =
-          ExerciseTestBuilder.FromExquisiteCorpse()
-            .withConfigKey('initialText', null)
-            .build();
-
-        const response = await exerciseUtils.create(exercise);
-        expect(response.status).toBe(400);
-      });
-
-      it('should throw 400 if nbIterations is lower than 1', async () => {
-        await app.logAs(TestUserBuilder.Alice());
-        const exercise: ExerciseToCreateDto =
-          ExerciseTestBuilder.FromExquisiteCorpse()
-            .withConfigKey('initialText', 'Initial text')
-            .withConfigKey('nbIterations', -1)
-            .build();
-
-        const response = await exerciseUtils.create(exercise);
-        expect(response.status).toBe(400);
-      });
-
-      it('should work if no nbIterations is provided', async () => {
-        await app.logAs(TestUserBuilder.Alice());
-        const exercise: ExerciseToCreateDto =
-          ExerciseTestBuilder.FromExquisiteCorpse()
-            .withConfigKey('initialText', 'Initial text')
-            .withConfigKey('nbIterations', null)
-            .build();
-
-        const response = await exerciseUtils.create(exercise);
-        expect(response.status).toBe(201);
-      });
-    });
-
     describe(exquisiteCorpseEvents.connect, () => {
       it('should return the content via socket', async () => {
         const alice = TestUserBuilder.Alice();

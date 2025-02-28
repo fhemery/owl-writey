@@ -11,3 +11,10 @@ export class ConnectToExerciseEvent extends SseEvent<{
     super(ConnectToExerciseEvent.eventName, { author, exerciseName });
   }
 }
+
+export class ConnectionToExerciseSuccessfulEvent extends SseEvent {
+  static readonly eventName = 'connectionToExerciseSuccessful';
+  constructor(exerciseName: string) {
+    super(ConnectionToExerciseSuccessfulEvent.eventName, exerciseName);
+  }
+}

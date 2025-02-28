@@ -1,8 +1,10 @@
 import {
   ExerciseDto,
+  ExerciseLinksDto,
   ExerciseParticipantRole,
   ExerciseStatus,
   ExerciseSummaryDto,
+  ExerciseType,
 } from '@owl/shared/contracts';
 
 import { ExerciseSummary } from '../../../domain/model';
@@ -21,6 +23,39 @@ export function toExerciseSummaryDto(
       self: `${baseAppUrl}/api/exercises/${exercise.id}`,
     },
   };
+}
+
+function generateLinks(
+  baseAppUrl: string,
+  exercise: Exercise<unknown, unknown>,
+  isUserAdmin: boolean
+): ExerciseLinksDto {
+  const links: ExerciseLinksDto = {
+    self: `${baseAppUrl}/api/exercises/${exercise.id}`,
+    delete: isUserAdmin
+      ? `${baseAppUrl}/api/exercises/${exercise.id}`
+      : undefined,
+    finish:
+      isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
+        : undefined,
+    invite:
+      isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
+        : undefined,
+    leave: isUserAdmin
+      ? undefined
+      : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
+    removeParticipant: isUserAdmin
+      ? `${baseAppUrl}/api/exercises/${exercise.id}/participants/{id}`
+      : undefined,
+    connect:
+      exercise.type === ExerciseType.ExquisiteCorpse
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/events`
+        : undefined,
+  };
+
+  return links;
 }
 
 export function toExerciseDto(
@@ -42,25 +77,6 @@ export function toExerciseDto(
       name: p.name,
       isAdmin: p.role === ExerciseParticipantRole.Admin,
     })),
-    _links: {
-      self: `${baseAppUrl}/api/exercises/${exercise.id}`,
-      delete: isUserAdmin
-        ? `${baseAppUrl}/api/exercises/${exercise.id}`
-        : undefined,
-      finish:
-        isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
-          ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
-          : undefined,
-      invite:
-        isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
-          ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
-          : undefined,
-      leave: isUserAdmin
-        ? undefined
-        : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
-      removeParticipant: isUserAdmin
-        ? `${baseAppUrl}/api/exercises/${exercise.id}/participants/{id}`
-        : undefined,
-    },
+    _links: generateLinks(baseAppUrl, exercise, isUserAdmin),
   };
 }

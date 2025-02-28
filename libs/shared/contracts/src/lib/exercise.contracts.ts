@@ -19,14 +19,7 @@ export interface ExerciseDto {
   status: ExerciseStatus;
   config: unknown;
   participants: ExerciseParticipantDto[];
-  _links: {
-    self: string;
-    delete?: string;
-    finish?: string;
-    invite?: string;
-    leave?: string;
-    removeParticipant?: string;
-  };
+  _links: ExerciseLinksDto;
 }
 
 export interface ExerciseParticipantDto {
@@ -63,4 +56,15 @@ export enum ExerciseStatus {
   Ongoing = 'Ongoing',
   Finished = 'Finished',
   Archived = 'Archived',
+}
+
+export interface ExerciseLinksDto {
+  self: string;
+  delete?: string;
+  finish?: string;
+  invite?: string;
+  leave?: string;
+  connect?: string;
+  removeParticipant?: string;
+  [key: string]: unknown;
 }

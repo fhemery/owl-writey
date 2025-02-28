@@ -1,4 +1,9 @@
-import { ApiResponse, NestTestApplication } from '@owl/back/test-utils';
+import {
+  ApiResponse,
+  NestTestApplication,
+  SseEventList,
+  SseUtils,
+} from '@owl/back/test-utils';
 import {
   ExerciseDto,
   ExerciseToCreateDto,
@@ -8,6 +13,7 @@ import {
 import { app } from '../module-test-init';
 
 export class ExerciseTestUtils {
+  readonly #sseUtils = new SseUtils();
   constructor(private readonly app: NestTestApplication) {}
 
   async list(params?: {
@@ -137,5 +143,26 @@ export class ExerciseTestUtils {
     return await app.delete(
       exercise._links.removeParticipant.replace('{id}', uid)
     );
+  }
+
+  async connectFromHateoas(exercise: ExerciseDto): Promise<SseEventList> {
+    if (!exercise._links.connect) {
+      fail('No link to connect to');
+    }
+    return this.#sseUtils.connect(exercise._links.connect);
+  }
+
+  async connect(
+    exerciseId: string,
+    applicationPort: number
+  ): Promise<SseEventList> {
+    return this.#sseUtils.connect(
+      `http://localhost:${applicationPort}/api/exercises/${exerciseId}/events`
+    );
+  }
+
+  async reset(): Promise<void> {
+    this.#sseUtils.disconnectAll();
+    return Promise.resolve();
   }
 }

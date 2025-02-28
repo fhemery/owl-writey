@@ -113,5 +113,17 @@ describe('GET /exercises/:id', () => {
       expect(exercise.participants[0].name).toBe(alice.name);
       expect(exercise.participants[0].isAdmin).toBe(true);
     });
+
+    it('should return a connect link to participants', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+
+      const exercise = await exerciseUtils.createAndRetrieve(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      expect(exercise._links.connect).toBe(
+        `/api/exercises/${exercise.id}/events`
+      );
+    });
   });
 });

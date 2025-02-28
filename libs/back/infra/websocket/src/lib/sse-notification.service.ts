@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SseEvent } from '@owl/shared/contracts';
-import { Observable, Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 
 class UserStream {
   constructor(
@@ -13,7 +13,7 @@ class UserStream {
 export class SseNotificationService {
   private rooms: Map<string, UserStream[]> = new Map<string, UserStream[]>();
 
-  registerUser(userId: string): Observable<{ data: SseEvent }> {
+  registerUser(userId: string): Subject<{ data: SseEvent }> {
     return this.registerToRoom('user-' + userId, userId);
   }
 
@@ -21,11 +21,8 @@ export class SseNotificationService {
     this.notifyRoom('user-' + userId, event);
   }
 
-  registerToRoom(
-    roomId: string,
-    userId: string
-  ): Observable<{ data: SseEvent }> {
-    const subject = new Subject<{ data: SseEvent }>();
+  registerToRoom(roomId: string, userId: string): Subject<{ data: SseEvent }> {
+    const subject = new ReplaySubject<{ data: SseEvent }>();
     this.rooms.set(roomId, [
       ...(this.rooms.get(roomId) || []),
       new UserStream(userId, subject),
