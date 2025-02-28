@@ -1,15 +1,16 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
+import { ExerciseDto } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('POST /exercises/:id/participants', () => {
   void moduleTestInit();
-  let exerciseId: string;
+  let exercise: ExerciseDto;
 
   beforeEach(async () => {
     await app.logAs(TestUserBuilder.Alice());
-    exerciseId = await exerciseUtils.createAndGetId(
+    exercise = await exerciseUtils.createAndRetrieve(
       ExerciseTestBuilder.ExquisiteCorpse()
     );
   });
@@ -18,30 +19,24 @@ describe('POST /exercises/:id/participants', () => {
     it('should return 401 if the user is not logged', async () => {
       await app.logAs(null);
 
-      const response = await app.post(
-        `/api/exercises/${exerciseId}/participants`,
-        {}
-      );
+      const response = await exerciseUtils.participateFromHateoas(exercise);
       expect(response.status).toBe(401);
     });
 
     it('should return 400 if user is already in the list', async () => {
       await app.logAs(TestUserBuilder.Alice());
 
-      const response = await app.post(
-        `/api/exercises/${exerciseId}/participants`,
-        {}
-      );
+      const response = await exerciseUtils.participateFromHateoas(exercise);
       expect(response.status).toBe(400);
     });
 
     it('should return 400 if exercise is finished', async () => {
       await app.logAs(TestUserBuilder.Alice());
 
-      await exerciseUtils.finish(exerciseId);
+      await exerciseUtils.finishFromHateoas(exercise);
 
       await app.logAs(TestUserBuilder.Bob());
-      const response = await exerciseUtils.addParticipant(exerciseId);
+      const response = await exerciseUtils.participateFromHateoas(exercise);
       expect(response.status).toBe(400);
     });
   });
@@ -50,19 +45,17 @@ describe('POST /exercises/:id/participants', () => {
     it('should return 204 if user is added', async () => {
       await app.logAs(TestUserBuilder.Bob());
 
-      const response = await app.post(
-        `/api/exercises/${exerciseId}/participants`,
-        {}
-      );
+      const response = await exerciseUtils.participateFromHateoas(exercise);
       expect(response.status).toBe(204);
     });
+
     it('should have added participant to the list', async () => {
       await app.logAs(TestUserBuilder.Bob());
 
-      await app.post(`/api/exercises/${exerciseId}/participants`, {});
+      await exerciseUtils.participateFromHateoas(exercise);
 
-      const response = await exerciseUtils.get(exerciseId);
-      const bob = response.participants.find(
+      const response = await exerciseUtils.getFromHateoas(exercise);
+      const bob = response.body?.participants.find(
         (p) => p.uid === TestUserBuilder.Bob().uid
       );
       expect(bob).toBeDefined();

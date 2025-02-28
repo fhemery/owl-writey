@@ -26,8 +26,8 @@ describe('POST /exercises/:id/finish', () => {
     it('should return 400 if user is not admin', async () => {
       await app.logAs(TestUserBuilder.Bob());
 
-      await app.post(exercise._links.invite || '', {});
-      const getResponse = await app.get<ExerciseDto>(exercise._links.self);
+      await exerciseUtils.participateFromHateoas(exercise);
+      const getResponse = await exerciseUtils.getFromHateoas(exercise);
       expect(getResponse.body?._links.finish).toBeUndefined();
 
       const response = await exerciseUtils.finish(exercise.id);
@@ -46,16 +46,15 @@ describe('POST /exercises/:id/finish', () => {
     it('should return 204 if user is admin', async () => {
       await app.logAs(TestUserBuilder.Alice());
 
-      expect(exercise._links.finish).toBeDefined();
-      const removeResponse = await app.post(exercise._links.finish || '', {});
+      const removeResponse = await exerciseUtils.finishFromHateoas(exercise);
       expect(removeResponse.status).toBe(204);
     });
 
     it('should have the set as finished in the list', async () => {
       await app.logAs(TestUserBuilder.Alice());
-      await app.post(exercise._links.finish || '', {});
+      await exerciseUtils.finishFromHateoas(exercise);
 
-      const response = await app.get<ExerciseDto>(exercise._links.self);
+      const response = await exerciseUtils.getFromHateoas(exercise);
       expect(response.status).toBe(200);
       expect(response.body?.status).toBe(ExerciseStatus.Finished);
     });

@@ -25,6 +25,7 @@ export interface ExerciseDto {
     finish?: string;
     invite?: string;
     leave?: string;
+    removeParticipant?: string;
   };
 }
 

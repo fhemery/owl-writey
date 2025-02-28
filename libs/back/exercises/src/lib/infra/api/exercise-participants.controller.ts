@@ -68,7 +68,10 @@ export class ExerciseParticipantsController {
     }
 
     try {
-      exercise.removeParticipant(request.user.uid, participantId);
+      exercise.removeParticipant(
+        request.user.uid,
+        participantId === 'me' ? request.user.uid : participantId
+      );
     } catch (err) {
       if (err instanceof ExerciseException) {
         throw new BadRequestException(err.message);

@@ -26,8 +26,8 @@ describe('DELETE /exercises/:id', () => {
     it('should return 400 if user is not admin', async () => {
       await app.logAs(TestUserBuilder.Bob());
 
-      await app.post(exercise._links.invite || '', {});
-      const getResponse = await app.get<ExerciseDto>(exercise._links.self);
+      await exerciseUtils.participateFromHateoas(exercise);
+      const getResponse = await exerciseUtils.getFromHateoas(exercise);
       expect(getResponse.body?._links.delete).toBeUndefined();
 
       const response = await exerciseUtils.delete(exercise.id);
@@ -46,21 +46,16 @@ describe('DELETE /exercises/:id', () => {
     it('should return 204 if user is admin', async () => {
       await app.logAs(TestUserBuilder.Alice());
 
-      if (!exercise._links.delete) {
-        fail('Delete link not found');
-      }
-      const removeResponse = await app.delete(exercise._links.delete);
+      const removeResponse = await exerciseUtils.deleteFromHateoas(exercise);
       expect(removeResponse.status).toBe(204);
     });
 
     it('should have removed exercise', async () => {
       await app.logAs(TestUserBuilder.Alice());
-      if (!exercise._links.delete) {
-        fail('Delete link not found');
-      }
-      await app.delete(exercise._links.delete);
 
-      const response = await app.get(exercise._links.self);
+      await exerciseUtils.deleteFromHateoas(exercise);
+
+      const response = await exerciseUtils.getFromHateoas(exercise);
       expect(response.status).toBe(404);
     });
   });

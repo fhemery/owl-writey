@@ -55,6 +55,9 @@ export function toExerciseDto(
       leave: isUserAdmin
         ? undefined
         : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
+      removeParticipant: isUserAdmin
+        ? `${baseAppUrl}/api/exercises/${exercise.id}/participants/{id}`
+        : undefined,
     },
   };
 }

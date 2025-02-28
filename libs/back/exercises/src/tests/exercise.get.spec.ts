@@ -1,5 +1,5 @@
 import { ApiResponseStatus, TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseStatus } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseToCreateDto } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
@@ -18,10 +18,10 @@ describe('GET /exercises/:id', () => {
     it('should return 400 if type is not valid', async () => {
       await app.logAs(TestUserBuilder.Alice());
 
-      const response = await app.post('/api/exercises', {
+      const response = await exerciseUtils.create({
         ...ExerciseTestBuilder.ExquisiteCorpse(),
         type: 'Not a valid type',
-      });
+      } as unknown as ExerciseToCreateDto);
       expect(response.status).toBe(400);
     });
 
