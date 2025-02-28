@@ -12,7 +12,13 @@ export class UserNotificationsService {
   private sseSubscriber = inject(SseSubscriberService);
   private user$ = toObservable(this.auth.user);
 
-  connect(): Observable<SseEvent> {
+  connect(url: string): Observable<SseEvent> {
+    return from(this.sseSubscriber.connect(url)).pipe(
+      switchMap((events) => events)
+    );
+  }
+
+  connectUser(): Observable<SseEvent> {
     return this.user$.pipe(
       filter((user) => !!user),
       map((user) => user.uid),

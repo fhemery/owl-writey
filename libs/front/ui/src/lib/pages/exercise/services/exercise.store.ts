@@ -8,7 +8,10 @@ import {
   withState,
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { ExerciseDto } from '@owl/shared/contracts';
+import { UserNotificationsService } from '@owl/front/infra';
+import { ExerciseDto, ExerciseUpdatedEvent } from '@owl/shared/contracts';
+
+import { NotificationService } from '../../../services/notification.service';
 
 type ExerciseState = {
   exercise: ExerciseDto | null;
@@ -26,14 +29,42 @@ const initialState: ExerciseState = {
 
 export const ExerciseStore = signalStore(
   withState(initialState),
-  withMethods((store) => ({
-    async setExercise(exercise: ExerciseDto): Promise<void> {
-      patchState(store, (state) => ({
-        ...state,
-        exercise: exercise,
-      }));
-    },
-  })),
+  withMethods(
+    (
+      store,
+      userNotificationService = inject(UserNotificationsService),
+      notificationService = inject(NotificationService)
+    ) => ({
+      async setExercise(exercise: ExerciseDto): Promise<void> {
+        if (exercise._links.connect) {
+          await this.connectToExerciseUpdates(exercise);
+        }
+        patchState(store, (state) => ({
+          ...state,
+          exercise: exercise,
+        }));
+      },
+      async connectToExerciseUpdates(exercise: ExerciseDto): Promise<void> {
+        userNotificationService
+          .connect(exercise._links.connect || '')
+          .subscribe((event) => {
+            if (event.event === ExerciseUpdatedEvent.eventName) {
+              const ev = event as ExerciseUpdatedEvent;
+              patchState(store, (state) => ({
+                ...state,
+                exercise: ev.data.exercise,
+              }));
+              if (ev.data.notification) {
+                notificationService.notifyEvent(
+                  ev.data.notification.key,
+                  ev.data.notification.data
+                );
+              }
+            }
+          });
+      },
+    })
+  ),
   withComputed((store) => ({
     isAdmin: computed<boolean>(
       () =>

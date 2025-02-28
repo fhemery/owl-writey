@@ -32,13 +32,7 @@ export class NotificationService {
     });
   }
 
-  private showSnackbar(
-    message: string,
-    action: string,
-    panelClass: string
-  ): void {
-    this.#snackbar.open(message, action, {
-      panelClass,
-    });
+  notifyEvent(eventName: string, data: Record<string, unknown>): void {
+    this.showInfo(this.#translateService.instant(`events.${eventName}`, data));
   }
 }

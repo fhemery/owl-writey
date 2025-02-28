@@ -38,7 +38,7 @@ export class OwlWriteyUiComponent implements OnInit {
 
     this.translateHubService.loadTranslations('fr', uiFr);
 
-    this.notificationService.connect().subscribe((event: SseEvent) => {
+    this.notificationService.connectUser().subscribe((event: SseEvent) => {
       this.toastsService.showInfo(
         this.translateService.instant(
           `events.${event.event}`,
