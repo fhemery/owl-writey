@@ -7,7 +7,7 @@ import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 describe('GET /api/exercises/:id (for an exquisite corpse)', () => {
   void moduleTestInit();
 
-  it('should work if no nbIterations is provided', async () => {
+  it('should display a connect link', async () => {
     await app.logAs(TestUserBuilder.Alice());
     const exercise = await exerciseUtils.createAndRetrieve(
       ExerciseTestBuilder.ExquisiteCorpse()

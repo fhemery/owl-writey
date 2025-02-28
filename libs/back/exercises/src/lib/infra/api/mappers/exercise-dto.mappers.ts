@@ -5,9 +5,13 @@ import {
   ExerciseStatus,
   ExerciseSummaryDto,
   ExerciseType,
+  ExquisiteCorpseLinksDto,
 } from '@owl/shared/contracts';
 
-import { ExerciseSummary } from '../../../domain/model';
+import {
+  ExerciseSummary,
+  ExquisiteCorpseExercise,
+} from '../../../domain/model';
 import { Exercise } from '../../../domain/model/exercise';
 
 export function toExerciseSummaryDto(
@@ -25,12 +29,26 @@ export function toExerciseSummaryDto(
   };
 }
 
+function addExquisiteCorpseLinks(
+  baseAppUrl: string,
+  exercise: Exercise<unknown, unknown>,
+  links: ExerciseLinksDto
+): ExquisiteCorpseLinksDto {
+  const exCorpse = exercise as ExquisiteCorpseExercise;
+  return {
+    ...links,
+    takeTurn: exCorpse.canTakeTurn()
+      ? `${baseAppUrl}/api/exCorpse/${exercise.id}/takeTurn`
+      : undefined,
+  };
+}
+
 function generateLinks(
   baseAppUrl: string,
   exercise: Exercise<unknown, unknown>,
   isUserAdmin: boolean
 ): ExerciseLinksDto {
-  const links: ExerciseLinksDto = {
+  let links: ExerciseLinksDto = {
     self: `${baseAppUrl}/api/exercises/${exercise.id}`,
     delete: isUserAdmin
       ? `${baseAppUrl}/api/exercises/${exercise.id}`
@@ -55,6 +73,9 @@ function generateLinks(
         : undefined,
   };
 
+  if (exercise.type === ExerciseType.ExquisiteCorpse) {
+    links = addExquisiteCorpseLinks(baseAppUrl, exercise, links);
+  }
   return links;
 }
 

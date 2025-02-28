@@ -37,8 +37,16 @@ describe('GET /api/exercises/:id/connect (for an exquisite corpse)', () => {
 
     const events = await exerciseUtils.connectFromHateoas(exercise);
 
-    expect(
-      events.getLatest(ConnectionToExerciseSuccessfulEvent.eventName)
-    ).toBeDefined();
+    const event = events.getLatest(
+      ConnectionToExerciseSuccessfulEvent.eventName
+    );
+    expect(event).toBeDefined();
+
+    const detailedEvent: ConnectionToExerciseSuccessfulEvent =
+      event as ConnectionToExerciseSuccessfulEvent;
+    expect(detailedEvent.data.notification?.key).toBe(
+      ConnectionToExerciseSuccessfulEvent.translationKey
+    );
+    expect(detailedEvent.data.notification?.data.name).toBe(exercise.name);
   });
 });

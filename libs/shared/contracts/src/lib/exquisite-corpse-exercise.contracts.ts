@@ -1,4 +1,4 @@
-import { AuthorDto } from './exercise.contracts';
+import { AuthorDto, ExerciseLinksDto } from './exercise.contracts';
 
 const exquisiteCorpseEventPrefix = 'exCorpse';
 export const exquisiteCorpseEvents = {
@@ -23,4 +23,8 @@ export interface ExquisiteCorpseSceneDto {
   id: number;
   text: string;
   author: AuthorDto;
+}
+
+export interface ExquisiteCorpseLinksDto extends ExerciseLinksDto {
+  takeTurn?: string;
 }

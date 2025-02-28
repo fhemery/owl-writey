@@ -159,9 +159,6 @@ export class ExercisesController {
       request.user.uid
     );
 
-    // TODO : return error if user does not belong to exercise.
-    // TODO : 404 if exercise does not exist
-
     const exercise = await this.getExerciseQuery.execute(request.user.uid, id);
 
     if (!exercise) {
@@ -169,7 +166,11 @@ export class ExercisesController {
     }
     stream.next({
       data: new ConnectionToExerciseSuccessfulEvent(
-        exercise?.generalInfo.name || ''
+        toExerciseDto(
+          exercise,
+          process.env['BASE_API_URL'] || '',
+          request.user.uid
+        )
       ),
     });
 

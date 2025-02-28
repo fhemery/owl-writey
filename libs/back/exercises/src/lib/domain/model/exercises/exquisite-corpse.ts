@@ -86,6 +86,10 @@ export class ExquisiteCorpseExercise extends Exercise<
     this.content.scenes.push(nextScene);
     this.content.currentWriter = undefined;
   }
+
+  canTakeTurn(): boolean {
+    return !this.content?.currentWriter && !this.isFinished();
+  }
 }
 export class ExquisiteCorpseContent {
   constructor(

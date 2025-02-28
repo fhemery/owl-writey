@@ -50,6 +50,10 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
       this.generalInfo.participants
     );
   }
+
+  protected isFinished(): boolean {
+    return this.generalInfo.status === ExerciseStatus.Finished;
+  }
 }
 
 export class ExerciseParticipant {
