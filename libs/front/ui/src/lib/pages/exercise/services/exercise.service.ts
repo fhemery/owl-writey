@@ -62,16 +62,10 @@ export class ExerciseService {
     }
   }
 
-  async removeParticipant(
-    exerciseId: string,
-    userId: string
-  ): Promise<RemoveParticipantResult> {
+  async removeParticipant(link: string): Promise<RemoveParticipantResult> {
     try {
       const response = await firstValueFrom(
-        this.#httpClient.delete(
-          `/api/exercises/${exerciseId}/participants/${userId}`,
-          { observe: 'response' }
-        )
+        this.#httpClient.delete(link, { observe: 'response' })
       );
       if (response.status === 204) {
         return RemoveParticipantResult.Success;
@@ -88,10 +82,10 @@ export class ExerciseService {
     return RemoveParticipantResult.UnknownError;
   }
 
-  async delete(exerciseId: string): Promise<boolean> {
+  async delete(link: string): Promise<boolean> {
     try {
       const response = await firstValueFrom(
-        this.#httpClient.delete(`/api/exercises/${exerciseId}`, {
+        this.#httpClient.delete(link, {
           observe: 'response',
         })
       );
@@ -100,10 +94,10 @@ export class ExerciseService {
       return false;
     }
   }
-  async finish(exerciseId: string): Promise<boolean> {
+  async finish(link: string): Promise<boolean> {
     try {
       const response = await firstValueFrom(
-        this.#httpClient.post(`/api/exercises/${exerciseId}/finish`, null, {
+        this.#httpClient.post(link, null, {
           observe: 'response',
         })
       );

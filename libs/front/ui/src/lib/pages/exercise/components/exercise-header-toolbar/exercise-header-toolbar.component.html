@@ -1,16 +1,17 @@
 <div class="exercise-toolbar">
-  @if(isAdmin()) {
-  <div class="exercise-toolbar__link">
-    <a
-      (click)="generateLink()"
-      (keyup.enter)="generateLink()"
-      tabindex="0"
-      [title]="'exercise.toolbar.link.label' | translate"
-    >
-      <mat-icon>link</mat-icon>
-    </a>
-  </div>
-    @if (exercise().status !== ExerciseStatus.Finished){
+  @if(exercise()._links.invite) {
+    <div class="exercise-toolbar__link">
+      <a
+        (click)="generateLink()"
+        (keyup.enter)="generateLink()"
+        tabindex="0"
+        [title]="'exercise.toolbar.link.label' | translate"
+      >
+        <mat-icon>link</mat-icon>
+      </a>
+    </div>
+  }
+  @if (exercise()._links.finish){
   <div class="exercise-toolbar__finish">
     <a
       (click)="finish()"
@@ -21,16 +22,8 @@
       <mat-icon class="success">check_box</mat-icon>
     </a>
   </div>
-    }
-  <!-- <div class="exercise-toolbar__edit">
-    <a
-      [routerLink]="'/exercises/' + exercise().id + '/edit'"
-      tabindex="0"
-      [title]="'exercise.toolbar.edit.label' | translate"
-    >
-      <mat-icon>edit</mat-icon>
-    </a>
-  </div> -->
+  }
+  @if (exercise()._links.delete){
   <div class="exercise-toolbar__delete">
     <a
       (click)="delete()"
@@ -43,6 +36,7 @@
   </div>
 
   }
+  @if (exercise()._links.leave) {
   <div class="exercise-toolbar__leave">
     <a
       (click)="leave()"
@@ -53,4 +47,5 @@
       <mat-icon>logout</mat-icon>
     </a>
   </div>
+  }
 </div>

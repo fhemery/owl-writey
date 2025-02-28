@@ -68,6 +68,9 @@ export const exerciseFr = {
       delete: {
         label: 'Supprimer',
       },
+      finish: {
+        label: "Terminer l'exercice",
+      },
     },
     share: {
       title: "Inviter d'autres Plumes",

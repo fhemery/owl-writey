@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
 
 import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from '../../../../services/notification.service';
@@ -19,8 +18,7 @@ export class ExerciseLeaveDialogComponent {
   readonly #matDialogRef = inject(MatDialogRef);
   readonly #notificationService = inject(NotificationService);
   readonly #translateService = inject(TranslateService);
-  readonly #matData = inject(MAT_DIALOG_DATA);
-  readonly #auth = inject(FirebaseAuthService);
+  readonly #matData: { link: string } = inject(MAT_DIALOG_DATA);
   readonly #router = inject(Router);
   readonly #exerciseService = inject(ExerciseService);
 
@@ -33,8 +31,7 @@ export class ExerciseLeaveDialogComponent {
       return;
     }
     const result = await this.#exerciseService.removeParticipant(
-      this.#matData.id,
-      this.#auth.user()?.uid || ''
+      this.#matData.link
     );
     switch (result) {
       case 'Success':

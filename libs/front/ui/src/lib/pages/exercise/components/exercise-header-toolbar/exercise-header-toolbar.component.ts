@@ -30,7 +30,7 @@ export class ExerciseHeaderToolbarComponent {
 
   delete(): void {
     this.dialog.open(ExerciseDeleteDialogComponent, {
-      data: { id: this.exercise().id },
+      data: { link: this.exercise()._links.delete },
     });
   }
 
@@ -40,13 +40,13 @@ export class ExerciseHeaderToolbarComponent {
 
   leave(): void {
     this.dialog.open(ExerciseLeaveDialogComponent, {
-      data: { id: this.exercise().id },
+      data: { link: this.exercise()._links.leave },
     });
   }
 
   finish(): void {
     this.dialog.open(ExerciseFinishDialogComponent, {
-      data: { id: this.exercise().id },
+      data: { link: this.exercise()._links.finish },
     });
   }
 

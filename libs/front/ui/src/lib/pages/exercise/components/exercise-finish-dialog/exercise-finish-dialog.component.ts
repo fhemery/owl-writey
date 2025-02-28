@@ -18,7 +18,7 @@ export class ExerciseFinishDialogComponent {
   readonly #matDialogRef = inject(MatDialogRef);
   readonly #notificationService = inject(NotificationService);
   readonly #translateService = inject(TranslateService);
-  readonly #matData = inject(MAT_DIALOG_DATA);
+  readonly #matData: { link: string } = inject(MAT_DIALOG_DATA);
   readonly #router = inject(Router);
   readonly #exerciseService = inject(ExerciseService);
 
@@ -30,7 +30,7 @@ export class ExerciseFinishDialogComponent {
       this.close();
       return;
     }
-    const result = await this.#exerciseService.finish(this.#matData.id);
+    const result = await this.#exerciseService.finish(this.#matData.link);
 
     if (result) {
       this.#notificationService.showSuccess(

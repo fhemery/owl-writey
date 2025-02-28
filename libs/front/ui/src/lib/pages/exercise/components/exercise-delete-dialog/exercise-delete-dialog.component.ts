@@ -18,7 +18,7 @@ export class ExerciseDeleteDialogComponent {
   readonly #matDialogRef = inject(MatDialogRef);
   readonly #notificationService = inject(NotificationService);
   readonly #translateService = inject(TranslateService);
-  readonly #matData = inject(MAT_DIALOG_DATA);
+  readonly #matData: { link: string } = inject(MAT_DIALOG_DATA);
   readonly #router = inject(Router);
   readonly #exerciseService = inject(ExerciseService);
 
@@ -28,7 +28,7 @@ export class ExerciseDeleteDialogComponent {
       return;
     }
 
-    const result = await this.#exerciseService.delete(this.#matData.id);
+    const result = await this.#exerciseService.delete(this.#matData.link);
     if (result) {
       this.#notificationService.showSuccess(
         this.#translateService.instant('exercise.delete.result.ok')
