@@ -35,6 +35,9 @@ describe('POST /exercises/:id/participants', () => {
 
       await exerciseUtils.finishFromHateoas(exercise);
 
+      const getResponse = await exerciseUtils.getFromHateoas(exercise);
+      expect(getResponse.body?._links.invite).toBeUndefined();
+
       await app.logAs(TestUserBuilder.Bob());
       const response = await exerciseUtils.participateFromHateoas(exercise);
       expect(response.status).toBe(400);

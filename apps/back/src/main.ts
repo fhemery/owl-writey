@@ -31,6 +31,11 @@ async function bootstrap(): Promise<void> {
   });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  app.enableCors({
+    origin: process.env['OWL_FRONT_URL'] || 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    exposedHeaders: ['Location'],
+  });
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(

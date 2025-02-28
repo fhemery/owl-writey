@@ -58,5 +58,14 @@ describe('POST /exercises/:id/finish', () => {
       expect(response.status).toBe(200);
       expect(response.body?.status).toBe(ExerciseStatus.Finished);
     });
+
+    it('should not return finish link if exercise is finished', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      await exerciseUtils.finishFromHateoas(exercise);
+
+      const response = await exerciseUtils.getFromHateoas(exercise);
+      expect(response.status).toBe(200);
+      expect(response.body?._links.finish).toBeUndefined();
+    });
   });
 });

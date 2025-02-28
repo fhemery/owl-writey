@@ -1,6 +1,7 @@
 import {
   ExerciseDto,
   ExerciseParticipantRole,
+  ExerciseStatus,
   ExerciseSummaryDto,
 } from '@owl/shared/contracts';
 
@@ -46,12 +47,14 @@ export function toExerciseDto(
       delete: isUserAdmin
         ? `${baseAppUrl}/api/exercises/${exercise.id}`
         : undefined,
-      finish: isUserAdmin
-        ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
-        : undefined,
-      invite: isUserAdmin
-        ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
-        : undefined,
+      finish:
+        isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+          ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
+          : undefined,
+      invite:
+        isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+          ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
+          : undefined,
       leave: isUserAdmin
         ? undefined
         : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
