@@ -1,4 +1,4 @@
-import { ExerciseDto } from './exercise.contracts';
+import { AuthorDto, ExerciseDto } from './exercise.contracts';
 
 export class SseEvent<T = unknown> {
   constructor(readonly event: string, readonly data: T) {}
@@ -41,6 +41,19 @@ export class ConnectionToExerciseSuccessfulEvent extends ExerciseUpdatedEvent<{
     super(exercise, {
       key: ConnectionToExerciseSuccessfulEvent.translationKey,
       data: { name: exercise.name },
+    });
+  }
+}
+
+export class ExquisiteCorpseTurnTakenEvent extends ExerciseUpdatedEvent<{
+  name: string;
+  exercise: string;
+}> {
+  static readonly translationKey = 'exerciseTurnTaken';
+  constructor(exercise: ExerciseDto, author: AuthorDto) {
+    super(exercise, {
+      key: ConnectionToExerciseSuccessfulEvent.translationKey,
+      data: { name: author.name, exercise: exercise.name },
     });
   }
 }

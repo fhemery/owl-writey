@@ -77,6 +77,10 @@ export class ExquisiteCorpseExercise extends Exercise<
       throw new Error('It is not your turn');
     }
 
+    if (this.isFinished()) {
+      throw new Error('Exercise is finished');
+    }
+
     const nextSceneId = this.content.scenes.length + 1;
     const nextScene = new ExquisiteCorpseScene(
       nextSceneId,

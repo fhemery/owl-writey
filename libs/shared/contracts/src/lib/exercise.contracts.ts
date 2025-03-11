@@ -19,6 +19,7 @@ export interface ExerciseDto {
   status: ExerciseStatus;
   config: unknown;
   participants: ExerciseParticipantDto[];
+  content?: unknown;
   _links: ExerciseLinksDto;
 }
 

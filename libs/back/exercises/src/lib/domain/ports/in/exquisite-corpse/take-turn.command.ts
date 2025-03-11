@@ -30,7 +30,8 @@ export class TakeTurnCommand {
       return;
     }
 
-    exercise.setTurn(new ExerciseUser(user.uid, user.name));
+    const author = new ExerciseUser(user.uid, user.name);
+    exercise.setTurn(author);
 
     await this.exerciseRepository.saveContent(exercise);
 

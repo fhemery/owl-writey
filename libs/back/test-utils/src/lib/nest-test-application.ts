@@ -11,7 +11,7 @@ export abstract class NestTestApplication {
   abstract close(): Promise<void>;
 
   async get<T>(url: string): Promise<ApiResponse<T>> {
-    const req = request(this.getRequestTarget()).get(url);
+    const req = request(this.getRequestTarget()).get(this.stripLocalhost(url));
 
     const response = await req;
     return new ApiResponse<T>(
@@ -25,7 +25,7 @@ export abstract class NestTestApplication {
     url: string,
     payload: TInput
   ): Promise<ApiResponse<TOutput>> {
-    const req = request(this.getRequestTarget()).post(url);
+    const req = request(this.getRequestTarget()).post(this.stripLocalhost(url));
 
     const response = await req.send(payload);
     return new ApiResponse<TOutput>(
@@ -36,7 +36,9 @@ export abstract class NestTestApplication {
   }
 
   async delete(url: string): Promise<ApiResponse<void>> {
-    const req = request(this.getRequestTarget()).delete(url);
+    const req = request(this.getRequestTarget()).delete(
+      this.stripLocalhost(url)
+    );
 
     const response = await req;
     return new ApiResponse<void>(
@@ -54,7 +56,7 @@ export abstract class NestTestApplication {
     url: string,
     payload: TInput
   ): Promise<ApiResponse<void>> {
-    const req = request(this.getRequestTarget()).put(url);
+    const req = request(this.getRequestTarget()).put(this.stripLocalhost(url));
 
     const response = await req.send(payload);
     return new ApiResponse<void>(
@@ -62,5 +64,9 @@ export abstract class NestTestApplication {
       undefined,
       response.headers
     );
+  }
+
+  private stripLocalhost(url: string): string {
+    return url.replace(/http:\/\/localhost(:\d+)?/, '');
   }
 }

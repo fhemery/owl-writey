@@ -38,7 +38,7 @@ function addExquisiteCorpseLinks(
   return {
     ...links,
     takeTurn: exCorpse.canTakeTurn()
-      ? `${baseAppUrl}/api/exCorpse/${exercise.id}/takeTurn`
+      ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/take-turn`
       : undefined,
   };
 }
@@ -92,6 +92,7 @@ export function toExerciseDto(
     name: exercise.generalInfo.name,
     type: exercise.type,
     config: exercise.config,
+    content: exercise.content,
     status: exercise.generalInfo.status,
     participants: exercise.getParticipants().map((p) => ({
       uid: p.uid,

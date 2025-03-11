@@ -7,6 +7,7 @@ import {
 import {
   ExerciseDto,
   ExerciseToCreateDto,
+  ExquisiteCorpseLinksDto,
   GetAllExercisesResponseDto,
 } from '@owl/shared/contracts';
 
@@ -164,5 +165,17 @@ export class ExerciseTestUtils {
   async reset(): Promise<void> {
     this.#sseUtils.disconnectAll();
     return Promise.resolve();
+  }
+
+  async takeTurn(id: string): Promise<ApiResponse<void>> {
+    return app.post(`/api/exquisite-corpse/${id}/take-turn`, {});
+  }
+
+  async takeTurnWithHateoas(exercise: ExerciseDto): Promise<ApiResponse<void>> {
+    const links = exercise._links as ExquisiteCorpseLinksDto;
+    if (!links.takeTurn) {
+      fail('Link to take turn does not exist');
+    }
+    return app.post(links.takeTurn, {});
   }
 }

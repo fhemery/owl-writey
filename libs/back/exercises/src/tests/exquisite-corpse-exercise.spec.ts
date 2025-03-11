@@ -209,18 +209,20 @@ describe('Exquisite Corpse Exercise', () => {
       it('should not be able to submit turn if exercise is finished', async () => {
         const alice = TestUserBuilder.Alice();
         await app.logAs(alice);
-        const id = await exerciseUtils.createAndGetId(
+        const exercise = await exerciseUtils.createAndRetrieve(
           ExerciseTestBuilder.ExquisiteCorpse()
         );
 
         const aliceSocket = wsUtils.connectWs(alice.uid, port);
-        await aliceSocket.emit(exquisiteCorpseEvents.connect, { id });
-        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
-          id,
+        await aliceSocket.emit(exquisiteCorpseEvents.connect, {
+          id: exercise.id,
         });
-        await exerciseUtils.finish(id);
+        await aliceSocket.emit(exquisiteCorpseEvents.takeTurn, {
+          id: exercise.id,
+        });
+        await exerciseUtils.finish(exercise.id);
         await aliceSocket.emit(exquisiteCorpseEvents.submitTurn, {
-          id,
+          id: exercise.id,
           content: 'Content',
         });
 

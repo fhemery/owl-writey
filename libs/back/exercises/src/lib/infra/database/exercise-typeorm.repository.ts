@@ -10,7 +10,6 @@ import {
 } from '../../domain/model';
 import { Exercise } from '../../domain/model/exercise';
 import { ExerciseFactory } from '../../domain/model/exercise-factory';
-import { ExerciseFilter } from '../../domain/model/exercise-filter';
 import { ExerciseRepository } from '../../domain/ports';
 import {
   ExerciseContentEntity,
@@ -81,10 +80,7 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
     return entities.map((entity) => entity.toExerciseSummary());
   }
 
-  async get(
-    id: string,
-    filters: ExerciseFilter = {}
-  ): Promise<Exercise | null> {
+  async get(id: string): Promise<Exercise | null> {
     const entity = await this.repository.findOne({
       where: { id },
       relations: ['participants'],
@@ -93,17 +89,11 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
       return null;
     }
 
-    let content: unknown = undefined;
-    if (filters.includeContent) {
-      const contentEntity = await this.contentRepository.findOne({
-        where: { id },
-      });
-      if (contentEntity) {
-        content = contentEntity.content;
-      }
-    }
+    const contentEntity = await this.contentRepository.findOne({
+      where: { id },
+    });
 
-    const exercise = ExerciseFactory.From(
+    return ExerciseFactory.From(
       entity.id,
       new ExerciseGeneralInfo(
         entity.name,
@@ -112,9 +102,8 @@ export class ExerciseTypeOrmRepository implements ExerciseRepository {
       ),
       entity.type as ExerciseType,
       entity.data,
-      content
+      contentEntity?.content
     );
-    return exercise;
   }
 
   async saveContent(exercise: Exercise): Promise<void> {

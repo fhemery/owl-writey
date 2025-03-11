@@ -25,6 +25,7 @@ import {
 } from './entities';
 import { ExerciseParticipantsController } from './infra/api/exercise-participants.controller';
 import { ExercisesController } from './infra/api/exercises.controller';
+import { ExquisiteCorpseController } from './infra/api/exquisite-corpse.controller';
 import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.repository';
 import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
 import { WsNotificationsImpl } from './infra/notifications/ws-notifications.impl';
@@ -41,7 +42,11 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     UsersModule,
     WebsocketModule,
   ],
-  controllers: [ExercisesController, ExerciseParticipantsController],
+  controllers: [
+    ExercisesController,
+    ExerciseParticipantsController,
+    ExquisiteCorpseController,
+  ],
   providers: [
     ExquisiteCorpseEventHandlers,
     { provide: ExerciseRepository, useClass: ExerciseTypeOrmRepository },
