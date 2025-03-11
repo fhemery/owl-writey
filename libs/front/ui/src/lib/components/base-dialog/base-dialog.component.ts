@@ -12,9 +12,9 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './base-dialog.component.scss',
 })
 export class BaseDialogComponent {
-  close = output<void>();
+  closeDialog = output<void>();
 
-  closeDialog(): void {
-    this.close.emit();
+  doClose(): void {
+    this.closeDialog.emit();
   }
 }
