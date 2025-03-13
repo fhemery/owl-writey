@@ -10,7 +10,7 @@ import { Socket } from 'ngx-socket-io';
 @Injectable()
 export class ExquisiteCorpseService extends Socket {
   readonly #auth = inject(FirebaseAuthService);
-  updates = this.fromEvent<ExquisiteCorpseContentDto>(
+  updates = this.fromEvent<ExquisiteCorpseContentDto, string>(
     exquisiteCorpseEvents.updates
   );
 
