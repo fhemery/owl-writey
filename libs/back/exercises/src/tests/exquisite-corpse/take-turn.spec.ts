@@ -112,6 +112,45 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
           new Date(updatedExercise.content.currentWriter?.until || '').getTime()
         ).toBeGreaterThanOrEqual(new Date().getTime());
       });
+
+      it('should tell the owner that turn can be canceled', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+
+        const connect = await exerciseUtils.connectFromHateoas(exercise);
+        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await waitFor(100);
+
+        const latestUpdate = connect.getLatest(
+          ExerciseUpdatedEvent.eventName
+        ) as ExerciseUpdatedEvent;
+        expect(latestUpdate).toBeDefined();
+
+        const updatedExercise = latestUpdate.data
+          .exercise as ExquisiteCorpseExerciseDto;
+        expect(updatedExercise._links.takeTurn).toBeUndefined();
+        expect(updatedExercise._links.cancelTurn).toBeDefined();
+      });
+
+      it('should tell another user that turn cannot be taken', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+        await exerciseUtils.participateFromHateoas(exercise);
+        const connectBob = await exerciseUtils.connectFromHateoas(exercise);
+
+        await app.logAs(TestUserBuilder.Alice());
+
+        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await waitFor(100);
+
+        const latestUpdate = connectBob.getLatest(
+          ExerciseUpdatedEvent.eventName
+        ) as ExerciseUpdatedEvent;
+        expect(latestUpdate).toBeDefined();
+
+        const updatedExercise = latestUpdate.data
+          .exercise as ExquisiteCorpseExerciseDto;
+        expect(updatedExercise._links.takeTurn).toBeUndefined();
+        expect(updatedExercise._links.cancelTurn).toBeUndefined();
+      });
     });
   });
 });

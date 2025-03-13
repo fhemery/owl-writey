@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { WsEvent } from '@owl/back/websocket';
-import { exquisiteCorpseEvents } from '@owl/shared/contracts';
+import { SseNotificationService, WsEvent } from '@owl/back/websocket';
+import {
+  AuthorDto,
+  exquisiteCorpseEvents,
+  ExquisiteCorpseTurnTakenEvent,
+} from '@owl/shared/contracts';
 
+import { ExCorpseTakeTurnEvent } from '../../domain/model';
 import { exerciseConstants } from '../../domain/model/exercise-constants';
 import {
   CancelTurnCommand,
@@ -10,6 +15,7 @@ import {
   SubmitTurnCommand,
   TakeTurnCommand,
 } from '../../domain/ports';
+import { toExerciseDto } from '../api/mappers/exercise-dto.mappers';
 
 class ExquisiteCorpseConnectionEvent extends WsEvent<{ id: string }> {}
 class ExquisiteCorpseTakeTurnEvent extends WsEvent<{ id: string }> {}
@@ -25,8 +31,31 @@ export class ExquisiteCorpseEventHandlers {
     private readonly connectCommand: ConnectToExquisiteCorpseCommand,
     private readonly takeTurnCommand: TakeTurnCommand,
     private readonly submitTurnCommand: SubmitTurnCommand,
-    private readonly cancelTurnCommand: CancelTurnCommand
+    private readonly cancelTurnCommand: CancelTurnCommand,
+    private readonly notificationService: SseNotificationService
   ) {}
+
+  @OnEvent(ExCorpseTakeTurnEvent.eventName)
+  async handleExquisiteCorpseTakeTurnEvent(
+    event: ExCorpseTakeTurnEvent
+  ): Promise<void> {
+    const { exercise } = event.payload;
+    const streams = this.notificationService.getStreams(
+      exerciseConstants.getRoom(exercise.id)
+    );
+    for (const stream of streams) {
+      stream.stream.next({
+        data: new ExquisiteCorpseTurnTakenEvent(
+          toExerciseDto(
+            exercise,
+            process.env['BASE_APP_URL'] || '',
+            stream.userId
+          ),
+          exercise?.content?.currentWriter?.author || ({} as AuthorDto)
+        ),
+      });
+    }
+  }
 
   @OnEvent(exquisiteCorpseEvents.connect)
   async handleExquisiteCorpseConnection(

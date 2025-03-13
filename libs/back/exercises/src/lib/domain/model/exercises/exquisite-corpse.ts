@@ -94,6 +94,14 @@ export class ExquisiteCorpseExercise extends Exercise<
   canTakeTurn(): boolean {
     return !this.content?.currentWriter && !this.isFinished();
   }
+
+  hasTurn(userId: string): boolean {
+    return (
+      this.content?.currentWriter?.author?.uid === userId &&
+      this.content?.currentWriter?.until > new Date() &&
+      !this.isFinished()
+    );
+  }
 }
 export class ExquisiteCorpseContent {
   constructor(

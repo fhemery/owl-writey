@@ -54,6 +54,10 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
   protected isFinished(): boolean {
     return this.generalInfo.status === ExerciseStatus.Finished;
   }
+
+  isParticipantAdmin(userId: string): boolean {
+    return this.generalInfo.isParticipantAdmin(userId);
+  }
 }
 
 export class ExerciseParticipant {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '@owl/back/auth';
 import { UsersModule } from '@owl/back/user';
-import { WebsocketModule } from '@owl/back/websocket';
+import { EventsModule, WebsocketModule } from '@owl/back/websocket';
 
 import {
   CancelTurnCommand,
@@ -41,6 +41,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     AuthModule,
     UsersModule,
     WebsocketModule,
+    EventsModule,
   ],
   controllers: [
     ExercisesController,

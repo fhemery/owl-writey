@@ -32,7 +32,8 @@ export function toExerciseSummaryDto(
 function addExquisiteCorpseLinks(
   baseAppUrl: string,
   exercise: Exercise<unknown, unknown>,
-  links: ExerciseLinksDto
+  links: ExerciseLinksDto,
+  userId: string
 ): ExquisiteCorpseLinksDto {
   const exCorpse = exercise as ExquisiteCorpseExercise;
   return {
@@ -40,31 +41,33 @@ function addExquisiteCorpseLinks(
     takeTurn: exCorpse.canTakeTurn()
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/take-turn`
       : undefined,
+    cancelTurn: exCorpse.hasTurn(userId)
+      ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/cancel-turn`
+      : undefined,
   };
 }
 
 function generateLinks(
   baseAppUrl: string,
   exercise: Exercise<unknown, unknown>,
-  isUserAdmin: boolean
+  userId: string
 ): ExerciseLinksDto {
+  const isAdmin = exercise.isParticipantAdmin(userId);
   let links: ExerciseLinksDto = {
     self: `${baseAppUrl}/api/exercises/${exercise.id}`,
-    delete: isUserAdmin
-      ? `${baseAppUrl}/api/exercises/${exercise.id}`
-      : undefined,
+    delete: isAdmin ? `${baseAppUrl}/api/exercises/${exercise.id}` : undefined,
     finish:
-      isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+      isAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
         ? `${baseAppUrl}/api/exercises/${exercise.id}/finish`
         : undefined,
     invite:
-      isUserAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
+      isAdmin && exercise.generalInfo.status === ExerciseStatus.Ongoing
         ? `${baseAppUrl}/api/exercises/${exercise.id}/participants`
         : undefined,
-    leave: isUserAdmin
+    leave: isAdmin
       ? undefined
       : `${baseAppUrl}/api/exercises/${exercise.id}/participants/me`,
-    removeParticipant: isUserAdmin
+    removeParticipant: isAdmin
       ? `${baseAppUrl}/api/exercises/${exercise.id}/participants/{id}`
       : undefined,
     connect:
@@ -74,7 +77,7 @@ function generateLinks(
   };
 
   if (exercise.type === ExerciseType.ExquisiteCorpse) {
-    links = addExquisiteCorpseLinks(baseAppUrl, exercise, links);
+    links = addExquisiteCorpseLinks(baseAppUrl, exercise, links, userId);
   }
   return links;
 }
@@ -84,9 +87,6 @@ export function toExerciseDto(
   baseAppUrl: string,
   userId: string
 ): ExerciseDto {
-  const isUserAdmin = exercise
-    .getParticipants()
-    .some((p) => p.uid === userId && p.role === ExerciseParticipantRole.Admin);
   return {
     id: exercise.id,
     name: exercise.generalInfo.name,
@@ -99,6 +99,6 @@ export function toExerciseDto(
       name: p.name,
       isAdmin: p.role === ExerciseParticipantRole.Admin,
     })),
-    _links: generateLinks(baseAppUrl, exercise, isUserAdmin),
+    _links: generateLinks(baseAppUrl, exercise, userId),
   };
 }

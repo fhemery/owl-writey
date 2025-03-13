@@ -10,7 +10,7 @@ export const exquisiteCorpseEvents = {
 };
 
 export interface ExquisiteCorpseExerciseDto extends ExerciseDto {
-  links: ExquisiteCorpseLinksDto;
+  _links: ExquisiteCorpseLinksDto;
   content: ExquisiteCorpseContentDto;
 }
 
@@ -32,4 +32,5 @@ export interface ExquisiteCorpseSceneDto {
 
 export interface ExquisiteCorpseLinksDto extends ExerciseLinksDto {
   takeTurn?: string;
+  cancelTurn?: string;
 }

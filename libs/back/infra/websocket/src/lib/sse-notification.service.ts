@@ -41,4 +41,8 @@ export class SseNotificationService {
       });
     }
   }
+
+  getStreams(roomId: string): UserStream[] {
+    return this.rooms.get(roomId) || [];
+  }
 }
