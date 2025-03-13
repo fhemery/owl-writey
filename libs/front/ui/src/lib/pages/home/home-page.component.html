@@ -1,12 +1,10 @@
 <div class="home-page">
-  <h1>L'imaginaire à portée de Plume !</h1>
+  <h1>{{ 'home.title' | translate }}</h1>
   <p>
-    Parce qu'écrire c'est chouette, rejoignez notre communauté d'auteurices.
-    Travaillez seule ou ensemble sur des exercices, ou sur vos manuscrits les
-    plus aboutis.
+    {{'home.text' | translate}}
   </p>
 
   <p>
-    <button mat-raised-button routerLink="/dashboard">Rejoignez-nous !</button>
+    <button mat-raised-button routerLink="/dashboard">{{ 'home.button.label' | translate }}</button>
   </p>
 </div>

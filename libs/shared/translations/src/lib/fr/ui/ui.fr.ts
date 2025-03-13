@@ -1,7 +1,8 @@
-import { dashboardFr } from '../pages/dashboard/translations/dashboard.fr';
-import { exerciseFr } from '../pages/exercise/translations/exercise.fr';
-import { notFoundFr } from '../pages/not-found/translations/not-found.fr';
-import { eventsFr } from './events.fr';
+import { dashboardFr } from './modules/dashboard.fr';
+import { eventsFr } from './modules/events.fr';
+import { exerciseFr } from './modules/exercise.fr';
+import { homeFr } from './modules/home.fr';
+import { notFoundFr } from './modules/not-found.fr';
 
 export const uiFr = {
   general: {
@@ -45,30 +46,6 @@ export const uiFr = {
           singular: 'seconde',
           plural: 'secondes',
         },
-      },
-    },
-  },
-  home: {
-    header: {
-      app: {
-        name: 'Owl-Writey',
-      },
-      dashboardLink: 'Dashboard',
-      loginLink: 'Connexion',
-      registerLink: 'Inscription',
-      logoutLink: 'Déconnexion',
-    },
-    footer: {
-      text: "Owl-Writey, application d'écriture",
-      copyright: 'Copyright HemIT 2025-',
-      legal: {
-        label: 'Mentions légales',
-      },
-      faq: {
-        label: 'FAQ',
-      },
-      version: {
-        label: 'Version {{version}}',
       },
     },
   },
@@ -140,4 +117,5 @@ export const uiFr = {
   ...exerciseFr,
   ...notFoundFr,
   ...eventsFr,
+  ...homeFr,
 };

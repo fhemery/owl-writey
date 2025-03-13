@@ -1,0 +1,19 @@
+{
+  "name": "translations",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/translations/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/translations",
+        "main": "libs/shared/translations/src/index.ts",
+        "tsConfig": "libs/shared/translations/tsconfig.lib.json",
+        "assets": ["libs/shared/translations/*.md"]
+      }
+    }
+  }
+}
