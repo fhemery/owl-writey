@@ -27,6 +27,7 @@ module.exports = [
           style: 'kebab-case',
         },
       ],
+      'playwright/expect-expect': 'off', // We are doing the expects in the page objects.
     },
   },
   {

@@ -48,3 +48,5 @@ Thumbs.db
 TODO.md
 
 /*.log
+
+/apps/front/e2e/users.json
