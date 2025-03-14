@@ -25,3 +25,15 @@ export class ExCorpseCancelTurnEvent
     this.payload = { exercise };
   }
 }
+
+export class ExCorpseSubmitTurnEvent
+  implements EmittedEvent<{ exercise: ExquisiteCorpseExercise }>
+{
+  static eventName = 'exquisite-corpse.submit-turn';
+  name = ExCorpseSubmitTurnEvent.eventName;
+  payload: { exercise: ExquisiteCorpseExercise };
+
+  constructor(exercise: ExquisiteCorpseExercise) {
+    this.payload = { exercise };
+  }
+}

@@ -1,5 +1,6 @@
 import {
   ApiResponse,
+  ApiResponseStatus,
   NestTestApplication,
   SseEventList,
   SseUtils,
@@ -104,6 +105,10 @@ export class ExerciseTestUtils {
 
   async createAndRetrieve(exercise: ExerciseToCreateDto): Promise<ExerciseDto> {
     const createResponse = await this.create(exercise);
+    if (createResponse.status !== ApiResponseStatus.CREATED) {
+      fail('Exercise not created');
+    }
+
     const getResponse = await app.get<ExerciseDto>(
       createResponse.headers?.location || ''
     );
@@ -191,5 +196,20 @@ export class ExerciseTestUtils {
       fail('Link to cancel turn does not exist');
     }
     return app.post(links.cancelTurn, {});
+  }
+
+  async submitTurn(id: string, content: string): Promise<ApiResponse<void>> {
+    return app.post(`/api/exquisite-corpse/${id}/submit-turn`, { content });
+  }
+
+  async submitTurnFromHateoas(
+    exercise: ExerciseDto,
+    content: string
+  ): Promise<ApiResponse<void>> {
+    const links = exercise._links as ExquisiteCorpseLinksDto;
+    if (!links.submitTurn) {
+      fail('Link to submit turn does not exist');
+    }
+    return app.post(links.submitTurn, { content });
   }
 }

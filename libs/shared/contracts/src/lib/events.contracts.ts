@@ -70,3 +70,16 @@ export class ExquisiteCorpseTurnCanceledEvent extends ExerciseUpdatedEvent<{
     });
   }
 }
+
+export class ExquisiteCorpseTurnSubmittedEvent extends ExerciseUpdatedEvent<{
+  name: string;
+  exercise: string;
+}> {
+  static readonly translationKey = 'exerciseTurnSubmitted';
+  constructor(exercise: ExerciseDto, author: AuthorDto) {
+    super(exercise, {
+      key: ExquisiteCorpseTurnSubmittedEvent.translationKey,
+      data: { name: author.name, exercise: exercise.name },
+    });
+  }
+}

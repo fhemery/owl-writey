@@ -13,7 +13,7 @@ import {
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
-describe('POST /api/exCorpse/:id/cancel-turn', () => {
+describe('Exquisite corpse: cancel turn action', () => {
   const port = 3332;
   void moduleTestInit(port);
 

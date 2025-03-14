@@ -35,3 +35,7 @@ export interface ExquisiteCorpseLinksDto extends ExerciseLinksDto {
   cancelTurn?: string;
   submitTurn?: string;
 }
+
+export interface SubmitTurnRequestDto {
+  content: string;
+}

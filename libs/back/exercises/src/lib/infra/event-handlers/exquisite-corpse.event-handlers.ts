@@ -5,11 +5,13 @@ import {
   AuthorDto,
   exquisiteCorpseEvents,
   ExquisiteCorpseTurnCanceledEvent,
+  ExquisiteCorpseTurnSubmittedEvent,
   ExquisiteCorpseTurnTakenEvent,
 } from '@owl/shared/contracts';
 
 import {
   ExCorpseCancelTurnEvent,
+  ExCorpseSubmitTurnEvent,
   ExCorpseTakeTurnEvent,
 } from '../../domain/model';
 import { exerciseConstants } from '../../domain/model/exercise-constants';
@@ -50,6 +52,28 @@ export class ExquisiteCorpseEventHandlers {
     for (const stream of streams) {
       stream.stream.next({
         data: new ExquisiteCorpseTurnTakenEvent(
+          toExerciseDto(
+            exercise,
+            process.env['BASE_APP_URL'] || '',
+            stream.userId
+          ),
+          exercise?.content?.currentWriter?.author || ({} as AuthorDto)
+        ),
+      });
+    }
+  }
+
+  @OnEvent(ExCorpseSubmitTurnEvent.eventName)
+  async handleExquisiteCorpseSubmitTurnEvent(
+    event: ExCorpseSubmitTurnEvent
+  ): Promise<void> {
+    const { exercise } = event.payload;
+    const streams = this.notificationService.getStreams(
+      exerciseConstants.getRoom(exercise.id)
+    );
+    for (const stream of streams) {
+      stream.stream.next({
+        data: new ExquisiteCorpseTurnSubmittedEvent(
           toExerciseDto(
             exercise,
             process.env['BASE_APP_URL'] || '',

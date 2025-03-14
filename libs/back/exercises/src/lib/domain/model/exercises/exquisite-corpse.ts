@@ -74,11 +74,11 @@ export class ExquisiteCorpseExercise extends Exercise<
       this.content?.currentWriter?.author.uid !== uid ||
       this.content.currentWriter.until < new Date()
     ) {
-      throw new Error('It is not your turn');
+      throw new ExerciseException('It is not your turn');
     }
 
     if (this.isFinished()) {
-      throw new Error('Exercise is finished');
+      throw new ExerciseException('Exercise is finished');
     }
 
     const nextSceneId = this.content.scenes.length + 1;
