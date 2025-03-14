@@ -8,12 +8,13 @@ import {
   ExerciseUpdatedEvent,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
+  ExquisiteCorpseTurnTakenEvent,
 } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
-describe('POST /api/exCorpse/:id/take-turn', () => {
+describe('Exquisite corpse: take turn action', () => {
   const port = 3333;
   void moduleTestInit(port);
 
@@ -34,7 +35,38 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
       expect(links.takeTurn).toBeUndefined();
     });
 
-    // TODO : take turn link not displayed if user has turn already
+    it('should not return a take turn link if user already has turn', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = await exerciseUtils.createAndRetrieve(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+      await exerciseUtils.takeTurnFromHateoas(exercise);
+
+      const updatedExerciseResponse = await exerciseUtils.getFromHateoas(
+        exercise
+      );
+      const exerciseLinks = updatedExerciseResponse.body
+        ?._links as ExquisiteCorpseLinksDto;
+      expect(exerciseLinks.takeTurn).toBeUndefined();
+    });
+
+    it('should not return a take turn link if another user already has turn', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = await exerciseUtils.createAndRetrieve(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+      await exerciseUtils.takeTurnFromHateoas(exercise);
+
+      await app.logAs(TestUserBuilder.Bob());
+      await exerciseUtils.participateFromHateoas(exercise);
+
+      const updatedExerciseResponse = await exerciseUtils.getFromHateoas(
+        exercise
+      );
+      const exerciseLinks = updatedExerciseResponse.body
+        ?._links as ExquisiteCorpseLinksDto;
+      expect(exerciseLinks.takeTurn).toBeUndefined();
+    });
 
     it('should return a take turn link if no user has the turn', async () => {
       await app.logAs(TestUserBuilder.Alice());
@@ -71,9 +103,9 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
 
       it('should return 400 if turn is already taken', async () => {
         await app.logAs(TestUserBuilder.Alice());
-        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await exerciseUtils.takeTurnFromHateoas(exercise);
 
-        const takeTurnAgain = await exerciseUtils.takeTurnWithHateoas(exercise);
+        const takeTurnAgain = await exerciseUtils.takeTurnFromHateoas(exercise);
         expect(takeTurnAgain.status).toBe(ApiResponseStatus.BAD_REQUEST);
       });
     });
@@ -82,7 +114,7 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
       it('should return 204 if user takes the turn', async () => {
         await app.logAs(TestUserBuilder.Alice());
 
-        const takeTurn = await exerciseUtils.takeTurnWithHateoas(exercise);
+        const takeTurn = await exerciseUtils.takeTurnFromHateoas(exercise);
 
         expect(takeTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
       });
@@ -92,7 +124,7 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
 
         const connect = await exerciseUtils.connectFromHateoas(exercise);
 
-        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await exerciseUtils.takeTurnFromHateoas(exercise);
         await waitFor(100);
 
         const latestUpdate = connect.getLatest(
@@ -102,6 +134,9 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;
+        expect(latestUpdate.data.notification?.key).toBe(
+          ExquisiteCorpseTurnTakenEvent.translationKey
+        );
         expect(updatedExercise.content.currentWriter?.author.uid).toBe(
           TestUserBuilder.Alice().uid
         );
@@ -117,7 +152,7 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
         await app.logAs(TestUserBuilder.Alice());
 
         const connect = await exerciseUtils.connectFromHateoas(exercise);
-        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await exerciseUtils.takeTurnFromHateoas(exercise);
         await waitFor(100);
 
         const latestUpdate = connect.getLatest(
@@ -129,6 +164,7 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
           .exercise as ExquisiteCorpseExerciseDto;
         expect(updatedExercise._links.takeTurn).toBeUndefined();
         expect(updatedExercise._links.cancelTurn).toBeDefined();
+        expect(updatedExercise._links.submitTurn).toBeDefined();
       });
 
       it('should tell another user that turn cannot be taken', async () => {
@@ -138,7 +174,7 @@ describe('POST /api/exCorpse/:id/take-turn', () => {
 
         await app.logAs(TestUserBuilder.Alice());
 
-        await exerciseUtils.takeTurnWithHateoas(exercise);
+        await exerciseUtils.takeTurnFromHateoas(exercise);
         await waitFor(100);
 
         const latestUpdate = connectBob.getLatest(

@@ -4,10 +4,14 @@ import { SseNotificationService, WsEvent } from '@owl/back/websocket';
 import {
   AuthorDto,
   exquisiteCorpseEvents,
+  ExquisiteCorpseTurnCanceledEvent,
   ExquisiteCorpseTurnTakenEvent,
 } from '@owl/shared/contracts';
 
-import { ExCorpseTakeTurnEvent } from '../../domain/model';
+import {
+  ExCorpseCancelTurnEvent,
+  ExCorpseTakeTurnEvent,
+} from '../../domain/model';
 import { exerciseConstants } from '../../domain/model/exercise-constants';
 import {
   CancelTurnCommand,
@@ -46,6 +50,28 @@ export class ExquisiteCorpseEventHandlers {
     for (const stream of streams) {
       stream.stream.next({
         data: new ExquisiteCorpseTurnTakenEvent(
+          toExerciseDto(
+            exercise,
+            process.env['BASE_APP_URL'] || '',
+            stream.userId
+          ),
+          exercise?.content?.currentWriter?.author || ({} as AuthorDto)
+        ),
+      });
+    }
+  }
+
+  @OnEvent(ExCorpseCancelTurnEvent.eventName)
+  async handleExquisiteCorpseCancelTurnEvent(
+    event: ExCorpseCancelTurnEvent
+  ): Promise<void> {
+    const { exercise } = event.payload;
+    const streams = this.notificationService.getStreams(
+      exerciseConstants.getRoom(exercise.id)
+    );
+    for (const stream of streams) {
+      stream.stream.next({
+        data: new ExquisiteCorpseTurnCanceledEvent(
           toExerciseDto(
             exercise,
             process.env['BASE_APP_URL'] || '',

@@ -9,13 +9,13 @@ import {
 import { Auth, RequestWithUser } from '@owl/back/auth';
 
 import { ExerciseException } from '../../domain/model';
-import { GetExerciseQuery, TakeTurnCommand } from '../../domain/ports';
+import { CancelTurnCommand, TakeTurnCommand } from '../../domain/ports';
 
 @Controller('exquisite-corpse')
 export class ExquisiteCorpseController {
   constructor(
     private readonly takeTurnCommand: TakeTurnCommand,
-    private readonly getExerciseQuery: GetExerciseQuery
+    private readonly cancelTurnCommand: CancelTurnCommand
   ) {}
 
   @Post(':id/take-turn')
@@ -27,8 +27,22 @@ export class ExquisiteCorpseController {
   ): Promise<void> {
     try {
       await this.takeTurnCommand.execute(request.user.uid, exerciseId);
+    } catch (e) {
+      if (e instanceof ExerciseException) {
+        throw new BadRequestException(e.message);
+      }
+    }
+  }
 
-      await this.getExerciseQuery.execute(request.user.uid, exerciseId);
+  @Post(':id/cancel-turn')
+  @Auth()
+  @HttpCode(204)
+  async cancelTurn(
+    @Param('id') exerciseId: string,
+    @Req() request: RequestWithUser
+  ): Promise<void> {
+    try {
+      await this.cancelTurnCommand.execute(request.user.uid, exerciseId);
     } catch (e) {
       if (e instanceof ExerciseException) {
         throw new BadRequestException(e.message);

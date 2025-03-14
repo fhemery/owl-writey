@@ -33,4 +33,5 @@ export interface ExquisiteCorpseSceneDto {
 export interface ExquisiteCorpseLinksDto extends ExerciseLinksDto {
   takeTurn?: string;
   cancelTurn?: string;
+  submitTurn?: string;
 }

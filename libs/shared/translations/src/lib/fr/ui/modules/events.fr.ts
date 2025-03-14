@@ -5,7 +5,7 @@ export const eventsFr = {
     contentSubmittedOnExercise:
       "{{name}} a soumis un contenu sur l'exercice {{exercise}}.",
     exerciseTurnTaken: "{{name}} a pris un tour sur l'exercice {{exercise}}.",
-    exerciseTurnReleased:
+    exerciseTurnCanceled:
       "{{name}} a libéré son tour sur l'exercice {{exercise}}.",
     connectionToExerciseSuccessful: "Connexion à l'exercice {{name}} réussie.",
   },

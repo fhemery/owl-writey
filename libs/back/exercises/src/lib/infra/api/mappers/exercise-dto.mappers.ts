@@ -31,25 +31,29 @@ export function toExerciseSummaryDto(
 
 function addExquisiteCorpseLinks(
   baseAppUrl: string,
-  exercise: Exercise<unknown, unknown>,
+  exercise: Exercise,
   links: ExerciseLinksDto,
   userId: string
 ): ExquisiteCorpseLinksDto {
   const exCorpse = exercise as ExquisiteCorpseExercise;
+  const hasTurn = exCorpse.hasTurn(userId);
   return {
     ...links,
     takeTurn: exCorpse.canTakeTurn()
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/take-turn`
       : undefined,
-    cancelTurn: exCorpse.hasTurn(userId)
+    cancelTurn: hasTurn
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/cancel-turn`
+      : undefined,
+    submitTurn: hasTurn
+      ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/submit-turn`
       : undefined,
   };
 }
 
 function generateLinks(
   baseAppUrl: string,
-  exercise: Exercise<unknown, unknown>,
+  exercise: Exercise,
   userId: string
 ): ExerciseLinksDto {
   const isAdmin = exercise.isParticipantAdmin(userId);

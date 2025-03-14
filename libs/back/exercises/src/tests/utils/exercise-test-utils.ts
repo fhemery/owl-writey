@@ -171,11 +171,25 @@ export class ExerciseTestUtils {
     return app.post(`/api/exquisite-corpse/${id}/take-turn`, {});
   }
 
-  async takeTurnWithHateoas(exercise: ExerciseDto): Promise<ApiResponse<void>> {
+  async takeTurnFromHateoas(exercise: ExerciseDto): Promise<ApiResponse<void>> {
     const links = exercise._links as ExquisiteCorpseLinksDto;
     if (!links.takeTurn) {
       fail('Link to take turn does not exist');
     }
     return app.post(links.takeTurn, {});
+  }
+
+  async cancelTurn(id: string): Promise<ApiResponse<void>> {
+    return app.post(`/api/exquisite-corpse/${id}/cancel-turn`, {});
+  }
+
+  async cancelTurnFromHateoas(
+    exercise: ExerciseDto
+  ): Promise<ApiResponse<void>> {
+    const links = exercise._links as ExquisiteCorpseLinksDto;
+    if (!links.cancelTurn) {
+      fail('Link to cancel turn does not exist');
+    }
+    return app.post(links.cancelTurn, {});
   }
 }

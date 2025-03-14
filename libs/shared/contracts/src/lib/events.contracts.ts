@@ -52,7 +52,20 @@ export class ExquisiteCorpseTurnTakenEvent extends ExerciseUpdatedEvent<{
   static readonly translationKey = 'exerciseTurnTaken';
   constructor(exercise: ExerciseDto, author: AuthorDto) {
     super(exercise, {
-      key: ConnectionToExerciseSuccessfulEvent.translationKey,
+      key: ExquisiteCorpseTurnTakenEvent.translationKey,
+      data: { name: author.name, exercise: exercise.name },
+    });
+  }
+}
+
+export class ExquisiteCorpseTurnCanceledEvent extends ExerciseUpdatedEvent<{
+  name: string;
+  exercise: string;
+}> {
+  static readonly translationKey = 'exerciseTurnCanceled';
+  constructor(exercise: ExerciseDto, author: AuthorDto) {
+    super(exercise, {
+      key: ExquisiteCorpseTurnCanceledEvent.translationKey,
       data: { name: author.name, exercise: exercise.name },
     });
   }
