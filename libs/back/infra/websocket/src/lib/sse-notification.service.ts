@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SseEvent } from '@owl/shared/contracts';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 class UserStream {
   constructor(
@@ -22,7 +22,7 @@ export class SseNotificationService {
   }
 
   registerToRoom(roomId: string, userId: string): Subject<{ data: SseEvent }> {
-    const subject = new ReplaySubject<{ data: SseEvent }>();
+    const subject = new Subject<{ data: SseEvent }>();
     this.rooms.set(roomId, [
       ...(this.rooms.get(roomId) || []),
       new UserStream(userId, subject),
@@ -31,7 +31,6 @@ export class SseNotificationService {
   }
 
   notifyRoom(roomId: string, event: SseEvent, excludeUserId?: string): void {
-    console.log('notifying', roomId, JSON.stringify(event), excludeUserId);
     const room = this.rooms.get(roomId);
     if (room) {
       room.forEach((subject) => {

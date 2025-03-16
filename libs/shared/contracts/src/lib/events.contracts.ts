@@ -4,6 +4,12 @@ export class SseEvent<T = unknown> {
   constructor(readonly event: string, readonly data: T) {}
 }
 
+export class HeartbeatEvent extends SseEvent {
+  constructor() {
+    super('heartbeat', null);
+  }
+}
+
 export class ConnectToExerciseEvent extends SseEvent<{
   author: string;
   exerciseName: string;

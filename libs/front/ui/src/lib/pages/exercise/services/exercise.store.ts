@@ -10,6 +10,7 @@ import {
 import { FirebaseAuthService } from '@owl/front/auth';
 import { UserNotificationsService } from '@owl/front/infra';
 import { ExerciseDto, ExerciseUpdatedEvent } from '@owl/shared/contracts';
+import { Subscription } from 'rxjs';
 
 import { NotificationService } from '../../../services/notification.service';
 
@@ -18,6 +19,7 @@ type ExerciseState = {
   currentUserId: string;
   loading: boolean;
   error?: string;
+  connectionToExerciseUpdates?: Subscription;
 };
 
 const initialState: ExerciseState = {
@@ -25,6 +27,7 @@ const initialState: ExerciseState = {
   currentUserId: '',
   loading: true,
   error: undefined,
+  connectionToExerciseUpdates: undefined,
 };
 
 export const ExerciseStore = signalStore(
@@ -45,7 +48,7 @@ export const ExerciseStore = signalStore(
         }));
       },
       async connectToExerciseUpdates(exercise: ExerciseDto): Promise<void> {
-        userNotificationService
+        const subscription = userNotificationService
           .connect(exercise._links.connect || '')
           .subscribe((event) => {
             if (event.event === ExerciseUpdatedEvent.eventName) {
@@ -62,6 +65,10 @@ export const ExerciseStore = signalStore(
               }
             }
           });
+        patchState(store, (state) => ({
+          ...state,
+          connectionToExerciseUpdates: subscription,
+        }));
       },
     })
   ),
@@ -81,6 +88,9 @@ export const ExerciseStore = signalStore(
         ...state,
         currentUserId: auth.user()?.uid,
       }));
+    },
+    onDestroy: async (store) => {
+      store.connectionToExerciseUpdates?.()?.unsubscribe();
     },
   })
 );

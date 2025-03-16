@@ -28,15 +28,10 @@ export class SseUtils {
     const eventSourcePolyfill = new EventSourcePolyfill(url);
     this.eventSources.push(eventSourcePolyfill);
 
-    /*eventSourcePolyfill.onopen = (): void => {
-      console.log('SSE connection opened');
-    };*/
     eventSourcePolyfill.onerror = (error: unknown): void => {
-      // console.error('SSE connection error:', error);
       events.setError(error as { status: number });
     };
     eventSourcePolyfill.onmessage = (event: { data: string }): void => {
-      // console.log('SSE event received:', event.data);
       events.addEvent(JSON.parse(event.data) as SseEvent);
     };
     await waitFor(100);

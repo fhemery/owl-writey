@@ -12,7 +12,12 @@ import {
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/websocket';
-import { SseEvent, UserDto, UserToCreateDto } from '@owl/shared/contracts';
+import {
+  HeartbeatEvent,
+  SseEvent,
+  UserDto,
+  UserToCreateDto,
+} from '@owl/shared/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
@@ -53,9 +58,20 @@ export class UsersController {
   async getEvents(
     @Req() request: RequestWithUser
   ): Promise<Observable<{ data: SseEvent }>> {
-    return Promise.resolve(
-      this.notificationService.registerUser(request.user.uid)
-    );
+    const stream = this.notificationService.registerUser(request.user.uid);
+
+    const heartbeatInterval = setInterval(() => {
+      stream.next({
+        data: new HeartbeatEvent(),
+      });
+    }, 50000);
+
+    request.res?.on('close', () => {
+      clearInterval(heartbeatInterval);
+      stream.complete();
+    });
+
+    return Promise.resolve(stream);
   }
 
   @Post('')

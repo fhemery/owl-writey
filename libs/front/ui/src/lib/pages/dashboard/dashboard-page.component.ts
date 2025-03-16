@@ -33,7 +33,6 @@ export class DashboardPageComponent implements OnInit {
   }
 
   async toggleFinished(): Promise<void> {
-    console.log('toggling');
     this.displayFinished = !this.displayFinished;
     await this.reloadExercises();
   }

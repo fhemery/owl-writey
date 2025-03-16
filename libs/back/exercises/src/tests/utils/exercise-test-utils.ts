@@ -4,6 +4,7 @@ import {
   NestTestApplication,
   SseEventList,
   SseUtils,
+  waitFor,
 } from '@owl/back/test-utils';
 import {
   ExerciseDto,
@@ -155,16 +156,20 @@ export class ExerciseTestUtils {
     if (!exercise._links.connect) {
       fail('No link to connect to');
     }
-    return this.#sseUtils.connect(exercise._links.connect);
+    const result = await this.#sseUtils.connect(exercise._links.connect);
+    await waitFor(100);
+    return result;
   }
 
   async connect(
     exerciseId: string,
     applicationPort: number
   ): Promise<SseEventList> {
-    return this.#sseUtils.connect(
+    const connection = this.#sseUtils.connect(
       `http://localhost:${applicationPort}/api/exercises/${exerciseId}/events`
     );
+    await waitFor(100);
+    return connection;
   }
 
   async reset(): Promise<void> {

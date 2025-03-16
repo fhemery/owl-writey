@@ -15,7 +15,7 @@ import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
 describe('Exquisite corpse: take turn action', () => {
-  const port = 3333;
+  const port = 3331;
   void moduleTestInit(port);
 
   describe('about take-turn availability', () => {

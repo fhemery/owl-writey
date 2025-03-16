@@ -18,6 +18,7 @@ import {
   ConnectionToExerciseSuccessfulEvent,
   ExerciseDto,
   GetAllExercisesResponseDto,
+  HeartbeatEvent,
   SseEvent,
 } from '@owl/shared/contracts';
 import { Observable } from 'rxjs';
@@ -164,14 +165,27 @@ export class ExercisesController {
     if (!exercise) {
       throw new NotFoundException();
     }
-    stream.next({
-      data: new ConnectionToExerciseSuccessfulEvent(
-        toExerciseDto(
-          exercise,
-          process.env['BASE_API_URL'] || '',
-          request.user.uid
-        )
-      ),
+    setTimeout(() => {
+      stream.next({
+        data: new ConnectionToExerciseSuccessfulEvent(
+          toExerciseDto(
+            exercise,
+            process.env['BASE_API_URL'] || '',
+            request.user.uid
+          )
+        ),
+      });
+    }, 50);
+    const heartbeatInterval = setInterval(() => {
+      stream.next({
+        data: new HeartbeatEvent(),
+      });
+    }, 50000);
+
+    request.res?.on('close', () => {
+      console.log('Closing connection');
+      clearInterval(heartbeatInterval);
+      stream.complete();
     });
 
     return stream;
