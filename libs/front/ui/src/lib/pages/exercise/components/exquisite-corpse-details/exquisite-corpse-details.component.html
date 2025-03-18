@@ -1,5 +1,7 @@
 <div class="exCo-details">
-  @if(store.content(); as content) { @for(scene of content.scenes; track
+  @if(store.exercise(); as exercise) {
+    @let content = exercise.content;
+    @for(scene of content.scenes; track
   scene.id) {
   <div class="exCo-details__scene">
     <div class="scene-id-and-author">
@@ -24,7 +26,7 @@
     } @else if (store.isCurrentUserTurn()) {
     <div class="exCo-details__editor">
       <h2>{{ 'exercise.exquisiteCorpse.yourTurn.label' | translate }}</h2>
-      {{ store.content()?.currentWriter?.until | timeDiff | async }}
+      {{ content?.currentWriter?.until | timeDiff | async }}
       <quill-editor
         (onContentChanged)="updateContent($event)"
         placeholder=""

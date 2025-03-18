@@ -1,6 +1,5 @@
 import { computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
 import {
   patchState,
   signalStore,
@@ -11,17 +10,16 @@ import {
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
 import {
-  ExerciseDto,
   ExerciseStatus,
   ExquisiteCorpseContentDto,
+  ExquisiteCorpseExerciseDto,
 } from '@owl/shared/contracts';
 import { interval } from 'rxjs';
 
 import { ExquisiteCorpseService } from './exquisite-corpse.service';
 
 type ExquisiteCorpseState = {
-  exercise: ExerciseDto | null;
-  content: ExquisiteCorpseContentDto | null;
+  exercise: ExquisiteCorpseExerciseDto | null;
   currentUserId: string;
   loading: boolean;
   error?: string;
@@ -29,7 +27,6 @@ type ExquisiteCorpseState = {
 
 const initialState: ExquisiteCorpseState = {
   exercise: null,
-  content: null,
   currentUserId: '',
   loading: true,
   error: undefined,
@@ -38,7 +35,7 @@ const initialState: ExquisiteCorpseState = {
 export const ExquisiteCorpseStore = signalStore(
   withState(initialState),
   withMethods((store, service = inject(ExquisiteCorpseService)) => ({
-    setExercise(exercise: ExerciseDto): void {
+    setExercise(exercise: ExquisiteCorpseExerciseDto): void {
       patchState(store, (state) => ({
         ...state,
         exercise: exercise,
@@ -51,64 +48,56 @@ export const ExquisiteCorpseStore = signalStore(
         loading: false,
       }));
     },
-    takeTurn(): void {
-      service.takeTurn(store.exercise()?.id || '');
+    async takeTurn(): Promise<void> {
+      await service.takeTurn(store.exercise()?.id || '');
     },
-    submitTurn(content: string): void {
-      service.submitTurn(store.exercise()?.id || '', content);
+    async submitTurn(content: string): Promise<void> {
+      await service.submitTurn(store.exercise()?.id || '', content);
     },
-    cancelTurn(): void {
-      service.cancelTurn(store.exercise()?.id || '');
+    async cancelTurn(): Promise<void> {
+      await service.cancelTurn(store.exercise()?.id || '');
     },
     checkTurn(): void {
-      const until = store.content()?.currentWriter?.until;
+      const exercise = store.exercise();
+      if (!exercise) {
+        return;
+      }
+      const content = store.exercise()?.content;
+      const until = content?.currentWriter?.until;
       if (until && new Date(until) < new Date()) {
-        patchState(store, (state) => ({
-          ...state,
-          content: state.content
-            ? {
-                ...state.content,
-                currentWriter: undefined,
-              }
-            : null,
+        patchState(store, () => ({
+          exercise: {
+            ...exercise,
+            content: { ...exercise.content, currentWriter: undefined },
+          },
         }));
       }
     },
   })),
   withComputed((store) => ({
     isCurrentUserTurn: computed(
-      () => store.content()?.currentWriter?.author.uid === store.currentUserId()
+      () =>
+        store.exercise()?.content.currentWriter?.author.uid ===
+        store.currentUserId()
     ),
     isFinished: computed(
       () =>
         store.exercise()?.status === ExerciseStatus.Finished ||
-        (store.content()?.scenes?.length || 0) >
+        (store.exercise()?.content?.scenes?.length || 0) >
           (store.exercise()?.config as { nbIterations: number }).nbIterations
     ),
     canTakeTurn: computed(() => {
-      if (!store.content()?.currentWriter) {
+      if (!store.exercise()?.content?.currentWriter) {
         return true;
       }
 
-      const until = store.content()?.currentWriter?.until;
+      const until = store.exercise()?.content?.currentWriter?.until;
       return !!(until && new Date(until) < new Date());
     }),
   })),
   withHooks({
     onInit: (store) => {
       const auth = inject(FirebaseAuthService);
-      const service = inject(ExquisiteCorpseService);
-      const route = inject(ActivatedRoute);
-
-      // We are not using promise, because making onInit async would
-      // cause takeUntilDestroy to not work (if onInit is async, it will
-      // throw us out of injection context)
-      void service.doConnect().then(() => {
-        service.updates.subscribe((content) => {
-          store.updateContent(content);
-        });
-        service.connectToExercise(route.snapshot.params['id']);
-      });
 
       patchState(store, (state) => ({
         ...state,
