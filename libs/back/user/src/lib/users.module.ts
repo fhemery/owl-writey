@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '@owl/back/auth';
-import { WebsocketModule } from '@owl/back/websocket';
+import { ServerSentEventsModule } from '@owl/back/infra/sse';
 
 import { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
@@ -12,7 +12,7 @@ import { UsersService } from './users.service';
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     AuthModule,
-    WebsocketModule,
+    ServerSentEventsModule,
   ],
   controllers: [UsersController],
   providers: [UserRepository, UsersService],

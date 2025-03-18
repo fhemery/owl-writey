@@ -1,4 +1,4 @@
-import { EmittedEvent } from '@owl/back/websocket';
+import { EmittedEvent } from '@owl/back/infra/events';
 
 import { ExquisiteCorpseExercise } from './exquisite-corpse';
 

@@ -1,21 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EventEmitterFacade } from '@owl/back/websocket';
-import { exquisiteCorpseEvents } from '@owl/shared/contracts';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 
 import {
   ExCorpseSubmitTurnEvent,
   ExquisiteCorpseExercise,
 } from '../../../model';
-import { exerciseConstants } from '../../../model/exercise-constants';
-import { ExerciseRepository, NotificationFacade } from '../../out';
+import { ExerciseRepository } from '../../out';
 
 @Injectable()
 export class SubmitTurnCommand {
   constructor(
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
-    @Inject(NotificationFacade)
-    private readonly notificationService: NotificationFacade,
     private eventEmitter: EventEmitterFacade
   ) {}
 
@@ -41,11 +37,5 @@ export class SubmitTurnCommand {
     await this.exerciseRepository.saveContent(exercise);
 
     this.eventEmitter.emit(new ExCorpseSubmitTurnEvent(exercise));
-
-    await this.notificationService.notifyRoom(
-      exerciseConstants.getRoom(exercise.id),
-      exquisiteCorpseEvents.updates,
-      exercise.content
-    );
   }
 }

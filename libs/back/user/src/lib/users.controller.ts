@@ -11,7 +11,7 @@ import {
   Sse,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
-import { SseNotificationService } from '@owl/back/websocket';
+import { SseNotificationService } from '@owl/back/infra/sse';
 import {
   HeartbeatEvent,
   SseEvent,
