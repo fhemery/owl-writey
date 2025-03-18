@@ -1,0 +1,36 @@
+@startuml
+
+package Front-End {
+  [Components]
+  [Services]
+  [Firebase SDK]
+
+  [Components]->[Services]
+  [Firebase SDK]<--[Services]
+
+}
+
+database "Firebase Auth"
+
+package Back-End {
+  [API]
+  [Auth Middleware]
+  [Usecases]
+  interface Ports
+  [Repositories]
+  database "Mysql"
+
+  [API] -> [Usecases]
+  [Auth Middleware] <-- [API]
+  [Usecases] -> Ports
+  Ports <- [Repositories]
+  [Repositories] -> "Mysql"
+
+  note bottom of [Repositories]: "Using TypeORM"
+}
+
+"Firebase Auth" <-- [Firebase SDK]
+"Firebase Auth" <-- [Auth Middleware]
+[Services] -> [API]
+
+@enduml
