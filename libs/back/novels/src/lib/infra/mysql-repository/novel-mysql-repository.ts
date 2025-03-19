@@ -19,6 +19,13 @@ export class NovelMysqlRepository implements NovelRepository {
     await this.repo.save(entity);
   }
 
+  async getAll(userId: string): Promise<Novel[]> {
+    const entities = await this.repo.findBy({
+      authorUid: userId,
+    });
+    return entities.map((e) => e.toNovel());
+  }
+
   async getOne(novelId: string, userId: string): Promise<Novel | null> {
     const entity = await this.repo.findOneBy({
       id: novelId,
@@ -30,5 +37,9 @@ export class NovelMysqlRepository implements NovelRepository {
     }
 
     return entity.toNovel();
+  }
+
+  async delete(novelId: string): Promise<void> {
+    await this.repo.delete({ id: novelId });
   }
 }

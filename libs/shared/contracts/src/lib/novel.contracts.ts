@@ -3,6 +3,12 @@ export interface NovelToCreateDto {
   description: string;
 }
 
+export interface NovelSummaryDto {
+  id: string;
+  title: string;
+  description: string;
+}
+
 export interface NovelDto {
   id: string;
   title: string;
@@ -14,4 +20,8 @@ export interface ChapterDto {
   id: string;
   title: string;
   outline: string;
+}
+
+export interface GetAllNovelsResponseDto {
+  data: NovelSummaryDto[];
 }
