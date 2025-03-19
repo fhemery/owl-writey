@@ -12,5 +12,16 @@ export const dashboardFr = {
       loading: 'Chargement des exercices en cours...',
       playAlt: 'Jouer',
     },
+
+    novels: {
+      title: 'Mes romans',
+      createAlt: 'Créer un roman',
+      noNovel: {
+        label: "Vous n'avez pas encore de roman",
+        create: 'Créez un roman',
+      },
+      loading: 'Chargement des romans en cours...',
+      playAlt: 'Entrez',
+    },
   },
 };

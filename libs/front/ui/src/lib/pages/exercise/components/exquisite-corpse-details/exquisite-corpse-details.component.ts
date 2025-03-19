@@ -32,7 +32,6 @@ export class ExquisiteCorpseDetailsComponent {
 
   constructor() {
     effect(() => {
-      console.log(JSON.stringify(this.exercise()));
       this.store.setExercise(this.exercise() as ExquisiteCorpseExerciseDto);
     });
   }
