@@ -1,13 +1,13 @@
 # OwlWritey
 
-## Setup
+Owl-Writey is a writing app currently in construction, focusing on enabling authors to write novels and to train alone or collaboratively through exercises.
 
-> pnpm install
+Owl-Writey is Open Sourced under the [MIT licence](./LICENSE)
 
-## Running the project locally
 
-You need to start the webapp before the shell :
+## Technical details
 
-> nx serve front-electron
+Owl-writey uses Angular in front, NestJS in Back, Firebase for authentication, and Mysql as a database. Check [The architecture document](./docs/architecture/Architecture.md)
 
-> nx serve electron-shell
+If you wish to install project locally to contribute or have a look: [Installation guide](./INSTALL.md)
+
