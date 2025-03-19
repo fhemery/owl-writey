@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from '@owl/back/user';
 
 import {
   CreateNovelCommand,
@@ -8,10 +7,11 @@ import {
   GetNovelQuery,
 } from './domain/ports';
 import { NovelsController } from './infra/api/novels.controller';
-import { NovelMysqlModule } from './infra/mysql-repository/novel-mysql.module';
+import { NovelTypeormModule } from './infra/typeorm-repository/novel-typeorm.module';
+import { NovelUserModule } from './infra/user-facade/novel-user.module';
 
 @Module({
-  imports: [UsersModule, NovelMysqlModule, NovelMysqlModule],
+  imports: [NovelTypeormModule, NovelUserModule],
   controllers: [NovelsController],
   providers: [
     CreateNovelCommand,

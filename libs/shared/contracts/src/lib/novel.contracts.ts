@@ -3,6 +3,10 @@ export interface NovelToCreateDto {
   description: string;
 }
 
+export enum NovelRole {
+  Author = 'Author',
+}
+
 export interface NovelSummaryDto {
   id: string;
   title: string;
