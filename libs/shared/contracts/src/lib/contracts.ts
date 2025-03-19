@@ -1,6 +1,7 @@
 export enum Role {
   User = 'User',
   Admin = 'Admin',
+  Beta = 'Beta',
 }
 
 export interface UserDto {
@@ -11,4 +12,8 @@ export interface UserDto {
 
 export interface UserToCreateDto {
   name: string;
+}
+
+export interface UserRoleDto {
+  role: Role;
 }

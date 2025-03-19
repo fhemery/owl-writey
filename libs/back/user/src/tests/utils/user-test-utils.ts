@@ -3,7 +3,7 @@ import {
   NestTestApplication,
   RegisteredTestUser,
 } from '@owl/back/test-utils';
-import { UserToCreateDto } from '@owl/shared/contracts';
+import { Role, UserToCreateDto } from '@owl/shared/contracts';
 
 export class UserTestUtils {
   constructor(private readonly app: NestTestApplication) {}
@@ -35,5 +35,11 @@ export class UserTestUtils {
         );
       }
     }
+  }
+
+  async addRole(userId: string, role: Role): Promise<ApiResponse<void>> {
+    return await this.app.post(`/api/users/${userId}/roles`, {
+      role,
+    });
   }
 }

@@ -35,7 +35,7 @@ export class NestIntegrationTestApplication extends NestTestApplication {
       FakeAuthMiddleware.Reset();
       return Promise.resolve();
     }
-    FakeAuthMiddleware.SetUser(user.uid, user.email);
+    FakeAuthMiddleware.SetUser(user.uid, user.email, user.roles);
     return Promise.resolve();
   }
 }

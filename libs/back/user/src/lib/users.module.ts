@@ -5,6 +5,7 @@ import { ServerSentEventsModule } from '@owl/back/infra/sse';
 
 import { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
+import { UserRolesController } from './user-roles.controller';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -14,7 +15,7 @@ import { UsersService } from './users.service';
     AuthModule,
     ServerSentEventsModule,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, UserRolesController],
   providers: [UserRepository, UsersService],
   exports: [UsersService],
 })
