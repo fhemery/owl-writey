@@ -46,9 +46,9 @@ describe('POST /api/users/:id/roles', async () => {
         Role.Beta
       );
       expect(response.status).toBe(201);
-      expect(authServiceMock._addRoleArgs).toEqual([
-        { uid: TestUserBuilder.Bob().uid, role: Role.Beta },
-      ]);
+      const bob = await authServiceMock.getUserByUid(TestUserBuilder.Bob().uid);
+
+      expect(bob.roles).toContain(Role.Beta);
     });
   });
 });

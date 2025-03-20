@@ -21,4 +21,8 @@ export class UserRepository {
     }
     return new User(userEntity.uid, userEntity.email, userEntity.name);
   }
+
+  async deleteUser(uid: string): Promise<void> {
+    await this.userRepository.delete({ uid });
+  }
 }

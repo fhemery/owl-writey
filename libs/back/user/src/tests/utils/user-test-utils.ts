@@ -42,4 +42,8 @@ export class UserTestUtils {
       role,
     });
   }
+
+  async delete(uid: string): Promise<ApiResponse<void>> {
+    return await this.app.delete(`/api/users/${uid}`);
+  }
 }

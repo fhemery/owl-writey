@@ -1,7 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
+  ForbiddenException,
   Get,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   NotFoundException,
   Param,
@@ -10,10 +14,17 @@ import {
   Request,
   Sse,
 } from '@nestjs/common';
-import { Auth, RequestWithUser } from '@owl/back/auth';
+import {
+  Auth,
+  AuthService,
+  RequestWithUser,
+  UserNotFoundException,
+} from '@owl/back/auth';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
   HeartbeatEvent,
+  Role,
   SseEvent,
   UserDto,
   UserToCreateDto,
@@ -21,6 +32,7 @@ import {
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
+import { UserDeletedEvent } from './model';
 import { User } from './model/user';
 import { UsersService } from './users.service';
 
@@ -34,7 +46,9 @@ class UserToCreateDtoImpl implements UserToCreateDto {
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
-    private readonly notificationService: SseNotificationService
+    private readonly authService: AuthService,
+    private readonly notificationService: SseNotificationService,
+    private readonly eventEmitter: EventEmitterFacade
   ) {}
 
   @Get(':id')
@@ -87,5 +101,29 @@ export class UsersController {
     await this.userService.create(new User(uid, email, user.name));
 
     request.res?.set('Location', `/api/users/${uid}`);
+  }
+
+  @Delete(':uid')
+  @Auth()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(
+    @Param('uid') uid: string,
+    @Request() request: RequestWithUser
+  ): Promise<void> {
+    if (request.user.uid !== uid && !request.user.roles.includes(Role.Admin)) {
+      throw new ForbiddenException();
+    }
+
+    try {
+      await this.userService.delete(uid);
+      await this.authService.delete(uid);
+
+      this.eventEmitter.emit(new UserDeletedEvent(uid));
+    } catch (error) {
+      if (error instanceof UserNotFoundException) {
+        throw new NotFoundException();
+      }
+      throw error;
+    }
   }
 }
