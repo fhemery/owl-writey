@@ -46,7 +46,7 @@ export class ExquisiteCorpseEventHandlers {
   async handleExquisiteCorpseSubmitTurnEvent(
     event: ExCorpseSubmitTurnEvent
   ): Promise<void> {
-    const { exercise } = event.payload;
+    const { exercise, author } = event.payload;
     const streams = this.notificationService.getStreams(
       exerciseConstants.getRoom(exercise.id)
     );
@@ -58,7 +58,7 @@ export class ExquisiteCorpseEventHandlers {
             process.env['BASE_APP_URL'] || '',
             stream.userId
           ),
-          exercise?.content?.currentWriter?.author || ({} as AuthorDto)
+          author
         ),
       });
     }
@@ -68,7 +68,7 @@ export class ExquisiteCorpseEventHandlers {
   async handleExquisiteCorpseCancelTurnEvent(
     event: ExCorpseCancelTurnEvent
   ): Promise<void> {
-    const { exercise } = event.payload;
+    const { exercise, lastAuthor } = event.payload;
     const streams = this.notificationService.getStreams(
       exerciseConstants.getRoom(exercise.id)
     );
@@ -80,7 +80,7 @@ export class ExquisiteCorpseEventHandlers {
             process.env['BASE_APP_URL'] || '',
             stream.userId
           ),
-          exercise?.content?.currentWriter?.author || ({} as AuthorDto)
+          lastAuthor
         ),
       });
     }

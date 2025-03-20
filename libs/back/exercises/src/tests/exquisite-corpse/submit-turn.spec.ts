@@ -173,8 +173,16 @@ describe('Exquisite corpse: submit turn action', () => {
 
         const latestUpdate = connect.getLatest(
           ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+        ) as ExquisiteCorpseTurnSubmittedEvent;
         expect(latestUpdate).toBeDefined();
+
+        const notification = latestUpdate.data.notification;
+        expect(notification).toBeDefined();
+        expect(notification?.key).toBe(
+          ExquisiteCorpseTurnSubmittedEvent.translationKey
+        );
+        expect(notification?.data.name).toBe(TestUserBuilder.Alice().name);
+        expect(notification?.data.exercise).toBe(exercise.name);
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;

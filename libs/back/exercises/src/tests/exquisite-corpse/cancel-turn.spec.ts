@@ -8,6 +8,7 @@ import {
   ExerciseUpdatedEvent,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
+  ExquisiteCorpseTurnCanceledEvent,
 } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
@@ -125,8 +126,16 @@ describe('Exquisite corpse: cancel turn action', () => {
 
         const latestUpdate = connect.getLatest(
           ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+        ) as ExquisiteCorpseTurnCanceledEvent;
         expect(latestUpdate).toBeDefined();
+
+        const notification = latestUpdate.data.notification;
+        expect(notification).toBeDefined();
+        expect(notification?.key).toBe(
+          ExquisiteCorpseTurnCanceledEvent.translationKey
+        );
+        expect(notification?.data.name).toBe(TestUserBuilder.Alice().name);
+        expect(notification?.data.exercise).toBe(exercise.name);
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;
