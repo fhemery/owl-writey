@@ -5,6 +5,7 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import { format, transports } from 'winston';
 
@@ -36,6 +37,16 @@ async function bootstrap(): Promise<void> {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     exposedHeaders: ['Location'],
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('Owl-Writey api')
+    .setDescription('Owl-writey available operations')
+    .setVersion('1.0')
+    .build();
+  const documentFactory = (): OpenAPIObject =>
+    SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
+
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
