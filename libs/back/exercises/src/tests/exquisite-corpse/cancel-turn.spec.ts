@@ -57,6 +57,25 @@ describe('Exquisite corpse: cancel turn action', () => {
         `/api/exquisite-corpse/${exercise.id}/cancel-turn`
       );
     });
+
+    it('should return a cancel turn link for admins if one user has turn', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = await exerciseUtils.createAndRetrieve(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      await app.logAs(TestUserBuilder.Bob());
+      await exerciseUtils.takeTurnFromHateoas(exercise);
+
+      await app.logAs(TestUserBuilder.Alice());
+      const updatedExerciseResponse = await exerciseUtils.getFromHateoas(
+        exercise
+      );
+
+      const exerciseLinks = updatedExerciseResponse.body
+        ?._links as ExquisiteCorpseLinksDto;
+      expect(exerciseLinks.cancelTurn).toBeDefined();
+    });
   });
 
   describe('POST /api/exquisite-corpse/:id/cancel-turn', () => {

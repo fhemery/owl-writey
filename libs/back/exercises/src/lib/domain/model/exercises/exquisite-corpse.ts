@@ -95,11 +95,25 @@ export class ExquisiteCorpseExercise extends Exercise<
     return !this.content?.currentWriter && !this.isFinished();
   }
 
-  hasTurn(userId: string): boolean {
+  canCancelTurn(userId: string): boolean {
     return (
-      this.content?.currentWriter?.author?.uid === userId &&
+      this.hasTurn(userId) ||
+      (this.isParticipantAdmin(userId) && this.isTurnOngoing())
+    );
+  }
+
+  isTurnOngoing(): boolean {
+    return (
+      !!this.content?.currentWriter &&
       this.content?.currentWriter?.until > new Date() &&
       !this.isFinished()
+    );
+  }
+
+  hasTurn(userId: string): boolean {
+    return (
+      this.isTurnOngoing() &&
+      this.content?.currentWriter?.author?.uid === userId
     );
   }
 }
