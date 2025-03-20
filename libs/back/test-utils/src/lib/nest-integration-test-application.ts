@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Type } from '@nestjs/common';
 import { App } from 'supertest/types';
 
 import { FakeAuthMiddleware } from './internal/fake-auth-middleware.service';
@@ -37,5 +37,9 @@ export class NestIntegrationTestApplication extends NestTestApplication {
     }
     FakeAuthMiddleware.SetUser(user.uid, user.email, user.roles);
     return Promise.resolve();
+  }
+
+  getInstance<T>(type: Type<T>): T {
+    return this._app.get(type);
   }
 }
