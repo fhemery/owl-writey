@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto, ExquisiteCorpseExerciseDto } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExerciseStatus,
+  ExquisiteCorpseExerciseDto,
+} from '@owl/shared/contracts';
 import { ContentChange, QuillEditorComponent } from 'ngx-quill';
 import { SocketIoModule } from 'ngx-socket-io';
 
@@ -26,8 +30,9 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
 })
 export class ExquisiteCorpseDetailsComponent {
   readonly store = inject(ExquisiteCorpseStore);
-  exercise = input.required<ExerciseDto>();
+  readonly ExerciseStatus = ExerciseStatus;
 
+  exercise = input.required<ExerciseDto>();
   newContent = signal<string>('');
 
   constructor() {
