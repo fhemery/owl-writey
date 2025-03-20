@@ -6,10 +6,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  User,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { Role } from '@owl/shared/contracts';
+import { from, map, of, switchMap, tap } from 'rxjs';
+
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -21,18 +23,36 @@ export class FirebaseAuthService {
 
   isInitialized = signal(false);
 
+  private _authState = authState(this.auth).pipe(
+    map((u) => {
+      return u || null;
+    }),
+    tap(() => this.isInitialized.set(true))
+  );
+  private _user = toSignal(this._authState, { initialValue: null });
+
   user: Signal<User | null> = toSignal(
-    authState(this.auth).pipe(
-      map((u) => {
-        return u || null;
-      }),
-      tap(() => this.isInitialized.set(true))
+    this._authState.pipe(
+      switchMap((u) => {
+        if (!u) {
+          return of(null);
+        }
+        return from(u.getIdTokenResult()).pipe(
+          map((token) => {
+            return new User(
+              u.uid,
+              u.email || '',
+              (token.claims['roles'] || []) as Role[]
+            );
+          })
+        );
+      })
     ),
     { initialValue: null }
   );
 
-  getToken(): Promise<string> | undefined {
-    return this.user()?.getIdToken();
+  getToken(): Promise<string | undefined> {
+    return this._user()?.getIdToken() || Promise.resolve(undefined);
   }
 
   async login(login: string, password: string): Promise<boolean> {

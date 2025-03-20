@@ -4,6 +4,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FirebaseAuthService } from '@owl/front/auth';
 import { ExerciseSummaryDto, NovelSummaryDto } from '@owl/shared/contracts';
 
 import { DashboardExercisesComponent } from './components/dashboard-exercises/dashboard-exercises.component';
@@ -27,6 +28,8 @@ import { DashboardService } from './services/dashboard.service';
 export class DashboardPageComponent implements OnInit {
   displayFinished = false;
   readonly dashboardService = inject(DashboardService);
+  readonly authService = inject(FirebaseAuthService);
+  user = this.authService.user;
 
   exercises = signal<ExerciseSummaryDto[] | null>(null);
   novels = signal<NovelSummaryDto[] | null>(null);

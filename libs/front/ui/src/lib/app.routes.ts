@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { authGuard, notAuthGuard } from '@owl/front/auth';
+import { authGuard, betaOnlyGuard, notAuthGuard } from '@owl/front/auth';
 
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
 import { ExerciseNewPageComponent } from './pages/exercise/exercise-new-page.component';
@@ -66,7 +66,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'novels',
-    canActivate: [authGuard],
+    canActivate: [betaOnlyGuard],
     children: [
       {
         path: 'new',
