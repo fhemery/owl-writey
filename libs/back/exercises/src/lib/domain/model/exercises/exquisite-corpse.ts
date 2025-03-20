@@ -92,7 +92,7 @@ export class ExquisiteCorpseExercise extends Exercise<
   }
 
   canTakeTurn(): boolean {
-    return !this.content?.currentWriter && !this.isFinished();
+    return !this.isTurnOngoing() && !this.isFinished();
   }
 
   canCancelTurn(userId: string): boolean {
@@ -105,8 +105,7 @@ export class ExquisiteCorpseExercise extends Exercise<
   isTurnOngoing(): boolean {
     return (
       !!this.content?.currentWriter &&
-      this.content?.currentWriter?.until > new Date() &&
-      !this.isFinished()
+      this.content?.currentWriter?.until > new Date()
     );
   }
 

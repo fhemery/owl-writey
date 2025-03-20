@@ -63,7 +63,7 @@ export const ExquisiteCorpseStore = signalStore(
       },
       async checkTurn(): Promise<void> {
         const exercise = store.exercise();
-        if (!exercise) {
+        if (!exercise || exercise._links.takeTurn) {
           return;
         }
         const until = exercise.content?.currentWriter?.until;
