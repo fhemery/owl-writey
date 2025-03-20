@@ -9,7 +9,10 @@ export abstract class BasePo {
   protected constructor(page: Page) {
     this.page = page;
   }
-  async shouldDisplayText(text: string): Promise<void> {
+  async shouldDisplayTranslatedText(text: string): Promise<void> {
     await expect(this.page.getByText(this.translator.get(text))).toBeVisible();
+  }
+  async shouldDisplayText(text: string): Promise<void> {
+    await expect(this.page.getByText(text)).toBeVisible();
   }
 }

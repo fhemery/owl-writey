@@ -20,7 +20,7 @@ test.describe('Login page', () => {
 
   test('should display error if wrong logins are entered', async () => {
     await loginPo.logAs('wrongLogin', 'wrongPassword');
-    await loginPo.shouldDisplayText('auth.error');
+    await loginPo.shouldDisplayTranslatedText('auth.error');
   });
 
   test('should redirect to the dashboard page on successful login', async () => {
