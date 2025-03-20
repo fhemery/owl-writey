@@ -6,10 +6,7 @@ import { ExerciseEntity } from './exercise.entity';
 
 @Entity({ name: 'exercise_participants' })
 export class ExerciseParticipantEntity {
-  @PrimaryColumn({ type: 'int', generated: 'increment' })
-  id!: number;
-
-  @Column({ type: 'varchar', length: 36 })
+  @PrimaryColumn({ type: 'varchar', length: 36, generated: false })
   participantUid!: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -22,7 +19,7 @@ export class ExerciseParticipantEntity {
   @JoinColumn({ name: 'exerciseId' })
   exercise!: ExerciseEntity;
 
-  @Column({ name: 'exerciseId' })
+  @PrimaryColumn({ name: 'exerciseId', generated: false })
   exerciseId!: string;
 
   toParticipant(): ExerciseParticipant {
