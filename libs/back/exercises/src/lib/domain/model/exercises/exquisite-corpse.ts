@@ -48,17 +48,22 @@ export class ExquisiteCorpseExercise extends Exercise<
       throw new ExerciseException('Exercise content is not initialized');
     }
 
-    const inFifteenMinutes = new Date();
-    inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
-    this.content.currentWriter = new ExquisiteCorpseNextActor(
-      author,
-      inFifteenMinutes
-    );
+    let nextDate: Date | null = null;
+    if (this.config.iterationDuration > 0) {
+      nextDate = new Date();
+      nextDate.setSeconds(
+        nextDate.getSeconds() + this.config.iterationDuration
+      );
+    }
+    this.content.currentWriter = new ExquisiteCorpseNextActor(author, nextDate);
   }
 
   private isTurnAvailable(): boolean {
     if (!this.content?.currentWriter) {
       return true;
+    }
+    if (!this.content.currentWriter.until) {
+      return false;
     }
     return this.content.currentWriter.until.getTime() < new Date().getTime();
   }
@@ -72,7 +77,8 @@ export class ExquisiteCorpseExercise extends Exercise<
   submitTurn(uid: string, content: string): void {
     if (
       this.content?.currentWriter?.author.uid !== uid ||
-      this.content.currentWriter.until < new Date()
+      (this.content.currentWriter?.until &&
+        this.content.currentWriter.until < new Date())
     ) {
       throw new ExerciseException('It is not your turn');
     }
@@ -105,7 +111,8 @@ export class ExquisiteCorpseExercise extends Exercise<
   isTurnOngoing(): boolean {
     return (
       !!this.content?.currentWriter &&
-      this.content?.currentWriter?.until > new Date()
+      (!this.content?.currentWriter?.until ||
+        this.content?.currentWriter?.until > new Date())
     );
   }
 
@@ -123,9 +130,11 @@ export class ExquisiteCorpseContent {
   ) {}
 }
 export class ExquisiteCorpseConfig {
+  readonly iterationDuration: number;
   constructor(
     readonly initialText: string,
-    readonly nbIterations: number | null = null
+    readonly nbIterations: number | null = null,
+    iterationDuration = 900
   ) {
     if (nbIterations && nbIterations < 1) {
       throw new ExerciseException(
@@ -137,6 +146,17 @@ export class ExquisiteCorpseConfig {
         'Exquisite corpse: config.initialText must not be empty'
       );
     }
+
+    if (
+      iterationDuration &&
+      (isNaN(iterationDuration) || iterationDuration < 0)
+    ) {
+      throw new ExerciseException(
+        'Exquisite corpse: config.iterationDuration must be a positive number'
+      );
+    }
+
+    this.iterationDuration = iterationDuration;
   }
 }
 export class ExquisiteCorpseScene {
@@ -147,5 +167,5 @@ export class ExquisiteCorpseScene {
   ) {}
 }
 export class ExquisiteCorpseNextActor {
-  constructor(readonly author: ExerciseUser, readonly until: Date) {}
+  constructor(readonly author: ExerciseUser, readonly until: Date | null) {}
 }

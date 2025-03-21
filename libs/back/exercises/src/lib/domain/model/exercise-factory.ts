@@ -36,7 +36,11 @@ export class ExerciseFactory {
 const exquisiteCorpseConverter = {
   toConfig(config: unknown): ExquisiteCorpseConfig {
     const cfg = config as ExquisiteCorpseConfig;
-    return new ExquisiteCorpseConfig(cfg.initialText, cfg.nbIterations);
+    return new ExquisiteCorpseConfig(
+      cfg.initialText,
+      cfg.nbIterations,
+      cfg.iterationDuration
+    );
   },
 
   toContent(content: unknown): ExquisiteCorpseContent | undefined {
@@ -58,7 +62,7 @@ const exquisiteCorpseConverter = {
               cont.currentWriter.author.uid,
               cont.currentWriter.author.name
             ),
-            new Date(cont.currentWriter.until)
+            cont.currentWriter.until ? new Date(cont.currentWriter.until) : null
           )
         : undefined
     );

@@ -17,7 +17,9 @@ export class ExerciseTestBuilder {
   }
 
   static FromExquisiteCorpse(): ExerciseTestBuilder {
-    return new ExerciseTestBuilder().withType(ExerciseType.ExquisiteCorpse);
+    return new ExerciseTestBuilder()
+      .withType(ExerciseType.ExquisiteCorpse)
+      .withConfigKey('initialText', 'Some text');
   }
 
   withType(type: ExerciseType): ExerciseTestBuilder {
