@@ -83,7 +83,7 @@ export const uiFr = {
       email: {
         label: 'Email',
         error: {
-          required: 'Le mot de passe est obligatoire',
+          required: "L'email est obligatoire",
           invalid: "Le format de l'email est incorrect",
         },
       },
