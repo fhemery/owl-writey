@@ -24,10 +24,10 @@
     <div class="exCo-details__editor">
       <h2>{{ 'exercise.exquisiteCorpse.yourTurn.label' | translate }}</h2>
       {{ content?.currentWriter?.until | timeDiff | async }}
-      <quill-editor
-        (onContentChanged)="updateContent($event)"
+      <owl-text-editor
         placeholder=""
-      ></quill-editor>
+        (update)="updateContent($event)"
+      ></owl-text-editor>
       <div class="exCo-details__buttons">
         <button
           mat-raised-button

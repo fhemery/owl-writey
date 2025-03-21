@@ -7,9 +7,10 @@ import {
   ExerciseStatus,
   ExquisiteCorpseExerciseDto,
 } from '@owl/shared/contracts';
-import { ContentChange, QuillEditorComponent } from 'ngx-quill';
+import { QuillEditorComponent } from 'ngx-quill';
 import { SocketIoModule } from 'ngx-socket-io';
 
+import { TextEditorComponent } from '../../../../components/text-editor/text-editor.component';
 import { TimeDiffPipe } from '../../../../services/time.pipe';
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';
 import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
@@ -23,6 +24,7 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
     MatButton,
     QuillEditorComponent,
     TimeDiffPipe,
+    TextEditorComponent,
   ],
   providers: [ExquisiteCorpseService, ExquisiteCorpseStore],
   templateUrl: './exquisite-corpse-details.component.html',
@@ -45,8 +47,8 @@ export class ExquisiteCorpseDetailsComponent {
     await this.store.takeTurn();
   }
 
-  updateContent($event: ContentChange): void {
-    this.newContent.set(($event.html?.replace(/&nbsp;/g, ' ') || '').trim());
+  updateContent($event: string): void {
+    this.newContent.set($event);
   }
 
   async submitTurn(): Promise<void> {

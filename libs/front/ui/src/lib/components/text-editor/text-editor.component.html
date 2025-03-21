@@ -1,0 +1,6 @@
+<div class="text-editor" [style.max-width]="width()" [style.height]="height()">
+  <quill-editor
+    (onContentChanged)="updateContent($event)"
+    [placeholder]="placeholder()"
+  ></quill-editor>
+</div>

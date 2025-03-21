@@ -36,17 +36,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 
     & > * {
       margin-bottom: 1rem;
-    }
-
-    quill-editor::ng-deep {
-      .ql-container {
-        height: 10rem;
-        max-height: 10rem;
-        overflow: auto;
-      }
     }
   }
 
