@@ -7,6 +7,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SubmitTurnRequestDto } from '@owl/shared/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
@@ -25,6 +26,7 @@ class SubmitTurnRequestDtoImpl implements SubmitTurnRequestDto {
 }
 
 @Controller('exquisite-corpse')
+@ApiBearerAuth()
 export class ExquisiteCorpseController {
   constructor(
     private readonly takeTurnCommand: TakeTurnCommand,

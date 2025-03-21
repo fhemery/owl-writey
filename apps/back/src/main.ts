@@ -42,6 +42,7 @@ async function bootstrap(): Promise<void> {
     .setTitle('Owl-Writey api')
     .setDescription('Owl-writey available operations')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = (): OpenAPIObject =>
     SwaggerModule.createDocument(app, config);

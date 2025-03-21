@@ -12,6 +12,7 @@ import {
   Req,
   Sse,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
@@ -45,6 +46,7 @@ import {
 } from './mappers/exercise-dto.mappers';
 
 @Controller('exercises')
+@ApiBearerAuth()
 export class ExercisesController {
   constructor(
     private readonly listExercisesQuery: ListExercisesQuery,

@@ -14,6 +14,7 @@ import {
   Request,
   Sse,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import {
   Auth,
   AuthService,
@@ -43,6 +44,7 @@ class UserToCreateDtoImpl implements UserToCreateDto {
 }
 
 @Controller('users')
+@ApiBearerAuth()
 export class UsersController {
   constructor(
     private readonly userService: UsersService,

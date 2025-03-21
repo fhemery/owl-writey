@@ -5,6 +5,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, AuthService } from '@owl/back/auth';
 import { Role, UserRoleDto } from '@owl/shared/contracts';
 import { IsEnum, IsNotEmpty } from 'class-validator';
@@ -18,6 +19,7 @@ class UserRoleImpl implements UserRoleDto {
 }
 
 @Controller('users/:id/roles')
+@ApiBearerAuth()
 export class UserRolesController {
   constructor(
     private readonly authService: AuthService,

@@ -8,6 +8,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { GetAllNovelsResponseDto, NovelDto } from '@owl/shared/contracts';
 
@@ -22,6 +23,7 @@ import { novelConverter } from './converter/novel-converter';
 import { NovelToCreateDtoImpl } from './dtos/novel-to-create.dto.impl';
 
 @Controller('novels')
+@ApiBearerAuth()
 export class NovelsController {
   constructor(
     private readonly createNovelCommand: CreateNovelCommand,
