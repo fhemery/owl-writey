@@ -33,6 +33,17 @@ export const exerciseFr = {
           },
           help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laissez vide ou mettre \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
+        iterationDuration: {
+          label: "Durée d'un tour",
+          help: 'Le temps dont dispose une Plume après avoir pris la main.',
+          options: {
+            fiveMinutes: '5 minutes',
+            fifteenMinutes: '15 minutes',
+            oneHour: '1 heure',
+            oneDay: '1 jour',
+            infinite: 'Infini',
+          },
+        },
         wordsLimit: {
           label: 'Limite de mots',
           error: {

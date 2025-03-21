@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import {
   MatError,
   MatFormField,
@@ -13,6 +14,7 @@ import {
   MatLabel,
 } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -23,6 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatInput,
     MatLabel,
     MatError,
+    MatSelect,
+    MatOption,
     TranslateModule,
     ReactiveFormsModule,
     MatHint,
@@ -52,6 +56,10 @@ export class ExquisiteFormCorpseComponent implements OnInit {
         Validators.required,
         Validators.minLength(50),
       ])
+    );
+    this.form.addControl(
+      'iterationDuration',
+      new FormControl<number | null>(900, [Validators.min(0)])
     );
   }
 }

@@ -2,10 +2,8 @@
 
 <div [formGroup]="form">
   <mat-form-field>
-    <mat-label>{{
-      'exercise.form.exquisiteCorpse.nbIterations.label' | translate
-    }}
-
+    <mat-label
+      >{{ 'exercise.form.exquisiteCorpse.nbIterations.label' | translate }}
     </mat-label>
 
     <input
@@ -15,7 +13,9 @@
       type="number"
       autocomplete="off"
     />
-    <mat-hint>{{ 'exercise.form.exquisiteCorpse.nbIterations.help' | translate }}</mat-hint>
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.nbIterations.help' | translate
+    }}</mat-hint>
     <mat-error>
       @if(form.get('nbIterations')?.hasError('required')) {
       {{
@@ -28,6 +28,36 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>{{
+      'exercise.form.exquisiteCorpse.iterationDuration.label' | translate
+    }}</mat-label>
+    <mat-select formControlName="iterationDuration" name="iterationDuration">
+      <mat-option [value]="300">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.fiveMinutes'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="900">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.fifteenMinutes'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="3600">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.oneHour'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="86400">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.oneDay'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="0">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.infinite'
+          | translate
+      }}</mat-option>
+    </mat-select>
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.iterationDuration.help' | translate
+    }}</mat-hint>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{
       'exercise.form.exquisiteCorpse.initialText.label' | translate
     }}</mat-label>
     <textarea
@@ -36,7 +66,9 @@
       name="initialText"
       autocomplete="off"
     ></textarea>
-    <mat-hint>{{ 'exercise.form.exquisiteCorpse.initialText.help' | translate }}</mat-hint>
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.initialText.help' | translate
+    }}</mat-hint>
     <mat-error>
       @if(form.get('initialText')?.hasError('required')) {
       {{

@@ -55,7 +55,6 @@ export const ExerciseStore = signalStore(
         const subscription = userNotificationService
           .connect(exercise._links.connect || '')
           .subscribe((event) => {
-            console.log('Received', JSON.stringify(event));
             if (event.event === NotificationEvent.eventName) {
               const ev = event as NotificationEvent;
               notificationService.notifyEvent(
