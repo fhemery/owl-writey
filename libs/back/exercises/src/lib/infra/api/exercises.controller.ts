@@ -17,6 +17,7 @@ import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
   connectedToExerciseEvent,
+  disconnectedFromExerciseEvent,
   ExerciseDto,
   ExercisedUpdateEvent,
   GetAllExercisesResponseDto,
@@ -159,23 +160,24 @@ export class ExercisesController {
     @Req() request: RequestWithUser,
     @Param('id') id: string
   ): Promise<Observable<{ data: SseEvent }>> {
-    const stream = this.notificationService.registerToRoom(
-      exerciseConstants.getRoom(id),
-      request.user.uid
-    );
-
     const exercise = await this.getExerciseQuery.execute(request.user.uid, id);
-
     if (!exercise) {
       throw new NotFoundException();
     }
+
+    const author = exercise?.findParticipant(request.user.uid);
+    const room = exerciseConstants.getRoom(id);
+    const stream = this.notificationService.registerToRoom(
+      room,
+      request.user.uid
+    );
+
     setTimeout(() => {
-      const author = exercise?.findParticipant(request.user.uid);
       if (!author) {
         return;
       }
       this.notificationService.notifyRoom(
-        exerciseConstants.getRoom(id),
+        room,
         new NotificationEvent(
           connectedToExerciseEvent,
           {
@@ -204,6 +206,18 @@ export class ExercisesController {
     request.res?.on('close', () => {
       clearInterval(heartbeatInterval);
       stream.complete();
+      this.notificationService.unregisterFromRoom(room, stream);
+      this.notificationService.notifyRoom(
+        room,
+        new NotificationEvent(
+          disconnectedFromExerciseEvent,
+          {
+            author: author?.name,
+            exercise: exercise.generalInfo.name,
+          },
+          request.user.uid
+        )
+      );
     });
 
     return stream;

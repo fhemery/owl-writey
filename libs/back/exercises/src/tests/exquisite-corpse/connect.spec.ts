@@ -1,6 +1,7 @@
-import { TestUserBuilder } from '@owl/back/test-utils';
+import { TestUserBuilder, waitFor } from '@owl/back/test-utils';
 import {
   connectedToExerciseEvent,
+  disconnectedFromExerciseEvent,
   ExercisedUpdateEvent,
 } from '@owl/shared/contracts';
 
@@ -70,6 +71,33 @@ describe('GET /api/exercises/:id/connect (for an exquisite corpse)', () => {
       expectedData,
       TestUserBuilder.Bob().uid
     );
+    expectNotificationReceived(
+      aliceEvents,
+      expectedKey,
+      expectedData,
+      TestUserBuilder.Bob().uid
+    );
+  });
+
+  it('should notify other when a user leaves', async () => {
+    await app.logAs(TestUserBuilder.Alice());
+    const exercise = await exerciseUtils.createAndRetrieve(
+      ExerciseTestBuilder.ExquisiteCorpse()
+    );
+    const aliceEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    await app.logAs(TestUserBuilder.Bob());
+    await exerciseUtils.participateFromHateoas(exercise);
+    const bobEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    bobEvents.close();
+    await waitFor(100);
+
+    const expectedKey = disconnectedFromExerciseEvent;
+    const expectedData = {
+      exercise: exercise.name,
+      author: TestUserBuilder.Bob().name,
+    };
     expectNotificationReceived(
       aliceEvents,
       expectedKey,

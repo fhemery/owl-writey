@@ -73,4 +73,17 @@ export class SseNotificationService {
   getStreams(roomId: string): UserStream[] {
     return this.rooms.get(roomId) || [];
   }
+
+  unregisterFromRoom(
+    roomId: string,
+    stream: Subject<{ data: SseEvent }>
+  ): void {
+    const room = this.rooms.get(roomId);
+    if (room) {
+      this.rooms.set(
+        roomId,
+        room.filter((s) => s.stream !== stream)
+      );
+    }
+  }
 }

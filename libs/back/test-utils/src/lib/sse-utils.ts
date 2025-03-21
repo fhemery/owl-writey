@@ -7,6 +7,8 @@ export class SseEventList {
   _events: SseEvent[] = [];
   _error: { status: number } | undefined;
 
+  constructor(private eventSource: EventSourcePolyfill) {}
+
   addEvent(event: SseEvent): void {
     this._events.push(event);
   }
@@ -18,14 +20,18 @@ export class SseEventList {
   setError(error: { status: number }): void {
     this._error = error;
   }
+
+  close(): void {
+    this.eventSource.close();
+  }
 }
 
 export class SseUtils {
   eventSources: EventSourcePolyfill[] = [];
 
   async connect(url: string): Promise<SseEventList> {
-    const events = new SseEventList();
     const eventSourcePolyfill = new EventSourcePolyfill(url);
+    const events = new SseEventList(eventSourcePolyfill);
     this.eventSources.push(eventSourcePolyfill);
 
     eventSourcePolyfill.onerror = (error: unknown): void => {

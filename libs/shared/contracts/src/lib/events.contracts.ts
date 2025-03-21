@@ -11,6 +11,7 @@ export class HeartbeatEvent extends SseEvent {
 }
 
 export const connectedToExerciseEvent = 'connectionToExerciseSuccessful';
+export const disconnectedFromExerciseEvent = 'disconnectedFromExercise';
 export const exquisiteCorpseTurnTakenEvent = 'exerciseTurnTaken';
 export const exquisiteCorpseTurnSubmittedEvent = 'exerciseTurnSubmitted';
 export const exquisiteCorpseTurnCanceledEvent = 'exerciseTurnCanceled';

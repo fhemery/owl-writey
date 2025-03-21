@@ -16,5 +16,9 @@ export const eventsFr = {
       self: 'Vous avez libéré votre tour sur l\'exercice "{{exercise}}".',
       other: '{{author}} a libéré son tour sur l\'exercice "{{exercise}}".',
     },
+    disconnectedFromExercise: {
+      self: 'Vous vous êtes déconnecté·e de l\'exercice "{{exercise}}".',
+      other: '{{author}} s\'est déconnecté·e de l\'exercice "{{exercise}}".',
+    },
   },
 };
