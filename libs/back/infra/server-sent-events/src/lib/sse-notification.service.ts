@@ -41,6 +41,35 @@ export class SseNotificationService {
     }
   }
 
+  /**
+   * Use this method if the event to send depends on user
+   **/
+  notifyRoomDistinctly(
+    roomId: string,
+    eventProcessingFunction: (userId: string) => SseEvent | null
+  ): void {
+    const room = this.rooms.get(roomId);
+    if (room) {
+      room.forEach((subject) => {
+        const ev = eventProcessingFunction(subject.userId);
+        if (ev) {
+          subject.stream.next({ data: ev });
+        }
+      });
+    }
+  }
+
+  notifyUserInRoom(roomId: string, uid: string, event: SseEvent): void {
+    const room = this.rooms.get(roomId);
+    if (room) {
+      room.forEach((subject) => {
+        if (subject.userId === uid) {
+          subject.stream.next({ data: event });
+        }
+      });
+    }
+  }
+
   getStreams(roomId: string): UserStream[] {
     return this.rooms.get(roomId) || [];
   }

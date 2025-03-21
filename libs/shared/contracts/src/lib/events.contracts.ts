@@ -1,4 +1,4 @@
-import { AuthorDto, ExerciseDto } from './exercise.contracts';
+import { ExerciseDto } from './exercise.contracts';
 
 export class SseEvent<T = unknown> {
   constructor(readonly event: string, readonly data: T) {}
@@ -10,82 +10,25 @@ export class HeartbeatEvent extends SseEvent {
   }
 }
 
-export class ConnectToExerciseEvent extends SseEvent<{
-  author: string;
-  exerciseName: string;
+export const connectedToExerciseEvent = 'connectionToExerciseSuccessful';
+export const exquisiteCorpseTurnTakenEvent = 'exerciseTurnTaken';
+export const exquisiteCorpseTurnSubmittedEvent = 'exerciseTurnSubmitted';
+export const exquisiteCorpseTurnCanceledEvent = 'exerciseTurnCanceled';
+
+export class NotificationEvent extends SseEvent<{
+  key: string;
+  data: Record<string, unknown>;
+  uid?: string;
 }> {
-  static readonly eventName = 'connectedToExercise';
-  constructor(author: string, exerciseName: string) {
-    super(ConnectToExerciseEvent.eventName, { author, exerciseName });
+  static readonly eventName = 'notification';
+  constructor(key: string, data: Record<string, unknown>, uid?: string) {
+    super(NotificationEvent.eventName, { key, data, uid });
   }
 }
 
-export interface ExerciseEventData<NotificationData = Record<string, unknown>> {
-  notification?: {
-    key: string;
-    data: NotificationData;
-  };
-  exercise?: ExerciseDto;
-}
-export class ExerciseUpdatedEvent<
-  NotificationData = Record<string, unknown>
-> extends SseEvent<ExerciseEventData<NotificationData>> {
+export class ExercisedUpdateEvent extends SseEvent<{ exercise: ExerciseDto }> {
   static readonly eventName = 'exerciseUpdated';
-  constructor(
-    exercise?: ExerciseDto,
-    notification?: { key: string; data: NotificationData }
-  ) {
-    super(ExerciseUpdatedEvent.eventName, { exercise, notification });
-  }
-}
-
-export class ConnectionToExerciseSuccessfulEvent extends ExerciseUpdatedEvent<{
-  name: string;
-}> {
-  static readonly translationKey = 'connectionToExerciseSuccessful';
   constructor(exercise: ExerciseDto) {
-    super(exercise, {
-      key: ConnectionToExerciseSuccessfulEvent.translationKey,
-      data: { name: exercise.name },
-    });
-  }
-}
-
-export class ExquisiteCorpseTurnTakenEvent extends ExerciseUpdatedEvent<{
-  name: string;
-  exercise: string;
-}> {
-  static readonly translationKey = 'exerciseTurnTaken';
-  constructor(exercise: ExerciseDto, author: AuthorDto) {
-    super(exercise, {
-      key: ExquisiteCorpseTurnTakenEvent.translationKey,
-      data: { name: author.name, exercise: exercise.name },
-    });
-  }
-}
-
-export class ExquisiteCorpseTurnCanceledEvent extends ExerciseUpdatedEvent<{
-  name: string;
-  exercise: string;
-}> {
-  static readonly translationKey = 'exerciseTurnCanceled';
-  constructor(exercise: ExerciseDto, author: AuthorDto) {
-    super(exercise, {
-      key: ExquisiteCorpseTurnCanceledEvent.translationKey,
-      data: { name: author.name, exercise: exercise.name },
-    });
-  }
-}
-
-export class ExquisiteCorpseTurnSubmittedEvent extends ExerciseUpdatedEvent<{
-  name: string;
-  exercise: string;
-}> {
-  static readonly translationKey = 'exerciseTurnSubmitted';
-  constructor(exercise: ExerciseDto, author: AuthorDto) {
-    super(exercise, {
-      key: ExquisiteCorpseTurnSubmittedEvent.translationKey,
-      data: { name: author.name, exercise: exercise.name },
-    });
+    super(ExercisedUpdateEvent.eventName, { exercise });
   }
 }

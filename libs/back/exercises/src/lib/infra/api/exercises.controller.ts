@@ -15,10 +15,12 @@ import {
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
-  ConnectionToExerciseSuccessfulEvent,
+  connectedToExerciseEvent,
   ExerciseDto,
+  ExercisedUpdateEvent,
   GetAllExercisesResponseDto,
   HeartbeatEvent,
+  NotificationEvent,
   SseEvent,
 } from '@owl/shared/contracts';
 import { Observable } from 'rxjs';
@@ -166,8 +168,23 @@ export class ExercisesController {
       throw new NotFoundException();
     }
     setTimeout(() => {
+      const author = exercise?.findParticipant(request.user.uid);
+      if (!author) {
+        return;
+      }
+      this.notificationService.notifyRoom(
+        exerciseConstants.getRoom(id),
+        new NotificationEvent(
+          connectedToExerciseEvent,
+          {
+            author: author.name,
+            exercise: exercise.generalInfo.name,
+          },
+          author.uid
+        )
+      );
       stream.next({
-        data: new ConnectionToExerciseSuccessfulEvent(
+        data: new ExercisedUpdateEvent(
           toExerciseDto(
             exercise,
             process.env['BASE_API_URL'] || '',

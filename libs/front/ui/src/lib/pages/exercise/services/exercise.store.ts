@@ -9,7 +9,11 @@ import {
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
 import { UserNotificationsService } from '@owl/front/infra';
-import { ExerciseDto, ExerciseUpdatedEvent } from '@owl/shared/contracts';
+import {
+  ExerciseDto,
+  ExercisedUpdateEvent,
+  NotificationEvent,
+} from '@owl/shared/contracts';
 import { Subscription } from 'rxjs';
 
 import { NotificationService } from '../../../services/notification.service';
@@ -51,18 +55,21 @@ export const ExerciseStore = signalStore(
         const subscription = userNotificationService
           .connect(exercise._links.connect || '')
           .subscribe((event) => {
-            if (event.event === ExerciseUpdatedEvent.eventName) {
-              const ev = event as ExerciseUpdatedEvent;
+            console.log('Received', JSON.stringify(event));
+            if (event.event === NotificationEvent.eventName) {
+              const ev = event as NotificationEvent;
+              notificationService.notifyEvent(
+                ev.data.key +
+                  (ev.data.uid === store.currentUserId() ? '.self' : '.other'),
+                ev.data.data
+              );
+            }
+            if (event.event === ExercisedUpdateEvent.eventName) {
+              const ev = event as ExercisedUpdateEvent;
               patchState(store, (state) => ({
                 ...state,
                 exercise: ev.data.exercise,
               }));
-              if (ev.data.notification) {
-                notificationService.notifyEvent(
-                  ev.data.notification.key,
-                  ev.data.notification.data
-                );
-              }
             }
           });
         patchState(store, (state) => ({
