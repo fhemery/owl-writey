@@ -55,4 +55,11 @@ export class RegisterPo extends BasePo {
       this.submitButton.click()
     ]);
   }
+
+  async wronglyRegisterAs(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
+    await this.nameInput.fill(name);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.repeatPasswordInput.fill(repeatedPassword);
+  }
 }
