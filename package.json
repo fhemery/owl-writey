@@ -15,7 +15,7 @@
     "nx:migrate:finalize": "nx migrate --run-migrations",
     "deploy:ensure:latest": "nx run build-app:build",
     "@deploy:usage": "--------------- pnpm deploy:<application> --version=x.y.z ---------------------------",
-    "deploy:app": "npm run deploy:ensure:latest && node dist/apps/tools/build-app/main.js",
+    "deploy:app": "pnpm deploy:ensure:latest && node dist/apps/tools/build-app/main.js",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "@create-usage: typeorm:migration:create migrations/<migration_name>": "",
     "typeorm:migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
