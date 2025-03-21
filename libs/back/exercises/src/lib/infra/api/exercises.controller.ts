@@ -12,13 +12,17 @@ import {
   Req,
   Sse,
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
-  ConnectionToExerciseSuccessfulEvent,
+  connectedToExerciseEvent,
+  disconnectedFromExerciseEvent,
   ExerciseDto,
+  ExercisedUpdateEvent,
   GetAllExercisesResponseDto,
   HeartbeatEvent,
+  NotificationEvent,
   SseEvent,
 } from '@owl/shared/contracts';
 import { Observable } from 'rxjs';
@@ -43,6 +47,7 @@ import {
 } from './mappers/exercise-dto.mappers';
 
 @Controller('exercises')
+@ApiBearerAuth()
 export class ExercisesController {
   constructor(
     private readonly listExercisesQuery: ListExercisesQuery,
@@ -155,19 +160,35 @@ export class ExercisesController {
     @Req() request: RequestWithUser,
     @Param('id') id: string
   ): Promise<Observable<{ data: SseEvent }>> {
-    const stream = this.notificationService.registerToRoom(
-      exerciseConstants.getRoom(id),
-      request.user.uid
-    );
-
     const exercise = await this.getExerciseQuery.execute(request.user.uid, id);
-
     if (!exercise) {
       throw new NotFoundException();
     }
+
+    const author = exercise?.findParticipant(request.user.uid);
+    const room = exerciseConstants.getRoom(id);
+    const stream = this.notificationService.registerToRoom(
+      room,
+      request.user.uid
+    );
+
     setTimeout(() => {
+      if (!author) {
+        return;
+      }
+      this.notificationService.notifyRoom(
+        room,
+        new NotificationEvent(
+          connectedToExerciseEvent,
+          {
+            author: author.name,
+            exercise: exercise.generalInfo.name,
+          },
+          author.uid
+        )
+      );
       stream.next({
-        data: new ConnectionToExerciseSuccessfulEvent(
+        data: new ExercisedUpdateEvent(
           toExerciseDto(
             exercise,
             process.env['BASE_API_URL'] || '',
@@ -185,6 +206,18 @@ export class ExercisesController {
     request.res?.on('close', () => {
       clearInterval(heartbeatInterval);
       stream.complete();
+      this.notificationService.unregisterFromRoom(room, stream);
+      this.notificationService.notifyRoom(
+        room,
+        new NotificationEvent(
+          disconnectedFromExerciseEvent,
+          {
+            author: author?.name,
+            exercise: exercise.generalInfo.name,
+          },
+          request.user.uid
+        )
+      );
     });
 
     return stream;

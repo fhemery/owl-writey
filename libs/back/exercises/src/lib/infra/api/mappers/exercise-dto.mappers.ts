@@ -36,16 +36,15 @@ function addExquisiteCorpseLinks(
   userId: string
 ): ExquisiteCorpseLinksDto {
   const exCorpse = exercise as ExquisiteCorpseExercise;
-  const hasTurn = exCorpse.hasTurn(userId);
   return {
     ...links,
     takeTurn: exCorpse.canTakeTurn()
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/take-turn`
       : undefined,
-    cancelTurn: hasTurn
+    cancelTurn: exCorpse.canCancelTurn(userId)
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/cancel-turn`
       : undefined,
-    submitTurn: hasTurn
+    submitTurn: exCorpse.hasTurn(userId)
       ? `${baseAppUrl}/api/exquisite-corpse/${exercise.id}/submit-turn`
       : undefined,
   };

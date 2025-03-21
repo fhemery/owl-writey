@@ -3,6 +3,7 @@ import { EventEmitterFacade } from '@owl/back/infra/events';
 
 import {
   ExCorpseSubmitTurnEvent,
+  ExerciseException,
   ExquisiteCorpseExercise,
 } from '../../../model';
 import { ExerciseRepository } from '../../out';
@@ -24,6 +25,10 @@ export class SubmitTurnCommand {
       includeContent: true,
     })) as ExquisiteCorpseExercise;
 
+    const author = exercise.content?.currentWriter?.author;
+    if (!author) {
+      throw new ExerciseException('It is not your turn');
+    }
     exercise.submitTurn(userId, content);
 
     if (
@@ -36,6 +41,6 @@ export class SubmitTurnCommand {
 
     await this.exerciseRepository.saveContent(exercise);
 
-    this.eventEmitter.emit(new ExCorpseSubmitTurnEvent(exercise));
+    this.eventEmitter.emit(new ExCorpseSubmitTurnEvent(exercise, author));
   }
 }

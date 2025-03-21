@@ -1,0 +1,17 @@
+
+<div class="dashboard-novels">
+  @if(!novels()) {
+    <div class="dashboard-loading">
+      {{ 'dashboard.novels.loading' | translate }}
+    </div>
+  } @else { @for(novel of novels(); track novel.id) {
+    <owl-dashboard-novel-card
+      [novel]="novel"
+    ></owl-dashboard-novel-card>
+  } @empty {
+    <div class="dashboard-no-novel">
+      <p>{{ 'dashboard.novels.noNovel.label' | translate }}</p>
+      <p>{{ 'dashboard.novels.noNovel.create' | translate }}</p>
+    </div>
+  } }
+</div>

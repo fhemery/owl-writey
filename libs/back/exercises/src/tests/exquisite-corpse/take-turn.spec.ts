@@ -5,13 +5,14 @@ import {
 } from '@owl/back/test-utils';
 import {
   ExerciseDto,
-  ExerciseUpdatedEvent,
+  ExercisedUpdateEvent,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
-  ExquisiteCorpseTurnTakenEvent,
+  exquisiteCorpseTurnTakenEvent,
 } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
 describe('Exquisite corpse: take turn action', () => {
@@ -128,15 +129,12 @@ describe('Exquisite corpse: take turn action', () => {
         await waitFor(100);
 
         const latestUpdate = connect.getLatest(
-          ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+          ExercisedUpdateEvent.eventName
+        ) as ExercisedUpdateEvent;
         expect(latestUpdate).toBeDefined();
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;
-        expect(latestUpdate.data.notification?.key).toBe(
-          ExquisiteCorpseTurnTakenEvent.translationKey
-        );
         expect(updatedExercise.content.currentWriter?.author.uid).toBe(
           TestUserBuilder.Alice().uid
         );
@@ -156,8 +154,8 @@ describe('Exquisite corpse: take turn action', () => {
         await waitFor(100);
 
         const latestUpdate = connect.getLatest(
-          ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+          ExercisedUpdateEvent.eventName
+        ) as ExercisedUpdateEvent;
         expect(latestUpdate).toBeDefined();
 
         const updatedExercise = latestUpdate.data
@@ -178,14 +176,44 @@ describe('Exquisite corpse: take turn action', () => {
         await waitFor(100);
 
         const latestUpdate = connectBob.getLatest(
-          ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+          ExercisedUpdateEvent.eventName
+        ) as ExercisedUpdateEvent;
         expect(latestUpdate).toBeDefined();
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;
         expect(updatedExercise._links.takeTurn).toBeUndefined();
         expect(updatedExercise._links.cancelTurn).toBeUndefined();
+      });
+
+      it('should display a notification to all users saying turn is taken', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+        await exerciseUtils.participateFromHateoas(exercise);
+        const connectBob = await exerciseUtils.connectFromHateoas(exercise);
+
+        await app.logAs(TestUserBuilder.Alice());
+        const connectAlice = await exerciseUtils.connectFromHateoas(exercise);
+
+        await exerciseUtils.takeTurnFromHateoas(exercise);
+        await waitFor(100);
+
+        const expectedData = {
+          author: TestUserBuilder.Alice().name,
+          exercise: exercise.name,
+        };
+        const expectedKey = exquisiteCorpseTurnTakenEvent;
+        expectNotificationReceived(
+          connectBob,
+          expectedKey,
+          expectedData,
+          TestUserBuilder.Alice().uid
+        );
+        expectNotificationReceived(
+          connectAlice,
+          expectedKey,
+          expectedData,
+          TestUserBuilder.Alice().uid
+        );
       });
     });
   });

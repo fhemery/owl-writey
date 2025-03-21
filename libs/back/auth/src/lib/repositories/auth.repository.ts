@@ -13,4 +13,6 @@ export interface AuthRepository {
   setVerifiedUser(uid: string): Promise<void>;
 
   changePassword(uid: string, password: string): Promise<void>;
+
+  deleteUser(uid: string): Promise<void>;
 }

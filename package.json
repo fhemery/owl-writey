@@ -15,7 +15,7 @@
     "nx:migrate:finalize": "nx migrate --run-migrations",
     "deploy:ensure:latest": "nx run build-app:build",
     "@deploy:usage": "--------------- pnpm deploy:<application> --version=x.y.z ---------------------------",
-    "deploy:app": "npm run deploy:ensure:latest && node dist/apps/tools/build-app/main.js",
+    "deploy:app": "pnpm deploy:ensure:latest && node dist/apps/tools/build-app/main.js",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "@create-usage: typeorm:migration:create migrations/<migration_name>": "",
     "typeorm:migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
@@ -43,6 +43,7 @@
     "@nestjs/platform-express": "^11.0.11",
     "@nestjs/platform-socket.io": "^11.0.11",
     "@nestjs/serve-static": "^5.0.3",
+    "@nestjs/swagger": "^11.0.7",
     "@nestjs/typeorm": "^11.0.0",
     "@nestjs/websockets": "^11.0.11",
     "@ngrx/signals": "^19.0.1",
@@ -104,7 +105,7 @@
     "@typescript-eslint/utils": "^8.13.0",
     "angular-eslint": "19.2.0",
     "axios": "^1.8.3",
-    "better-sqlite3": "11.8.1",
+    "better-sqlite3": "11.9.1",
     "command-line-args": "^6.0.1",
     "esbuild": "^0.19.2",
     "eslint": "^9.8.0",
@@ -127,5 +128,10 @@
     "typescript": "5.7.3",
     "typescript-eslint": "^8.13.0",
     "webpack-cli": "^5.1.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
   }
 }

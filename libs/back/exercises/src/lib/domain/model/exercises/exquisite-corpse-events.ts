@@ -1,5 +1,6 @@
 import { EmittedEvent } from '@owl/back/infra/events';
 
+import { ExerciseUser } from '../exercise-user';
 import { ExquisiteCorpseExercise } from './exquisite-corpse';
 
 export class ExCorpseTakeTurnEvent
@@ -15,14 +16,18 @@ export class ExCorpseTakeTurnEvent
 }
 
 export class ExCorpseCancelTurnEvent
-  implements EmittedEvent<{ exercise: ExquisiteCorpseExercise }>
+  implements
+    EmittedEvent<{
+      exercise: ExquisiteCorpseExercise;
+      lastAuthor: ExerciseUser;
+    }>
 {
   static eventName = 'exquisite-corpse.cancel-turn';
   name = ExCorpseCancelTurnEvent.eventName;
-  payload: { exercise: ExquisiteCorpseExercise };
+  payload: { exercise: ExquisiteCorpseExercise; lastAuthor: ExerciseUser };
 
-  constructor(exercise: ExquisiteCorpseExercise) {
-    this.payload = { exercise };
+  constructor(exercise: ExquisiteCorpseExercise, author: ExerciseUser) {
+    this.payload = { exercise, lastAuthor: author };
   }
 }
 
@@ -31,9 +36,9 @@ export class ExCorpseSubmitTurnEvent
 {
   static eventName = 'exquisite-corpse.submit-turn';
   name = ExCorpseSubmitTurnEvent.eventName;
-  payload: { exercise: ExquisiteCorpseExercise };
+  payload: { exercise: ExquisiteCorpseExercise; author: ExerciseUser };
 
-  constructor(exercise: ExquisiteCorpseExercise) {
-    this.payload = { exercise };
+  constructor(exercise: ExquisiteCorpseExercise, author: ExerciseUser) {
+    this.payload = { exercise, author };
   }
 }

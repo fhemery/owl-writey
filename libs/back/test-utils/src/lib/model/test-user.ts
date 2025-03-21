@@ -1,3 +1,5 @@
+import { Role } from '@owl/shared/contracts';
+
 export class TestUserToRegister {
   constructor(
     readonly email: string,
@@ -11,7 +13,8 @@ export class RegisteredTestUser {
     readonly uid: string,
     readonly email: string,
     readonly password: string,
-    readonly name: string
+    readonly name: string,
+    readonly roles: Role[] = []
   ) {}
 }
 
@@ -39,6 +42,26 @@ export class TestUserBuilder {
       'carol@test.com',
       'password',
       'Carol'
+    );
+  }
+
+  static Admin(): RegisteredTestUser {
+    return new RegisteredTestUser(
+      'admin-uid',
+      'admin@test.com',
+      'password',
+      'Admin',
+      [Role.Admin]
+    );
+  }
+
+  static Beta(): RegisteredTestUser {
+    return new RegisteredTestUser(
+      'beta-uid',
+      'beta@test.com',
+      'password',
+      'Beta',
+      [Role.Beta]
     );
   }
 }

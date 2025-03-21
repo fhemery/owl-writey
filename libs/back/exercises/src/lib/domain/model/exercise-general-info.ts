@@ -67,4 +67,7 @@ export class ExerciseGeneralInfo {
       (p) => p.uid === userId && p.role === ExerciseParticipantRole.Admin
     );
   }
+  findParticipant(uid: string): ExerciseParticipant | undefined {
+    return this.#allParticipants.find((p) => p.uid === uid);
+  }
 }

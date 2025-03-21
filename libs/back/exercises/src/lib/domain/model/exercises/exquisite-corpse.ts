@@ -92,14 +92,27 @@ export class ExquisiteCorpseExercise extends Exercise<
   }
 
   canTakeTurn(): boolean {
-    return !this.content?.currentWriter && !this.isFinished();
+    return !this.isTurnOngoing() && !this.isFinished();
+  }
+
+  canCancelTurn(userId: string): boolean {
+    return (
+      this.hasTurn(userId) ||
+      (this.isParticipantAdmin(userId) && this.isTurnOngoing())
+    );
+  }
+
+  isTurnOngoing(): boolean {
+    return (
+      !!this.content?.currentWriter &&
+      this.content?.currentWriter?.until > new Date()
+    );
   }
 
   hasTurn(userId: string): boolean {
     return (
-      this.content?.currentWriter?.author?.uid === userId &&
-      this.content?.currentWriter?.until > new Date() &&
-      !this.isFinished()
+      this.isTurnOngoing() &&
+      this.content?.currentWriter?.author?.uid === userId
     );
   }
 }

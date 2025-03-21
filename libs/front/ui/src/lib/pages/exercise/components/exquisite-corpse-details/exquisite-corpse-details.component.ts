@@ -2,13 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto, ExquisiteCorpseExerciseDto } from '@owl/shared/contracts';
-import { ContentChange, QuillEditorComponent } from 'ngx-quill';
+import {
+  ExerciseDto,
+  ExerciseStatus,
+  ExquisiteCorpseExerciseDto,
+} from '@owl/shared/contracts';
+import { QuillEditorComponent } from 'ngx-quill';
 import { SocketIoModule } from 'ngx-socket-io';
 
+import { TextEditorComponent } from '../../../../components/text-editor/text-editor.component';
 import { TimeDiffPipe } from '../../../../services/time.pipe';
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';
 import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
+import { ExquisiteCorpseSceneHeaderComponent } from '../exquisite-corpse-scene-header/exquisite-corpse-scene-header.component';
 
 @Component({
   selector: 'owl-exquisite-corpse-details',
@@ -19,6 +25,8 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
     MatButton,
     QuillEditorComponent,
     TimeDiffPipe,
+    TextEditorComponent,
+    ExquisiteCorpseSceneHeaderComponent,
   ],
   providers: [ExquisiteCorpseService, ExquisiteCorpseStore],
   templateUrl: './exquisite-corpse-details.component.html',
@@ -26,13 +34,13 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
 })
 export class ExquisiteCorpseDetailsComponent {
   readonly store = inject(ExquisiteCorpseStore);
-  exercise = input.required<ExerciseDto>();
+  readonly ExerciseStatus = ExerciseStatus;
 
+  exercise = input.required<ExerciseDto>();
   newContent = signal<string>('');
 
   constructor() {
     effect(() => {
-      console.log(JSON.stringify(this.exercise()));
       this.store.setExercise(this.exercise() as ExquisiteCorpseExerciseDto);
     });
   }
@@ -41,8 +49,8 @@ export class ExquisiteCorpseDetailsComponent {
     await this.store.takeTurn();
   }
 
-  updateContent($event: ContentChange): void {
-    this.newContent.set(($event.html?.replace(/&nbsp;/g, ' ') || '').trim());
+  updateContent($event: string): void {
+    this.newContent.set($event);
   }
 
   async submitTurn(): Promise<void> {

@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { TestTranslator } from '../tools/test-translator';
+import { TestTranslator, TranslationKey } from '../tools/test-translator';
 
 export abstract class BasePo {
   protected readonly page: Page;
@@ -9,8 +9,8 @@ export abstract class BasePo {
   protected constructor(page: Page) {
     this.page = page;
   }
-  async shouldDisplayTranslatedText(text: string): Promise<void> {
-    await expect(this.page.getByText(this.translator.get(text))).toBeVisible();
+  async shouldDisplayTranslatedText(key: TranslationKey): Promise<void> {
+    await expect(this.page.getByText(this.translator.get(key))).toBeVisible();
   }
   async shouldDisplayText(text: string): Promise<void> {
     await expect(this.page.getByText(text)).toBeVisible();

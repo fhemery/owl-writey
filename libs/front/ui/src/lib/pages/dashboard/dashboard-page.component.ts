@@ -4,9 +4,11 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseSummaryDto } from '@owl/shared/contracts';
+import { FirebaseAuthService } from '@owl/front/auth';
+import { ExerciseSummaryDto, NovelSummaryDto } from '@owl/shared/contracts';
 
 import { DashboardExercisesComponent } from './components/dashboard-exercises/dashboard-exercises.component';
+import { DashboardNovelsComponent } from './components/dashboard-novels/dashboard-novels.component';
 import { DashboardService } from './services/dashboard.service';
 
 @Component({
@@ -18,6 +20,7 @@ import { DashboardService } from './services/dashboard.service';
     MatSlideToggle,
     TranslateModule,
     RouterLink,
+    DashboardNovelsComponent,
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
@@ -25,11 +28,14 @@ import { DashboardService } from './services/dashboard.service';
 export class DashboardPageComponent implements OnInit {
   displayFinished = false;
   readonly dashboardService = inject(DashboardService);
+  readonly authService = inject(FirebaseAuthService);
+  user = this.authService.user;
 
   exercises = signal<ExerciseSummaryDto[] | null>(null);
+  novels = signal<NovelSummaryDto[] | null>(null);
 
   async ngOnInit(): Promise<void> {
-    await this.reloadExercises();
+    await Promise.all([this.reloadExercises(), this.reloadNovels()]);
   }
 
   async toggleFinished(): Promise<void> {
@@ -38,9 +44,14 @@ export class DashboardPageComponent implements OnInit {
   }
 
   async reloadExercises(): Promise<void> {
-    const exercices = await this.dashboardService.getExercises({
+    const exercises = await this.dashboardService.getExercises({
       displayFinished: this.displayFinished,
     });
-    this.exercises.set(exercices);
+    return this.exercises.set(exercises);
+  }
+
+  async reloadNovels(): Promise<void> {
+    const novels = await this.dashboardService.getNovels();
+    return this.novels.set(novels);
   }
 }

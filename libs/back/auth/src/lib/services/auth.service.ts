@@ -6,14 +6,8 @@ import {
 } from '@nestjs/common';
 import { Role } from '@owl/shared/contracts';
 
-import { UserDetails } from '../model';
+import { TokenDetails, UserDetails } from '../model';
 import { AuthRepository } from '../repositories/auth.repository';
-
-interface TokenDetails {
-  email: string;
-  uid: string;
-  roles: Role[];
-}
 
 @Injectable()
 export class AuthService {
@@ -72,5 +66,9 @@ export class AuthService {
 
   async changePassword(uid: string, password: string): Promise<void> {
     await this.repository.changePassword(uid, password);
+  }
+
+  async delete(uid: string): Promise<void> {
+    await this.repository.deleteUser(uid);
   }
 }

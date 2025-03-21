@@ -54,4 +54,8 @@ export class FirebaseAuthRepository implements AuthRepository {
       password,
     });
   }
+
+  async deleteUser(uid: string): Promise<void> {
+    await admin.auth().deleteUser(uid);
+  }
 }

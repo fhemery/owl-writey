@@ -8,6 +8,7 @@ import { UsersModule } from '@owl/back/user';
 import {
   CancelTurnCommand,
   CreateExerciseCommand,
+  DeleteAllExercisesFromUserCommand,
   DeleteExerciseCommand,
   ExerciseRepository,
   ExerciseUserFacade,
@@ -26,6 +27,7 @@ import { ExerciseParticipantsController } from './infra/api/exercise-participant
 import { ExercisesController } from './infra/api/exercises.controller';
 import { ExquisiteCorpseController } from './infra/api/exquisite-corpse.controller';
 import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.repository';
+import { ExerciseEventHandlers } from './infra/event-handlers/exercise.event-handlers';
 import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
 import { UserFacadeImpl } from './infra/user/user.facade.impl';
 
@@ -47,6 +49,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     ExquisiteCorpseController,
   ],
   providers: [
+    ExerciseEventHandlers,
     ExquisiteCorpseEventHandlers,
     { provide: ExerciseRepository, useClass: ExerciseTypeOrmRepository },
     { provide: ExerciseUserFacade, useClass: UserFacadeImpl },
@@ -55,6 +58,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     GetExerciseQuery,
     DeleteExerciseCommand,
     FinishExerciseCommand,
+    DeleteAllExercisesFromUserCommand,
     TakeTurnCommand,
     SubmitTurnCommand,
     CancelTurnCommand,

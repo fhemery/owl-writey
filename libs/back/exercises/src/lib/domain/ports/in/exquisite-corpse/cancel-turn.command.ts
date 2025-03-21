@@ -3,6 +3,8 @@ import { EventEmitterFacade } from '@owl/back/infra/events';
 
 import {
   ExCorpseCancelTurnEvent,
+  ExerciseException,
+  ExerciseUser,
   ExquisiteCorpseExercise,
 } from '../../../model';
 import { ExerciseRepository } from '../../out';
@@ -20,10 +22,19 @@ export class CancelTurnCommand {
       includeContent: true,
     })) as ExquisiteCorpseExercise;
 
+    const whoHadTurn = exercise?.content?.currentWriter?.author;
+    if (!whoHadTurn) {
+      throw new ExerciseException('It is not your turn');
+    }
     exercise.cancelTurn(userId);
 
     await this.exerciseRepository.saveContent(exercise);
 
-    this.eventEmitter.emit(new ExCorpseCancelTurnEvent(exercise));
+    this.eventEmitter.emit(
+      new ExCorpseCancelTurnEvent(
+        exercise,
+        new ExerciseUser(whoHadTurn.uid, whoHadTurn.name)
+      )
+    );
   }
 }

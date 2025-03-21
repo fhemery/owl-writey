@@ -58,6 +58,9 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
   isParticipantAdmin(userId: string): boolean {
     return this.generalInfo.isParticipantAdmin(userId);
   }
+  findParticipant(uid: string): ExerciseParticipant | undefined {
+    return this.generalInfo.findParticipant(uid);
+  }
 }
 
 export class ExerciseParticipant {

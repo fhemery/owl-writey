@@ -14,7 +14,6 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 import { FakeAuthMiddleware } from './internal/fake-auth-middleware.service';
 import { ResettableMock } from './model/resettable-mock';
 import { NestIntegrationTestApplication } from './nest-integration-test-application';
-import { NestTestApplication } from './nest-test-application';
 
 export class IntegrationTestApplicationBuilder {
   private _app: INestApplication | null = null;
@@ -23,7 +22,7 @@ export class IntegrationTestApplicationBuilder {
   private _useInMemoryDb = false;
   private _portNumber?: number;
 
-  async build(module: Type): Promise<NestTestApplication> {
+  async build(module: Type): Promise<NestIntegrationTestApplication> {
     let builder = Test.createTestingModule({
       imports: this._useInMemoryDb
         ? [this.generateDbConfig(), EventEmitterModule.forRoot(), module]

@@ -1,7 +1,12 @@
-import { TestUserBuilder } from '@owl/back/test-utils';
-import { ConnectionToExerciseSuccessfulEvent } from '@owl/shared/contracts';
+import { TestUserBuilder, waitFor } from '@owl/back/test-utils';
+import {
+  connectedToExerciseEvent,
+  disconnectedFromExerciseEvent,
+  ExercisedUpdateEvent,
+} from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
 describe('GET /api/exercises/:id/connect (for an exquisite corpse)', () => {
@@ -37,16 +42,67 @@ describe('GET /api/exercises/:id/connect (for an exquisite corpse)', () => {
 
     const events = await exerciseUtils.connectFromHateoas(exercise);
 
-    const event = events.getLatest(
-      ConnectionToExerciseSuccessfulEvent.eventName
-    );
+    const event = events.getLatest(ExercisedUpdateEvent.eventName);
     expect(event).toBeDefined();
 
-    const detailedEvent: ConnectionToExerciseSuccessfulEvent =
-      event as ConnectionToExerciseSuccessfulEvent;
-    expect(detailedEvent.data.notification?.key).toBe(
-      ConnectionToExerciseSuccessfulEvent.translationKey
+    const detailedEvent = event as ExercisedUpdateEvent;
+    expect(detailedEvent.data.exercise.id).toEqual(exercise.id);
+  });
+
+  it('should notify all users when a user connects', async () => {
+    await app.logAs(TestUserBuilder.Alice());
+    const exercise = await exerciseUtils.createAndRetrieve(
+      ExerciseTestBuilder.ExquisiteCorpse()
     );
-    expect(detailedEvent.data.notification?.data.name).toBe(exercise.name);
+    const aliceEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    await app.logAs(TestUserBuilder.Bob());
+    await exerciseUtils.participateFromHateoas(exercise);
+    const bobEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    const expectedKey = connectedToExerciseEvent;
+    const expectedData = {
+      exercise: exercise.name,
+      author: TestUserBuilder.Bob().name,
+    };
+    expectNotificationReceived(
+      bobEvents,
+      expectedKey,
+      expectedData,
+      TestUserBuilder.Bob().uid
+    );
+    expectNotificationReceived(
+      aliceEvents,
+      expectedKey,
+      expectedData,
+      TestUserBuilder.Bob().uid
+    );
+  });
+
+  it('should notify other when a user leaves', async () => {
+    await app.logAs(TestUserBuilder.Alice());
+    const exercise = await exerciseUtils.createAndRetrieve(
+      ExerciseTestBuilder.ExquisiteCorpse()
+    );
+    const aliceEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    await app.logAs(TestUserBuilder.Bob());
+    await exerciseUtils.participateFromHateoas(exercise);
+    const bobEvents = await exerciseUtils.connectFromHateoas(exercise);
+
+    bobEvents.close();
+    await waitFor(100);
+
+    const expectedKey = disconnectedFromExerciseEvent;
+    const expectedData = {
+      exercise: exercise.name,
+      author: TestUserBuilder.Bob().name,
+    };
+    expectNotificationReceived(
+      aliceEvents,
+      expectedKey,
+      expectedData,
+      TestUserBuilder.Bob().uid
+    );
   });
 });

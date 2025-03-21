@@ -1,21 +1,20 @@
-import { computed, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   patchState,
   signalStore,
-  withComputed,
   withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
 import {
-  ExerciseStatus,
   ExquisiteCorpseContentDto,
   ExquisiteCorpseExerciseDto,
 } from '@owl/shared/contracts';
 import { interval } from 'rxjs';
 
+import { ExerciseService } from './exercise.service';
 import { ExquisiteCorpseService } from './exquisite-corpse.service';
 
 type ExquisiteCorpseState = {
@@ -34,67 +33,49 @@ const initialState: ExquisiteCorpseState = {
 
 export const ExquisiteCorpseStore = signalStore(
   withState(initialState),
-  withMethods((store, service = inject(ExquisiteCorpseService)) => ({
-    setExercise(exercise: ExquisiteCorpseExerciseDto): void {
-      patchState(store, (state) => ({
-        ...state,
-        exercise: exercise,
-      }));
-    },
-    updateContent(content: ExquisiteCorpseContentDto): void {
-      patchState(store, (state) => ({
-        ...state,
-        content: content,
-        loading: false,
-      }));
-    },
-    async takeTurn(): Promise<void> {
-      await service.takeTurn(store.exercise()?.id || '');
-    },
-    async submitTurn(content: string): Promise<void> {
-      await service.submitTurn(store.exercise()?.id || '', content);
-    },
-    async cancelTurn(): Promise<void> {
-      await service.cancelTurn(store.exercise()?.id || '');
-    },
-    checkTurn(): void {
-      const exercise = store.exercise();
-      if (!exercise) {
-        return;
-      }
-      const content = store.exercise()?.content;
-      const until = content?.currentWriter?.until;
-      if (until && new Date(until) < new Date()) {
-        patchState(store, () => ({
-          exercise: {
-            ...exercise,
-            content: { ...exercise.content, currentWriter: undefined },
-          },
+  withMethods(
+    (
+      store,
+      service = inject(ExquisiteCorpseService),
+      exerciseService = inject(ExerciseService)
+    ) => ({
+      setExercise(exercise: ExquisiteCorpseExerciseDto): void {
+        patchState(store, (state) => ({
+          ...state,
+          exercise: exercise,
         }));
-      }
-    },
-  })),
-  withComputed((store) => ({
-    isCurrentUserTurn: computed(
-      () =>
-        store.exercise()?.content.currentWriter?.author.uid ===
-        store.currentUserId()
-    ),
-    isFinished: computed(
-      () =>
-        store.exercise()?.status === ExerciseStatus.Finished ||
-        (store.exercise()?.content?.scenes?.length || 0) >
-          (store.exercise()?.config as { nbIterations: number }).nbIterations
-    ),
-    canTakeTurn: computed(() => {
-      if (!store.exercise()?.content?.currentWriter) {
-        return true;
-      }
-
-      const until = store.exercise()?.content?.currentWriter?.until;
-      return !!(until && new Date(until) < new Date());
-    }),
-  })),
+      },
+      updateContent(content: ExquisiteCorpseContentDto): void {
+        patchState(store, (state) => ({
+          ...state,
+          content: content,
+          loading: false,
+        }));
+      },
+      async takeTurn(): Promise<void> {
+        await service.takeTurn(store.exercise());
+      },
+      async submitTurn(content: string): Promise<void> {
+        await service.submitTurn(content, store.exercise());
+      },
+      async cancelTurn(): Promise<void> {
+        await service.cancelTurn(store.exercise());
+      },
+      async checkTurn(): Promise<void> {
+        const exercise = store.exercise();
+        if (!exercise || exercise._links.takeTurn) {
+          return;
+        }
+        const until = exercise.content?.currentWriter?.until;
+        if (until && new Date(until) < new Date()) {
+          const updatedExercise = await exerciseService.getOne(exercise.id);
+          patchState(store, () => ({
+            exercise: updatedExercise as ExquisiteCorpseExerciseDto,
+          }));
+        }
+      },
+    })
+  ),
   withHooks({
     onInit: (store) => {
       const auth = inject(FirebaseAuthService);

@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { authGuard, notAuthGuard } from '@owl/front/auth';
+import { authGuard, betaOnlyGuard, notAuthGuard } from '@owl/front/auth';
 
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
 import { ExerciseNewPageComponent } from './pages/exercise/exercise-new-page.component';
@@ -9,6 +9,7 @@ import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
+import { NovelCreatePageComponent } from './pages/novel/novel-create-page.component';
 import { RegisterPageComponent } from './pages/register/register-page.component';
 
 export const appRoutes: Route[] = [
@@ -60,6 +61,16 @@ export const appRoutes: Route[] = [
       {
         path: ':id',
         component: ExercisePageComponent,
+      },
+    ],
+  },
+  {
+    path: 'novels',
+    canActivate: [betaOnlyGuard],
+    children: [
+      {
+        path: 'new',
+        component: NovelCreatePageComponent,
       },
     ],
   },

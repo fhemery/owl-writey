@@ -12,6 +12,12 @@ export const exquisiteCorpseEvents = {
 export interface ExquisiteCorpseExerciseDto extends ExerciseDto {
   _links: ExquisiteCorpseLinksDto;
   content: ExquisiteCorpseContentDto;
+  config: ExquisiteCorpseConfigDto;
+}
+
+export interface ExquisiteCorpseConfigDto {
+  nbIterations?: number;
+  initialContent?: string;
 }
 
 export interface ExquisiteCorpseContentDto {

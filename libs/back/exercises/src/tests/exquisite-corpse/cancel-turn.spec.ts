@@ -5,12 +5,14 @@ import {
 } from '@owl/back/test-utils';
 import {
   ExerciseDto,
-  ExerciseUpdatedEvent,
+  ExercisedUpdateEvent,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
+  exquisiteCorpseTurnCanceledEvent,
 } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
 describe('Exquisite corpse: cancel turn action', () => {
@@ -55,6 +57,25 @@ describe('Exquisite corpse: cancel turn action', () => {
       expect(exerciseLinks.cancelTurn).toContain(
         `/api/exquisite-corpse/${exercise.id}/cancel-turn`
       );
+    });
+
+    it('should return a cancel turn link for admins if one user has turn', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise = await exerciseUtils.createAndRetrieve(
+        ExerciseTestBuilder.ExquisiteCorpse()
+      );
+
+      await app.logAs(TestUserBuilder.Bob());
+      await exerciseUtils.takeTurnFromHateoas(exercise);
+
+      await app.logAs(TestUserBuilder.Alice());
+      const updatedExerciseResponse = await exerciseUtils.getFromHateoas(
+        exercise
+      );
+
+      const exerciseLinks = updatedExerciseResponse.body
+        ?._links as ExquisiteCorpseLinksDto;
+      expect(exerciseLinks.cancelTurn).toBeDefined();
     });
   });
 
@@ -114,18 +135,46 @@ describe('Exquisite corpse: cancel turn action', () => {
         expect(cancelTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
       });
 
-      it('should tell the users that turn is canceled', async () => {
+      it('should notify the users that turn is canceled', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+        await exerciseUtils.participateFromHateoas(exercise);
+        const bobConnect = await exerciseUtils.connectFromHateoas(exercise);
+
         await app.logAs(TestUserBuilder.Alice());
-
-        const connect = await exerciseUtils.connectFromHateoas(exercise);
-
+        const aliceConnect = await exerciseUtils.connectFromHateoas(exercise);
         await exerciseUtils.takeTurnFromHateoas(exercise);
         await exerciseUtils.cancelTurn(exercise.id);
         await waitFor(100);
 
-        const latestUpdate = connect.getLatest(
-          ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+        const key = exquisiteCorpseTurnCanceledEvent;
+        const data = {
+          author: TestUserBuilder.Alice().name,
+          exercise: exercise.name,
+        };
+        expectNotificationReceived(
+          aliceConnect,
+          key,
+          data,
+          TestUserBuilder.Alice().uid
+        );
+        expectNotificationReceived(
+          bobConnect,
+          key,
+          data,
+          TestUserBuilder.Alice().uid
+        );
+      });
+
+      it('should update the exercise for users', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const aliceConnect = await exerciseUtils.connectFromHateoas(exercise);
+        await exerciseUtils.takeTurnFromHateoas(exercise);
+        await exerciseUtils.cancelTurn(exercise.id);
+        await waitFor(100);
+
+        const latestUpdate = aliceConnect.getLatest(
+          ExercisedUpdateEvent.eventName
+        ) as ExercisedUpdateEvent;
         expect(latestUpdate).toBeDefined();
 
         const updatedExercise = latestUpdate.data

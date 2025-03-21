@@ -7,12 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import {
   TranslationHubService,
   UserNotificationsService,
 } from '@owl/front/infra';
-import { SseEvent } from '@owl/shared/contracts';
+import { NotificationEvent, SseEvent } from '@owl/shared/contracts';
 import { uiFr } from '@owl/shared/translations';
 import { Subscription } from 'rxjs';
 
@@ -33,7 +32,6 @@ export class OwlWriteyUiComponent implements OnInit, OnDestroy {
   // TODO : create a service that manages everything
   private readonly notificationService = inject(UserNotificationsService);
   private readonly toastsService = inject(NotificationService);
-  private readonly translateService = inject(TranslateService);
   private subscription?: Subscription;
 
   ngOnInit(): void {
@@ -44,12 +42,10 @@ export class OwlWriteyUiComponent implements OnInit, OnDestroy {
     this.subscription = this.notificationService
       .connectUser()
       .subscribe((event: SseEvent) => {
-        this.toastsService.showInfo(
-          this.translateService.instant(
-            `events.${event.event}`,
-            event.data as Record<string, string>
-          )
-        );
+        if (event.event === NotificationEvent.eventName) {
+          const ev = event as NotificationEvent;
+          this.toastsService.notifyEvent(ev.data.key, ev.data.data);
+        }
       });
   }
 

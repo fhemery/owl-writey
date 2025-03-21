@@ -2,7 +2,7 @@ import { WsAuthService } from '@owl/back/auth';
 import {
   FakeWsAuthService,
   IntegrationTestApplicationBuilder,
-  NestTestApplication,
+  NestIntegrationTestApplication,
   TestUserBuilder,
 } from '@owl/back/test-utils';
 
@@ -10,7 +10,7 @@ import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { ExercisesModule } from '../lib/exercises.module';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
-export let app: NestTestApplication;
+export let app: NestIntegrationTestApplication;
 export let exerciseUtils: ExerciseTestUtils;
 
 export const moduleTestInit = async (port?: number): Promise<void> => {

@@ -5,14 +5,15 @@ import {
 } from '@owl/back/test-utils';
 import {
   ExerciseDto,
+  ExercisedUpdateEvent,
   ExerciseStatus,
-  ExerciseUpdatedEvent,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
-  ExquisiteCorpseTurnSubmittedEvent,
+  exquisiteCorpseTurnSubmittedEvent,
 } from '@owl/shared/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
 describe('Exquisite corpse: submit turn action', () => {
@@ -162,6 +163,38 @@ describe('Exquisite corpse: submit turn action', () => {
         expect(exquisiteCorpse._links.submitTurn).toBeUndefined();
       });
 
+      it('should notify all users that turn has been submitted', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+        await exerciseUtils.participateFromHateoas(exercise);
+        const connectBob = await exerciseUtils.connectFromHateoas(exercise);
+
+        await app.logAs(TestUserBuilder.Alice());
+
+        const connectAlice = await exerciseUtils.connectFromHateoas(exercise);
+
+        await exerciseUtils.takeTurnFromHateoas(exercise);
+        await exerciseUtils.submitTurn(exercise.id, 'Some text');
+        await waitFor(100);
+
+        const key = exquisiteCorpseTurnSubmittedEvent;
+        const data = {
+          exercise: exercise.name,
+          author: TestUserBuilder.Alice().name,
+        };
+        expectNotificationReceived(
+          connectAlice,
+          key,
+          data,
+          TestUserBuilder.Alice().uid
+        );
+        expectNotificationReceived(
+          connectBob,
+          key,
+          data,
+          TestUserBuilder.Alice().uid
+        );
+      });
+
       it('should tell the users that turn is submitted', async () => {
         await app.logAs(TestUserBuilder.Alice());
 
@@ -172,15 +205,12 @@ describe('Exquisite corpse: submit turn action', () => {
         await waitFor(100);
 
         const latestUpdate = connect.getLatest(
-          ExerciseUpdatedEvent.eventName
-        ) as ExerciseUpdatedEvent;
+          ExercisedUpdateEvent.eventName
+        ) as ExercisedUpdateEvent;
         expect(latestUpdate).toBeDefined();
 
         const updatedExercise = latestUpdate.data
           .exercise as ExquisiteCorpseExerciseDto;
-        expect(latestUpdate.data.notification?.key).toBe(
-          ExquisiteCorpseTurnSubmittedEvent.translationKey
-        );
         expect(updatedExercise.content.currentWriter).toBeUndefined();
         expect(updatedExercise.content.scenes).toHaveLength(2);
 
