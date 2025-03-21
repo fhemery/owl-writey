@@ -1,10 +1,12 @@
 <div class="exCo-details">
   @if(store.exercise(); as exercise) { @let content = exercise.content;
-  @for(scene of content.scenes; track scene.id) {
+  @for(scene of content.scenes; track scene.id; let i = $index) {
   <div class="exCo-details__scene">
-    <div class="scene-id-and-author">
-      {{ scene.id }} - {{ scene.author.name }}
-    </div>
+    <owl-exquisite-corpse-scene-header
+      [scene]="scene"
+      [config]="exercise.config"
+      [sceneIndex]="i"
+    ></owl-exquisite-corpse-scene-header>
     <p [innerHTML]="scene.text"></p>
   </div>
   } @if(exercise.status === ExerciseStatus.Finished) {

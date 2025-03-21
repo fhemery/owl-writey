@@ -1,0 +1,10 @@
+<div class="scene-id-and-author">
+  @if (config().nbIterations || 0 > 0) {
+  <span class="scene-iteration-indicator">
+    @if(sceneIndex() === 0 ) { - - } @else { ({{ sceneIndex() }} /
+    {{ config().nbIterations || 0 }})}
+  </span>
+  } @else {
+  {{ sceneIndex() + 1 }}
+  } - {{ scene().author.name }}
+</div>

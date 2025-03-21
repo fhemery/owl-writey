@@ -14,6 +14,7 @@ import { TextEditorComponent } from '../../../../components/text-editor/text-edi
 import { TimeDiffPipe } from '../../../../services/time.pipe';
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';
 import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
+import { ExquisiteCorpseSceneHeaderComponent } from '../exquisite-corpse-scene-header/exquisite-corpse-scene-header.component';
 
 @Component({
   selector: 'owl-exquisite-corpse-details',
@@ -25,6 +26,7 @@ import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';
     QuillEditorComponent,
     TimeDiffPipe,
     TextEditorComponent,
+    ExquisiteCorpseSceneHeaderComponent,
   ],
   providers: [ExquisiteCorpseService, ExquisiteCorpseStore],
   templateUrl: './exquisite-corpse-details.component.html',
