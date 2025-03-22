@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseType } from '@owl/shared/contracts';
 
 import { ExerciseHeaderToolbarComponent } from './components/exercise-header-toolbar/exercise-header-toolbar.component';
+import { ExerciseParticipantsListComponent } from './components/exercise-participants-list/exercise-participants-list.component';
 import { ExquisiteCorpseDetailsComponent } from './components/exquisite-corpse-details/exquisite-corpse-details.component';
 import { ExerciseService } from './services/exercise.service';
 import { ExerciseStore } from './services/exercise.store';
@@ -16,6 +17,7 @@ import { ExerciseStore } from './services/exercise.store';
     TranslateModule,
     ExquisiteCorpseDetailsComponent,
     ExerciseHeaderToolbarComponent,
+    ExerciseParticipantsListComponent,
   ],
   providers: [ExerciseStore],
   templateUrl: './exercise-page.component.html',

@@ -83,6 +83,10 @@ export const exerciseFr = {
         label: "Terminer l'exercice",
       },
     },
+    participantList: {
+      header: 'Participant(es): {{count}}',
+      admin: 'Admin(e)',
+    },
     share: {
       title: "Inviter d'autres Plumes",
       link: {

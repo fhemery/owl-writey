@@ -17,6 +17,14 @@
     ></owl-exquisite-corpse-details>
     } }
   </div>
+  <div class="exercise-page__footer">
+    <div class="exercise-page__footer-placeholder"></div>
+    <div class="exercise-page__participants">
+      <owl-exercise-participants-list
+        [exercise]="exercise"
+      ></owl-exercise-participants-list>
+    </div>
+  </div>
   } @else {
   <div class="exercise-page__loading">
     <p>{{ 'exercise.page.loading' | translate }}</p>
