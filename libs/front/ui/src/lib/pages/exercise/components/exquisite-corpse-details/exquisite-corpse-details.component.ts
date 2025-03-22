@@ -7,7 +7,6 @@ import {
   ExerciseStatus,
   ExquisiteCorpseExerciseDto,
 } from '@owl/shared/contracts';
-import { QuillEditorComponent } from 'ngx-quill';
 import { SocketIoModule } from 'ngx-socket-io';
 
 import { TextEditorComponent } from '../../../../components/text-editor/text-editor.component';
@@ -23,7 +22,6 @@ import { ExquisiteCorpseSceneHeaderComponent } from '../exquisite-corpse-scene-h
     SocketIoModule,
     TranslateModule,
     MatButton,
-    QuillEditorComponent,
     TimeDiffPipe,
     TextEditorComponent,
     ExquisiteCorpseSceneHeaderComponent,
