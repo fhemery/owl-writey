@@ -1,6 +1,11 @@
 <div class="exCo-details">
   @if(store.exercise(); as exercise) { @let content = exercise.content;
-  @for(scene of content.scenes; track scene.id; let i = $index) {
+  @if(exercise.participants.length === 1) {
+  <div class="exCo-details__share">
+    <p>{{ 'exercise.exquisiteCorpse.invite.label' | translate }}</p>
+    <mat-icon>link</mat-icon>
+  </div>
+  } @for(scene of content.scenes; track scene.id; let i = $index) {
   <div class="exCo-details__scene">
     <owl-exquisite-corpse-scene-header
       [scene]="scene"

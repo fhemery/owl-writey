@@ -131,6 +131,10 @@ export const exerciseFr = {
         label: 'À mon tour !',
         alreadyOngoing: 'Au tour de {{author}} !',
       },
+      invite: {
+        label:
+          "Vous pouvez invitez une autre Plume en utilisant l'icône au-dessus : ",
+      },
       yourTurn: {
         label: 'À vous de jouer !',
       },
