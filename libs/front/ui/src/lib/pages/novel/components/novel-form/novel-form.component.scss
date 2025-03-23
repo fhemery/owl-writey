@@ -1,0 +1,18 @@
+.novel-form {
+  padding: 1rem 10%;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  &__description {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

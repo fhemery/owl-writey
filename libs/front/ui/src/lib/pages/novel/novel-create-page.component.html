@@ -1,1 +1,4 @@
-<p>novel-create-page works!</p>
+<div class="novel-create-page">
+  <h1>{{ 'novel.createPage.title' | translate }}</h1>
+  <owl-novel-form (update)="createNovel($event)"></owl-novel-form>
+</div>
