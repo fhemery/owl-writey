@@ -2,7 +2,7 @@ export default {
   displayName: 'owl-writey-ui',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/front/ui',
+  coverageDirectory: '../../../coverage/libs/front/gui',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
