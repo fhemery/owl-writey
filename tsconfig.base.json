@@ -31,6 +31,7 @@
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
       "@owl/front/ui": ["libs/front/gui/src/index.ts"],
       "@owl/front/ui/common": ["libs/front/ui/common/src/index.ts"],
+      "@owl/front/ui/dashboard": ["libs/front/ui/dashboard/src/index.ts"],
       "@owl/front/ui/exercises": ["libs/front/ui/exercises/src/index.ts"],
       "@owl/front/ui/novels": ["libs/front/ui/novels/src/index.ts"],
       "@owl/shared/contracts": ["libs/shared/contracts/src/index.ts"],

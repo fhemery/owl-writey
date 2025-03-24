@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import { authGuard, betaOnlyGuard, notAuthGuard } from '@owl/front/auth';
 
-import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
@@ -19,7 +18,8 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'dashboard',
-    component: DashboardPageComponent,
+    loadChildren: () =>
+      import('@owl/front/ui/dashboard').then((m) => m.dashboardRoutes),
     canActivate: [authGuard],
   },
   {

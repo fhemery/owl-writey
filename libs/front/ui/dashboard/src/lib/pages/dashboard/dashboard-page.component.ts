@@ -7,9 +7,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FirebaseAuthService } from '@owl/front/auth';
 import { ExerciseSummaryDto, NovelSummaryDto } from '@owl/shared/contracts';
 
-import { DashboardExercisesComponent } from './components/dashboard-exercises/dashboard-exercises.component';
-import { DashboardNovelsComponent } from './components/dashboard-novels/dashboard-novels.component';
-import { DashboardService } from './services/dashboard.service';
+import { DashboardExercisesComponent } from '../../components/dashboard-exercises/dashboard-exercises.component';
+import { DashboardNovelsComponent } from '../../components/dashboard-novels/dashboard-novels.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'owl-dashboard-page',
