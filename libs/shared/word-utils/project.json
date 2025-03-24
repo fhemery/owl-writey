@@ -1,5 +1,5 @@
 {
-  "name": "word-utils",
+  "name": "shared-word-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/word-utils/src",
   "projectType": "library",

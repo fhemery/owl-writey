@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "back-config",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/config/src",
   "projectType": "library",

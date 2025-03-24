@@ -1,5 +1,5 @@
 {
-  "name": "owl-front-auth",
+  "name": "front-auth",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/front/auth/src",
   "prefix": "lib",

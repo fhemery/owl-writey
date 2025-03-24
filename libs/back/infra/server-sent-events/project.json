@@ -1,5 +1,5 @@
 {
-  "name": "server-sent-events",
+  "name": "back-infra-server-sent-events",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/infra/server-sent-events/src",
   "projectType": "library",

@@ -1,5 +1,5 @@
 {
-  "name": "exercises",
+  "name": "back-exercises",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/exercises/src",
   "projectType": "library",

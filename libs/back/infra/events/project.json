@@ -1,5 +1,5 @@
 {
-  "name": "events",
+  "name": "back-infra-events",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/infra/events/src",
   "projectType": "library",

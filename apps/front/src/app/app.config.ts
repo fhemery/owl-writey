@@ -21,7 +21,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
-import { appRoutes } from '@owl/ui';
+import { appRoutes } from '@owl/front/ui';
 import { provideQuillConfig } from 'ngx-quill';
 
 import { environment } from '../environments/environment';

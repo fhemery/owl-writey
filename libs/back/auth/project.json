@@ -1,5 +1,5 @@
 {
-  "name": "auth",
+  "name": "back-auth",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/auth/src",
   "projectType": "library",

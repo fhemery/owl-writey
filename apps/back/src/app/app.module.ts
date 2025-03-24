@@ -3,11 +3,11 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
+import { ConfigModule } from '@owl/back/config';
 import { ExercisesModule } from '@owl/back/exercises';
 import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
-import { ConfigModule } from '@owl-writey/config';
 import * as admin from 'firebase-admin';
 import { join } from 'path';
 
