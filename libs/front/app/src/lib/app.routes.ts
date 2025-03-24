@@ -42,4 +42,9 @@ export const appRoutes: Route[] = [
       import('@owl/front/ui/novels').then((m) => m.novelsRoutes),
     canActivate: [betaOnlyGuard],
   },
+  {
+    path: '**',
+    component: NotFoundPageComponent,
+    pathMatch: 'full',
+  },
 ];

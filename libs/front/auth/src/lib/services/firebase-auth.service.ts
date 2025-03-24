@@ -43,10 +43,10 @@ export class FirebaseAuthService {
               u.email || '',
               (token.claims['roles'] || []) as Role[]
             );
-          }),
-          tap(() => this.isInitialized.set(true))
+          })
         );
-      })
+      }),
+      tap(() => this.isInitialized.set(true))
     ),
     { initialValue: null }
   );
