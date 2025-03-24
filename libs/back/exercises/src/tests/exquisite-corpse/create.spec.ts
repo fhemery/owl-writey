@@ -54,6 +54,29 @@ describe('POST /api/exercises (exquisite corpse)', () => {
     expect(otherResponse.status).toBe(400);
   });
 
+  it.each<{ minWords?: number; maxWords?: number; description: string }>([
+    { minWords: 0, maxWords: 21, description: 'invalid minWords: 0' },
+    { minWords: -1, maxWords: 10, description: 'invalid minWords: -1' },
+    { minWords: undefined, maxWords: 0, description: 'invalid maxWords: 0' },
+    {
+      minWords: 10,
+      maxWords: 5,
+      description: 'invalid maxWords: lower than minWords',
+    },
+  ])(
+    'should throw 400 if textSize is not valid, $description',
+    async ({ minWords, maxWords }) => {
+      await app.logAs(TestUserBuilder.Alice());
+      const exercise: ExerciseToCreateDto =
+        ExerciseTestBuilder.FromExquisiteCorpse()
+          .withConfigKey('textSize', { minWords, maxWords })
+          .build();
+
+      const response = await exerciseUtils.create(exercise);
+      expect(response.status).toBe(400);
+    }
+  );
+
   it('should work if no nbIterations is provided', async () => {
     await app.logAs(TestUserBuilder.Alice());
     const exercise: ExerciseToCreateDto =
@@ -119,5 +142,25 @@ describe('POST /api/exercises (exquisite corpse)', () => {
     const retrievedExercise =
       createdExercise.body as ExquisiteCorpseExerciseDto;
     expect(retrievedExercise.config?.iterationDuration).toBe(0);
+  });
+
+  it('should work with textSize correctly set', async () => {
+    await app.logAs(TestUserBuilder.Alice());
+    const exercise: ExerciseToCreateDto =
+      ExerciseTestBuilder.FromExquisiteCorpse()
+        .withConfigKey('iterationDuration', 0)
+        .withConfigKey('textSize', { minWords: 10, maxWords: 20 })
+        .build();
+
+    const response = await exerciseUtils.create(exercise);
+    expect(response.status).toBe(201);
+
+    const createdExercise = await exerciseUtils.getOne(
+      response.locationId || ''
+    );
+    const retrievedExercise =
+      createdExercise.body as ExquisiteCorpseExerciseDto;
+    expect(retrievedExercise.config?.textSize?.minWords).toBe(10);
+    expect(retrievedExercise.config?.textSize?.maxWords).toBe(20);
   });
 });

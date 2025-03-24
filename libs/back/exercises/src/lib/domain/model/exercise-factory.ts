@@ -39,7 +39,8 @@ const exquisiteCorpseConverter = {
     return new ExquisiteCorpseConfig(
       cfg.initialText,
       cfg.nbIterations,
-      cfg.iterationDuration
+      cfg.iterationDuration,
+      cfg.textSize
     );
   },
 

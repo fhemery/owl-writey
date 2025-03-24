@@ -4,6 +4,7 @@ import { ExerciseException } from '../exceptions/exercise-exception';
 import { Exercise } from '../exercise';
 import { ExerciseGeneralInfo } from '../exercise-general-info';
 import { ExerciseUser } from '../exercise-user';
+import { SubmitTurnPolicy } from './policies/submit-turn.policy';
 
 export class ExquisiteCorpseExercise extends Exercise<
   ExquisiteCorpseConfig,
@@ -75,23 +76,18 @@ export class ExquisiteCorpseExercise extends Exercise<
     this.content.currentWriter = undefined;
   }
   submitTurn(uid: string, content: string): void {
-    if (
-      this.content?.currentWriter?.author.uid !== uid ||
-      (this.content.currentWriter?.until &&
-        this.content.currentWriter.until < new Date())
-    ) {
-      throw new ExerciseException('It is not your turn');
-    }
+    const submitTurnPolicy = new SubmitTurnPolicy();
+    submitTurnPolicy.checkSubmit(uid, content, this);
 
-    if (this.isFinished()) {
-      throw new ExerciseException('Exercise is finished');
+    if (!this.content || !this.content.currentWriter) {
+      return;
     }
 
     const nextSceneId = this.content.scenes.length + 1;
     const nextScene = new ExquisiteCorpseScene(
       nextSceneId,
       content,
-      this.content.currentWriter.author
+      this.content.currentWriter?.author
     );
     this.content.scenes.push(nextScene);
     this.content.currentWriter = undefined;
@@ -134,7 +130,8 @@ export class ExquisiteCorpseConfig {
   constructor(
     readonly initialText: string,
     readonly nbIterations: number | null = null,
-    iterationDuration = 900
+    iterationDuration = 900,
+    readonly textSize?: { minWords?: number; maxWords?: number }
   ) {
     if (nbIterations && nbIterations < 1) {
       throw new ExerciseException(
@@ -154,6 +151,28 @@ export class ExquisiteCorpseConfig {
       throw new ExerciseException(
         'Exquisite corpse: config.iterationDuration must be a positive number'
       );
+    }
+
+    if (textSize) {
+      if (textSize.minWords !== undefined && textSize.minWords < 1) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.minWords must be at least 1'
+        );
+      }
+      if (textSize.maxWords !== undefined && textSize.maxWords < 1) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.maxWords must be at least 1'
+        );
+      }
+      if (
+        textSize.minWords &&
+        textSize.maxWords &&
+        textSize.minWords > textSize.maxWords
+      ) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.minWords must be less than config.textSize.maxWords'
+        );
+      }
     }
 
     this.iterationDuration = iterationDuration;

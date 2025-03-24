@@ -51,7 +51,7 @@ export abstract class Exercise<Config = unknown, Content = unknown> {
     );
   }
 
-  protected isFinished(): boolean {
+  isFinished(): boolean {
     return this.generalInfo.status === ExerciseStatus.Finished;
   }
 
