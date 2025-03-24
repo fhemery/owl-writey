@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
 
-import { Auth } from '../tools/auth';
 import { BasePo } from './base.po';
 
 export class RegisterPo extends BasePo {
@@ -61,5 +60,6 @@ export class RegisterPo extends BasePo {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.repeatPasswordInput.fill(repeatedPassword);
+    await this.repeatPasswordInput.blur();
   }
 }

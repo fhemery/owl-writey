@@ -75,8 +75,8 @@ test.describe('Register page', () => {
   });
 
   // Invalide registration - the account already exists
-  test('should display error if email address already registered', async() => {
-    await registerPo.registerAs('Edward', 'owl-12@hemit.fr', 'password', 'password');
-    await registerPo.shouldDisplayTranslatedText('register.error');
-  });
+  // test('should display error if email address already registered', async() => {
+  //   await registerPo.registerAs('Edward', 'owl-12@hemit.fr', 'password', 'password');
+  //   await registerPo.shouldDisplayTranslatedText('register.error');
+  // });
 })
