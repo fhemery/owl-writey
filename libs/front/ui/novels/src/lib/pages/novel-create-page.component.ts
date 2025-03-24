@@ -6,8 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   NovelFormComponent,
   NovelFormData,
-} from './components/novel-form/novel-form.component';
-import { NovelService } from './services/novel.service';
+} from '../components/novel-form/novel-form.component';
+import { NovelService } from '../services/novel.service';
 
 @Component({
   selector: 'owl-novel-create-page',

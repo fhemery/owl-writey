@@ -9,8 +9,6 @@ import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
-import { NovelCreatePageComponent } from './pages/novel/novel-create-page.component';
-import { NovelPageComponent } from './pages/novel/novel-page.component';
 import { RegisterPageComponent } from './pages/register/register-page.component';
 
 export const appRoutes: Route[] = [
@@ -67,16 +65,8 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'novels',
+    loadChildren: () =>
+      import('@owl/front/ui/novels').then((m) => m.novelsRoutes),
     canActivate: [betaOnlyGuard],
-    children: [
-      {
-        path: 'new',
-        component: NovelCreatePageComponent,
-      },
-      {
-        path: ':id',
-        component: NovelPageComponent,
-      },
-    ],
   },
 ];
