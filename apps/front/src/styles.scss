@@ -72,8 +72,15 @@ body {
 }
 
 .form-error {
-  color: var(--color-error);
-  font-size: 0.875rem;
+  color: var(--mat-form-field-error-text-color, var(--mat-sys-error));
+  font-size: var(
+    --mat-form-field-subscript-text-size,
+    var(--mat-sys-body-small-size)
+  );
+  font-weight: var(
+    --mat-form-field-subscript-text-weight,
+    var(--mat-sys-body-small-weight)
+  );
 }
 
 .dense {
@@ -129,7 +136,7 @@ body {
 }
 
 mat-form-field {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 mat-hint {

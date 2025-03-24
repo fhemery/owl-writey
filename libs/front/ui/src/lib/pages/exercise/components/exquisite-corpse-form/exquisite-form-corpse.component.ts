@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
@@ -61,5 +64,24 @@ export class ExquisiteFormCorpseComponent implements OnInit {
       'iterationDuration',
       new FormControl<number | null>(900, [Validators.min(0)])
     );
+    const textSize = new FormGroup(
+      {
+        minWords: new FormControl<number | null>(null, [Validators.min(1)]),
+        maxWords: new FormControl<number | null>(null, [Validators.min(1)]),
+      },
+      { validators: [shouldHaveMaxWordsGreaterThanMinWords()] }
+    );
+    this.form.addControl('textSize', textSize);
   }
+}
+
+function shouldHaveMaxWordsGreaterThanMinWords(): ValidatorFn {
+  return (controls: AbstractControl): ValidationErrors | null => {
+    const minWords = controls.get('minWords')?.value;
+    const maxWords = controls.get('maxWords')?.value;
+    if (minWords && maxWords && parseInt(maxWords) < parseInt(minWords)) {
+      return { maxWordsLessThanMinWords: true };
+    }
+    return null;
+  };
 }

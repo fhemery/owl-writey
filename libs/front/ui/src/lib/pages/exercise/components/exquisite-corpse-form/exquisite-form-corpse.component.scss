@@ -1,3 +1,19 @@
 mat-form-field {
   width: 100%;
 }
+
+.exquisite-corpse-form__words {
+  margin-bottom: 1rem;
+
+  &-content {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &-hint {
+    font-size: 0.8rem;
+    padding-left: 1rem;
+    color: #5c5c5c;
+    font-weight: 400;
+  }
+}

@@ -44,10 +44,26 @@ export const exerciseFr = {
             infinite: 'Infini',
           },
         },
-        wordsLimit: {
-          label: 'Limite de mots',
+        words: {
+          label: 'Limites de mots',
+          minWords: {
+            label: 'Minimum de mots',
+            error: {
+              min: 'La limite de mots doit être supérieure à 1',
+            },
+          },
+          maxWords: {
+            label: 'Maximum de mots',
+            error: {
+              min: 'La limite de mots doit être supérieure à 1',
+            },
+          },
           error: {
-            min: 'La limite de mots doit être supérieure à 1',
+            shouldHaveMaxWordsGreaterThanMinWords:
+              'Le maximum de mots doit être supérieur au minimum',
+          },
+          help: {
+            text: "Les nombres minimum et maximum de mots qu'une Plume doit écrire à son tour. Laissez vide pour n'imposer aucune limite.",
           },
         },
         authorCanAnswer: {

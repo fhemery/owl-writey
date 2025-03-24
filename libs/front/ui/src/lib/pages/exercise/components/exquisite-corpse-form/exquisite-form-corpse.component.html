@@ -56,6 +56,63 @@
       'exercise.form.exquisiteCorpse.iterationDuration.help' | translate
     }}</mat-hint>
   </mat-form-field>
+  <div class="exquisite-corpse-form__words">
+    <div class="exquisite-corpse-form__words-header">
+      {{ 'exercise.form.exquisiteCorpse.words.label' | translate }}
+    </div>
+    <div class="exquisite-corpse-form__words-content" formGroupName="textSize">
+      <mat-form-field>
+        <mat-label>{{
+          'exercise.form.exquisiteCorpse.words.minWords.label' | translate
+        }}</mat-label>
+        <input
+          matInput
+          formControlName="minWords"
+          name="minWords"
+          autocomplete="off"
+          type="number"
+        />
+        <mat-error>
+          @if(form.get('minWords')?.hasError('min')) {
+          {{
+            'exercise.form.exquisiteCorpse.words.minWords.error.min' | translate
+          }}
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{
+          'exercise.form.exquisiteCorpse.words.maxWords.label' | translate
+        }}</mat-label>
+        <input
+          matInput
+          formControlName="maxWords"
+          name="maxWords"
+          autocomplete="off"
+          type="number"
+        />
+        <mat-error>
+          @if(form.get('maxWords')?.hasError('min')) {
+          {{
+            'exercise.form.exquisiteCorpse.words.maxWords.error.min' | translate
+          }}
+          }
+        </mat-error>
+      </mat-form-field>
+    </div>
+    @if (form.get('textSize')?.hasError('maxWordsLessThanMinWords')) {
+    <div class="exquisite-corpse-form__words-error form-error">
+      {{
+        'exercise.form.exquisiteCorpse.words.error.shouldHaveMaxWordsGreaterThanMinWords'
+          | translate
+      }}
+    </div>
+    }
+    <div class="exquisite-corpse-form__words-hint">
+      {{ 'exercise.form.exquisiteCorpse.words.help.text' | translate }}
+    </div>
+  </div>
   <mat-form-field>
     <mat-label>{{
       'exercise.form.exquisiteCorpse.initialText.label' | translate
