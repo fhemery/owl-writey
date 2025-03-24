@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '@owl/front/ui/common';
 
-import { NotificationService } from '../../services/notification.service';
-import { ExerciseService } from './services/exercise.service';
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'owl-exercise-participate-page',

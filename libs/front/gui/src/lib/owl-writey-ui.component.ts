@@ -11,13 +11,13 @@ import {
   TranslationHubService,
   UserNotificationsService,
 } from '@owl/front/infra';
+import { NotificationService } from '@owl/front/ui/common';
 import { NotificationEvent, SseEvent } from '@owl/shared/contracts';
 import { uiFr } from '@owl/shared/translations';
 import { Subscription } from 'rxjs';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { NotificationService } from './services/notification.service';
 
 @Component({
   selector: 'owl-writey-ui',

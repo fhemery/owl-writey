@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExerciseToCreateDto } from '@owl/shared/contracts';
 
-import { ExerciseFormComponent } from './components/exercise-form/exercise-form.component';
-import { ExerciseService } from './services/exercise.service';
+import { ExerciseFormComponent } from '../../components/exercise-form/exercise-form.component';
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'owl-exercise-new-page',

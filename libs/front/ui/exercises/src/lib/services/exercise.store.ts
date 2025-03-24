@@ -9,14 +9,13 @@ import {
 } from '@ngrx/signals';
 import { FirebaseAuthService } from '@owl/front/auth';
 import { UserNotificationsService } from '@owl/front/infra';
+import { NotificationService } from '@owl/front/ui/common';
 import {
   ExerciseDto,
   ExercisedUpdateEvent,
   NotificationEvent,
 } from '@owl/shared/contracts';
 import { Subscription } from 'rxjs';
-
-import { NotificationService } from '../../../services/notification.service';
 
 type ExerciseState = {
   exercise: ExerciseDto | null;

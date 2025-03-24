@@ -3,9 +3,11 @@ import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ConfirmDialogComponent } from '@owl/front/ui/common';
+import {
+  ConfirmDialogComponent,
+  NotificationService,
+} from '@owl/front/ui/common';
 
-import { NotificationService } from '../../../../services/notification.service';
 import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
