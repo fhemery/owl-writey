@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'owl-novel-page',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './novel-page.component.html',
   styleUrl: './novel-page.component.scss',
 })
-export class NovelPageComponent {}
+export class NovelPageComponent {
+  id = input.required<string>();
+}

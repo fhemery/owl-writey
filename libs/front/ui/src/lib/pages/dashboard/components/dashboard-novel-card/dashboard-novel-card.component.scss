@@ -1,0 +1,23 @@
+.novel-card {
+  height: 100%;
+
+  mat-card {
+    height: 100%;
+  }
+
+  mat-card-title {
+    text-align: center;
+  }
+
+  mat-card-content {
+    text-align: center;
+    height: 100%;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
