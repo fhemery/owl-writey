@@ -3,6 +3,7 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
+import { TextEditorComponent } from '@owl/front/ui/common';
 import {
   ExerciseDto,
   ExerciseStatus,
@@ -10,7 +11,6 @@ import {
 } from '@owl/shared/contracts';
 import { SocketIoModule } from 'ngx-socket-io';
 
-import { TextEditorComponent } from '../../../../components/text-editor/text-editor.component';
 import { TimeDiffPipe } from '../../../../services/time.pipe';
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';
 import { ExquisiteCorpseStore } from '../../services/exquisite-corpse.store';

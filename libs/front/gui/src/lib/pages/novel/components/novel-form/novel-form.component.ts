@@ -15,8 +15,7 @@ import {
   MatLabel,
 } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { TextEditorComponent } from '../../../../components/text-editor/text-editor.component';
+import { TextEditorComponent } from '@owl/front/ui/common';
 
 @Component({
   selector: 'owl-novel-form',

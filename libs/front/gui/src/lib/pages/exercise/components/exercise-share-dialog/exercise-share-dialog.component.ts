@@ -5,8 +5,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatInput } from '@angular/material/input';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfigService } from '@owl/front/infra';
+import { BaseDialogComponent } from '@owl/front/ui/common';
 
-import { BaseDialogComponent } from '../../../../components/base-dialog/base-dialog.component';
 import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
