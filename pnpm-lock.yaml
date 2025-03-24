@@ -77,9 +77,6 @@ importers:
       '@ngx-translate/core':
         specifier: 16.0.4
         version: 16.0.4(@angular/common@19.2.1(@angular/core@19.2.1(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.1(rxjs@7.8.1)(zone.js@0.15.0))
-      '@types/cheerio':
-        specifier: ^0.22.35
-        version: 0.22.35
       cheerio:
         specifier: ^1.0.0
         version: 1.0.0
@@ -225,6 +222,9 @@ importers:
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.15
+      '@types/cheerio':
+        specifier: ^0.22.35
+        version: 0.22.35
       '@types/event-source-polyfill':
         specifier: ^1.0.5
         version: 1.0.5
@@ -241,7 +241,7 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
       '@typescript-eslint/utils':
-        specifier: ^8.13.0
+        specifier: ^8.19.0
         version: 8.19.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.3)
       angular-eslint:
         specifier: 19.2.0
@@ -13688,7 +13688,7 @@ snapshots:
       '@typescript-eslint/types': 8.19.0
       '@typescript-eslint/visitor-keys': 8.19.0
       debug: 4.4.0
-      fast-glob: 3.3.2
+      fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.7.1
@@ -15853,7 +15853,7 @@ snapshots:
     dependencies:
       array-union: 3.0.1
       dir-glob: 3.0.1
-      fast-glob: 3.3.2
+      fast-glob: 3.3.3
       ignore: 5.3.2
       merge2: 1.4.1
       slash: 4.0.0
