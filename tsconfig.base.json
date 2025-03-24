@@ -33,8 +33,7 @@
       "@owl/shared/translations": ["libs/shared/translations/src/index.ts"],
       "@owl/shared/word-utils": ["libs/shared/word-utils/src/index.ts"],
       "@owl/ui": ["libs/front/ui/src/index.ts"]
-    },
-    "typeRoots": ["./node_modules/@types", "./libs/shared/word-utils/src/types"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

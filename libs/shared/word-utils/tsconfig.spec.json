@@ -11,6 +11,5 @@
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts",
-    "src/types/**/*.d.ts"
   ]
 }
