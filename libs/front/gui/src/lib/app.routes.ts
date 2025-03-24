@@ -5,7 +5,6 @@ import { HomePageComponent } from './pages/home/home-page.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { LogoutPageComponent } from './pages/logout/logout-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
-import { RegisterPageComponent } from './pages/register/register-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -39,7 +38,8 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'register',
-    component: RegisterPageComponent,
+    loadChildren: () =>
+      import('@owl/front/ui/register').then((m) => m.registerRoutes),
     canActivate: [notAuthGuard],
   },
   {
