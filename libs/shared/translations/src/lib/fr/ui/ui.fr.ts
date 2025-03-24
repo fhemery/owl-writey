@@ -3,6 +3,7 @@ import { eventsFr } from './modules/events.fr';
 import { exerciseFr } from './modules/exercise.fr';
 import { homeFr } from './modules/home.fr';
 import { notFoundFr } from './modules/not-found.fr';
+import { novelFr } from './modules/novel.fr';
 
 export const uiFr = {
   general: {
@@ -118,4 +119,5 @@ export const uiFr = {
   ...notFoundFr,
   ...eventsFr,
   ...homeFr,
+  ...novelFr,
 };

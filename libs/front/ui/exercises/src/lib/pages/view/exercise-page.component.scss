@@ -1,0 +1,16 @@
+.exercise-page {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__footer-placeholder {
+    flex: 1;
+  }
+}

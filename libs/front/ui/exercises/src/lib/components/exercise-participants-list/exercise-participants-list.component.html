@@ -1,0 +1,38 @@
+@if(exercise(); as exercise) {
+<div class="exercise-participants-list">
+  <button mat-raised-button (click)="toggleList()">
+    <mat-icon>group</mat-icon>
+    {{ exercise.participants.length }}
+  </button>
+  <div
+    class="exercise-participants-list__list"
+    [class.collapsed]="isListCollapsed()"
+  >
+    <div class="exercise-participants-list__header">
+      <div>
+        {{
+          'exercise.participantList.header'
+            | translate : { count: exercise.participants.length }
+        }}
+      </div>
+      <div class="exercise-participants-list__close">
+        <button mat-icon-button (click)="toggleList()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="exercise-participants-list__content">
+      @for(participant of exercise.participants; track $index) {
+      <div class="exercise-participants-list__participant">
+        {{ participant.name }} @if(participant.isAdmin) {<mat-icon
+          class="exercise-participants-list__admin"
+          [matTooltip]="'exercise.participantList.admin' | translate"
+          >shield_person</mat-icon
+        >}
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+}

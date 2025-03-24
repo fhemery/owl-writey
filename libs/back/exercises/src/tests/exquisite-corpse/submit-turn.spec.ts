@@ -219,5 +219,49 @@ describe('Exquisite corpse: submit turn action', () => {
         expect(updatedExercise._links.cancelTurn).toBeUndefined();
       });
     });
+
+    describe('about text size', () => {
+      it('should throw 400 if text is too short', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const newExercise = await exerciseUtils.createAndRetrieve(
+          ExerciseTestBuilder.FromExquisiteCorpse()
+            .withConfigKey('textSize', { minWords: 10, maxWords: 20 })
+            .build()
+        );
+        await exerciseUtils.takeTurnFromHateoas(newExercise);
+        const submitTurn = await exerciseUtils.submitTurn(newExercise.id, 'a');
+        expect(submitTurn.status).toBe(ApiResponseStatus.BAD_REQUEST);
+      });
+
+      it('should throw 400 if text is too long', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const newExercise = await exerciseUtils.createAndRetrieve(
+          ExerciseTestBuilder.FromExquisiteCorpse()
+            .withConfigKey('textSize', { minWords: 1, maxWords: 5 })
+            .build()
+        );
+        await exerciseUtils.takeTurnFromHateoas(newExercise);
+        const submitTurn = await exerciseUtils.submitTurn(
+          newExercise.id,
+          "<p>a <strong>text</strong> that is long, t'long"
+        );
+        expect(submitTurn.status).toBe(ApiResponseStatus.BAD_REQUEST);
+      });
+
+      it('should throw 200 if text is correctly sized', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const newExercise = await exerciseUtils.createAndRetrieve(
+          ExerciseTestBuilder.FromExquisiteCorpse()
+            .withConfigKey('textSize', { minWords: 10, maxWords: 20 })
+            .build()
+        );
+        await exerciseUtils.takeTurnFromHateoas(newExercise);
+        const submitTurn = await exerciseUtils.submitTurn(
+          newExercise.id,
+          'a text of 15 words, more or less, I think. Not sure, actually... nevermind'
+        );
+        expect(submitTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
+      });
+    });
   });
 });

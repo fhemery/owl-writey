@@ -1,5 +1,5 @@
 {
-  "name": "translations",
+  "name": "shared-translations",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/translations/src",
   "projectType": "library",

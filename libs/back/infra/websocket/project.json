@@ -1,5 +1,5 @@
 {
-  "name": "websocket",
+  "name": "back-infra-websocket",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/infra/websocket/src",
   "projectType": "library",

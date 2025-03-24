@@ -18,6 +18,8 @@ export interface ExquisiteCorpseExerciseDto extends ExerciseDto {
 export interface ExquisiteCorpseConfigDto {
   nbIterations?: number;
   initialContent?: string;
+  iterationDuration?: number;
+  textSize?: { minWords?: number; maxWords?: number };
 }
 
 export interface ExquisiteCorpseContentDto {

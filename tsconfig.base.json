@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@owl-writey/config": ["libs/back/config/src/index.ts"],
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
+      "@owl/back/config": ["libs/back/config/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],
       "@owl/back/infra/events": ["libs/back/infra/events/src/index.ts"],
       "@owl/back/infra/sse": [
@@ -29,9 +29,16 @@
       "@owl/back/websocket": ["libs/back/infra/websocket/src/index.ts"],
       "@owl/front/auth": ["libs/front/auth/src/index.ts"],
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
+      "@owl/front/app": ["libs/front/app/src/index.ts"],
+      "@owl/front/ui/common": ["libs/front/ui/common/src/index.ts"],
+      "@owl/front/ui/dashboard": ["libs/front/ui/dashboard/src/index.ts"],
+      "@owl/front/ui/exercises": ["libs/front/ui/exercises/src/index.ts"],
+      "@owl/front/ui/login": ["libs/front/ui/login/src/index.ts"],
+      "@owl/front/ui/novels": ["libs/front/ui/novels/src/index.ts"],
+      "@owl/front/ui/register": ["libs/front/ui/register/src/index.ts"],
       "@owl/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@owl/shared/translations": ["libs/shared/translations/src/index.ts"],
-      "@owl/ui": ["libs/front/ui/src/index.ts"]
+      "@owl/shared/word-utils": ["libs/shared/word-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

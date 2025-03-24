@@ -1,0 +1,138 @@
+@if (form){
+
+<div [formGroup]="form">
+  <mat-form-field>
+    <mat-label
+      >{{ 'exercise.form.exquisiteCorpse.nbIterations.label' | translate }}
+    </mat-label>
+
+    <input
+      matInput
+      formControlName="nbIterations"
+      name="nbIterations"
+      type="number"
+      autocomplete="off"
+    />
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.nbIterations.help' | translate
+    }}</mat-hint>
+    <mat-error>
+      @if(form.get('nbIterations')?.hasError('min')) {
+      {{ 'exercise.form.exquisiteCorpse.nbIterations.error.min' | translate }}
+      }
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{
+      'exercise.form.exquisiteCorpse.iterationDuration.label' | translate
+    }}</mat-label>
+    <mat-select formControlName="iterationDuration" name="iterationDuration">
+      <mat-option [value]="300">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.fiveMinutes'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="900">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.fifteenMinutes'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="3600">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.oneHour'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="86400">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.oneDay'
+          | translate
+      }}</mat-option>
+      <mat-option [value]="0">{{
+        'exercise.form.exquisiteCorpse.iterationDuration.options.infinite'
+          | translate
+      }}</mat-option>
+    </mat-select>
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.iterationDuration.help' | translate
+    }}</mat-hint>
+  </mat-form-field>
+  <div class="exquisite-corpse-form__words">
+    <div class="exquisite-corpse-form__words-header">
+      {{ 'exercise.form.exquisiteCorpse.words.label' | translate }}
+    </div>
+    <div class="exquisite-corpse-form__words-content" formGroupName="textSize">
+      <mat-form-field>
+        <mat-label>{{
+          'exercise.form.exquisiteCorpse.words.minWords.label' | translate
+        }}</mat-label>
+        <input
+          matInput
+          formControlName="minWords"
+          name="minWords"
+          autocomplete="off"
+          type="number"
+        />
+        <mat-error>
+          @if(form.get('minWords')?.hasError('min')) {
+          {{
+            'exercise.form.exquisiteCorpse.words.minWords.error.min' | translate
+          }}
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{
+          'exercise.form.exquisiteCorpse.words.maxWords.label' | translate
+        }}</mat-label>
+        <input
+          matInput
+          formControlName="maxWords"
+          name="maxWords"
+          autocomplete="off"
+          type="number"
+        />
+        <mat-error>
+          @if(form.get('maxWords')?.hasError('min')) {
+          {{
+            'exercise.form.exquisiteCorpse.words.maxWords.error.min' | translate
+          }}
+          }
+        </mat-error>
+      </mat-form-field>
+    </div>
+    @if (form.get('textSize')?.hasError('maxWordsLessThanMinWords')) {
+    <div class="exquisite-corpse-form__words-error form-error">
+      {{
+        'exercise.form.exquisiteCorpse.words.error.shouldHaveMaxWordsGreaterThanMinWords'
+          | translate
+      }}
+    </div>
+    }
+    <div class="exquisite-corpse-form__words-hint">
+      {{ 'exercise.form.exquisiteCorpse.words.help.text' | translate }}
+    </div>
+  </div>
+  <mat-form-field>
+    <mat-label>{{
+      'exercise.form.exquisiteCorpse.initialText.label' | translate
+    }}</mat-label>
+    <textarea
+      matInput
+      formControlName="initialText"
+      name="initialText"
+      autocomplete="off"
+    ></textarea>
+    <mat-hint>{{
+      'exercise.form.exquisiteCorpse.initialText.help' | translate
+    }}</mat-hint>
+    <mat-error>
+      @if(form.get('initialText')?.hasError('required')) {
+      {{
+        'exercise.form.exquisiteCorpse.initialText.error.required' | translate
+      }}
+      } @else if(form.get('initialText')?.hasError('minlength')) {
+      {{
+        'exercise.form.exquisiteCorpse.initialText.error.minlength' | translate
+      }}
+      }
+    </mat-error>
+  </mat-form-field>
+</div>
+}

@@ -1,5 +1,5 @@
 {
-  "name": "ping",
+  "name": "back-ping",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/ping/src",
   "projectType": "library",

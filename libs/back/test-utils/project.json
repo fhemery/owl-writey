@@ -1,5 +1,5 @@
 {
-  "name": "test-utils",
+  "name": "back-test-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/test-utils/src",
   "projectType": "library",

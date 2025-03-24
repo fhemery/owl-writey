@@ -215,6 +215,52 @@ describe('Exquisite corpse: take turn action', () => {
           TestUserBuilder.Alice().uid
         );
       });
+
+      describe('regarding iteration duration parameter', () => {
+        it('should use the iteration duration', async () => {
+          await app.logAs(TestUserBuilder.Alice());
+          const ex = await exerciseUtils.createAndRetrieve(
+            ExerciseTestBuilder.FromExquisiteCorpse()
+              .withConfigKey('iterationDuration', 600)
+              .build()
+          );
+
+          const takeTurn = await exerciseUtils.takeTurnFromHateoas(ex);
+          expect(takeTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
+
+          const updatedExercise = await exerciseUtils.getFromHateoas(ex);
+          const updatedExerciseBody =
+            updatedExercise.body as ExquisiteCorpseExerciseDto;
+          const inTenMinutes = new Date();
+          inTenMinutes.setMinutes(inTenMinutes.getMinutes() + 10);
+          expect(
+            updatedExerciseBody.content?.currentWriter?.until
+          ).toBeDefined();
+
+          expect(
+            new Date(
+              updatedExerciseBody.content?.currentWriter?.until || ''
+            ).getTime()
+          ).toBeLessThanOrEqual(inTenMinutes.getTime());
+        });
+
+        it('should use set no until if iteration duration is set to 0', async () => {
+          await app.logAs(TestUserBuilder.Alice());
+          const ex = await exerciseUtils.createAndRetrieve(
+            ExerciseTestBuilder.FromExquisiteCorpse()
+              .withConfigKey('iterationDuration', 0)
+              .build()
+          );
+
+          const takeTurn = await exerciseUtils.takeTurnFromHateoas(ex);
+          expect(takeTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
+
+          const updatedExercise = await exerciseUtils.getFromHateoas(ex);
+          const updatedExerciseBody =
+            updatedExercise.body as ExquisiteCorpseExerciseDto;
+          expect(updatedExerciseBody.content?.currentWriter?.until).toBeNull();
+        });
+      });
     });
   });
 });

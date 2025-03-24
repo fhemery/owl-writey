@@ -4,6 +4,7 @@ import { ExerciseException } from '../exceptions/exercise-exception';
 import { Exercise } from '../exercise';
 import { ExerciseGeneralInfo } from '../exercise-general-info';
 import { ExerciseUser } from '../exercise-user';
+import { SubmitTurnPolicy } from './policies/submit-turn.policy';
 
 export class ExquisiteCorpseExercise extends Exercise<
   ExquisiteCorpseConfig,
@@ -48,17 +49,22 @@ export class ExquisiteCorpseExercise extends Exercise<
       throw new ExerciseException('Exercise content is not initialized');
     }
 
-    const inFifteenMinutes = new Date();
-    inFifteenMinutes.setMinutes(inFifteenMinutes.getMinutes() + 15);
-    this.content.currentWriter = new ExquisiteCorpseNextActor(
-      author,
-      inFifteenMinutes
-    );
+    let nextDate: Date | null = null;
+    if (this.config.iterationDuration > 0) {
+      nextDate = new Date();
+      nextDate.setSeconds(
+        nextDate.getSeconds() + this.config.iterationDuration
+      );
+    }
+    this.content.currentWriter = new ExquisiteCorpseNextActor(author, nextDate);
   }
 
   private isTurnAvailable(): boolean {
     if (!this.content?.currentWriter) {
       return true;
+    }
+    if (!this.content.currentWriter.until) {
+      return false;
     }
     return this.content.currentWriter.until.getTime() < new Date().getTime();
   }
@@ -70,22 +76,18 @@ export class ExquisiteCorpseExercise extends Exercise<
     this.content.currentWriter = undefined;
   }
   submitTurn(uid: string, content: string): void {
-    if (
-      this.content?.currentWriter?.author.uid !== uid ||
-      this.content.currentWriter.until < new Date()
-    ) {
-      throw new ExerciseException('It is not your turn');
-    }
+    const submitTurnPolicy = new SubmitTurnPolicy();
+    submitTurnPolicy.checkSubmit(uid, content, this);
 
-    if (this.isFinished()) {
-      throw new ExerciseException('Exercise is finished');
+    if (!this.content || !this.content.currentWriter) {
+      return;
     }
 
     const nextSceneId = this.content.scenes.length + 1;
     const nextScene = new ExquisiteCorpseScene(
       nextSceneId,
       content,
-      this.content.currentWriter.author
+      this.content.currentWriter?.author
     );
     this.content.scenes.push(nextScene);
     this.content.currentWriter = undefined;
@@ -105,7 +107,8 @@ export class ExquisiteCorpseExercise extends Exercise<
   isTurnOngoing(): boolean {
     return (
       !!this.content?.currentWriter &&
-      this.content?.currentWriter?.until > new Date()
+      (!this.content?.currentWriter?.until ||
+        this.content?.currentWriter?.until > new Date())
     );
   }
 
@@ -123,9 +126,12 @@ export class ExquisiteCorpseContent {
   ) {}
 }
 export class ExquisiteCorpseConfig {
+  readonly iterationDuration: number;
   constructor(
     readonly initialText: string,
-    readonly nbIterations: number | null = null
+    readonly nbIterations: number | null = null,
+    iterationDuration = 900,
+    readonly textSize?: { minWords?: number; maxWords?: number }
   ) {
     if (nbIterations && nbIterations < 1) {
       throw new ExerciseException(
@@ -137,6 +143,39 @@ export class ExquisiteCorpseConfig {
         'Exquisite corpse: config.initialText must not be empty'
       );
     }
+
+    if (
+      iterationDuration &&
+      (isNaN(iterationDuration) || iterationDuration < 0)
+    ) {
+      throw new ExerciseException(
+        'Exquisite corpse: config.iterationDuration must be a positive number'
+      );
+    }
+
+    if (textSize) {
+      if (textSize.minWords !== undefined && textSize.minWords < 1) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.minWords must be at least 1'
+        );
+      }
+      if (textSize.maxWords !== undefined && textSize.maxWords < 1) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.maxWords must be at least 1'
+        );
+      }
+      if (
+        textSize.minWords &&
+        textSize.maxWords &&
+        textSize.minWords > textSize.maxWords
+      ) {
+        throw new ExerciseException(
+          'Exquisite corpse: config.textSize.minWords must be less than config.textSize.maxWords'
+        );
+      }
+    }
+
+    this.iterationDuration = iterationDuration;
   }
 }
 export class ExquisiteCorpseScene {
@@ -147,5 +186,5 @@ export class ExquisiteCorpseScene {
   ) {}
 }
 export class ExquisiteCorpseNextActor {
-  constructor(readonly author: ExerciseUser, readonly until: Date) {}
+  constructor(readonly author: ExerciseUser, readonly until: Date | null) {}
 }

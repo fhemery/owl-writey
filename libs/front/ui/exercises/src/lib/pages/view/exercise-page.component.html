@@ -1,0 +1,33 @@
+<div class="exercise-page">
+  @if(store.exercise(); as exercise) {
+  <div class="exercise-page__header">
+    <h1>{{ exercise.name }}</h1>
+    <div class="exercise-page__type">
+      {{ 'general.exercises.type.' + exercise.type | translate }}
+    </div>
+    <owl-exercise-header-toolbar
+      [isAdmin]="store.isAdmin()"
+      [exercise]="exercise"
+    ></owl-exercise-header-toolbar>
+  </div>
+  <div class="exercise-page__body">
+    @switch (exercise.type) { @case (ExerciseType.ExquisiteCorpse) {
+    <owl-exquisite-corpse-details
+      [exercise]="exercise"
+    ></owl-exquisite-corpse-details>
+    } }
+  </div>
+  <div class="exercise-page__footer">
+    <div class="exercise-page__footer-placeholder"></div>
+    <div class="exercise-page__participants">
+      <owl-exercise-participants-list
+        [exercise]="exercise"
+      ></owl-exercise-participants-list>
+    </div>
+  </div>
+  } @else {
+  <div class="exercise-page__loading">
+    <p>{{ 'exercise.page.loading' | translate }}</p>
+  </div>
+  }
+</div>

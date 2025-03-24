@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { OwlWriteyUiComponent } from '@owl/ui';
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { OwlWriteyUiComponent } from '@owl/front/app';
 
 @Component({
   imports: [OwlWriteyUiComponent, RouterModule],
@@ -10,4 +10,9 @@ import { OwlWriteyUiComponent } from '@owl/ui';
 })
 export class AppComponent {
   title = 'Owl-Writey';
+  private readonly router = inject(Router);
+
+  constructor() {
+    this.router.initialNavigation();
+  }
 }

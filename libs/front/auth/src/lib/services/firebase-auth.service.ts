@@ -26,8 +26,7 @@ export class FirebaseAuthService {
   private _authState = authState(this.auth).pipe(
     map((u) => {
       return u || null;
-    }),
-    tap(() => this.isInitialized.set(true))
+    })
   );
   private _user = toSignal(this._authState, { initialValue: null });
 
@@ -46,7 +45,8 @@ export class FirebaseAuthService {
             );
           })
         );
-      })
+      }),
+      tap(() => this.isInitialized.set(true))
     ),
     { initialValue: null }
   );

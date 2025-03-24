@@ -1,5 +1,5 @@
 {
-  "name": "novels",
+  "name": "back-novels",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/back/novels/src",
   "projectType": "library",

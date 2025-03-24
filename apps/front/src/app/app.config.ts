@@ -13,11 +13,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withDisabledInitialNavigation,
+} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { appRoutes } from '@owl/front/app';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
-import { appRoutes } from '@owl/ui';
 import { provideQuillConfig } from 'ngx-quill';
 
 import { environment } from '../environments/environment';
@@ -26,7 +30,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideRouter(appRoutes, withComponentInputBinding()),
+    provideRouter(
+      appRoutes,
+      withComponentInputBinding(),
+      // It seems like the guards fire before the AppInitializer : https://github.com/angular/angular/issues/29828
+      // Best way to avoid this is to disable initial navigation here and to perform it in AppComponent
+      withDisabledInitialNavigation()
+    ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideAppInitializer(() => {

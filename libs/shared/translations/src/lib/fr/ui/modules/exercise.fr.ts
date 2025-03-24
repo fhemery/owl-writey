@@ -28,15 +28,41 @@ export const exerciseFr = {
         nbIterations: {
           label: 'Nombre de tours',
           error: {
-            required: 'Le nombre de tours est obligatoire',
             min: 'Le nombre de tours doit être supérieur à 1',
           },
           help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laissez vide ou mettre \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
-        wordsLimit: {
-          label: 'Limite de mots',
+        iterationDuration: {
+          label: "Durée d'un tour",
+          help: 'Le temps dont dispose une Plume après avoir pris la main.',
+          options: {
+            fiveMinutes: '5 minutes',
+            fifteenMinutes: '15 minutes',
+            oneHour: '1 heure',
+            oneDay: '1 jour',
+            infinite: 'Infini',
+          },
+        },
+        words: {
+          label: 'Limites de mots',
+          minWords: {
+            label: 'Minimum de mots',
+            error: {
+              min: 'La limite de mots doit être supérieure à 1',
+            },
+          },
+          maxWords: {
+            label: 'Maximum de mots',
+            error: {
+              min: 'La limite de mots doit être supérieure à 1',
+            },
+          },
           error: {
-            min: 'La limite de mots doit être supérieure à 1',
+            shouldHaveMaxWordsGreaterThanMinWords:
+              'Le maximum de mots doit être supérieur au minimum',
+          },
+          help: {
+            text: "Les nombres minimum et maximum de mots qu'une Plume doit écrire à son tour. Laissez vide pour n'imposer aucune limite.",
           },
         },
         authorCanAnswer: {
@@ -71,6 +97,10 @@ export const exerciseFr = {
       finish: {
         label: "Terminer l'exercice",
       },
+    },
+    participantList: {
+      header: 'Participant(es): {{count}}',
+      admin: 'Admin(e)',
     },
     share: {
       title: "Inviter d'autres Plumes",
@@ -119,6 +149,10 @@ export const exerciseFr = {
       takeTurn: {
         label: 'À mon tour !',
         alreadyOngoing: 'Au tour de {{author}} !',
+      },
+      invite: {
+        label:
+          "Vous pouvez invitez une autre Plume en utilisant l'icône au-dessus : ",
       },
       yourTurn: {
         label: 'À vous de jouer !',
