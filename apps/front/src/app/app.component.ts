@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { OwlWriteyUiComponent } from '@owl/front/ui';
+import { OwlWriteyUiComponent } from '@owl/front/app';
 
 @Component({
   imports: [OwlWriteyUiComponent, RouterModule],

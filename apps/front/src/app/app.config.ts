@@ -19,9 +19,9 @@ import {
   withDisabledInitialNavigation,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { appRoutes } from '@owl/front/app';
 import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
-import { appRoutes } from '@owl/front/ui';
 import { provideQuillConfig } from 'ngx-quill';
 
 import { environment } from '../environments/environment';
