@@ -6,6 +6,7 @@
 }
 .text-editor {
   width: 100%;
+  margin-bottom: 1rem;
 
   quill-editor::ng-deep {
     display: flex;
@@ -17,6 +18,16 @@
       max-width: 100%;
       overflow: auto;
       background: white;
+    }
+  }
+
+  &__words {
+    background-color: #ccc;
+    text-align: right;
+    font-size: 0.8rem;
+    font-weight: 400;
+    &--error {
+      color: red;
     }
   }
 }

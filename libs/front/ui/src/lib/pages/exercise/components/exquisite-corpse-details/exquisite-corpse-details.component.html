@@ -34,12 +34,16 @@
       <owl-text-editor
         placeholder=""
         (update)="updateContent($event)"
+        (isValid)="updateValidity($event)"
+        [showWords]="true"
+        [minWords]="exercise.config.textSize?.minWords || null"
+        [maxWords]="exercise.config.textSize?.maxWords || null"
       ></owl-text-editor>
       <div class="exCo-details__buttons">
         <button
           mat-raised-button
           (click)="submitTurn()"
-          [disabled]="!newContent()"
+          [disabled]="!isValid()"
         >
           {{ 'exercise.exquisiteCorpse.submitTurn.label' | translate }}
         </button>

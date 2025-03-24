@@ -38,6 +38,7 @@ export class ExquisiteCorpseDetailsComponent {
 
   exercise = input.required<ExerciseDto>();
   newContent = signal<string>('');
+  isValid = signal<boolean>(false);
 
   constructor() {
     effect(() => {
@@ -59,5 +60,9 @@ export class ExquisiteCorpseDetailsComponent {
 
   async cancelTurn(): Promise<void> {
     await this.store.cancelTurn();
+  }
+
+  updateValidity($event: boolean): void {
+    this.isValid.set($event);
   }
 }

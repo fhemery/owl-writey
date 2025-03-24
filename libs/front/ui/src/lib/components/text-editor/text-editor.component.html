@@ -3,4 +3,12 @@
     (onContentChanged)="updateContent($event)"
     [placeholder]="placeholder()"
   ></quill-editor>
+  @if (showWords()) {
+  <div class="text-editor__words" [ngClass]="{ 'text-editor__words--error': isWordLimitIncorrect() }">
+    {{ nbWords() }}
+    @if (minWords() || maxWords()) { / {{ minWords() ? minWords() : 0 }} -
+    {{ maxWords() ? maxWords() : '&infin;' }}
+    }
+  </div>
+  }
 </div>
