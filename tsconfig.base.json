@@ -31,6 +31,7 @@
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
       "@owl/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@owl/shared/translations": ["libs/shared/translations/src/index.ts"],
+      "@owl/shared/word-utils": ["libs/shared/word-utils/src/index.ts"],
       "@owl/ui": ["libs/front/ui/src/index.ts"]
     }
   },
