@@ -18,5 +18,8 @@ export const novelFr = {
         label: 'Créer',
       },
     },
+    main: {
+      notFound: 'Roman non trouvé',
+    },
   },
 };
