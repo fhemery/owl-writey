@@ -19,6 +19,9 @@ export class LoginPo extends BasePo {
       name: this.translator.get('auth.form.submitButton.label'),
     });
   }
+  get registerRedirection(): Locator {
+    return this.pageLocator.locator('a[routerlink="/register"]');
+  }
 
   constructor(page: Page) {
     super(page);
@@ -50,5 +53,15 @@ export class LoginPo extends BasePo {
   async logAsUser(userName: 'alice' | 'bob'): Promise<void> {
     const user = this.auth.getUser(userName);
     await this.logAs(user.login, user.password);
+  }
+
+  async wronglyLoggedAs(userName: string, password: string): Promise<void> {
+    await this.loginInput.fill(userName);
+    await this.passwordInput.fill(password);
+    await this.passwordInput.blur();
+  }
+
+  async redirectRegister(): Promise<void> {
+    await this.registerRedirection.click();
   }
 }

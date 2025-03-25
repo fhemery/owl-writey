@@ -2,14 +2,17 @@ import { test, expect } from '@playwright/test';
 
 import { RegisterPo } from '../pages/register.po';
 import { DashboardPo } from '../pages/dashboard.po';
+import { LoginPo } from '../pages/login.po';
 
 test.describe('Register page', () => {
   let registerPo: RegisterPo;
   let dashboardPo: DashboardPo;
+  let loginPo: LoginPo;
 
   test.beforeEach(async ({ page }) => {
     registerPo = new RegisterPo(page);
     dashboardPo = new DashboardPo(page);
+    loginPo = new LoginPo(page);
     await registerPo.goTo();
   });
 
@@ -18,11 +21,22 @@ test.describe('Register page', () => {
     await registerPo.shouldDisplayForm();
   });
 
-  // Valid registration
-  // test('should redirect to the dashboard page on successful registration', async () => {
-  //   await registerPo.registerAs('test13', 'owl-15@hemit.fr', 'password', 'password');
-  //   await dashboardPo.shouldBeDisplayed();
+  // Redirection tests
+  test('should redirect to the login page on click', async () => {
+    await registerPo.redirectLog();
+    await loginPo.shouldBeDisplayed();
+  });
+
+  // test('should redirect to the homepage on click', async () => {
+  //   await registerPo.redirectHome();
   // });
+
+  // Valid registration
+  test('should redirect to the dashboard page on successful registration', async () => {
+    await registerPo.registerAs('test13', 'owl-15@hemit.fr', 'password', 'password');
+    await dashboardPo.shouldBeDisplayed();
+  });
+
 
   // Invalid registration - fields are wrong
   test('should display error if pseudo field is wrong', async() => {
@@ -75,8 +89,8 @@ test.describe('Register page', () => {
   });
 
   // Invalide registration - the account already exists
-  // test('should display error if email address already registered', async() => {
-  //   await registerPo.registerAs('Edward', 'owl-12@hemit.fr', 'password', 'password');
-  //   await registerPo.shouldDisplayTranslatedText('register.error');
-  // });
+  test('should display error if email address already registered', async() => {
+    await registerPo.registerAs('Edward', 'owl-12@hemit.fr', 'password', 'password', false);
+    await registerPo.shouldDisplayTranslatedText('register.error');
+  });
 })

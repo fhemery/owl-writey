@@ -23,6 +23,13 @@ export class RegisterPo extends BasePo {
       name: this.translator.get('register.form.submitButton.label'),
     });
   }
+  get loginRedirection(): Locator {
+    return this.pageLocator.locator('a[routerlink="/login"]');
+  }
+  get homepageRedirection(): Locator {
+    return this.pageLocator.locator('a[routerlink="/"]');
+  }
+
 
   constructor(page: Page) {
     super(page);
@@ -44,15 +51,19 @@ export class RegisterPo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
 
-  async registerAs(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
+  async registerAs(name: string, email: string, password: string, repeatedPassword: string, shouldRedirect: boolean = true): Promise<void> {
     await this.nameInput.fill(name);
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.repeatPasswordInput.fill(repeatedPassword);
-    await Promise.all([
+    if (shouldRedirect) {
+      await Promise.all([
       this.page.waitForURL('/dashboard'),
       this.submitButton.click()
-    ]);
+      ]);
+    } else {
+      await this.submitButton.click();
+    }
   }
 
   async wronglyRegisterAs(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
@@ -61,5 +72,21 @@ export class RegisterPo extends BasePo {
     await this.passwordInput.fill(password);
     await this.repeatPasswordInput.fill(repeatedPassword);
     await this.repeatPasswordInput.blur();
+  }
+
+  async registerAsWithoutRedirect(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
+    await this.nameInput.fill(name);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.repeatPasswordInput.fill(repeatedPassword);
+    await this.submitButton.click();
+  }
+
+  async redirectLog(): Promise<void> {
+    await this.loginRedirection.click();
+  }
+
+  async redirectHome(): Promise<void> {
+    await this.homepageRedirection.click();
   }
 }

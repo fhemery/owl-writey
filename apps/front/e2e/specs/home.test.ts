@@ -19,4 +19,5 @@ test.describe('Home page', () => {
       await page.getByRole('button', { name: 'Rejoignez-nous !' }).count()
     ).toBe(1);
   });
+
 });
