@@ -1,8 +1,11 @@
 {
   "jest.runMode": "on-demand",
+  "search.followSymlinks": false,
   "editor.codeActionsOnSave": {
     "source.removeUnusedImports": "always",
     "source.fixAll.ts": "always",
     "source.fixAll.eslint": "always"
-  }
+  },
+  "cucumber.features": ["apps/front/e2e/features/**/*.feature"],
+  "cucumber.glue": ["apps/front/e2e/steps/**/*.ts"]
 }

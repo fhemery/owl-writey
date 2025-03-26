@@ -1,21 +1,30 @@
 import { workspaceRoot } from '@nx/devkit';
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+import path from 'path';
+import { defineBddConfig } from 'playwright-bdd';
 
 // For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_PLAYWRIGHT_URL'] || 'http://localhost:4200';
+dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
+const baseURL =
+  process.env['BASE_PLAYWRIGHT_URL'] ||
+  process.env['PLAYWRIGHT_BASE_URL'] ||
+  'http://localhost:4200';
+const useBdd = process.env['PLAYWRIGHT_USE_BDD'] === '1';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+const specs = useBdd
+  ? defineBddConfig({
+      features: ['e2e/features/**/*.feature'],
+      steps: ['e2e/steps/**/*.ts', 'e2e/support/**/*.ts'],
+    })
+  : './e2e/specs';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './e2e/specs' }),
+  ...nxE2EPreset(__filename, { testDir: specs }),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,

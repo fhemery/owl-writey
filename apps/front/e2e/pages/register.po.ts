@@ -30,7 +30,6 @@ export class RegisterPo extends BasePo {
     return this.pageLocator.locator('a[routerlink="/"]');
   }
 
-
   constructor(page: Page) {
     super(page);
   }
@@ -51,22 +50,33 @@ export class RegisterPo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
 
-  async registerAs(name: string, email: string, password: string, repeatedPassword: string, shouldRedirect: boolean = true): Promise<void> {
+  async registerAs(
+    name: string,
+    email: string,
+    password: string,
+    repeatedPassword: string,
+    shouldRedirect = true
+  ): Promise<void> {
     await this.nameInput.fill(name);
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.repeatPasswordInput.fill(repeatedPassword);
     if (shouldRedirect) {
       await Promise.all([
-      this.page.waitForURL('/dashboard'),
-      this.submitButton.click()
+        this.page.waitForURL('/dashboard'),
+        this.submitButton.click(),
       ]);
     } else {
       await this.submitButton.click();
     }
   }
 
-  async wronglyRegisterAs(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
+  async wronglyRegisterAs(
+    name: string,
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ): Promise<void> {
     await this.nameInput.fill(name);
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
@@ -74,7 +84,12 @@ export class RegisterPo extends BasePo {
     await this.repeatPasswordInput.blur();
   }
 
-  async registerAsWithoutRedirect(name: string, email: string, password: string, repeatedPassword: string): Promise<void> {
+  async registerAsWithoutRedirect(
+    name: string,
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ): Promise<void> {
     await this.nameInput.fill(name);
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);

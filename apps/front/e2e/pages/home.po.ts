@@ -1,24 +1,28 @@
-import { Locator, Page, expect } from "@playwright/test";
-import { BasePo } from "./base.po";
+import { expect, Locator, Page } from '@playwright/test';
 
-export class HomePo extends BasePo{
+import { BasePo } from './base.po';
+
+export class HomePo extends BasePo {
   get pageLocator(): Locator {
     return this.page.locator('.home-page');
   }
   get loginButton(): Locator {
     // return this.pageLocator.locator('a[routerlink="/login"]');
     return this.pageLocator.getByRole('button', {
-      name: 'Connexion'});
+      name: 'Connexion',
+    });
   }
   get registerButton(): Locator {
     // return this.pageLocator.locator('a[routerlink="/register"]');
     return this.pageLocator.getByRole('button', {
-      name: 'Inscription'});
+      name: 'Inscription',
+    });
   }
   get dashboardButton(): Locator {
     // return this.pageLocator.locator('a[routerlink="/dashboard"]');
     return this.pageLocator.getByRole('button', {
-      name: 'Dashboard'});
+      name: 'Dashboard',
+    });
   }
 
   constructor(page: Page) {
@@ -45,6 +49,6 @@ export class HomePo extends BasePo{
     await this.dashboardButton.click();
   }
   async redirectionBtns(): Promise<void> {
-
+    console.log('To fix');
   }
 }
