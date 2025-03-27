@@ -34,7 +34,7 @@ import {
   GetNovelQuery,
   UpdateNovelCommand,
 } from '../../domain/ports';
-import { novelConverter } from './converter/novel-converter';
+import { novelMapper } from './converter/novel-mapper';
 import { NovelToCreateDtoImpl } from './dtos/novel-to-create.dto.impl';
 
 class NovelDtoImpl implements NovelDto {
@@ -112,7 +112,7 @@ export class NovelsController {
       throw new NotFoundException();
     }
 
-    return novelConverter.toNovelDto(novel);
+    return novelMapper.toNovelDto(novel);
   }
 
   @Delete()
@@ -133,7 +133,7 @@ export class NovelsController {
       throw new BadRequestException('ID mismatch');
     }
     try {
-      const novel = novelConverter.toNovel(novelDto);
+      const novel = novelMapper.toNovel(novelDto);
       await this.updateNovelCommand.execute(request.user.uid, novel);
     } catch (error) {
       if (error instanceof NovelNotFoundException) {

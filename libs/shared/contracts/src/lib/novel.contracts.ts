@@ -31,6 +31,14 @@ export interface ChapterDto {
   id: string;
   title: string;
   outline: string;
+  scenes: SceneDto[];
+}
+
+export interface SceneDto {
+  id: string;
+  title: string;
+  outline: string;
+  content: string;
 }
 
 export interface GetAllNovelsResponseDto {

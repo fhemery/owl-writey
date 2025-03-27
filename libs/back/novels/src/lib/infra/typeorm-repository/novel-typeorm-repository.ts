@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Novel } from '../../domain/model';
 import { NovelRepository } from '../../domain/ports';
 import { NovelEntity } from './entities/novel.entity';
+import { NovelContentEntity } from './entities/novel-content';
 import { NovelParticipantEntity } from './entities/novel-participant.entity';
 
 @Injectable()
@@ -13,13 +14,17 @@ export class NovelTypeormRepository implements NovelRepository {
     @InjectRepository(NovelEntity)
     private readonly repo: Repository<NovelEntity>,
     @InjectRepository(NovelParticipantEntity)
-    private readonly participantRepo: Repository<NovelParticipantEntity>
+    private readonly participantRepo: Repository<NovelParticipantEntity>,
+    @InjectRepository(NovelContentEntity)
+    private readonly contentRepo: Repository<NovelContentEntity>
   ) {}
 
   async save(novel: Novel): Promise<void> {
     const entity = NovelEntity.From(novel);
+    const contentEntity = NovelContentEntity.From(novel);
 
     await this.repo.save(entity);
+    await this.contentRepo.save(contentEntity);
   }
 
   async getAll(userId: string): Promise<Novel[]> {
@@ -44,7 +49,15 @@ export class NovelTypeormRepository implements NovelRepository {
       return null;
     }
 
-    return entity.toNovel();
+    const content = await this.contentRepo.findOne({
+      where: { novelId },
+    });
+    // This is a backwards compatible fix. Content do not exist for existing novel. They should soon.
+    if (!content) {
+      return entity.toNovel();
+    }
+
+    return content.toNovel(entity.participants);
   }
 
   async delete(novelId: string): Promise<void> {

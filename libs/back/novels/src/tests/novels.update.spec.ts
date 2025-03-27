@@ -96,5 +96,33 @@ describe('PUT /api/novels/:id', () => {
       expect(getResponse.status).toBe(200);
       expect(getResponse.body?.description).toEqual(newDescription);
     });
+
+    it('should handle chapter and scene updates', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const update: NovelDto = {
+        ...existingNovel,
+        chapters: [
+          {
+            id: '1',
+            title: 'New chapter title',
+            outline: 'New chapter outline',
+            scenes: [
+              {
+                id: '1.1',
+                title: 'New scene title',
+                outline: 'New scene outline',
+                content: 'New scene content',
+              },
+            ],
+          },
+        ],
+      };
+      const response = await novelUtils.update(update);
+      expect(response.status).toBe(204);
+
+      const getResponse = await novelUtils.get(existingNovel.id);
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toEqual(update);
+    });
   });
 });
