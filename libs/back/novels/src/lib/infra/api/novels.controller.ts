@@ -30,6 +30,7 @@ import {
 import {
   CreateNovelCommand,
   DeleteAllNovelsCommand,
+  DeleteNovelCommand,
   GetAllNovelsQuery,
   GetNovelQuery,
   UpdateNovelCommand,
@@ -64,7 +65,8 @@ export class NovelsController {
     private readonly getNovelQuery: GetNovelQuery,
     private readonly getAllNovelsQuery: GetAllNovelsQuery,
     private readonly deleteNovelsCommand: DeleteAllNovelsCommand,
-    private readonly updateNovelCommand: UpdateNovelCommand
+    private readonly updateNovelCommand: UpdateNovelCommand,
+    private readonly deleteNovelCommand: DeleteNovelCommand
   ) {}
 
   @Post()
@@ -119,6 +121,26 @@ export class NovelsController {
   @Auth()
   async deleteAllNovels(@Req() request: RequestWithUser): Promise<void> {
     await this.deleteNovelsCommand.execute(request.user.uid);
+  }
+
+  @Delete(':id')
+  @Auth()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteOneNovel(
+    @Req() request: RequestWithUser,
+    @Param('id') id: string
+  ): Promise<void> {
+    try {
+      await this.deleteNovelCommand.execute(request.user.uid, id);
+    } catch (error) {
+      if (error instanceof NovelNotFoundException) {
+        throw new NotFoundException(error.message);
+      }
+      if (error instanceof NovelNotAuthorException) {
+        throw new NotFoundException(error.message);
+      }
+      throw error;
+    }
   }
 
   @Put(':id')

@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import {
   CreateNovelCommand,
   DeleteAllNovelsCommand,
+  DeleteNovelCommand,
   GetAllNovelsQuery,
   GetNovelQuery,
   UpdateNovelCommand,
@@ -20,6 +21,7 @@ import { NovelUserModule } from './infra/user-facade/novel-user.module';
     GetAllNovelsQuery,
     DeleteAllNovelsCommand,
     UpdateNovelCommand,
+    DeleteNovelCommand,
   ],
   exports: [],
 })

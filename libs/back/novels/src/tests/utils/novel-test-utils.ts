@@ -46,4 +46,8 @@ export class NovelTestUtils {
       novel
     );
   }
+
+  async deleteOne(id: string): Promise<ApiResponse<void>> {
+    return await this.app.delete(`/api/novels/${id}`);
+  }
 }
