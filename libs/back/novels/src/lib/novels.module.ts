@@ -5,6 +5,7 @@ import {
   DeleteAllNovelsCommand,
   GetAllNovelsQuery,
   GetNovelQuery,
+  UpdateNovelCommand,
 } from './domain/ports';
 import { NovelsController } from './infra/api/novels.controller';
 import { NovelTypeormModule } from './infra/typeorm-repository/novel-typeorm.module';
@@ -18,6 +19,7 @@ import { NovelUserModule } from './infra/user-facade/novel-user.module';
     GetNovelQuery,
     GetAllNovelsQuery,
     DeleteAllNovelsCommand,
+    UpdateNovelCommand,
   ],
   exports: [],
 })

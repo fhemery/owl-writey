@@ -17,7 +17,14 @@ export interface NovelDto {
   id: string;
   title: string;
   description: string;
+  participants: NovelParticipantDto[];
   chapters: ChapterDto[];
+}
+
+export interface NovelParticipantDto {
+  uid: string;
+  name: string;
+  role: NovelRole;
 }
 
 export interface ChapterDto {

@@ -23,4 +23,27 @@ export class NovelTestUtils {
   async deleteAll(): Promise<ApiResponse<void>> {
     return await this.app.delete(`/api/novels`);
   }
+
+  async createAndRetrieve(novel: NovelToCreateDto): Promise<NovelDto> {
+    const response = await this.create(novel);
+    if (response.status !== 201) {
+      throw new Error(`Failed to create novel : ${response.status}`);
+    }
+
+    const getResponse = await this.get(response.locationId);
+    if (!getResponse.body) {
+      throw new Error('Failed to retrieve novel');
+    }
+    return getResponse.body;
+  }
+
+  async update(
+    novel: NovelDto,
+    overrideId?: string
+  ): Promise<ApiResponse<void>> {
+    return await this.app.put<NovelDto>(
+      `/api/novels/${overrideId || novel.id}`,
+      novel
+    );
+  }
 }
