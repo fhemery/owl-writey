@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { NovelRepository } from '../../domain/ports';
 import { NovelEntity } from './entities/novel.entity';
-import { NovelContentEntity } from './entities/novel-content';
+import { NovelContentEntity } from './entities/novel-content.entity';
 import { NovelParticipantEntity } from './entities/novel-participant.entity';
 import { NovelTypeormRepository } from './novel-typeorm-repository';
 

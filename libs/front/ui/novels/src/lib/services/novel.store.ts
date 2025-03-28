@@ -7,7 +7,7 @@ import {
   withState,
 } from '@ngrx/signals';
 
-import { NovelViewModel } from '../../../model';
+import { NovelGeneralInfoViewModel, NovelViewModel } from '../model';
 import { NovelService } from './novel.service';
 
 export interface NovelState {
@@ -22,7 +22,9 @@ const initialState: NovelState = {
   error: null,
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NovelStore extends signalStore(
   withState(initialState),
   withMethods((store, novelService = inject(NovelService)) => ({
@@ -35,6 +37,24 @@ export class NovelStore extends signalStore(
           error instanceof Error ? error.message : 'Failed to load novel';
         patchState(store, { isLoading: false, error: errorMessage });
       }
+    },
+    async deleteNovel(): Promise<boolean> {
+      const novel = store.novel();
+      if (!novel) {
+        return false;
+      }
+      return await novelService.delete(novel.id);
+    },
+    async updateGeneralInfo(
+      generalInfo: NovelGeneralInfoViewModel
+    ): Promise<boolean> {
+      const novel = store.novel();
+      if (!novel) {
+        return false;
+      }
+      const newNovel = { ...novel, generalInfo };
+      patchState(store, { novel: newNovel });
+      return await novelService.update(newNovel);
     },
   })),
   withHooks({})

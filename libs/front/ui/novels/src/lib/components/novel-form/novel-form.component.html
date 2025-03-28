@@ -23,6 +23,7 @@
             <div>{{ 'novel.form.description.label' | translate }}</div>
             <owl-text-editor
               (update)="updateDescription($event)"
+              [currentContent]="novelForm.get('description')?.value"
             ></owl-text-editor>
           </div>
         </div>
@@ -35,8 +36,24 @@
             id="novelBtn"
             [disabled]="!novelForm.valid"
           >
-            {{ 'novel.form.submitButton.label' | translate }}
+            {{
+              (isEditMode()
+                ? 'novel.form.editButton.label'
+                : 'novel.form.createButton.label'
+              ) | translate
+            }}
           </button>
+          @if(isEditMode()) {
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            id="deleteBtn"
+            (click)="onDelete()"
+          >
+            {{ 'novel.form.deleteButton.label' | translate }}
+          </button>
+          }
         </div>
       </form>
     </mat-card-content>

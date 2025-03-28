@@ -1,3 +1,4 @@
-<div class="novel-header">
+<div class="novel-header" [routerLink]="['/novels', novel().id, 'edit']">
   <h1>{{ novel().generalInfo.title }}</h1>
+  <mat-icon color="accent">edit</mat-icon>
 </div>

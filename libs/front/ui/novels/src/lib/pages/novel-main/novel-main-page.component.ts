@@ -3,10 +3,10 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { NovelStore } from '../../services/novel.store';
 import { NovelHeaderComponent } from './components/novel-header/novel-header.component';
 import { NovelRightPaneComponent } from './components/novel-right-pane/novel-right-pane.component';
 import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.component';
-import { NovelStore } from './services/novel.store';
 
 @Component({
   selector: 'owl-novel-page',
@@ -20,7 +20,6 @@ import { NovelStore } from './services/novel.store';
   ],
   templateUrl: './novel-main-page.component.html',
   styleUrls: ['./novel-main-page.component.scss'],
-  providers: [NovelStore],
 })
 export class NovelMainPageComponent implements OnInit {
   readonly #novelStore = inject(NovelStore);

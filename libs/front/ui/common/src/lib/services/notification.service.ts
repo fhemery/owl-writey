@@ -32,6 +32,13 @@ export class NotificationService {
     });
   }
 
+  showErrorTranslate(key: string, data?: Record<string, string>): void {
+    this.showError(this.#translateService.instant(key, data));
+  }
+  showSuccessTranslate(key: string, data?: Record<string, unknown>): void {
+    this.showSuccess(this.#translateService.instant(key, data));
+  }
+
   notifyEvent(eventName: string, data: Record<string, unknown>): void {
     this.showInfo(this.#translateService.instant(`events.${eventName}`, data));
   }

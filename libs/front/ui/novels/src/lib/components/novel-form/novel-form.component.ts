@@ -1,8 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
+  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -16,6 +24,8 @@ import {
 } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextEditorComponent } from '@owl/front/ui/common';
+
+import { NovelViewModel } from '../../model';
 
 @Component({
   selector: 'owl-novel-form',
@@ -35,18 +45,26 @@ import { TextEditorComponent } from '@owl/front/ui/common';
   templateUrl: './novel-form.component.html',
   styleUrl: './novel-form.component.scss',
 })
-export class NovelFormComponent {
+export class NovelFormComponent implements OnInit {
   update = output<NovelFormData>();
+  delete = output<void>();
+  novel = input<NovelViewModel | null>(null);
+  isEditMode = computed(() => this.novel() !== null);
 
   private readonly formBuilder = inject(FormBuilder);
+  novelForm!: FormGroup;
 
-  novelForm = this.formBuilder.group({
-    title: new FormControl<string>('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    description: new FormControl<string>(''),
-  });
+  ngOnInit(): void {
+    this.novelForm = this.formBuilder.group({
+      title: new FormControl<string>(this.novel()?.generalInfo.title || '', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      description: new FormControl<string>(
+        this.novel()?.generalInfo.description || ''
+      ),
+    });
+  }
 
   updateDescription($event: string): void {
     this.novelForm.get('description')?.setValue($event);
@@ -58,6 +76,10 @@ export class NovelFormComponent {
       title: values.title || '',
       description: values.description || '',
     });
+  }
+
+  onDelete(): void {
+    this.delete.emit();
   }
 }
 
