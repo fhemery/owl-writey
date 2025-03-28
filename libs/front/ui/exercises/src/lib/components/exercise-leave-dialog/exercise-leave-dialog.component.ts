@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogComponent,
   NotificationService,
@@ -19,7 +19,6 @@ import { ExerciseService } from '../../services/exercise.service';
 export class ExerciseLeaveDialogComponent {
   readonly #matDialogRef = inject(MatDialogRef);
   readonly #notificationService = inject(NotificationService);
-  readonly #translateService = inject(TranslateService);
   readonly #matData: { link: string } = inject(MAT_DIALOG_DATA);
   readonly #router = inject(Router);
   readonly #exerciseService = inject(ExerciseService);
@@ -37,19 +36,17 @@ export class ExerciseLeaveDialogComponent {
     );
     switch (result) {
       case 'Success':
-        this.#notificationService.showSuccess(
-          this.#translateService.instant('exercise.leave.result.ok')
-        );
+        this.#notificationService.showSuccess('exercise.leave.result.ok');
         await this.#router.navigateByUrl('/dashboard');
         break;
       case 'ErrorLastAdmin':
         this.#notificationService.showError(
-          this.#translateService.instant('exercise.leave.result.errorLastAdmin')
+          'exercise.leave.result.errorLastAdmin'
         );
         break;
       case 'UnknownError':
         this.#notificationService.showError(
-          this.#translateService.instant('exercise.leave.result.unknownError')
+          'exercise.leave.result.unknownError'
         );
         break;
     }

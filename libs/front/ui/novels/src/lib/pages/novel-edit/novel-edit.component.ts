@@ -29,9 +29,9 @@ export class NovelEditComponent {
       new NovelGeneralInfoViewModel($event.title, $event.description)
     );
     if (!result) {
-      this.notificationService.showErrorTranslate('novel.edit.result.ko');
+      this.notificationService.showError('novel.edit.result.ko');
     } else {
-      this.notificationService.showSuccessTranslate('novel.edit.result.ok');
+      this.notificationService.showSuccess('novel.edit.result.ok');
     }
   }
 

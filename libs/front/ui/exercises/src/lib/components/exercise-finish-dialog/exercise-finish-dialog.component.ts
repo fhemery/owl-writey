@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogComponent,
   NotificationService,
@@ -19,7 +19,6 @@ import { ExerciseService } from '../../services/exercise.service';
 export class ExerciseFinishDialogComponent {
   readonly #matDialogRef = inject(MatDialogRef);
   readonly #notificationService = inject(NotificationService);
-  readonly #translateService = inject(TranslateService);
   readonly #matData: { link: string } = inject(MAT_DIALOG_DATA);
   readonly #router = inject(Router);
   readonly #exerciseService = inject(ExerciseService);
@@ -35,14 +34,10 @@ export class ExerciseFinishDialogComponent {
     const result = await this.#exerciseService.finish(this.#matData.link);
 
     if (result) {
-      this.#notificationService.showSuccess(
-        this.#translateService.instant('exercise.finish.result.ok')
-      );
+      this.#notificationService.showSuccess('exercise.finish.result.ok');
       await this.#router.navigateByUrl('/dashboard');
     } else {
-      this.#notificationService.showError(
-        this.#translateService.instant('exercise.leave.result.error')
-      );
+      this.#notificationService.showError('exercise.leave.result.error');
     }
     this.close();
   }

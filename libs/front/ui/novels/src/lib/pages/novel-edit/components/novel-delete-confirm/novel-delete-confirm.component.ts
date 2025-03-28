@@ -40,12 +40,10 @@ export class NovelDeleteConfirmComponent {
     if (isDeletionConfirmed) {
       const result = await this.store.deleteNovel();
       if (result) {
-        this.notificationService.showSuccessTranslate('novel.delete.result.ok');
+        this.notificationService.showSuccess('novel.delete.result.ok');
         await this.router.navigate(['/dashboard']);
       } else {
-        this.notificationService.showErrorTranslate(
-          'novel.delete.result.error'
-        );
+        this.notificationService.showError('novel.delete.result.error');
       }
     }
     this.dialog.close();
