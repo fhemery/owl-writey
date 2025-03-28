@@ -19,7 +19,7 @@ export interface ExquisiteCorpseConfigDto {
   nbIterations?: number;
   initialContent?: string;
   iterationDuration?: number;
-  textSize?: { minWords?: number; maxWords?: number };
+  textSize?: { minWords: number | null; maxWords: number | null };
 }
 
 export interface ExquisiteCorpseContentDto {
