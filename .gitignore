@@ -53,3 +53,4 @@ TODO.md
 /playwright-report/index.html
 /apps/front/src/environments/environment.ts
 /apps/front/.features-gen
+/reports

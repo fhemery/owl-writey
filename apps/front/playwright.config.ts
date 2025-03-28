@@ -3,7 +3,7 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
 import path from 'path';
-import { defineBddConfig } from 'playwright-bdd';
+import { cucumberReporter, defineBddConfig } from 'playwright-bdd';
 
 // For CI, you may want to set BASE_URL to the deployed application.
 dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
@@ -17,6 +17,7 @@ const specs = useBdd
   ? defineBddConfig({
       features: ['e2e/features/**/*.feature'],
       steps: ['e2e/steps/**/*.ts', 'e2e/support/**/*.ts'],
+      tags: '@Automated',
     })
   : './e2e/specs';
 
@@ -41,6 +42,13 @@ export default defineConfig({
         cwd: workspaceRoot,
       }
     : undefined,
+  reporter: useBdd
+    ? [
+        cucumberReporter('html', {
+          outputFile: '../../reports/cucumber-report/index.html',
+        }),
+      ]
+    : 'html',
   projects: [
     {
       name: 'chromium',
