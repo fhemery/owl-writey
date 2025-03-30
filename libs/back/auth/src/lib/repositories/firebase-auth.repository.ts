@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 import * as admin from 'firebase-admin';
 import { DecodedIdToken, UserRecord } from 'firebase-admin/lib/auth';
 

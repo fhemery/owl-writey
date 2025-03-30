@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ConfigurationDto } from '@owl/shared/contracts';
+import { ConfigurationDto } from '@owl/shared/common/contracts';
 
 @Controller('config')
 export class ConfigController {

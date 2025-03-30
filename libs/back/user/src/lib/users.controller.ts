@@ -29,7 +29,7 @@ import {
   SseEvent,
   UserDto,
   UserToCreateDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/common/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 

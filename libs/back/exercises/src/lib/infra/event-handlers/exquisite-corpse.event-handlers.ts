@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { SseNotificationService } from '@owl/back/infra/sse';
+import { NotificationEvent } from '@owl/shared/common/contracts';
 import {
   ExercisedUpdateEvent,
   exquisiteCorpseTurnCanceledEvent,
   exquisiteCorpseTurnSubmittedEvent,
   exquisiteCorpseTurnTakenEvent,
-  NotificationEvent,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import {
   ExCorpseCancelTurnEvent,

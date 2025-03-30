@@ -1,4 +1,4 @@
-import { NovelRole } from '@owl/shared/contracts';
+import { NovelRole } from '@owl/shared/novels/contracts';
 
 export class NovelParticipant {
   constructor(

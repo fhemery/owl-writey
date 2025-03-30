@@ -36,8 +36,24 @@
       "@owl/front/ui/login": ["libs/front/ui/login/src/index.ts"],
       "@owl/front/ui/novels": ["libs/front/ui/novels/src/index.ts"],
       "@owl/front/ui/register": ["libs/front/ui/register/src/index.ts"],
-      "@owl/shared/contracts": ["libs/shared/contracts/src/index.ts"],
-      "@owl/shared/translations": ["libs/shared/translations/src/index.ts"],
+      "@owl/shared/common/contracts": [
+        "libs/shared/common/contracts/src/index.ts"
+      ],
+      "@owl/shared/common/translations": [
+        "libs/shared/common/translations/src/index.ts"
+      ],
+      "@owl/shared/exercises/contracts": [
+        "libs/shared/exercises/contracts/src/index.ts"
+      ],
+      "@owl/shared/exercises/translations": [
+        "libs/shared/exercises/translations/src/index.ts"
+      ],
+      "@owl/shared/novels/contracts": [
+        "libs/shared/novels/contracts/src/index.ts"
+      ],
+      "@owl/shared/novels/translations": [
+        "libs/shared/novels/translations/src/index.ts"
+      ],
       "@owl/shared/word-utils": ["libs/shared/word-utils/src/index.ts"]
     }
   },

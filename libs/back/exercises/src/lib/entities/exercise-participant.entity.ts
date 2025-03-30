@@ -1,4 +1,4 @@
-import { ExerciseParticipantRole } from '@owl/shared/contracts';
+import { ExerciseParticipantRole } from '@owl/shared/exercises/contracts';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { ExerciseParticipant } from '../domain/model/exercise';

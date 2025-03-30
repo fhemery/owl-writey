@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseType } from '@owl/shared/exercises/contracts';
 
 import { ExerciseHeaderToolbarComponent } from '../../components/exercise-header-toolbar/exercise-header-toolbar.component';
 import { ExerciseParticipantsListComponent } from '../../components/exercise-participants-list/exercise-participants-list.component';

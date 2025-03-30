@@ -2,7 +2,7 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import {
   ExerciseToCreateDto,
   ExquisiteCorpseExerciseDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';

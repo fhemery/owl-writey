@@ -11,7 +11,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
 import {
   ExquisiteCorpseContentDto,
   ExquisiteCorpseExerciseDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 import { interval } from 'rxjs';
 
 import { ExerciseService } from './exercise.service';

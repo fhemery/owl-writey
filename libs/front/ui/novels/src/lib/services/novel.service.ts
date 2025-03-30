@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { NovelDto, NovelToCreateDto } from '@owl/shared/contracts';
+import { NovelDto, NovelToCreateDto } from '@owl/shared/novels/contracts';
 import { firstValueFrom } from 'rxjs';
 
 import { NovelViewModel } from '../model';

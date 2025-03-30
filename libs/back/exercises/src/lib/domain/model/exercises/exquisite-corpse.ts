@@ -1,4 +1,4 @@
-import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/exercises/contracts';
 
 import { ExerciseException } from '../exceptions/exercise-exception';
 import { Exercise } from '../exercise';

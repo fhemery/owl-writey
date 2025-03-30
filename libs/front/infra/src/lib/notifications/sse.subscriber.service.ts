@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { SseEvent } from '@owl/shared/contracts';
+import { SseEvent } from '@owl/shared/common/contracts';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Subject } from 'rxjs';
 

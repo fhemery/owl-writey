@@ -1,7 +1,7 @@
 import { describe } from 'node:test';
 
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { UserDto, UserToCreateDto } from '@owl/shared/contracts';
+import { UserDto, UserToCreateDto } from '@owl/shared/common/contracts';
 
 import { app, moduleTestInit } from './module-test-init';
 import { UserTestUtils } from './utils/user-test-utils';

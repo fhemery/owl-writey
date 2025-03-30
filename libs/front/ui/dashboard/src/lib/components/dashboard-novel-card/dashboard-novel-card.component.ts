@@ -10,7 +10,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NovelSummaryDto } from '@owl/shared/contracts';
+import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
 @Component({
   selector: 'owl-dashboard-novel-card',

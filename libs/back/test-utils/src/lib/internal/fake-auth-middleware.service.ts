@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { RequestModel, UserDetails } from '@owl/back/auth';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 import { NextFunction, Response } from 'express';
 
 @Injectable()

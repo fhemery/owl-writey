@@ -1,5 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { ExerciseParticipantRole, ExerciseStatus } from '@owl/shared/contracts';
+import {
+  ExerciseParticipantRole,
+  ExerciseStatus,
+} from '@owl/shared/exercises/contracts';
 import { v4 as uuidV4 } from 'uuid';
 
 import {

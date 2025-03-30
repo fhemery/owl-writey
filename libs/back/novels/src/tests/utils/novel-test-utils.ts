@@ -3,7 +3,7 @@ import {
   GetAllNovelsResponseDto,
   NovelDto,
   NovelToCreateDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/novels/contracts';
 
 export class NovelTestUtils {
   constructor(private readonly app: NestTestApplication) {}

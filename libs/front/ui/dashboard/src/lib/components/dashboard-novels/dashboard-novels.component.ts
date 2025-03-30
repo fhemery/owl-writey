@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { NovelSummaryDto } from '@owl/shared/contracts';
+import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
 import { DashboardNovelCardComponent } from '../dashboard-novel-card/dashboard-novel-card.component';
 

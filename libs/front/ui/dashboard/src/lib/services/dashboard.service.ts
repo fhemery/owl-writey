@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+// TODO : Split into exercises and dashboards
 import {
   ExerciseSummaryDto,
   GetAllExercisesResponseDto,
+} from '@owl/shared/exercises/contracts';
+import {
   GetAllNovelsResponseDto,
   NovelSummaryDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/novels/contracts';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({

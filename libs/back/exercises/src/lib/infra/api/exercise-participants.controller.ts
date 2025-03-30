@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { UsersService } from '@owl/back/user';
-import { ExerciseParticipantRole } from '@owl/shared/contracts';
+import { ExerciseParticipantRole } from '@owl/shared/exercises/contracts';
 
 import { ExerciseException } from '../../domain/model/exceptions/exercise-exception';
 import { ExerciseRepository } from '../../domain/ports';

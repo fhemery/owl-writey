@@ -1,4 +1,4 @@
-import { NovelToCreateDto } from '@owl/shared/contracts';
+import { NovelToCreateDto } from '@owl/shared/novels/contracts';
 
 export class NovelTestBuilder {
   static Default(): NovelToCreateDto {

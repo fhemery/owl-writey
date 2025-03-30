@@ -19,7 +19,7 @@ import {
   GetAllNovelsResponseDto,
   NovelDto,
   NovelParticipantDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/novels/contracts';
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 import {

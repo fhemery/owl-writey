@@ -11,7 +11,7 @@ import {
   ExerciseToCreateDto,
   ExquisiteCorpseLinksDto,
   GetAllExercisesResponseDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { app } from '../module-test-init';
 

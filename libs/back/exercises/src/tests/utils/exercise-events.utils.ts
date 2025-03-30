@@ -1,5 +1,5 @@
 import { SseEventList } from '@owl/back/test-utils';
-import { NotificationEvent } from '@owl/shared/contracts';
+import { NotificationEvent } from '@owl/shared/common/contracts';
 
 export function expectNotificationReceived(
   connection: SseEventList,

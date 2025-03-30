@@ -11,7 +11,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseStatus, ExerciseSummaryDto } from '@owl/shared/contracts';
+import {
+  ExerciseStatus,
+  ExerciseSummaryDto,
+} from '@owl/shared/exercises/contracts';
 
 @Component({
   selector: 'owl-dashboard-exercise-card',

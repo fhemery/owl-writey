@@ -1,4 +1,4 @@
-import { NovelDto } from '@owl/shared/contracts';
+import { NovelDto } from '@owl/shared/novels/contracts';
 
 import {
   NovelChaptersViewModel,

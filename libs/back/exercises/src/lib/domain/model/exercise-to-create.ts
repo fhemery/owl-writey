@@ -1,4 +1,4 @@
-import { ExerciseType } from '@owl/shared/contracts';
+import { ExerciseType } from '@owl/shared/exercises/contracts';
 
 export class ExerciseToCreate {
   constructor(

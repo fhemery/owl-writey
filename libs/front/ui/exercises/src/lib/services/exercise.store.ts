@@ -10,11 +10,11 @@ import {
 import { FirebaseAuthService } from '@owl/front/auth';
 import { UserNotificationsService } from '@owl/front/infra';
 import { NotificationService } from '@owl/front/ui/common';
+import { NotificationEvent } from '@owl/shared/common/contracts';
 import {
   ExerciseDto,
   ExercisedUpdateEvent,
-  NotificationEvent,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 import { Subscription } from 'rxjs';
 
 type ExerciseState = {

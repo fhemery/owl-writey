@@ -1,4 +1,4 @@
-import { NovelRole } from '@owl/shared/contracts';
+import { NovelRole } from '@owl/shared/novels/contracts';
 
 import { NovelParticipant } from './novel-participant';
 

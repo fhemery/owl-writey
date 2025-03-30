@@ -1,0 +1,26 @@
+{
+  "name": "shared-common-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/common/contracts/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/common/contracts",
+        "main": "libs/shared/common/contracts/src/index.ts",
+        "tsConfig": "libs/shared/common/contracts/tsconfig.lib.json",
+        "assets": ["libs/shared/common/contracts/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/common/contracts/jest.config.ts"
+      }
+    }
+  }
+}

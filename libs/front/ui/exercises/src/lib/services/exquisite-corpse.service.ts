@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ExquisiteCorpseExerciseDto } from '@owl/shared/contracts';
+import { ExquisiteCorpseExerciseDto } from '@owl/shared/exercises/contracts';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()

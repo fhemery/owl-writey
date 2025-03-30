@@ -1,4 +1,4 @@
-import { NovelToCreateDto } from '@owl/shared/contracts';
+import { NovelToCreateDto } from '@owl/shared/novels/contracts';
 import { IsString, MinLength } from 'class-validator';
 
 export class NovelToCreateDtoImpl implements NovelToCreateDto {

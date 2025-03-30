@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SseEvent } from '@owl/shared/contracts';
+import { SseEvent } from '@owl/shared/common/contracts';
 import { Subject } from 'rxjs';
 
 class UserStream {

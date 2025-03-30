@@ -4,7 +4,7 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 
 import { TokenDetails, UserDetails } from '../model';
 import { AuthRepository } from '../repositories/auth.repository';

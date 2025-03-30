@@ -1,5 +1,5 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseStatus } from '@owl/shared/contracts';
+import { ExerciseStatus } from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';

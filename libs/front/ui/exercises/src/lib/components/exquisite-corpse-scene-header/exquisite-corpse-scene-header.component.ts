@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 import {
   ExquisiteCorpseConfigDto,
   ExquisiteCorpseSceneDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 @Component({
   selector: 'owl-exquisite-corpse-scene-header',

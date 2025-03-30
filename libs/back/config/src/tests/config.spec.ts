@@ -1,4 +1,4 @@
-import { ConfigurationDto } from '@owl/shared/contracts';
+import { ConfigurationDto } from '@owl/shared/common/contracts';
 
 import { app, moduleTestInit, url } from './module-test-init';
 
