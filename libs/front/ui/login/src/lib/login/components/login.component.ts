@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
     MatCard,
     MatCardContent,
     ReactiveFormsModule,
+    MatError,
     MatFormField,
     MatInput,
     MatLabel,
@@ -40,15 +41,15 @@ export class LoginComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(FirebaseAuthService);
 
-  checkoutForm = this.formBuilder.group({
-    login: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', Validators.required),
+  loginForm = this.formBuilder.group({
+    login: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [Validators.required]),
   });
 
   loginError = signal(false);
 
   async onSubmit(): Promise<void> {
-    const values = this.checkoutForm.value;
+    const values = this.loginForm.value;
     this.loginError.set(false);
     const isLoggedIn = await this.authService.login(
       values.login || '',

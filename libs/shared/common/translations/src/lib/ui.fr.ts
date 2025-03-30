@@ -57,9 +57,16 @@ export const uiFr = {
     form: {
       email: {
         label: 'Email',
+        error: {
+          required: "L'email est obligatoire",
+          email: "Le format de l'email est incorrect",
+        },
       },
       password: {
         label: 'Mot de passe',
+        error: {
+          required: 'Le mot de passe est obligatoire',
+        },
       },
       submitButton: {
         label: 'Connexion',

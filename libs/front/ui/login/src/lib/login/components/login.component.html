@@ -9,11 +9,18 @@
   <div class="login-form">
     <mat-card class="login-card">
       <mat-card-content>
-        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" id="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="loginForm">
           <div>
             <mat-form-field>
               <mat-label>{{ 'auth.form.email.label' | translate }}</mat-label>
               <input matInput formControlName="login" name="login" />
+              <mat-error>
+                @if (loginForm.get('login')?.hasError('required')) {
+                {{ 'auth.form.email.error.required' | translate }}
+                } @else if (loginForm.get('login')?.hasError('email')) {
+                {{ 'auth.form.email.error.email' | translate }}
+                }
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
@@ -28,6 +35,11 @@
                 name="password"
                 autocomplete="off"
               />
+              <mat-error>
+                @if (loginForm.get('password')?.hasError('required')) {
+                {{ 'auth.form.password.error.required' | translate }}
+                }
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
@@ -36,7 +48,7 @@
               color="primary"
               type="submit"
               id="loginBtn"
-              [disabled]="!checkoutForm.valid"
+              [disabled]="!loginForm.valid"
             >
               {{ 'auth.form.submitButton.label' | translate }}
             </button>
