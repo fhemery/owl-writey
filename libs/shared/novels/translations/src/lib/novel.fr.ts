@@ -26,6 +26,9 @@ export const novelFr = {
     },
     main: {
       notFound: 'Roman non trouvé',
+      header: {
+        edit: 'Modifier les informations générales',
+      },
     },
     delete: {
       header: 'Supprimer {{name}}',
