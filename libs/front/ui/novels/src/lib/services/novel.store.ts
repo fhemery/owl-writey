@@ -8,7 +8,11 @@ import {
 } from '@ngrx/signals';
 import { TranslateService } from '@ngx-translate/core';
 
-import { NovelGeneralInfoViewModel, NovelViewModel } from '../model';
+import {
+  NovelChaptersViewModel,
+  NovelGeneralInfoViewModel,
+  NovelViewModel,
+} from '../model';
 import { NovelService } from './novel.service';
 
 export interface NovelState {
@@ -63,6 +67,12 @@ export class NovelStore extends signalStore(
           index
         );
         await novelService.update(novel);
+      },
+      async updateChapter(chapter: NovelChaptersViewModel): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.updateChapter(chapter);
+        patchState(store, { novel });
+        return await novelService.update(novel);
       },
       async updateGeneralInfo(
         generalInfo: NovelGeneralInfoViewModel

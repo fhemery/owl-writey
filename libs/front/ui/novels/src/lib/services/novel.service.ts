@@ -53,7 +53,7 @@ export class NovelService {
         })
       );
       return response.status === 204;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

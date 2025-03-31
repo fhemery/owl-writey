@@ -1,13 +1,21 @@
 .chapters {
   display: grid;
   grid-template-columns: repeat(4, 2rem 1fr);
-  align-items: stretch;
-  justify-items: stretch;
-  align-content: stretch;
-  justify-content: stretch;
+  width: 100%;
+  row-gap: 0.5rem;
+
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 2rem 1fr);
+  }
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: repeat(2, 2rem 1fr);
+  }
 
   & > * {
     min-height: 25vh;
+    max-height: 25vh;
+    overflow: hidden;
   }
 
   &__new {
@@ -40,10 +48,11 @@
       color: transparent;
       cursor: pointer;
 
-      &:hover {
+      &:hover,
+      &:focus,
+      a:focus {
         color: var(--color-accent);
         border: 1px dashed var(--color-accent);
-        //background-color: var(--color-primary-light);
       }
     }
   }

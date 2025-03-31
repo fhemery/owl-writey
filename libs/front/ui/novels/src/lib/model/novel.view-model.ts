@@ -10,9 +10,23 @@ export class NovelViewModel {
   ) {}
 
   addChapterAt(name: string, outline = '', index?: number): void {
-    this.chapters.push(
-      new NovelChaptersViewModel(uuidV4(), name, outline || '')
-    );
+    if (index !== undefined) {
+      this.chapters.splice(
+        index,
+        0,
+        new NovelChaptersViewModel(uuidV4(), name, outline || '')
+      );
+    } else {
+      this.chapters.push(
+        new NovelChaptersViewModel(uuidV4(), name, outline || '')
+      );
+    }
+  }
+  updateChapter(chapter: NovelChaptersViewModel): void {
+    const index = this.chapters.findIndex((c) => c.id === chapter.id);
+    if (index !== -1) {
+      this.chapters.splice(index, 1, chapter);
+    }
   }
 }
 
