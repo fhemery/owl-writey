@@ -15,22 +15,28 @@ export class NovelOverviewChapterCardComponent {
 
   updateTitle($event: Event): void {
     const title = this.getValue($event);
+    const newChapter = new NovelChaptersViewModel(
+      this.chapter().id,
+      title,
+      this.chapter().outline,
+      this.chapter().scenes
+    );
     if (title !== this.chapter().title) {
-      this.updateChapter.emit({
-        ...this.chapter(),
-        title,
-      });
+      this.updateChapter.emit(newChapter);
     }
     ($event.target as HTMLInputElement).scrollLeft = 0;
   }
 
   updateOutline($event: Event): void {
     const outline = this.getValue($event);
+    const newChapter = new NovelChaptersViewModel(
+      this.chapter().id,
+      this.chapter().title,
+      outline,
+      this.chapter().scenes
+    );
     if (outline !== this.chapter().outline) {
-      this.updateChapter.emit({
-        ...this.chapter(),
-        outline,
-      });
+      this.updateChapter.emit(newChapter);
     }
     ($event.target as HTMLInputElement).scrollLeft = 0;
     ($event.target as HTMLInputElement).scrollTop = 0;

@@ -1,0 +1,22 @@
+@if(chapter(); as chapter) {
+<div class="chapter-page">
+  <h2 class="chapter-page__title">
+    {{ chapter.title }}
+  </h2>
+  <div class="chapter-page__scenes">
+    <owl-novel-corkboard
+      [items]="chapter.scenes"
+      [addNewLabel]="'novel.chapter.newScene' | translate"
+      [itemTemplate]="sceneTemplate"
+      (addNew)="addScene($event)"
+    ></owl-novel-corkboard>
+
+    <ng-template #sceneTemplate let-item let-index="index">
+      <owl-novel-chapter-scene
+        [scene]="convertToScene(item)"
+        (updateScene)="updateScene($event)"
+      ></owl-novel-chapter-scene>
+    </ng-template>
+  </div>
+</div>
+}

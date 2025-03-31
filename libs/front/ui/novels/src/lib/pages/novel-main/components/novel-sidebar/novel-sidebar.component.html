@@ -1,1 +1,18 @@
-<p>novel-sidebar works!</p>
+<div class="novel-sidebar">
+  <div class="novel-sidebar__level level--0">
+    <mat-icon color="accent">folder</mat-icon>
+    {{ 'novel.sidebar.title' | translate }}
+  </div>
+  @for(chapter of novel().chapters; track chapter.id; let index= $index) {
+  <div class="novel-sidebar__level level--1">
+    <div class="novel-sidebar__placeholder"></div>
+    <mat-icon color="accent">folder</mat-icon>
+    <a
+      class="novel-sidebar__item-name"
+      [routerLink]="['/novels', novel().id, 'chapters', chapter.id]"
+      >{{ chapter.title }}</a
+    >
+  </div>
+
+  }
+</div>

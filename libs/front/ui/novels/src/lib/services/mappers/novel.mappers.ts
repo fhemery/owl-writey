@@ -4,6 +4,8 @@ import {
   NovelChaptersViewModel,
   NovelGeneralInfoViewModel,
   NovelParticipantViewModel,
+  NovelSceneGeneralInfoViewModel,
+  NovelSceneViewModel,
   NovelViewModel,
 } from '../../model';
 
@@ -22,7 +24,22 @@ export const novelMappers = {
       ),
       dto.chapters.map(
         (chapter) =>
-          new NovelChaptersViewModel(chapter.id, chapter.title, chapter.outline)
+          new NovelChaptersViewModel(
+            chapter.id,
+            chapter.title,
+            chapter.outline,
+            chapter.scenes.map(
+              (scene) =>
+                new NovelSceneViewModel(
+                  scene.id,
+                  new NovelSceneGeneralInfoViewModel(
+                    scene.title,
+                    scene.outline
+                  ),
+                  scene.content
+                )
+            )
+          )
       )
     );
   },
@@ -40,7 +57,12 @@ export const novelMappers = {
         id: chapter.id,
         title: chapter.title,
         outline: chapter.outline,
-        scenes: [],
+        scenes: chapter.scenes.map((scene) => ({
+          id: scene.id,
+          title: scene.generalInfo.title,
+          outline: scene.generalInfo.outline,
+          content: scene.text,
+        })),
       })),
     };
   },

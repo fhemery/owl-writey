@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   NovelChaptersViewModel,
   NovelGeneralInfoViewModel,
+  NovelSceneViewModel,
   NovelViewModel,
 } from '../model';
 import { NovelService } from './novel.service';
@@ -68,9 +69,28 @@ export class NovelStore extends signalStore(
         );
         await novelService.update(novel);
       },
+      async addSceneAt(chapterId: string, index?: number): Promise<void> {
+        const novel = this.getNovel();
+        novel.addSceneAt(
+          chapterId,
+          translateService.instant('novel.defaults.newScene.label'),
+          '',
+          index
+        );
+        await novelService.update(novel);
+      },
       async updateChapter(chapter: NovelChaptersViewModel): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateChapter(chapter);
+        patchState(store, { novel });
+        return await novelService.update(novel);
+      },
+      async updateScene(
+        chapterId: string,
+        scene: NovelSceneViewModel
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.updateScene(chapterId, scene);
         patchState(store, { novel });
         return await novelService.update(novel);
       },

@@ -7,6 +7,12 @@ export const novelFr = {
       newChapter: {
         label: 'Nouveau chapitre',
       },
+      newScene: {
+        label: 'Nouvelle scène',
+      },
+    },
+    sidebar: {
+      title: 'Table des matières',
     },
     overview: {
       newChapter: 'Ajouter un chapitre',

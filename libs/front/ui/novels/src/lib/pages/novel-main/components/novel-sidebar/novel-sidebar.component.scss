@@ -1,0 +1,43 @@
+.novel-sidebar {
+  & > * {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    width: 100%;
+  }
+
+  &__level {
+    display: flex;
+  }
+
+  &__item-name {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex: 1 1 auto;
+
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  mat-icon {
+    width: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .level--0 {
+    font-weight: bold;
+    color: var(--color-accent);
+  }
+
+  .level--1 {
+    .novel-sidebar__placeholder {
+      height: 0px;
+      border-top: 1px dashed var(--color-accent);
+      width: 0.5rem;
+      margin-left: 2px;
+    }
+  }
+}
