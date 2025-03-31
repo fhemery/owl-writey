@@ -6,6 +6,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
+import { TranslateService } from '@ngx-translate/core';
 
 import { NovelGeneralInfoViewModel, NovelViewModel } from '../model';
 import { NovelService } from './novel.service';
@@ -27,35 +28,56 @@ const initialState: NovelState = {
 })
 export class NovelStore extends signalStore(
   withState(initialState),
-  withMethods((store, novelService = inject(NovelService)) => ({
-    async loadNovel(id: string): Promise<void> {
-      try {
-        const novel = await novelService.getNovel(id);
-        patchState(store, { novel, isLoading: false, error: null });
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : 'Failed to load novel';
-        patchState(store, { isLoading: false, error: errorMessage });
-      }
-    },
-    async deleteNovel(): Promise<boolean> {
-      const novel = store.novel();
-      if (!novel) {
-        return false;
-      }
-      return await novelService.delete(novel.id);
-    },
-    async updateGeneralInfo(
-      generalInfo: NovelGeneralInfoViewModel
-    ): Promise<boolean> {
-      const novel = store.novel();
-      if (!novel) {
-        return false;
-      }
-      const newNovel = { ...novel, generalInfo };
-      patchState(store, { novel: newNovel });
-      return await novelService.update(newNovel);
-    },
-  })),
+  withMethods(
+    (
+      store,
+      novelService = inject(NovelService),
+      translateService = inject(TranslateService)
+    ) => ({
+      getNovel(): NovelViewModel {
+        const novel = store.novel();
+        if (!novel) {
+          throw new Error('Novel not found');
+        }
+        return novel;
+      },
+      async loadNovel(id: string): Promise<void> {
+        try {
+          const novel = await novelService.getNovel(id);
+          patchState(store, { novel, isLoading: false, error: null });
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : 'Failed to load novel';
+          patchState(store, { isLoading: false, error: errorMessage });
+        }
+      },
+      async deleteNovel(): Promise<boolean> {
+        const novel = this.getNovel();
+        return await novelService.delete(novel.id);
+      },
+      async addChapterAt(index?: number): Promise<void> {
+        const novel = this.getNovel();
+        novel.addChapterAt(
+          translateService.instant('novel.defaults.newChapter.label'),
+          '',
+          index
+        );
+        await novelService.update(novel);
+      },
+      async updateGeneralInfo(
+        generalInfo: NovelGeneralInfoViewModel
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        const newNovel = new NovelViewModel(
+          novel.id,
+          generalInfo,
+          novel.participants,
+          novel.chapters
+        );
+        patchState(store, { novel: newNovel });
+        return await novelService.update(newNovel);
+      },
+    })
+  ),
   withHooks({})
 ) {}

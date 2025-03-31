@@ -1,0 +1,14 @@
+.novel-overview {
+  height: 100%;
+  width: 100%;
+
+  padding: 0.5rem;
+
+  &__no-chapters {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

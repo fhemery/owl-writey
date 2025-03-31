@@ -3,6 +3,18 @@ export const novelFr = {
     createPage: {
       title: 'Nouveau roman',
     },
+    defaults: {
+      newChapter: {
+        label: 'Nouveau chapitre',
+      },
+    },
+    overview: {
+      newChapter: 'Ajouter un chapitre',
+      noChapters: {
+        label: "Aucun chapitre pour le moment. L'histoire commence ici :",
+        button: 'Ajouter un chapitre',
+      },
+    },
     form: {
       title: {
         label: 'Titre du roman',

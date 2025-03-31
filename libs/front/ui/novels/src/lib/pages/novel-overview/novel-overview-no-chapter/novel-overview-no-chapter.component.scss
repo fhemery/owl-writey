@@ -1,0 +1,10 @@
+.novel-overview-no-chapter {
+  border: 1px solid var(--color-accent);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+  }
+}

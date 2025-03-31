@@ -1,4 +1,5 @@
 import { NovelRole } from '@owl/shared/novels/contracts';
+import { v4 as uuidV4 } from 'uuid';
 
 export class NovelViewModel {
   constructor(
@@ -7,6 +8,12 @@ export class NovelViewModel {
     readonly participants: NovelParticipantViewModel[],
     readonly chapters: NovelChaptersViewModel[]
   ) {}
+
+  addChapterAt(name: string, outline = '', index?: number): void {
+    this.chapters.push(
+      new NovelChaptersViewModel(uuidV4(), name, outline || '')
+    );
+  }
 }
 
 export class NovelGeneralInfoViewModel {

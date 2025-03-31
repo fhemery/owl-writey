@@ -1,0 +1,29 @@
+<div class="chapters">
+  @for(chapter of novel().chapters; track chapter.id; let index= $index) {
+  <div class="chapter__new">
+    <a
+      (click)="addChapterAt(index)"
+      (keyup.enter)="addChapterAt(index)"
+      tabindex="0"
+      [title]="'novel.overview.newChapter' | translate"
+      ><mat-icon>add</mat-icon></a
+    >
+  </div>
+  <div class="chapter">
+    <owl-novel-overview-chapter-card
+      [chapter]="chapter"
+    ></owl-novel-overview-chapter-card>
+  </div>
+
+  }
+  <div class="empty"></div>
+  <div class="chapters__new">
+    <a
+      (click)="addChapterAt(novel().chapters.length)"
+      (keyup.enter)="addChapterAt(novel().chapters.length)"
+      tabindex="0"
+      [title]="'novel.overview.newChapter' | translate"
+      ><mat-icon>add</mat-icon></a
+    >
+  </div>
+</div>

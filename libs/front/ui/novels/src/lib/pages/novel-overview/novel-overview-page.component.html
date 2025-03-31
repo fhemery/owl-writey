@@ -1,0 +1,18 @@
+@if(novel(); as novel) {
+<div class="novel-overview">
+  @if(novel.chapters.length > 0) {
+  <div class="novel-overview__chapter">
+    <owl-novel-overview-chapters
+      [novel]="novel"
+      (addAt)="addChapterAt($event)"
+    ></owl-novel-overview-chapters>
+  </div>
+  } @else {
+  <div class="novel-overview__no-chapters">
+    <owl-novel-overview-no-chapter
+      (add)="addChapterAt()"
+    ></owl-novel-overview-no-chapter>
+  </div>
+  }
+</div>
+}
