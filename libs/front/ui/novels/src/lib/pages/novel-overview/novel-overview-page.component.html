@@ -2,11 +2,19 @@
 <div class="novel-overview">
   @if(novel.chapters.length > 0) {
   <div class="novel-overview__chapter">
-    <owl-novel-overview-chapters
-      [novel]="novel"
-      (addAt)="addChapterAt($event)"
-      (editChapter)="editChapter($event)"
-    ></owl-novel-overview-chapters>
+    <owl-novel-corkboard
+      [items]="novel.chapters"
+      [addNewLabel]="'novel.defaults.newChapter.label' | translate"
+      [itemTemplate]="chapterTemplate"
+      (addNew)="addChapterAt($event)"
+    ></owl-novel-corkboard>
+
+    <ng-template #chapterTemplate let-item let-index="index">
+      <owl-novel-overview-chapter-card
+        [chapter]="convertToChapter(item)"
+        (updateChapter)="updateChapter($event)"
+      ></owl-novel-overview-chapter-card>
+    </ng-template>
   </div>
   } @else {
   <div class="novel-overview__no-chapters">

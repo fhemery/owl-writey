@@ -35,6 +35,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0.25rem;
+    border-radius: 0.5rem;
 
     &:focus {
       text-overflow: clip;
