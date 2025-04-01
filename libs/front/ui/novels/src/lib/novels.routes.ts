@@ -5,6 +5,7 @@ import { NovelCreatePageComponent } from './pages/novel-create/novel-create-page
 import { NovelEditComponent } from './pages/novel-edit/novel-edit.component';
 import { NovelMainPageComponent } from './pages/novel-main/novel-main-page.component';
 import { NovelOverviewPageComponent } from './pages/novel-overview/novel-overview-page.component';
+import { NovelScenePageComponent } from './pages/novel-scene/novel-scene-page.component';
 
 export const novelsRoutes: Route[] = [
   {
@@ -15,6 +16,10 @@ export const novelsRoutes: Route[] = [
     path: ':id',
     component: NovelMainPageComponent,
     children: [
+      {
+        path: 'chapters/:chapterId/scenes/:sceneId',
+        component: NovelScenePageComponent,
+      },
       {
         path: 'chapters/:chapterId',
         component: NovelChapterPageComponent,
