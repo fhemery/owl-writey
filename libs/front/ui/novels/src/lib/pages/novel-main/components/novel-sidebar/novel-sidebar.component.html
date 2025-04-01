@@ -1,7 +1,11 @@
 <div class="novel-sidebar">
   <div class="novel-sidebar__level level--0">
     <mat-icon color="accent">folder</mat-icon>
-    {{ 'novel.sidebar.title' | translate }}
+    <a
+      class="novel-sidebar__item-name"
+      [routerLink]="['/novels', novel().id]"
+      >{{ 'novel.sidebar.title' | translate }}</a
+    >
   </div>
   @for(chapter of novel().chapters; track chapter.id; let index= $index) {
   <div class="novel-sidebar__level level--1">
