@@ -10,6 +10,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
 import { ContentChange, QuillEditorComponent } from 'ngx-quill';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'owl-text-editor',
@@ -21,6 +22,7 @@ export class TextEditorComponent implements OnInit {
   currentContent = input<string>('');
   placeholder = input<string>('');
   width = input<string>('800px');
+  debounceTime = input<number>(1000);
   nbLines = input<number>(10);
 
   update = output<string>();
@@ -35,6 +37,8 @@ export class TextEditorComponent implements OnInit {
   height = computed<string>(() => `${this.nbLines() * 1.6}rem`);
   nbWords = computed(() => countWordsFromHtml(this.currentText()));
 
+  readonly #debouncedText$ = new Subject<string>();
+
   isWordLimitIncorrect = computed(() => {
     const nbWords = this.nbWords();
     const minWords = this.minWords();
@@ -47,12 +51,18 @@ export class TextEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.textInput = this.currentContent();
+
+    this.#debouncedText$
+      .pipe(debounceTime(this.debounceTime()))
+      .subscribe((text) => {
+        this.update.emit(text);
+        this.isValid.emit(!this.isWordLimitIncorrect());
+      });
   }
 
   updateContent($event: ContentChange): void {
     const text = $event.html?.replace(/&nbsp;/g, ' ').trim() || '';
     this.currentText.set(text);
-    this.update.emit(text);
-    this.isValid.emit(!this.isWordLimitIncorrect());
+    this.#debouncedText$.next(text);
   }
 }
