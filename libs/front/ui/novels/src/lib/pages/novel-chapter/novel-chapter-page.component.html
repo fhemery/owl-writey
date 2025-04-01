@@ -2,9 +2,8 @@
 <div class="chapter-page">
   <h2
     class="chapter-page__title"
-    contenteditable="true"
-    (blur)="updateChapterTitle($event)"
-    (keydown.enter)="doBlur($event)"
+    owlContentEditable
+    (contentChange)="updateChapterTitle($event)"
   >
     {{ chapter.title }}
   </h2>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContenteditableDirective } from '@owl/front/ui/common';
 
 import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
@@ -14,6 +15,7 @@ import { NovelChapterSceneComponent } from './components/novel-chapter-scene/nov
     NovelCorkboardComponent,
     TranslateModule,
     NovelChapterSceneComponent,
+    ContenteditableDirective,
   ],
   templateUrl: './novel-chapter-page.component.html',
   styleUrl: './novel-chapter-page.component.scss',
@@ -38,8 +40,7 @@ export class NovelChapterPageComponent {
     await this.#store.updateScene(this.chapterId(), $event);
   }
 
-  async updateChapterTitle($event: FocusEvent): Promise<void> {
-    const title = ($event.target as HTMLInputElement).innerHTML;
+  async updateChapterTitle(title: string): Promise<void> {
     const currentChapter = this.chapter();
     if (!currentChapter || currentChapter.title === title) {
       return;
