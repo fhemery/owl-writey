@@ -1,5 +1,18 @@
+:host {
+  display: block;
+  height: 100%;
+}
 .scene-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   &__title {
     text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__text {
+    flex: 1;
+    height: 100%;
   }
 }

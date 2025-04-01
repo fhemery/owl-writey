@@ -23,7 +23,7 @@ export class TextEditorComponent implements OnInit {
   placeholder = input<string>('');
   width = input<string>('800px');
   debounceTime = input<number>(1000);
-  nbLines = input<number>(10);
+  nbLines = input<number | 'max'>(10);
 
   update = output<string>();
   isValid = output<boolean>();
@@ -34,7 +34,13 @@ export class TextEditorComponent implements OnInit {
 
   textInput = this.currentContent();
   currentText = signal(this.currentContent());
-  height = computed<string>(() => `${this.nbLines() * 1.6}rem`);
+  height = computed<string>(() => {
+    const lines = this.nbLines();
+    if (lines === 'max') {
+      return '100%';
+    }
+    return `${lines * 1.6}rem`;
+  });
   nbWords = computed(() => countWordsFromHtml(this.currentText()));
 
   readonly #debouncedText$ = new Subject<string>();
