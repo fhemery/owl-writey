@@ -1,5 +1,8 @@
 @if(novel(); as novel) {
 <div class="novel-overview">
+  <h2 class="novel-overview__title">
+    {{ novel.generalInfo.title }}
+  </h2>
   @if(novel.chapters.length > 0) {
   <div class="novel-overview__chapter">
     <owl-novel-corkboard

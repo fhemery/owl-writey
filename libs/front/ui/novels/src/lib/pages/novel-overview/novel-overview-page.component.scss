@@ -4,6 +4,10 @@
 
   padding: 0.5rem;
 
+  &__title {
+    text-align: center;
+  }
+
   &__no-chapters {
     height: 100%;
     display: flex;
