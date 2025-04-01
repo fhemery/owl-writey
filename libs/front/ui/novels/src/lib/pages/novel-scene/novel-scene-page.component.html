@@ -1,1 +1,12 @@
-<p>novel-scene-page works!</p>
+@if(scene(); as scene) {
+<div class="scene-page">
+  <h2 class="scene-page__title">{{ scene.generalInfo.title }}</h2>
+  <div class="scene-page__text">
+    <owl-text-editor
+      [currentContent]="scene.text"
+      [debounceTime]="5000"
+      (update)="updateContent($event)"
+    ></owl-text-editor>
+  </div>
+</div>
+}
