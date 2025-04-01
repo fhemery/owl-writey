@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
-import { TextEditorComponent } from '@owl/front/ui/common';
+import {
+  ContenteditableDirective,
+  TextEditorComponent,
+} from '@owl/front/ui/common';
 
 import {
   NovelSceneGeneralInfoViewModel,
@@ -10,7 +13,7 @@ import { NovelStore } from '../../services/novel.store';
 
 @Component({
   selector: 'owl-novel-scene-page',
-  imports: [CommonModule, TextEditorComponent],
+  imports: [CommonModule, TextEditorComponent, ContenteditableDirective],
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })
@@ -39,8 +42,7 @@ export class NovelScenePageComponent {
     await this.#novelStore.updateScene(this.chapterId(), scene);
   }
 
-  async updateTitle($event: FocusEvent): Promise<void> {
-    const title = ($event.target as HTMLInputElement).innerHTML;
+  async updateTitle(title: string): Promise<void> {
     const currentScene = this.scene();
     if (!currentScene || currentScene.generalInfo.title === title) {
       return;
@@ -57,9 +59,5 @@ export class NovelScenePageComponent {
         currentScene.text
       )
     );
-  }
-
-  doBlur($event: Event): void {
-    ($event.target as HTMLInputElement).blur();
   }
 }

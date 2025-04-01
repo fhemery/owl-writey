@@ -55,8 +55,4 @@ export class NovelChapterPageComponent {
       )
     );
   }
-
-  doBlur($event: Event): void {
-    ($event.target as HTMLInputElement).blur();
-  }
 }

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
+import { ContenteditableDirective } from '@owl/front/ui/common';
 
 import { NovelChapterViewModel } from '../../../model';
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
-  imports: [CommonModule],
+  imports: [CommonModule, ContenteditableDirective],
   templateUrl: './novel-overview-chapter-card.component.html',
   styleUrl: './novel-overview-chapter-card.component.scss',
 })
@@ -13,8 +14,7 @@ export class NovelOverviewChapterCardComponent {
   chapter = input.required<NovelChapterViewModel>();
   updateChapter = output<NovelChapterViewModel>();
 
-  updateTitle($event: Event): void {
-    const title = this.getValue($event);
+  async updateTitle(title: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
       this.chapter().id,
       title,
@@ -24,11 +24,9 @@ export class NovelOverviewChapterCardComponent {
     if (title !== this.chapter().title) {
       this.updateChapter.emit(newChapter);
     }
-    ($event.target as HTMLInputElement).scrollLeft = 0;
   }
 
-  updateOutline($event: Event): void {
-    const outline = this.getValue($event);
+  async updateOutline(outline: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
       this.chapter().id,
       this.chapter().title,
@@ -38,11 +36,5 @@ export class NovelOverviewChapterCardComponent {
     if (outline !== this.chapter().outline) {
       this.updateChapter.emit(newChapter);
     }
-    ($event.target as HTMLInputElement).scrollLeft = 0;
-    ($event.target as HTMLInputElement).scrollTop = 0;
-  }
-
-  private getValue($event: Event): string {
-    return (($event as InputEvent).target as HTMLInputElement).innerHTML;
   }
 }

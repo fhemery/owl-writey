@@ -2,15 +2,16 @@
 <div class="chapter-scene">
   <div
     class="chapter-scene__title"
-    contenteditable="true"
-    (blur)="updateTitle($event)"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
   >
     {{ scene.generalInfo.title }}
   </div>
   <div
     class="chapter-scene__outline"
-    contenteditable="true"
-    (blur)="updateOutline($event)"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateOutline($event)"
     [innerHTML]="scene.generalInfo.outline"
   >
     {{ scene.generalInfo.outline }}

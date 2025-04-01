@@ -1,15 +1,16 @@
 <div class="chapter-card">
   <div
     class="chapter-card__title"
-    contenteditable="true"
-    (blur)="updateTitle($event)"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
   >
     {{ chapter().title }}
   </div>
   <div
     class="chapter-card__content"
-    contenteditable="true"
-    (blur)="updateOutline($event)"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateOutline($event)"
     [innerHTML]="chapter().outline"
   ></div>
 </div>

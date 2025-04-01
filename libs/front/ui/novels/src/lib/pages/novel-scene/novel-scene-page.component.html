@@ -2,9 +2,8 @@
 <div class="scene-page">
   <h2
     class="scene-page__title"
-    contenteditable="true"
-    (blur)="updateTitle($event)"
-    (keydown.enter)="doBlur($event)"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
   >
     {{ scene.generalInfo.title }}
   </h2>
