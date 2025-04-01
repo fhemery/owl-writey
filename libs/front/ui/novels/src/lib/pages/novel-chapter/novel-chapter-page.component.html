@@ -1,6 +1,11 @@
 @if(chapter(); as chapter) {
 <div class="chapter-page">
-  <h2 class="chapter-page__title">
+  <h2
+    class="chapter-page__title"
+    contenteditable="true"
+    (blur)="updateChapterTitle($event)"
+    (keydown.enter)="doBlur($event)"
+  >
     {{ chapter.title }}
   </h2>
   <div class="chapter-page__scenes">

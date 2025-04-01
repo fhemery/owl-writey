@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 
-import { NovelChaptersViewModel } from '../../../model';
+import { NovelChapterViewModel } from '../../../model';
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
@@ -10,12 +10,12 @@ import { NovelChaptersViewModel } from '../../../model';
   styleUrl: './novel-overview-chapter-card.component.scss',
 })
 export class NovelOverviewChapterCardComponent {
-  chapter = input.required<NovelChaptersViewModel>();
-  updateChapter = output<NovelChaptersViewModel>();
+  chapter = input.required<NovelChapterViewModel>();
+  updateChapter = output<NovelChapterViewModel>();
 
   updateTitle($event: Event): void {
     const title = this.getValue($event);
-    const newChapter = new NovelChaptersViewModel(
+    const newChapter = new NovelChapterViewModel(
       this.chapter().id,
       title,
       this.chapter().outline,
@@ -29,7 +29,7 @@ export class NovelOverviewChapterCardComponent {
 
   updateOutline($event: Event): void {
     const outline = this.getValue($event);
-    const newChapter = new NovelChaptersViewModel(
+    const newChapter = new NovelChapterViewModel(
       this.chapter().id,
       this.chapter().title,
       outline,

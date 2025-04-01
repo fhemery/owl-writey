@@ -6,7 +6,7 @@ export class NovelViewModel {
     readonly id: string,
     readonly generalInfo: NovelGeneralInfoViewModel,
     readonly participants: NovelParticipantViewModel[],
-    readonly chapters: NovelChaptersViewModel[]
+    readonly chapters: NovelChapterViewModel[]
   ) {}
 
   addChapterAt(name: string, outline = '', index?: number): void {
@@ -14,15 +14,15 @@ export class NovelViewModel {
       this.chapters.splice(
         index,
         0,
-        new NovelChaptersViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(uuidV4(), name, outline || '')
       );
     } else {
       this.chapters.push(
-        new NovelChaptersViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(uuidV4(), name, outline || '')
       );
     }
   }
-  updateChapter(chapter: NovelChaptersViewModel): void {
+  updateChapter(chapter: NovelChapterViewModel): void {
     const index = this.chapters.findIndex((c) => c.id === chapter.id);
     if (index !== -1) {
       this.chapters.splice(index, 1, chapter);
@@ -61,7 +61,7 @@ export class NovelParticipantViewModel {
   ) {}
 }
 
-export class NovelChaptersViewModel {
+export class NovelChapterViewModel {
   constructor(
     readonly id: string,
     readonly title: string,

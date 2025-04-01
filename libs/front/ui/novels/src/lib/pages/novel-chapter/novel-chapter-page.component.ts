@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NovelSceneViewModel } from '../../model';
+import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelChapterSceneComponent } from './components/novel-chapter-scene/novel-chapter-scene.component';
@@ -36,5 +36,26 @@ export class NovelChapterPageComponent {
 
   async updateScene($event: NovelSceneViewModel): Promise<void> {
     await this.#store.updateScene(this.chapterId(), $event);
+  }
+
+  async updateChapterTitle($event: FocusEvent): Promise<void> {
+    const title = ($event.target as HTMLInputElement).innerHTML;
+    const currentChapter = this.chapter();
+    if (!currentChapter || currentChapter.title === title) {
+      return;
+    }
+
+    await this.#store.updateChapter(
+      new NovelChapterViewModel(
+        currentChapter.id,
+        title,
+        currentChapter.outline,
+        currentChapter.scenes
+      )
+    );
+  }
+
+  doBlur($event: Event): void {
+    ($event.target as HTMLInputElement).blur();
   }
 }

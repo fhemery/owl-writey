@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NovelChaptersViewModel } from '../../model';
+import { NovelChapterViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelOverviewChapterCardComponent } from './novel-overview-chapter-card/novel-overview-chapter-card.component';
@@ -28,11 +28,11 @@ export class NovelOverviewPageComponent {
     await this.#store.addChapterAt(index);
   }
 
-  async updateChapter(chapter: NovelChaptersViewModel): Promise<void> {
+  async updateChapter(chapter: NovelChapterViewModel): Promise<void> {
     await this.#store.updateChapter(chapter);
   }
 
-  convertToChapter(chapter: NovelChaptersViewModel): NovelChaptersViewModel {
+  convertToChapter(chapter: NovelChapterViewModel): NovelChapterViewModel {
     return chapter;
   }
 }

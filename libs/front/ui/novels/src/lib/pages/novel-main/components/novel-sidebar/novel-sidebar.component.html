@@ -7,7 +7,7 @@
       >{{ 'novel.sidebar.title' | translate }}</a
     >
   </div>
-  @for(chapter of novel().chapters; track chapter.id; let index= $index) {
+  @for(chapter of novel().chapters; track chapter.id) {
   <div class="novel-sidebar__level level--1">
     <div class="novel-sidebar__placeholder"></div>
     <mat-icon color="accent">folder</mat-icon>
@@ -18,7 +18,7 @@
     >
   </div>
 
-  @for(scene of chapter.scenes; track scene.id; let index= $index) {
+  @for(scene of chapter.scenes; track scene.id) {
   <div class="novel-sidebar__level level--2">
     <div class="novel-sidebar__placeholder"></div>
     <mat-icon color="accent">description</mat-icon>

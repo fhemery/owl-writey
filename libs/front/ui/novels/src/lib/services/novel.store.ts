@@ -9,7 +9,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 
 import {
-  NovelChaptersViewModel,
+  NovelChapterViewModel,
   NovelGeneralInfoViewModel,
   NovelSceneViewModel,
   NovelViewModel,
@@ -79,7 +79,7 @@ export class NovelStore extends signalStore(
         );
         await novelService.update(novel);
       },
-      async updateChapter(chapter: NovelChaptersViewModel): Promise<boolean> {
+      async updateChapter(chapter: NovelChapterViewModel): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateChapter(chapter);
         patchState(store, { novel });

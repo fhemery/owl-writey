@@ -1,6 +1,13 @@
 @if(scene(); as scene) {
 <div class="scene-page">
-  <h2 class="scene-page__title">{{ scene.generalInfo.title }}</h2>
+  <h2
+    class="scene-page__title"
+    contenteditable="true"
+    (blur)="updateTitle($event)"
+    (keydown.enter)="doBlur($event)"
+  >
+    {{ scene.generalInfo.title }}
+  </h2>
   <div class="scene-page__text">
     <owl-text-editor
       [currentContent]="scene.text"

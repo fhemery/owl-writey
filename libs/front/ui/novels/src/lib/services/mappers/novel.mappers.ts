@@ -1,7 +1,7 @@
 import { NovelDto } from '@owl/shared/novels/contracts';
 
 import {
-  NovelChaptersViewModel,
+  NovelChapterViewModel,
   NovelGeneralInfoViewModel,
   NovelParticipantViewModel,
   NovelSceneGeneralInfoViewModel,
@@ -24,7 +24,7 @@ export const novelMappers = {
       ),
       dto.chapters.map(
         (chapter) =>
-          new NovelChaptersViewModel(
+          new NovelChapterViewModel(
             chapter.id,
             chapter.title,
             chapter.outline,
