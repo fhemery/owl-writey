@@ -17,7 +17,7 @@ const specs = useBdd
   ? defineBddConfig({
       features: ['e2e/features/**/*.feature'],
       steps: ['e2e/steps/**/*.ts', 'e2e/support/**/*.ts'],
-      tags: '@Automated',
+      tags: '@Automated and @P0 or @P1 or @P2 or @P3',
     })
   : './e2e/specs';
 

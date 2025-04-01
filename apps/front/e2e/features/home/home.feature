@@ -1,4 +1,4 @@
-Feature: Playwright site
+Feature: Home Feature
 
     @Automated @P0
     Scenario: Display home page
@@ -10,6 +10,7 @@ Feature: Playwright site
         When I go to home page
         Then Home page should be displayed
 
+    
     Scenario: Check other link
         When I go to home page
         Then One step that is not defined
