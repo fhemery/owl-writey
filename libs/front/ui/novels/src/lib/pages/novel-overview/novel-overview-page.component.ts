@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import {
+  ConfirmDialogService,
+  NotificationService,
+} from '@owl/front/ui/common';
 
 import { NovelChapterViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
@@ -22,6 +26,8 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
 })
 export class NovelOverviewPageComponent {
   readonly #store = inject(NovelStore);
+  readonly confirmDialogService = inject(ConfirmDialogService);
+  readonly notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
 
   async addChapterAt(index?: number): Promise<void> {
@@ -34,5 +40,24 @@ export class NovelOverviewPageComponent {
 
   convertToChapter(chapter: NovelChapterViewModel): NovelChapterViewModel {
     return chapter;
+  }
+
+  async deleteChapter(chapter: NovelChapterViewModel): Promise<void> {
+    const confirmed = await this.confirmDialogService.openConfirmDialog(
+      'novel.chapter.deleteConfirm.title',
+      'novel.chapter.deleteConfirm.text'
+    );
+    if (confirmed) {
+      const isSuccess = await this.#store.deleteChapter(chapter);
+      if (!isSuccess) {
+        this.notificationService.showError(
+          'novel.chapter.deleteConfirm.result.error'
+        );
+      } else {
+        this.notificationService.showInfo(
+          'novel.chapter.deleteConfirm.result.ok'
+        );
+      }
+    }
   }
 }

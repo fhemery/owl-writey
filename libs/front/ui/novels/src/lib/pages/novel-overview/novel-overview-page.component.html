@@ -16,6 +16,7 @@
       <owl-novel-overview-chapter-card
         [chapter]="convertToChapter(item)"
         (updateChapter)="updateChapter($event)"
+        (deleteChapter)="deleteChapter(item)"
       ></owl-novel-overview-chapter-card>
     </ng-template>
   </div>

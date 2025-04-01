@@ -28,6 +28,13 @@ export class NovelViewModel {
       this.chapters.splice(index, 1, chapter);
     }
   }
+  deleteChapter(chapter: NovelChapterViewModel): void {
+    const index = this.chapters.findIndex((c) => c.id === chapter.id);
+    if (index !== -1) {
+      this.chapters.splice(index, 1);
+      console.log('Did splice');
+    }
+  }
   addSceneAt(
     chapterId: string,
     title: string,
@@ -46,6 +53,14 @@ export class NovelViewModel {
       throw new Error('Chapter not found');
     }
     chapter.updateScene(scene);
+  }
+  copy(): NovelViewModel {
+    return new NovelViewModel(
+      this.id,
+      this.generalInfo,
+      this.participants,
+      this.chapters
+    );
   }
 }
 

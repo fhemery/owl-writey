@@ -14,8 +14,24 @@ export const novelFr = {
     sidebar: {
       title: 'Table des matières',
     },
+    chapter: {
+      deleteConfirm: {
+        title: 'Supprimer le chapitre',
+        text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes vous sûr(e) de vouloir le supprimer ?",
+
+        result: {
+          ok: 'Le chapitre a bien été supprimé',
+          error: 'Une erreur est survenue lors de la suppression du chapitre',
+        },
+      },
+    },
     overview: {
       newChapter: 'Ajouter un chapitre',
+      chapter: {
+        delete: {
+          label: 'Supprimer',
+        },
+      },
       noChapters: {
         label: "Aucun chapitre pour le moment. L'histoire commence ici :",
         button: 'Ajouter un chapitre',

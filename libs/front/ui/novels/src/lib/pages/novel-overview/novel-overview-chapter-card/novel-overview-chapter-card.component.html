@@ -13,4 +13,17 @@
     (contentChange)="updateOutline($event)"
     [innerHTML]="chapter().outline"
   ></div>
+  <div class="chapter-card__footer">
+    <div class="chapter-card__footer--placeholder"></div>
+    <a
+      class="chapter-card__action"
+      (click)="onDeleteChapter()"
+      (keyup.enter)="onDeleteChapter()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.delete.label' | translate"
+    >
+      <mat-icon class="action--delete">delete</mat-icon>
+    </a>
+  </div>
 </div>

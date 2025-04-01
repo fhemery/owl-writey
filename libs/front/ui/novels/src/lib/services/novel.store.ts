@@ -82,7 +82,13 @@ export class NovelStore extends signalStore(
       async updateChapter(chapter: NovelChapterViewModel): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateChapter(chapter);
-        patchState(store, { novel });
+        patchState(store, { novel: novel.copy() });
+        return await novelService.update(novel);
+      },
+      async deleteChapter(chapter: NovelChapterViewModel): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.deleteChapter(chapter);
+        patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
       async updateScene(
@@ -91,7 +97,7 @@ export class NovelStore extends signalStore(
       ): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateScene(chapterId, scene);
-        patchState(store, { novel });
+        patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
       async updateGeneralInfo(
