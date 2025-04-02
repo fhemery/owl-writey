@@ -1,0 +1,78 @@
+<div class="transfer-scene-dialog">
+  <owl-base-dialog>
+    <ng-container ngProjectAs="dialog-title">
+      <h2>{{ 'novel.scene.transfer.title' | translate }}</h2>
+    </ng-container>
+    <ng-container ngProjectAs="dialog-content">
+      <div>
+        <p>{{ 'novel.scene.transfer.text' | translate }}</p>
+        <mat-accordion>
+          @for (chapter of novel()?.chapters; track $index) {
+          <mat-expansion-panel
+            hideToggle
+            [disabled]="chapter.containsScene(data.scene.id)"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> {{ chapter.title }} </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+              @for (scene of chapter.scenes; track $index) {
+              <li
+                (click)="updateTarget(chapter.id, $index)"
+                (keyup.enter)="updateTarget(chapter.id, $index)"
+                tabindex="0"
+                [ngClass]="{
+                  'transfer-scene-dialog__scene--selected':
+                    target()?.chapterId === chapter.id &&
+                    target()?.sceneIndex === $index
+                }"
+                role="button"
+              >
+                <a class="transfer-scene-dialog__scene">
+                  &rArr; {{ scene.generalInfo.title }}
+                </a>
+              </li>
+              }
+              <li
+                (click)="updateTarget(chapter.id, chapter.scenes.length)"
+                (keyup.enter)="updateTarget(chapter.id, chapter.scenes.length)"
+                tabindex="0"
+                [ngClass]="{
+                  'transfer-scene-dialog__scene--selected':
+                    target()?.chapterId === chapter.id &&
+                    target()?.sceneIndex === chapter.scenes.length
+                }"
+                role="button"
+              >
+                <a class="transfer-scene-dialog__scene">
+                  &rArr; --
+                  {{ 'novel.scene.transfer.lastPosition.label' | translate }} --
+                </a>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+          }
+        </mat-accordion>
+      </div>
+    </ng-container>
+    <ng-container ngProjectAs="dialog-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        class="confirm-dialog__confirm-btn"
+        (click)="doConfirm()"
+        [disabled]="!target()"
+      >
+        {{ 'general.ok' | translate }}
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        class="confirm-dialog__cancel-btn"
+        (click)="closeDialog()"
+      >
+        {{ 'general.cancel' | translate }}
+      </button>
+    </ng-container>
+  </owl-base-dialog>
+</div>

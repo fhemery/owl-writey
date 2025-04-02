@@ -23,19 +23,31 @@
       (keyup.enter)="onMoveScene(-1)"
       tabindex="0"
       role="button"
-      [title]="'scene.move.left.label' | translate"
+      [title]="'scene.move.up.label' | translate"
     >
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
+
     <a
       class="chapter-scene__action"
       (click)="onMoveScene(1)"
       (keyup.enter)="onMoveScene(1)"
       tabindex="0"
       role="button"
-      [title]="'scene.move.right.label' | translate"
+      [title]="'scene.move.down.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="onTransferScene()"
+      (keyup.enter)="onTransferScene()"
+      tabindex="0"
+      role="button"
+      [title]="'scene.transfer.label' | translate"
+    >
+      <mat-icon class="action--move">north_east</mat-icon>
     </a>
     <div class="chapter-scene__footer--placeholder"></div>
     <a

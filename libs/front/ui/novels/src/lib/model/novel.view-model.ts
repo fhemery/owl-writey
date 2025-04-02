@@ -46,11 +46,29 @@ export class NovelViewModel {
     index?: number
   ): void {
     const chapter = this.getChapter(chapterId);
-    chapter.addSceneAt(title, outline, index);
+    chapter.addNewSceneAt(title, outline, index);
   }
   updateScene(chapterId: string, scene: NovelSceneViewModel): void {
     const chapter = this.getChapter(chapterId);
     chapter.updateScene(scene);
+  }
+  transferScene(
+    initialChapterId: string,
+    sceneId: string,
+    targetChapterId: string,
+    sceneIndex: number
+  ): void {
+    const initialChapter = this.getChapter(initialChapterId);
+    const targetChapter = this.getChapter(targetChapterId);
+    if (initialChapter.id === targetChapter.id) {
+      return;
+    }
+    const scene = initialChapter.scenes.find((s) => s.id === sceneId);
+    if (!scene) {
+      return;
+    }
+    initialChapter.deleteScene(sceneId);
+    targetChapter.addExistingSceneAt(scene, sceneIndex);
   }
   moveScene(chapterId: string, sceneIndex: number, toIndex: number): void {
     const chapter = this.getChapter(chapterId);
@@ -71,7 +89,7 @@ export class NovelViewModel {
   private getChapter(chapterId: string): NovelChapterViewModel {
     const chapter = this.chapters.find((c) => c.id === chapterId);
     if (!chapter) {
-      throw new Error('Chapter not found');
+      throw new Error(`Chapter not found ${chapterId}`);
     }
     return chapter;
   }
@@ -97,7 +115,11 @@ export class NovelChapterViewModel {
     readonly scenes: NovelSceneViewModel[] = []
   ) {}
 
-  addSceneAt(title: string, outline: string, index: number | undefined): void {
+  addNewSceneAt(
+    title: string,
+    outline: string,
+    index: number | undefined
+  ): void {
     if (index !== undefined) {
       this.scenes.splice(
         index,
@@ -117,6 +139,16 @@ export class NovelChapterViewModel {
         )
       );
     }
+  }
+  addExistingSceneAt(scene: NovelSceneViewModel, sceneIndex: number): void {
+    if (sceneIndex !== undefined) {
+      this.scenes.splice(sceneIndex, 0, scene);
+    } else {
+      this.scenes.push(scene);
+    }
+  }
+  containsScene(sceneId: string): boolean {
+    return this.scenes.some((s) => s.id === sceneId);
   }
   moveScene(sceneIndex: number, toIndex: number): void {
     const scene = this.scenes[sceneIndex];

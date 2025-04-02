@@ -35,6 +35,22 @@ export const novelFr = {
           error: 'Une erreur est survenue lors de la suppression de la scène',
         },
       },
+      move: {
+        up: {
+          label: 'Déplacer en haut',
+        },
+        down: {
+          label: 'Déplacer en bas',
+        },
+      },
+      transfer: {
+        label: 'Transférer vers un autre chapitre',
+        text: "Sélectionnez le chapitre et l'endroit où vous voulez transférer la scène",
+        title: 'Transférer une scène',
+        lastPosition: {
+          label: 'Ajouter à la fin',
+        },
+      },
     },
     overview: {
       newChapter: 'Ajouter un chapitre',

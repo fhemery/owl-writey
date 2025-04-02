@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
   ContenteditableDirective,
   NotificationService,
 } from '@owl/front/ui/common';
+import { firstValueFrom } from 'rxjs';
 
 import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelChapterSceneComponent } from './components/novel-chapter-scene/novel-chapter-scene.component';
+import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
 
 @Component({
   selector: 'owl-novel-chapter-page',
@@ -27,6 +30,7 @@ import { NovelChapterSceneComponent } from './components/novel-chapter-scene/nov
 export class NovelChapterPageComponent {
   readonly chapterId = input.required<string>();
   readonly #store = inject(NovelStore);
+  readonly #dialog = inject(MatDialog);
   readonly #confirmDialogService = inject(ConfirmDialogService);
   readonly #notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
@@ -86,5 +90,27 @@ export class NovelChapterPageComponent {
         );
       }
     }
+  }
+
+  async transferScene(scene: NovelSceneViewModel): Promise<void> {
+    const transferResult: { chapterId: string; sceneIndex: number } =
+      await firstValueFrom(
+        this.#dialog
+          .open(TransferSceneDialogComponent, {
+            data: {
+              scene,
+            },
+          })
+          .afterClosed()
+      );
+    if (!transferResult) {
+      return;
+    }
+    await this.#store.transferScene(
+      this.chapterId(),
+      scene.id,
+      transferResult.chapterId,
+      transferResult.sceneIndex
+    );
   }
 }

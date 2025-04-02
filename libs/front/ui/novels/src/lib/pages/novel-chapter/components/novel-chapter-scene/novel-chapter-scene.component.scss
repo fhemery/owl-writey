@@ -75,5 +75,11 @@
         color: var(--color-error);
       }
     }
+
+    .chapter-scene__action--separator {
+      width: 1px;
+      height: 1.2rem;
+      background-color: var(--color-accent);
+    }
   }
 }

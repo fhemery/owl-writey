@@ -20,6 +20,7 @@ export class NovelChapterSceneComponent {
   updateScene = output<NovelSceneViewModel>();
   deleteScene = output<void>();
   moveScene = output<number>();
+  transferScene = output<void>();
 
   async updateTitle(title: string): Promise<void> {
     const newScene = new NovelSceneViewModel(
@@ -55,5 +56,9 @@ export class NovelChapterSceneComponent {
 
   onMoveScene(delta: number): void {
     this.moveScene.emit(delta);
+  }
+
+  onTransferScene(): void {
+    this.transferScene.emit();
   }
 }

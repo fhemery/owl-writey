@@ -11,6 +11,7 @@ export const uiFr = {
     ok: 'OK',
     yes: 'Oui',
     no: 'Non',
+    cancel: 'Annuler',
     exercises: {
       type: {
         ExquisiteCorpse: 'Cadavre exquis',
