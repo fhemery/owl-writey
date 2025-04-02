@@ -51,6 +51,7 @@
   &__footer {
     padding: 0.25rem;
     display: flex;
+    gap: 0.25rem;
     border-top: 1px dotted var(--color-accent);
 
     &--placeholder {
