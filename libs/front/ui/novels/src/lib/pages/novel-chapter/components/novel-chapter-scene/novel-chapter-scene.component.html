@@ -17,6 +17,26 @@
     {{ scene.generalInfo.outline }}
   </div>
   <div class="chapter-scene__footer">
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(-1)"
+      (keyup.enter)="onMoveScene(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'scene.move.left.label' | translate"
+    >
+      <mat-icon class="action--move">arrow_left</mat-icon>
+    </a>
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(1)"
+      (keyup.enter)="onMoveScene(1)"
+      tabindex="0"
+      role="button"
+      [title]="'scene.move.right.label' | translate"
+    >
+      <mat-icon class="action--move">arrow_right</mat-icon>
+    </a>
     <div class="chapter-scene__footer--placeholder"></div>
     <a
       class="chapter-scene__action"

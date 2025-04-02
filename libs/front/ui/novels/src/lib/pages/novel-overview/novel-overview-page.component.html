@@ -18,6 +18,12 @@
         [chapter]="convertToChapter(item)"
         (updateChapter)="updateChapter($event)"
         (deleteChapter)="deleteChapter(item)"
+        (moveChapter)="
+          moveChapter({
+            from: index,
+            to: index + $event
+          })
+        "
       ></owl-novel-overview-chapter-card>
     </ng-template>
   </div>

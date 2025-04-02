@@ -14,6 +14,26 @@
     [innerHTML]="chapter().outline"
   ></div>
   <div class="chapter-card__footer">
+    <a
+      class="chapter-card__action"
+      (click)="onMoveChapter(-1)"
+      (keyup.enter)="onMoveChapter(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.move.left.label' | translate"
+    >
+      <mat-icon class="action--move">arrow_left</mat-icon>
+    </a>
+    <a
+      class="chapter-card__action"
+      (click)="onMoveChapter(1)"
+      (keyup.enter)="onMoveChapter(1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.move.right.label' | translate"
+    >
+      <mat-icon class="action--move">arrow_right</mat-icon>
+    </a>
     <div class="chapter-card__footer--placeholder"></div>
     <a
       class="chapter-card__action"

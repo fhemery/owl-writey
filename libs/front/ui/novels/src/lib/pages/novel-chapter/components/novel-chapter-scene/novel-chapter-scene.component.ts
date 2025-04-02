@@ -19,6 +19,7 @@ export class NovelChapterSceneComponent {
   readonly scene = input.required<NovelSceneViewModel>();
   updateScene = output<NovelSceneViewModel>();
   deleteScene = output<void>();
+  moveScene = output<number>();
 
   async updateTitle(title: string): Promise<void> {
     const newScene = new NovelSceneViewModel(
@@ -50,5 +51,9 @@ export class NovelChapterSceneComponent {
 
   onDeleteScene(): void {
     this.deleteScene.emit();
+  }
+
+  onMoveScene(delta: number): void {
+    this.moveScene.emit(delta);
   }
 }

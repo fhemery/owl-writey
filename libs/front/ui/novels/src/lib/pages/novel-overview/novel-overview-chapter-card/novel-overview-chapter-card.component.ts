@@ -16,6 +16,7 @@ export class NovelOverviewChapterCardComponent {
   chapter = input.required<NovelChapterViewModel>();
   updateChapter = output<NovelChapterViewModel>();
   deleteChapter = output<void>();
+  moveChapter = output<number>();
 
   async updateTitle(title: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
@@ -43,5 +44,9 @@ export class NovelOverviewChapterCardComponent {
 
   onDeleteChapter(): void {
     this.deleteChapter.emit();
+  }
+
+  onMoveChapter(delta: number): void {
+    this.moveChapter.emit(delta);
   }
 }

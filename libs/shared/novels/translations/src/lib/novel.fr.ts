@@ -39,6 +39,14 @@ export const novelFr = {
     overview: {
       newChapter: 'Ajouter un chapitre',
       chapter: {
+        move: {
+          left: {
+            label: 'Déplacer avant',
+          },
+          right: {
+            label: 'Déplacer après',
+          },
+        },
         delete: {
           label: 'Supprimer',
         },
