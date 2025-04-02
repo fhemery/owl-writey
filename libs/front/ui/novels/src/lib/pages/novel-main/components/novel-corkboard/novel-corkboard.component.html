@@ -30,6 +30,9 @@
       (dndStart)="dragStart()"
       (dndEnd)="dragEnd()"
     >
+      <div class="corkboard__item--handle" dndHandle>
+        <mat-icon>drag_handle</mat-icon>
+      </div>
       <ng-container
         *ngTemplateOutlet="
           itemTemplate();

@@ -76,5 +76,19 @@
     height: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
+    position: relative;
+
+    &--handle {
+      position: absolute;
+      color: var(--color-accent);
+      top: 0;
+      right: 0;
+      width: 2rem;
+      border-radius: 50%;
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
