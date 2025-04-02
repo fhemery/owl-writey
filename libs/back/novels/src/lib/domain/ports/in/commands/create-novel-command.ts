@@ -7,6 +7,7 @@ import {
   NovelGeneralInfo,
   NovelParticipant,
   NovelToCreate,
+  NovelUniverse,
 } from '../../../model';
 import { NovelRepository, NovelUserFacade } from '../../out';
 
@@ -30,7 +31,8 @@ export class CreateNovelCommand {
       new NovelGeneralInfo(novelToCreate.title, novelToCreate.description, [
         new NovelParticipant(user.uid, user.name, NovelRole.Author),
       ]),
-      []
+      [],
+      new NovelUniverse()
     );
 
     await this.novelRepository.save(novel);

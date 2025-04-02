@@ -51,7 +51,7 @@ describe('PUT /api/novels/:id', () => {
       await app.logAs(TestUserBuilder.Alice());
       const response = await novelUtils.update({
         ...existingNovel,
-        title: '',
+        generalInfo: { title: '', description: '' },
       });
       expect(response.status).toBe(400);
     });
@@ -77,7 +77,10 @@ describe('PUT /api/novels/:id', () => {
       await app.logAs(TestUserBuilder.Alice());
       const response = await novelUtils.update({
         ...existingNovel,
-        description: 'Updated description',
+        generalInfo: {
+          ...existingNovel.generalInfo,
+          description: 'Updated description',
+        },
       });
       expect(response.status).toBe(204);
     });
@@ -88,13 +91,16 @@ describe('PUT /api/novels/:id', () => {
 
       const response = await novelUtils.update({
         ...existingNovel,
-        description: newDescription,
+        generalInfo: {
+          ...existingNovel.generalInfo,
+          description: newDescription,
+        },
       });
       expect(response.status).toBe(204);
 
       const getResponse = await novelUtils.get(existingNovel.id);
       expect(getResponse.status).toBe(200);
-      expect(getResponse.body?.description).toEqual(newDescription);
+      expect(getResponse.body?.generalInfo.description).toEqual(newDescription);
     });
 
     it('should handle chapter and scene updates', async () => {
@@ -104,18 +110,65 @@ describe('PUT /api/novels/:id', () => {
         chapters: [
           {
             id: '1',
-            title: 'New chapter title',
-            outline: 'New chapter outline',
+            generalInfo: {
+              title: 'New chapter title',
+              outline: 'New chapter outline',
+            },
             scenes: [
               {
                 id: '1.1',
-                title: 'New scene title',
-                outline: 'New scene outline',
+                generalInfo: {
+                  title: 'New scene title',
+                  outline: 'New scene outline',
+                },
                 content: 'New scene content',
               },
             ],
           },
         ],
+      };
+      const response = await novelUtils.update(update);
+      expect(response.status).toBe(204);
+
+      const getResponse = await novelUtils.get(existingNovel.id);
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toEqual(update);
+    });
+
+    it('should handle character and point of view updates', async () => {
+      await app.logAs(TestUserBuilder.Alice());
+      const update: NovelDto = {
+        ...existingNovel,
+        chapters: [
+          {
+            id: '1',
+            generalInfo: {
+              title: 'New chapter title',
+              outline: 'New chapter outline',
+            },
+            scenes: [
+              {
+                id: '1.1',
+                generalInfo: {
+                  title: 'New scene title',
+                  outline: 'New scene outline',
+                  pointOfViewId: '1',
+                },
+                content: 'New scene content',
+              },
+            ],
+          },
+        ],
+        universe: {
+          characters: [
+            {
+              id: '1',
+              name: 'New character name',
+              description: 'New character description',
+              tags: ['New tag 1', 'New tag 2'],
+            },
+          ],
+        },
       };
       const response = await novelUtils.update(update);
       expect(response.status).toBe(204);

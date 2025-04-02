@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { Novel, NovelGeneralInfo } from '../../../domain/model';
+import { Novel, NovelGeneralInfo, NovelUniverse } from '../../../domain/model';
 import { NovelParticipantEntity } from './novel-participant.entity';
 
 @Entity({ name: 'novels' })
@@ -39,7 +39,8 @@ export class NovelEntity {
         this.description,
         this.participants.map((participant) => participant.toNovelParticipant())
       ),
-      []
+      [],
+      new NovelUniverse()
     );
   }
 }

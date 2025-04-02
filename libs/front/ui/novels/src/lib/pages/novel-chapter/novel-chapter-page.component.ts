@@ -10,7 +10,11 @@ import {
 } from '@owl/front/ui/common';
 import { firstValueFrom } from 'rxjs';
 
-import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
+import {
+  NovelChapterGeneralInfoViewModel,
+  NovelChapterViewModel,
+  NovelSceneViewModel,
+} from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
@@ -62,15 +66,17 @@ export class NovelChapterPageComponent {
 
   async updateChapterTitle(title: string): Promise<void> {
     const currentChapter = this.chapter();
-    if (!currentChapter || currentChapter.title === title) {
+    if (!currentChapter || currentChapter.generalInfo.title === title) {
       return;
     }
 
     await this.#store.updateChapter(
       new NovelChapterViewModel(
         currentChapter.id,
-        title,
-        currentChapter.outline,
+        new NovelChapterGeneralInfoViewModel(
+          title,
+          currentChapter.generalInfo.outline
+        ),
         currentChapter.scenes
       )
     );

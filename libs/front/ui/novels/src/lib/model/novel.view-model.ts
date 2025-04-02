@@ -6,7 +6,8 @@ export class NovelViewModel {
     readonly id: string,
     readonly generalInfo: NovelGeneralInfoViewModel,
     readonly participants: NovelParticipantViewModel[],
-    readonly chapters: NovelChapterViewModel[]
+    readonly chapters: NovelChapterViewModel[],
+    readonly universe?: NovelUniverseViewModel
   ) {}
 
   addChapterAt(name: string, outline = '', index?: number): void {
@@ -14,11 +15,19 @@ export class NovelViewModel {
       this.chapters.splice(
         index,
         0,
-        new NovelChapterViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(
+          uuidV4(),
+          new NovelChapterGeneralInfoViewModel(name, outline || ''),
+          []
+        )
       );
     } else {
       this.chapters.push(
-        new NovelChapterViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(
+          uuidV4(),
+          new NovelChapterGeneralInfoViewModel(name, outline || ''),
+          []
+        )
       );
     }
   }
@@ -107,11 +116,14 @@ export class NovelParticipantViewModel {
   ) {}
 }
 
+export class NovelChapterGeneralInfoViewModel {
+  constructor(readonly title: string, readonly outline: string) {}
+}
+
 export class NovelChapterViewModel {
   constructor(
     readonly id: string,
-    readonly title: string,
-    readonly outline: string,
+    readonly generalInfo: NovelChapterGeneralInfoViewModel,
     readonly scenes: NovelSceneViewModel[] = []
   ) {}
 
@@ -179,4 +191,17 @@ export class NovelSceneViewModel {
 
 export class NovelSceneGeneralInfoViewModel {
   constructor(readonly title: string, readonly outline: string) {}
+}
+
+export class NovelUniverseViewModel {
+  constructor(readonly characters: NovelCharacterViewModel[] = []) {}
+}
+
+export class NovelCharacterViewModel {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+    readonly description: string,
+    readonly tags: string[] = []
+  ) {}
 }

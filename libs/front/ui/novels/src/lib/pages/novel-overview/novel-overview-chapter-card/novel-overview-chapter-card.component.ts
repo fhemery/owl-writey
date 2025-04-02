@@ -4,7 +4,10 @@ import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenteditableDirective } from '@owl/front/ui/common';
 
-import { NovelChapterViewModel } from '../../../model';
+import {
+  NovelChapterGeneralInfoViewModel,
+  NovelChapterViewModel,
+} from '../../../model';
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
@@ -22,11 +25,13 @@ export class NovelOverviewChapterCardComponent {
   async updateTitle(title: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
       this.chapter().id,
-      title,
-      this.chapter().outline,
+      new NovelChapterGeneralInfoViewModel(
+        title,
+        this.chapter().generalInfo.outline
+      ),
       this.chapter().scenes
     );
-    if (title !== this.chapter().title) {
+    if (title !== this.chapter().generalInfo.title) {
       this.updateChapter.emit(newChapter);
     }
   }
@@ -34,11 +39,13 @@ export class NovelOverviewChapterCardComponent {
   async updateOutline(outline: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
       this.chapter().id,
-      this.chapter().title,
-      outline,
+      new NovelChapterGeneralInfoViewModel(
+        this.chapter().generalInfo.title,
+        outline
+      ),
       this.chapter().scenes
     );
-    if (outline !== this.chapter().outline) {
+    if (outline !== this.chapter().generalInfo.outline) {
       this.updateChapter.emit(newChapter);
     }
   }

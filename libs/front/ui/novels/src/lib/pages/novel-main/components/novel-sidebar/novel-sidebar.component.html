@@ -19,7 +19,7 @@
     <a
       class="novel-sidebar__item-name"
       [routerLink]="['/novels', novel().id, 'chapters', chapter.id]"
-      >{{ chapter.title }}</a
+      >{{ chapter.generalInfo.title }}</a
     >
   </div>
   @if (openChaptersIds().includes(chapter.id)) { @for(scene of chapter.scenes;

@@ -7,5 +7,7 @@ export * from './novel-user';
 export * from './chapter-general-info';
 export * from './scene';
 export * from './scene-general-info';
+export * from './novel-universe';
+export * from './novel-character';
 
 export * from './exceptions';
