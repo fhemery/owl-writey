@@ -1,4 +1,4 @@
-<div class="chapter-card">
+<div class="chapter-card" (dblclick)="goToChapter()">
   <div
     class="chapter-card__title"
     owlContentEditable
@@ -33,6 +33,17 @@
       [title]="'novel.overview.chapter.move.right.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+    <div class="chapter-card__interstitial"></div>
+    <a
+      class="chapter-card__action"
+      (click)="goToChapter()"
+      (keyup.enter)="goToChapter()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.go.label' | translate"
+    >
+      <mat-icon class="action--move">play_circle</mat-icon>
     </a>
     <div class="chapter-card__footer--placeholder"></div>
     <a

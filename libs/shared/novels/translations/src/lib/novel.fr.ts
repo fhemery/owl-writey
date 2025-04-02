@@ -51,6 +51,9 @@ export const novelFr = {
           label: 'Ajouter au début',
         },
       },
+      goto: {
+        label: 'Accéder à la scène',
+      },
     },
     overview: {
       newChapter: 'Ajouter un chapitre',
@@ -65,6 +68,9 @@ export const novelFr = {
         },
         delete: {
           label: 'Supprimer',
+        },
+        go: {
+          label: 'Voir',
         },
       },
       noChapters: {

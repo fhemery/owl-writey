@@ -54,6 +54,11 @@
     gap: 0.25rem;
     border-top: 1px dotted var(--color-accent);
 
+    .chapter-card__interstitial {
+      width: 1px;
+      background-color: var(--color-accent);
+    }
+
     &--placeholder {
       flex: 1;
     }

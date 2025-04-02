@@ -1,5 +1,5 @@
 @if(scene(); as scene){
-<div class="chapter-scene">
+<div class="chapter-scene" (dblclick)="goToScene()">
   <div
     class="chapter-scene__title"
     owlContentEditable
@@ -48,6 +48,17 @@
       [title]="'novel.scene.transfer.label' | translate"
     >
       <mat-icon class="action--move">north_east</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="goToScene()"
+      (keyup.enter)="goToScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.goto.label' | translate"
+    >
+      <mat-icon class="action--move">play_circle</mat-icon>
     </a>
     <div class="chapter-scene__footer--placeholder"></div>
     <a

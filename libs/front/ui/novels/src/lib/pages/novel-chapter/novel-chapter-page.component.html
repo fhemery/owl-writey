@@ -23,6 +23,7 @@
         (deleteScene)="deleteScene(item)"
         (moveScene)="moveScene({ from: index, to: index + $event })"
         (transferScene)="transferScene(item)"
+        (goTo)="goToScene(item)"
       ></owl-novel-chapter-scene>
     </ng-template>
   </div>

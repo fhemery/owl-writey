@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
@@ -25,6 +26,7 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
   styleUrl: './novel-overview-page.component.scss',
 })
 export class NovelOverviewPageComponent {
+  readonly #router = inject(Router);
   readonly #store = inject(NovelStore);
   readonly confirmDialogService = inject(ConfirmDialogService);
   readonly notificationService = inject(NotificationService);
@@ -63,5 +65,14 @@ export class NovelOverviewPageComponent {
 
   async moveChapter($event: { from: number; to: number }): Promise<void> {
     await this.#store.moveChapter($event.from, $event.to);
+  }
+
+  async goTo(chapter: NovelChapterViewModel): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.novel()?.id || '',
+      'chapters',
+      chapter.id,
+    ]);
   }
 }

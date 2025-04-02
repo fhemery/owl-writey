@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
@@ -29,6 +30,7 @@ import { TransferSceneDialogComponent } from './components/transfer-scene-dialog
   styleUrl: './novel-chapter-page.component.scss',
 })
 export class NovelChapterPageComponent {
+  readonly #router = inject(Router);
   readonly chapterId = input.required<string>();
   readonly #store = inject(NovelStore);
   readonly #dialog = inject(MatDialog);
@@ -120,5 +122,16 @@ export class NovelChapterPageComponent {
       transferResult.chapterId,
       transferResult.sceneIndex
     );
+  }
+
+  async goToScene(scene: NovelSceneViewModel): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.novel()?.id || '',
+      'chapters',
+      this.chapterId(),
+      'scenes',
+      scene.id,
+    ]);
   }
 }
