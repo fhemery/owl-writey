@@ -21,9 +21,14 @@ Feature: Registration Feature
             |       field       |                result                 |
             |    ValidPseudo    | I am redirected to the dashboard page |
             |   InvalidPseudo   |       It should display an error      |
+            |    EmptyPseudo    |       It should display an error      |
             |     ValidEmail    | I am redirected to the dashboard page |
             |   InvalidEmail    |       It should display an error      |
+            |    EmptyEmail     |       It should display an error      |
             |   ValidPassword   | I am redirected to the dashboard page |
             |  InvalidPassword  |       It should display an error      |
+            |   EmptyPassword   |       It should display an error      |
             | ValidRepeatedPswd | I am redirected to the dashboard page |
             |InvalidRepeatedPswd|       It should display an error      |
+            | EmptyRepeatedPswd |       It should display an error      |
+            |  ExistingAccount  |       It should display an error      |
