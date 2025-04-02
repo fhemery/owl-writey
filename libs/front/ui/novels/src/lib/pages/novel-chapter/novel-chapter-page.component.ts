@@ -62,6 +62,10 @@ export class NovelChapterPageComponent {
     );
   }
 
+  async moveScene($event: { from: number; to: number }): Promise<void> {
+    await this.#store.moveScene(this.chapterId(), $event.from, $event.to);
+  }
+
   async deleteScene(scene: NovelSceneViewModel): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(
       'novel.scene.deleteConfirm.title',

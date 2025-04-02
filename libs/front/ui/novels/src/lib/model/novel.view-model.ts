@@ -52,6 +52,10 @@ export class NovelViewModel {
     const chapter = this.getChapter(chapterId);
     chapter.updateScene(scene);
   }
+  moveScene(chapterId: string, sceneIndex: number, toIndex: number): void {
+    const chapter = this.getChapter(chapterId);
+    chapter.moveScene(sceneIndex, toIndex);
+  }
   deleteScene(chapterId: string, sceneId: string): void {
     const chapter = this.getChapter(chapterId);
     chapter.deleteScene(sceneId);
@@ -113,6 +117,11 @@ export class NovelChapterViewModel {
         )
       );
     }
+  }
+  moveScene(sceneIndex: number, toIndex: number): void {
+    const scene = this.scenes[sceneIndex];
+    this.scenes.splice(sceneIndex, 1);
+    this.scenes.splice(toIndex, 0, scene);
   }
   updateScene(scene: NovelSceneViewModel): void {
     const index = this.scenes.findIndex((s) => s.id === scene.id);

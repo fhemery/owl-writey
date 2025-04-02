@@ -13,6 +13,7 @@
       [addNewLabel]="'novel.chapter.newScene' | translate"
       [itemTemplate]="sceneTemplate"
       (addNew)="addScene($event)"
+      (moveItem)="moveScene($event)"
     ></owl-novel-corkboard>
 
     <ng-template #sceneTemplate let-item let-index="index">
