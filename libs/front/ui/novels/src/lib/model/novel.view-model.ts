@@ -32,7 +32,6 @@ export class NovelViewModel {
     const index = this.chapters.findIndex((c) => c.id === chapter.id);
     if (index !== -1) {
       this.chapters.splice(index, 1);
-      console.log('Did splice');
     }
   }
   addSceneAt(
@@ -41,18 +40,16 @@ export class NovelViewModel {
     outline = '',
     index?: number
   ): void {
-    const chapter = this.chapters.find((c) => c.id === chapterId);
-    if (!chapter) {
-      throw new Error('Chapter not found');
-    }
+    const chapter = this.getChapter(chapterId);
     chapter.addSceneAt(title, outline, index);
   }
   updateScene(chapterId: string, scene: NovelSceneViewModel): void {
-    const chapter = this.chapters.find((c) => c.id === chapterId);
-    if (!chapter) {
-      throw new Error('Chapter not found');
-    }
+    const chapter = this.getChapter(chapterId);
     chapter.updateScene(scene);
+  }
+  deleteScene(chapterId: string, sceneId: string): void {
+    const chapter = this.getChapter(chapterId);
+    chapter.deleteScene(sceneId);
   }
   copy(): NovelViewModel {
     return new NovelViewModel(
@@ -61,6 +58,13 @@ export class NovelViewModel {
       this.participants,
       this.chapters
     );
+  }
+  private getChapter(chapterId: string): NovelChapterViewModel {
+    const chapter = this.chapters.find((c) => c.id === chapterId);
+    if (!chapter) {
+      throw new Error('Chapter not found');
+    }
+    return chapter;
   }
 }
 
@@ -109,6 +113,12 @@ export class NovelChapterViewModel {
     const index = this.scenes.findIndex((s) => s.id === scene.id);
     if (index !== -1) {
       this.scenes.splice(index, 1, scene);
+    }
+  }
+  deleteScene(sceneId: string): void {
+    const index = this.scenes.findIndex((s) => s.id === sceneId);
+    if (index !== -1) {
+      this.scenes.splice(index, 1);
     }
   }
 }

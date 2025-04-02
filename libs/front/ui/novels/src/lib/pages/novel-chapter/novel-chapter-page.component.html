@@ -19,6 +19,7 @@
       <owl-novel-chapter-scene
         [scene]="convertToScene(item)"
         (updateScene)="updateScene($event)"
+        (deleteScene)="deleteScene(item)"
       ></owl-novel-chapter-scene>
     </ng-template>
   </div>

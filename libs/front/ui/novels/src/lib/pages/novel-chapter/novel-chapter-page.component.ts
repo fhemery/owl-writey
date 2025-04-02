@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContenteditableDirective } from '@owl/front/ui/common';
+import {
+  ConfirmDialogService,
+  ContenteditableDirective,
+  NotificationService,
+} from '@owl/front/ui/common';
 
 import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
@@ -23,6 +27,8 @@ import { NovelChapterSceneComponent } from './components/novel-chapter-scene/nov
 export class NovelChapterPageComponent {
   readonly chapterId = input.required<string>();
   readonly #store = inject(NovelStore);
+  readonly #confirmDialogService = inject(ConfirmDialogService);
+  readonly #notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
   readonly chapter = computed(() =>
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
@@ -54,5 +60,27 @@ export class NovelChapterPageComponent {
         currentChapter.scenes
       )
     );
+  }
+
+  async deleteScene(scene: NovelSceneViewModel): Promise<void> {
+    const confirmed = await this.#confirmDialogService.openConfirmDialog(
+      'novel.scene.deleteConfirm.title',
+      'novel.scene.deleteConfirm.text'
+    );
+    if (confirmed) {
+      const isSuccess = await this.#store.deleteScene(
+        this.chapterId(),
+        scene.id
+      );
+      if (!isSuccess) {
+        this.#notificationService.showError(
+          'novel.scene.deleteConfirm.result.error'
+        );
+      } else {
+        this.#notificationService.showInfo(
+          'novel.scene.deleteConfirm.result.ok'
+        );
+      }
+    }
   }
 }

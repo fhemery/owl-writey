@@ -25,6 +25,17 @@ export const novelFr = {
         },
       },
     },
+    scene: {
+      deleteConfirm: {
+        title: 'Supprimer la scène',
+        text: "La suppression d'une scène est irréversible. Êtes vous sûr(e) de vouloir la supprimer ?",
+
+        result: {
+          ok: 'La scène a bien été supprimée',
+          error: 'Une erreur est survenue lors de la suppression de la scène',
+        },
+      },
+    },
     overview: {
       newChapter: 'Ajouter un chapitre',
       chapter: {
