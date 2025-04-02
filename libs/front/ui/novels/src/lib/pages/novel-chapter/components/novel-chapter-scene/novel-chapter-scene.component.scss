@@ -47,4 +47,31 @@
       }
     }
   }
+
+  &__footer {
+    padding: 0.25rem;
+    display: flex;
+    border-top: 1px dotted var(--color-accent);
+
+    &--placeholder {
+      flex: 1;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    mat-icon {
+      color: var(--color-accent);
+      cursor: pointer;
+      width: 1.2rem;
+      height: 1.2rem;
+      font-size: 1.2rem;
+
+      &.action--delete {
+        color: var(--color-error);
+      }
+    }
+  }
 }
