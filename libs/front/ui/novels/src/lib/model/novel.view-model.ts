@@ -28,6 +28,11 @@ export class NovelViewModel {
       this.chapters.splice(index, 1, chapter);
     }
   }
+  moveChapter(chapterIndex: number, toIndex: number): void {
+    const chapter = this.chapters[chapterIndex];
+    this.chapters.splice(chapterIndex, 1);
+    this.chapters.splice(toIndex, 0, chapter);
+  }
   deleteChapter(chapter: NovelChapterViewModel): void {
     const index = this.chapters.findIndex((c) => c.id === chapter.id);
     if (index !== -1) {

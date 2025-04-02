@@ -10,6 +10,7 @@
       [addNewLabel]="'novel.defaults.newChapter.label' | translate"
       [itemTemplate]="chapterTemplate"
       (addNew)="addChapterAt($event)"
+      (moveItem)="moveChapter($event)"
     ></owl-novel-corkboard>
 
     <ng-template #chapterTemplate let-item let-index="index">

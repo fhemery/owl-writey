@@ -18,7 +18,7 @@
     overflow: hidden;
   }
 
-  &__before-new {
+  &__interstitial {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +27,17 @@
     border-radius: 0.5rem;
     color: transparent;
     cursor: pointer;
+
+    &.dropzone {
+      &--active {
+        color: var(--color-accent);
+        border: 1px dashed var(--color-accent);
+
+        &.dndDragover {
+          background-color: var(--color-success-background);
+        }
+      }
+    }
 
     &:hover,
     &:focus,

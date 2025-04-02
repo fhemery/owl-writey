@@ -85,6 +85,15 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
+      async moveChapter(
+        chapterIndex: number,
+        toIndex: number
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.moveChapter(chapterIndex, toIndex);
+        patchState(store, { novel: novel.copy() });
+        return await novelService.update(novel);
+      },
       async deleteChapter(chapter: NovelChapterViewModel): Promise<boolean> {
         const novel = this.getNovel();
         novel.deleteChapter(chapter);

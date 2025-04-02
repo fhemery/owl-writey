@@ -60,4 +60,8 @@ export class NovelOverviewPageComponent {
       }
     }
   }
+
+  async moveChapter($event: { from: number; to: number }): Promise<void> {
+    await this.#store.moveChapter($event.from, $event.to);
+  }
 }

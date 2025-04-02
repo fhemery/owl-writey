@@ -56,6 +56,7 @@
     "firebase-admin": "13.0.2",
     "mysql2": "^3.12.0",
     "nest-winston": "^1.10.2",
+    "ngx-drag-drop": "^19.0.0",
     "ngx-quill": "^27.0.1",
     "ngx-socket-io": "^4.8.4",
     "quill": "^2.0.3",
