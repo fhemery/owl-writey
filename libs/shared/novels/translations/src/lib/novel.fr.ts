@@ -45,10 +45,10 @@ export const novelFr = {
       },
       transfer: {
         label: 'Transférer vers un autre chapitre',
-        text: "Sélectionnez le chapitre et l'endroit où vous voulez transférer la scène",
+        text: 'Sélectionnez le chapitre et la scène APRÈS LAQUELLE vous voulez transférer la scène',
         title: 'Transférer une scène',
-        lastPosition: {
-          label: 'Ajouter à la fin',
+        firstPosition: {
+          label: 'Ajouter au début',
         },
       },
     },
