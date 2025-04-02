@@ -8,6 +8,10 @@
 
   &__level {
     display: flex;
+
+    &.selected {
+      background-color: var(--color-success-background);
+    }
   }
 
   &__item-name {

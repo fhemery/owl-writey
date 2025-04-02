@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import {
   ContenteditableDirective,
   TextEditorComponent,
@@ -10,6 +10,7 @@ import {
   NovelSceneViewModel,
 } from '../../model';
 import { NovelStore } from '../../services/novel.store';
+import { NovelContextService } from '../../services/novel-context.service';
 
 @Component({
   selector: 'owl-novel-scene-page',
@@ -19,6 +20,7 @@ import { NovelStore } from '../../services/novel.store';
 })
 export class NovelScenePageComponent {
   readonly #novelStore = inject(NovelStore);
+  readonly #novelContext = inject(NovelContextService);
   chapterId = input.required<string>();
   sceneId = input.required<string>();
 
@@ -28,6 +30,12 @@ export class NovelScenePageComponent {
       .chapters.find((c) => c.id === this.chapterId())
       ?.scenes.find((s) => s.id === this.sceneId());
   });
+
+  constructor() {
+    effect(() => {
+      this.#novelContext.setScene(this.chapterId(), this.sceneId());
+    });
+  }
 
   async updateContent(newText: string): Promise<void> {
     const currentScene = this.scene();

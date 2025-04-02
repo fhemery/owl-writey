@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
+import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelChapterSceneComponent } from './components/novel-chapter-scene/novel-chapter-scene.component';
 import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
@@ -31,12 +32,19 @@ export class NovelChapterPageComponent {
   readonly chapterId = input.required<string>();
   readonly #store = inject(NovelStore);
   readonly #dialog = inject(MatDialog);
+  readonly #novelContext = inject(NovelContextService);
   readonly #confirmDialogService = inject(ConfirmDialogService);
   readonly #notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
   readonly chapter = computed(() =>
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
   );
+
+  constructor() {
+    effect(() => {
+      this.#novelContext.setChapter(this.chapterId());
+    });
+  }
 
   async addScene($event: number): Promise<void> {
     await this.#store.addSceneAt(this.chapterId(), $event);
