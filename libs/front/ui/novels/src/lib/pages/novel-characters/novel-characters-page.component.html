@@ -1,1 +1,26 @@
-<p>novel-characters-page works!</p>
+<div class="novel-character-page">
+  <h2>{{ 'novel.character.title' | translate }}</h2>
+  <div class="characters">
+    <owl-novel-corkboard
+      [items]="characters()"
+      [itemTemplate]="characterTemplate"
+      [addNewLabel]="'novel.defaults.newCharacter.label' | translate"
+      (addNew)="addCharacterAt($event)"
+      (moveItem)="moveCharacter($event)"
+    ></owl-novel-corkboard>
+
+    <ng-template #characterTemplate let-item let-index="index">
+      <owl-novel-character-card
+        [character]="convertToCharacter(item)"
+        (updateCharacter)="updateCharacter($event)"
+        (deleteCharacter)="deleteCharacter(item)"
+        (moveCharacter)="
+          moveCharacter({
+            from: index,
+            to: index + $event
+          })
+        "
+      ></owl-novel-character-card>
+    </ng-template>
+  </div>
+</div>

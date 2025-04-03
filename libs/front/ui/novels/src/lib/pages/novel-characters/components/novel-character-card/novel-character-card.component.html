@@ -1,0 +1,50 @@
+<div class="character-card">
+  <div
+    class="character-card__title"
+    owlContentEditable
+    (contentChange)="updateCharacterName($event)"
+  >
+    {{ character().name }}
+  </div>
+  <div
+    class="character-card__content"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateCharacterDescription($event)"
+    [innerHTML]="character().description"
+  ></div>
+  <div class="character-card__footer">
+    <a
+      class="character-card__action"
+      (click)="onMoveCharacter(-1)"
+      (keyup.enter)="onMoveCharacter(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.character.move.left.label' | translate"
+    >
+      <mat-icon class="action--move">move_up</mat-icon>
+    </a>
+    <a
+      class="character-card__action"
+      (click)="onMoveCharacter(1)"
+      (keyup.enter)="onMoveCharacter(1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.character.move.right.label' | translate"
+    >
+      <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+
+    <div class="character-card__footer--placeholder"></div>
+    <a
+      class="character-card__action"
+      (click)="onDeleteCharacter()"
+      (keyup.enter)="onDeleteCharacter()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.character.delete.label' | translate"
+    >
+      <mat-icon class="action--delete">delete</mat-icon>
+    </a>
+  </div>
+</div>

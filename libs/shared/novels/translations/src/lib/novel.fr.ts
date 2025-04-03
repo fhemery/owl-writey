@@ -10,11 +10,37 @@ export const novelFr = {
       newScene: {
         label: 'Nouvelle scène',
       },
+      newCharacter: {
+        label: 'Nouveau personnage',
+        name: 'Jane Doe',
+      },
     },
     sidebar: {
       title: 'Table des matières',
       universe: {
         characters: 'Personnages',
+      },
+    },
+    character: {
+      title: 'Personnages',
+      deleteConfirm: {
+        title: 'Supprimer le personnage',
+        text: "La suppression d'un personnage est irréversible. Êtes vous sûr(e) ?",
+        result: {
+          ok: 'Le personnage a bien été supprimé',
+          error: 'Une erreur est survenue lors de la suppression du personnage',
+        },
+      },
+      move: {
+        left: {
+          label: 'Remonter',
+        },
+        right: {
+          label: 'Descendre',
+        },
+      },
+      delete: {
+        label: 'Supprimer',
       },
     },
     chapter: {

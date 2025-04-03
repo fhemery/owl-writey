@@ -7,7 +7,7 @@ export class NovelViewModel {
     readonly generalInfo: NovelGeneralInfoViewModel,
     readonly participants: NovelParticipantViewModel[],
     readonly chapters: NovelChapterViewModel[],
-    readonly universe?: NovelUniverseViewModel
+    readonly universe: NovelUniverseViewModel
   ) {}
 
   addChapterAt(name: string, outline = '', index?: number): void {
@@ -87,12 +87,25 @@ export class NovelViewModel {
     const chapter = this.getChapter(chapterId);
     chapter.deleteScene(sceneId);
   }
+  addCharacterAt(name: string, description: string, index: number): void {
+    this.universe.addCharacterAt(name, description, index);
+  }
+  updateCharacter(character: NovelCharacterViewModel): void {
+    this.universe.updateCharacter(character);
+  }
+  moveCharacter(from: number, to: number): void {
+    this.universe.moveCharacter(from, to);
+  }
+  deleteCharacter(id: string): void {
+    this.universe.deleteCharacter(id);
+  }
   copy(): NovelViewModel {
     return new NovelViewModel(
       this.id,
       this.generalInfo,
       this.participants,
-      this.chapters
+      this.chapters,
+      this.universe
     );
   }
   private getChapter(chapterId: string): NovelChapterViewModel {
@@ -195,6 +208,37 @@ export class NovelSceneGeneralInfoViewModel {
 
 export class NovelUniverseViewModel {
   constructor(readonly characters: NovelCharacterViewModel[] = []) {}
+
+  addCharacterAt(name: string, description: string, index: number): void {
+    if (index !== undefined) {
+      this.characters.splice(
+        index,
+        0,
+        new NovelCharacterViewModel(uuidV4(), name, description)
+      );
+    } else {
+      this.characters.push(
+        new NovelCharacterViewModel(uuidV4(), name, description)
+      );
+    }
+  }
+  updateCharacter(character: NovelCharacterViewModel): void {
+    const index = this.characters.findIndex((c) => c.id === character.id);
+    if (index !== -1) {
+      this.characters.splice(index, 1, character);
+    }
+  }
+  moveCharacter(from: number, to: number): void {
+    const character = this.characters[from];
+    this.characters.splice(from, 1);
+    this.characters.splice(to, 0, character);
+  }
+  deleteCharacter(characterId: string): void {
+    const index = this.characters.findIndex((c) => c.id === characterId);
+    if (index !== -1) {
+      this.characters.splice(index, 1);
+    }
+  }
 }
 
 export class NovelCharacterViewModel {

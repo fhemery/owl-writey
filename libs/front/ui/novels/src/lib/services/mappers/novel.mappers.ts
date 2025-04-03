@@ -3,10 +3,12 @@ import { NovelDto } from '@owl/shared/novels/contracts';
 import {
   NovelChapterGeneralInfoViewModel,
   NovelChapterViewModel,
+  NovelCharacterViewModel,
   NovelGeneralInfoViewModel,
   NovelParticipantViewModel,
   NovelSceneGeneralInfoViewModel,
   NovelSceneViewModel,
+  NovelUniverseViewModel,
   NovelViewModel,
 } from '../../model';
 
@@ -46,6 +48,17 @@ export const novelMappers = {
                 )
             )
           )
+      ),
+      new NovelUniverseViewModel(
+        dto.universe?.characters.map(
+          (character) =>
+            new NovelCharacterViewModel(
+              character.id,
+              character.name,
+              character.description,
+              character.tags
+            )
+        ) || []
       )
     );
   },
