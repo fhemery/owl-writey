@@ -49,11 +49,18 @@
     }
   }
 
-  &__footer {
+  &__footer,
+  &__details {
+    line-height: 1.5rem;
     padding: 0.25rem;
     display: flex;
     gap: 0.25rem;
     border-top: 1px dotted var(--color-accent);
+
+    &--pov {
+      display: flex;
+      align-items: center;
+    }
 
     &--placeholder {
       flex: 1;
@@ -73,6 +80,10 @@
 
       &.action--delete {
         color: var(--color-error);
+      }
+
+      &.no-pov {
+        color: var(--color-inactive);
       }
     }
 

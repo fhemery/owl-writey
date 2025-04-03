@@ -16,6 +16,19 @@
   >
     {{ scene.generalInfo.outline }}
   </div>
+  <div class="chapter-scene__details">
+    <a class="chapter-scene__details--pov" [matMenuTriggerFor]="povMenu">
+      <mat-icon [ngClass]="{ 'no-pov': !pov() }">person</mat-icon>
+      <span>{{ pov()?.name }}</span>
+    </a>
+    <mat-menu #povMenu="matMenu">
+      <owl-novel-select-pov
+        [currentlySelectedId]="pov()?.id"
+        [characters]="novel().universe.characters"
+        (selectedCharacter)="updatePov($event)"
+      ></owl-novel-select-pov>
+    </mat-menu>
+  </div>
   <div class="chapter-scene__footer">
     <a
       class="chapter-scene__action"

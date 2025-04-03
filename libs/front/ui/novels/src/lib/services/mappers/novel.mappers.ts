@@ -42,7 +42,8 @@ export const novelMappers = {
                   scene.id,
                   new NovelSceneGeneralInfoViewModel(
                     scene.generalInfo.title,
-                    scene.generalInfo.outline
+                    scene.generalInfo.outline,
+                    scene.generalInfo.pointOfViewId
                   ),
                   scene.content
                 )
@@ -85,6 +86,7 @@ export const novelMappers = {
           generalInfo: {
             title: scene.generalInfo.title,
             outline: scene.generalInfo.outline,
+            pointOfViewId: scene.generalInfo.pov,
           },
           content: scene.text,
         })),

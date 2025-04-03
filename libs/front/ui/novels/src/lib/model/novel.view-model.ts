@@ -99,6 +99,9 @@ export class NovelViewModel {
   deleteCharacter(id: string): void {
     this.universe.deleteCharacter(id);
   }
+  findCharacter(characterId: string): NovelCharacterViewModel | null {
+    return this.universe.findCharacter(characterId);
+  }
   copy(): NovelViewModel {
     return new NovelViewModel(
       this.id,
@@ -203,7 +206,11 @@ export class NovelSceneViewModel {
 }
 
 export class NovelSceneGeneralInfoViewModel {
-  constructor(readonly title: string, readonly outline: string) {}
+  constructor(
+    readonly title: string,
+    readonly outline: string,
+    readonly pov?: string
+  ) {}
 }
 
 export class NovelUniverseViewModel {
@@ -221,6 +228,9 @@ export class NovelUniverseViewModel {
         new NovelCharacterViewModel(uuidV4(), name, description)
       );
     }
+  }
+  findCharacter(characterId: string): NovelCharacterViewModel | null {
+    return this.characters.find((c) => c.id === characterId) || null;
   }
   updateCharacter(character: NovelCharacterViewModel): void {
     const index = this.characters.findIndex((c) => c.id === character.id);

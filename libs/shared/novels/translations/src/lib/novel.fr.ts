@@ -82,6 +82,14 @@ export const novelFr = {
           label: 'Déplacer en bas',
         },
       },
+      pov: {
+        select: {
+          label: 'Sélectionner {{name}}',
+        },
+        unselect: {
+          label: 'Déselectionner',
+        },
+      },
       transfer: {
         label: 'Transférer vers un autre chapitre',
         text: 'Sélectionnez le chapitre et la scène APRÈS LAQUELLE vous voulez transférer la scène',
