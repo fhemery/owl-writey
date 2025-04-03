@@ -1,11 +1,24 @@
 <div class="novel-character-page">
   <h2>{{ 'novel.character.title' | translate }}</h2>
+  <div class="tags-filter">
+    <mat-chip-set>
+      @for (tag of allTags(); track tag) {
+      <mat-chip
+        (click)="toggleTag(tag)"
+        [ngClass]="{ 'mat-chip-selected': selectedTags().includes(tag) }"
+        >#{{ tag }}</mat-chip
+      >
+      }
+    </mat-chip-set>
+  </div>
+
   <div class="characters">
     <owl-novel-corkboard
       [items]="characters()"
       [maxItems]="2"
       [itemTemplate]="characterTemplate"
       [addNewLabel]="'novel.defaults.newCharacter.label' | translate"
+      [disablePositionalAdd]="selectedTags().length > 0"
       (addNew)="addCharacterAt($event)"
       (moveItem)="moveCharacter($event)"
     ></owl-novel-corkboard>

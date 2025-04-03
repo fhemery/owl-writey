@@ -2,4 +2,14 @@
   h2 {
     text-align: center;
   }
+
+  .tags-filter {
+    display: flex;
+    justify-content: center;
+
+    .mat-chip-selected {
+      background-color: var(--color-success-background);
+      border: 1px solid var(--color-success);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
@@ -18,6 +19,7 @@ import { NovelCharacterCardComponent } from './components/novel-character-card/n
     CommonModule,
     TranslateModule,
     NovelCorkboardComponent,
+    MatChipsModule,
     NovelCharacterCardComponent,
   ],
   templateUrl: './novel-characters-page.component.html',
@@ -30,13 +32,19 @@ export class NovelCharactersPageComponent {
   readonly #novelStore = inject(NovelStore);
   readonly novel = this.#novelStore.novel;
   readonly characters = computed(
-    () => this.novel()?.universe?.characters ?? []
+    () =>
+      this.novel()?.universe?.characters.filter(
+        (c) =>
+          this.selectedTags().length === 0 ||
+          c.tags.some((tag) => this.selectedTags().includes(tag))
+      ) ?? []
   );
   readonly allTags = computed(() => {
     const tags =
       this.novel()?.universe?.characters.flatMap((c) => c.tags) ?? [];
-    return [...new Set(tags)];
+    return [...new Set(tags)].sort();
   });
+  readonly selectedTags = signal<string[]>([]);
 
   constructor() {
     this.#novelContext.reset();
@@ -70,6 +78,13 @@ export class NovelCharactersPageComponent {
           'novel.character.deleteConfirm.result.ok'
         );
       }
+    }
+  }
+  toggleTag(tag: string): void {
+    if (this.selectedTags().includes(tag)) {
+      this.selectedTags.update((tags) => tags.filter((t) => t !== tag));
+    } else {
+      this.selectedTags.update((tags) => [...tags, tag]);
     }
   }
 }

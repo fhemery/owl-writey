@@ -21,6 +21,7 @@ export class NovelCorkboardComponent {
   readonly maxItems = input<2 | 4>(4);
   readonly items = input<unknown[]>([]);
   readonly itemTemplate = input<TemplateRef<unknown> | null>(null);
+  readonly disablePositionalAdd = input<boolean>(false);
   readonly addNew = output<number>();
   readonly moveItem = output<{ from: number; to: number }>();
 
