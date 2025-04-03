@@ -8,13 +8,18 @@
   </div>
   <div class="character-card__tags">
     <mat-form-field class="example-chip-list form-field-density-5">
-      <mat-chip-grid #chipGrid aria-label="Enter tags">
+      <mat-chip-grid
+        #chipGrid
+        [attr.aria-label]="'novel.character.tags.add.ariaLabel' | translate"
+      >
         @for (tag of character().tags; track tag) {
         <mat-chip>
-          {{ tag }}
+          #{{ tag }}
           <button
             matChipRemove
-            [attr.aria-label]="'remove ' + tag"
+            [attr.aria-label]="
+              'novel.character.tags.remove.aria-label' | translate : { tag }
+            "
             (click)="removeTag(tag)"
           >
             <mat-icon>cancel</mat-icon>
@@ -22,7 +27,7 @@
         </mat-chip>
         }
         <input
-          placeholder="Add a tag"
+          [placeholder]="'novel.character.tags.add.placeholder' | translate"
           autocomplete="off"
           [(ngModel)]="currentTag"
           #tagInput
@@ -36,7 +41,7 @@
           (optionSelected)="addTag($event.option.value); tagInput.value = ''"
         >
           @for (tag of filteredTags(); track tag) {
-          <mat-option [value]="tag">{{ tag }}</mat-option>
+          <mat-option [value]="tag">#{{ tag }}</mat-option>
           }
         </mat-autocomplete>
       </mat-chip-grid>

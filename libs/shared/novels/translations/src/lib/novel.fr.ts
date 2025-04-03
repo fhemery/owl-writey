@@ -33,6 +33,13 @@ export const novelFr = {
       },
       tags: {
         label: 'Tags',
+        add: {
+          ariaLabel: 'Ajouter un tag',
+          placeholder: 'Ajouter un tag',
+        },
+        remove: {
+          ariaLabel: 'Supprimer le tag {{tag}}',
+        },
       },
       move: {
         left: {
