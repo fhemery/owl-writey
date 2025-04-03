@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestUtils } from '@owl/front/test-utils';
 
@@ -10,17 +11,29 @@ describe('NovelCreatePageComponent', () => {
   let component: NovelCreatePageComponent;
   let fixture: ComponentFixture<NovelCreatePageComponent>;
   let novelService: Partial<NovelService>;
+  let routerSpy: Partial<Router>;
   let testUtils: TestUtils;
 
+  beforeEach(() => {
+    novelService = {
+      createNovel: vi.fn().mockResolvedValue('123'),
+    } as Partial<NovelService>;
+    routerSpy = {
+      navigate: vi.fn().mockResolvedValue(true),
+    } as Partial<Router>;
+  });
+
   beforeEach(async () => {
-    novelService = {} as Partial<NovelService>;
     await TestBed.configureTestingModule({
       imports: [
         NovelCreatePageComponent,
         TranslateModule.forRoot(),
         NoopAnimationsModule,
       ],
-      providers: [{ provide: NovelService, useValue: novelService }],
+      providers: [
+        { provide: NovelService, useValue: novelService },
+        { provide: Router, useValue: routerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NovelCreatePageComponent);
@@ -47,6 +60,21 @@ describe('NovelCreatePageComponent', () => {
       expect(
         testUtils.getElementAt('button[type="submit"]').getAttribute('disabled')
       ).toBeFalsy();
+    });
+
+    it('should call the novelService with the correct data', async () => {
+      testUtils.updateInputField('input[name="title"]', 'test');
+      await testUtils.submitReactiveForm('#novelForm');
+      expect(novelService.createNovel).toHaveBeenCalledWith({
+        title: 'test',
+        description: '',
+      });
+    });
+
+    it('should call the router to redirect', async () => {
+      testUtils.updateInputField('input[name="title"]', 'test');
+      await testUtils.submitReactiveForm('#novelForm');
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/novels', '123']);
     });
   });
 

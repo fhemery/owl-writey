@@ -126,8 +126,10 @@ export class TestUtils {
     return memberParts[memberParts.length - 1];
   }
 
-  submitReactiveForm(selector: string): void {
+  async submitReactiveForm(selector: string): Promise<void> {
     this.dispatchEvent('submit', selector);
+    this.fixture.detectChanges();
+    await this.fixture.whenStable();
   }
 
   getDocumentNbElements(selector: string): number {
