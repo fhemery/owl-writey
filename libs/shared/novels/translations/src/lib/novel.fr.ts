@@ -31,6 +31,9 @@ export const novelFr = {
           error: 'Une erreur est survenue lors de la suppression du personnage',
         },
       },
+      tags: {
+        label: 'Tags',
+      },
       move: {
         left: {
           label: 'Remonter',

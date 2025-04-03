@@ -32,6 +32,11 @@ export class NovelCharactersPageComponent {
   readonly characters = computed(
     () => this.novel()?.universe?.characters ?? []
   );
+  readonly allTags = computed(() => {
+    const tags =
+      this.novel()?.universe?.characters.flatMap((c) => c.tags) ?? [];
+    return [...new Set(tags)];
+  });
 
   constructor() {
     this.#novelContext.reset();

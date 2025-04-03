@@ -3,6 +3,7 @@
   <div class="characters">
     <owl-novel-corkboard
       [items]="characters()"
+      [maxItems]="2"
       [itemTemplate]="characterTemplate"
       [addNewLabel]="'novel.defaults.newCharacter.label' | translate"
       (addNew)="addCharacterAt($event)"
@@ -12,6 +13,7 @@
     <ng-template #characterTemplate let-item let-index="index">
       <owl-novel-character-card
         [character]="convertToCharacter(item)"
+        [allTags]="allTags()"
         (updateCharacter)="updateCharacter($event)"
         (deleteCharacter)="deleteCharacter(item)"
         (moveCharacter)="

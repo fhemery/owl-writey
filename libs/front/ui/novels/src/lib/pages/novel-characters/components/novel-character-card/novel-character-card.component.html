@@ -6,6 +6,42 @@
   >
     {{ character().name }}
   </div>
+  <div class="character-card__tags">
+    <mat-form-field class="example-chip-list form-field-density-5">
+      <mat-chip-grid #chipGrid aria-label="Enter tags">
+        @for (tag of character().tags; track tag) {
+        <mat-chip>
+          {{ tag }}
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + tag"
+            (click)="removeTag(tag)"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        }
+        <input
+          placeholder="Add a tag"
+          autocomplete="off"
+          [(ngModel)]="currentTag"
+          #tagInput
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addTag($event.value); tagInput.value = ''"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="addTag($event.option.value); tagInput.value = ''"
+        >
+          @for (tag of filteredTags(); track tag) {
+          <mat-option [value]="tag">{{ tag }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-chip-grid>
+    </mat-form-field>
+  </div>
   <div
     class="character-card__content"
     owlContentEditable

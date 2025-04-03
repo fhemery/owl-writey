@@ -142,3 +142,8 @@ mat-form-field {
 mat-hint {
   color: #5c5c5c;
 }
+
+.form-field-density-5 {
+  @include mat.form-field-density(-5);
+  @include mat.chips-density(-5);
+}
