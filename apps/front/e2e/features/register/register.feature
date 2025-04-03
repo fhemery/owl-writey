@@ -15,7 +15,7 @@ Feature: Registration Feature
     @Automated
     Scenario Outline: Registration form validation
         When I fill the registration form with "<field>"
-        Then "<result>" should be displayed
+        Then "<result>" should be displayed for registration
 
         Examples: 
             |       field       |                result                 |

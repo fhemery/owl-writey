@@ -53,7 +53,7 @@ When('I fill the registration form with {string}', async ({ registerPo }, field:
         await registerPo.wronglyRegisterAs(name, email, password, repeatedPassword);
     }
 });
-Then('{string} should be displayed', async ({ registerPo, dashboardPo }, result: string) => {
+Then('{string} should be displayed for registration', async ({ registerPo, dashboardPo }, result: string) => {
     if (result === 'I am redirected to the dashboard page') {
         await dashboardPo.shouldBeDisplayed();
     } else if (result === 'It should display an error') {
