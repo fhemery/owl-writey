@@ -98,6 +98,7 @@ export class NovelViewModel {
   }
   deleteCharacter(id: string): void {
     this.universe.deleteCharacter(id);
+    this.chapters.forEach((c) => c.deletePov(id));
   }
   findCharacter(characterId: string): NovelCharacterViewModel | null {
     return this.universe.findCharacter(characterId);
@@ -178,6 +179,9 @@ export class NovelChapterViewModel {
   containsScene(sceneId: string): boolean {
     return this.scenes.some((s) => s.id === sceneId);
   }
+  deletePov(characterId: string): void {
+    this.scenes.forEach((s) => s.deletePov(characterId));
+  }
   moveScene(sceneIndex: number, toIndex: number): void {
     const scene = this.scenes[sceneIndex];
     this.scenes.splice(sceneIndex, 1);
@@ -203,14 +207,26 @@ export class NovelSceneViewModel {
     readonly generalInfo: NovelSceneGeneralInfoViewModel,
     readonly text: string
   ) {}
+
+  deletePov(characterId: string): void {
+    if (this.generalInfo.pov === characterId) {
+      this.generalInfo.pov = undefined;
+    }
+  }
 }
 
 export class NovelSceneGeneralInfoViewModel {
   constructor(
     readonly title: string,
     readonly outline: string,
-    readonly pov?: string
+    public pov?: string
   ) {}
+
+  deletePov(characterId: string): void {
+    if (this.pov === characterId) {
+      this.pov = undefined;
+    }
+  }
 }
 
 export class NovelUniverseViewModel {
