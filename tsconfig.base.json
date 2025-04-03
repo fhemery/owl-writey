@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@owl-writey/checking": ["libs/front/ui/checking/src/index.ts"],
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
       "@owl/back/config": ["libs/back/config/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],
@@ -30,6 +31,7 @@
       "@owl/front/app": ["libs/front/app/src/index.ts"],
       "@owl/front/auth": ["libs/front/auth/src/index.ts"],
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
+      "@owl/front/test-utils": ["libs/front/test-utils/src/index.ts"],
       "@owl/front/ui/common": ["libs/front/ui/common/src/index.ts"],
       "@owl/front/ui/dashboard": ["libs/front/ui/dashboard/src/index.ts"],
       "@owl/front/ui/exercises": ["libs/front/ui/exercises/src/index.ts"],

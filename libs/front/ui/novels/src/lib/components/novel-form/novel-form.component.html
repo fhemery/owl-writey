@@ -11,13 +11,15 @@
               name="title"
               autocomplete="off"
             />
+            @if(novelForm.get('title')?.hasError('required')) {
             <mat-error>
-              @if(novelForm.get('title')?.hasError('required')) {
               {{ 'novel.form.title.error.required' | translate }}
-              } @else if(novelForm.get('title')?.hasError('minlength')) {
-              {{ 'novel.form.title.error.minlength' | translate }}
-              }
             </mat-error>
+            } @else if(novelForm.get('title')?.hasError('minlength')) {
+            <mat-error>
+              {{ 'novel.form.title.error.minlength' | translate }}
+            </mat-error>
+            }
           </mat-form-field>
           <div class="novel-form__description">
             <div>{{ 'novel.form.description.label' | translate }}</div>

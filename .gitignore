@@ -52,3 +52,6 @@ TODO.md
 /apps/front/e2e/users.json
 /playwright-report/index.html
 /apps/front/src/environments/environment.ts
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
