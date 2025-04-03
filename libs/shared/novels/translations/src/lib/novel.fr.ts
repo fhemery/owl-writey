@@ -13,6 +13,9 @@ export const novelFr = {
     },
     sidebar: {
       title: 'Table des matières',
+      universe: {
+        characters: 'Personnages',
+      },
     },
     chapter: {
       deleteConfirm: {

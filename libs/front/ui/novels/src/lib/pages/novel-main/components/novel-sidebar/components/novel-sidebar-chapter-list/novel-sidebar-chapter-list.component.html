@@ -1,0 +1,45 @@
+<div class="chapter-list">
+  <div class="chapter-list__level level--0">
+    <mat-icon color="accent">folder</mat-icon>
+    <a class="chapter-list__item-name" [routerLink]="['/novels', novel().id]">{{
+      'novel.sidebar.title' | translate
+    }}</a>
+  </div>
+  @for(chapter of novel().chapters; track chapter.id) {
+  <div
+    class="chapter-list__level level--1"
+    [ngClass]="{ selected: chapter.id === selectedChapterId() }"
+  >
+    <div class="chapter-list__placeholder"></div>
+    <mat-icon color="accent" (click)="toggleChapterOpen(chapter.id)">{{
+      openChaptersIds().includes(chapter.id) ? 'folder_open' : 'folder'
+    }}</mat-icon>
+    <a
+      class="chapter-list__item-name"
+      [routerLink]="['/novels', novel().id, 'chapters', chapter.id]"
+      >{{ chapter.generalInfo.title }}</a
+    >
+  </div>
+  @if (openChaptersIds().includes(chapter.id)) { @for(scene of chapter.scenes;
+  track scene.id) {
+  <div
+    class="chapter-list__level level--2"
+    [ngClass]="{ selected: scene.id === selectedSceneId() }"
+  >
+    <div class="chapter-list__placeholder"></div>
+    <mat-icon color="accent">description</mat-icon>
+    <a
+      class="chapter-list__item-name"
+      [routerLink]="[
+        '/novels',
+        novel().id,
+        'chapters',
+        chapter.id,
+        'scenes',
+        scene.id
+      ]"
+      >{{ scene.generalInfo.title }}</a
+    >
+  </div>
+  } } }
+</div>
