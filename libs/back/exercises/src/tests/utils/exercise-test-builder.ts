@@ -1,4 +1,7 @@
-import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
+import {
+  ExerciseToCreateDto,
+  ExerciseType,
+} from '@owl/shared/exercises/contracts';
 
 export class ExerciseTestBuilder {
   private name = 'Exercise';

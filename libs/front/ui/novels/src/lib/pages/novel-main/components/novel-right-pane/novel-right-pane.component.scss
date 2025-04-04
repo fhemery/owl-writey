@@ -1,0 +1,23 @@
+:host {
+  display: contents;
+  position: relative;
+}
+
+.right-panel {
+  position: relative;
+  transition: all 3s;
+
+  &__content {
+    transition: width 5s;
+    height: 100%;
+    overflow: hidden;
+
+    &:empty {
+      width: 0;
+
+      & + .right-panel__close {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@if(novel(); as novel) {
+<owl-confirm-dialog
+  [title]="
+    'novel.delete.header' | translate : { name: novel.generalInfo.title }
+  "
+  [cancelLabel]="'novel.delete.form.cancel' | translate"
+  [confirmLabel]="'novel.delete.form.submit' | translate"
+  [confirmEnabled]="novelName === novel.generalInfo.title"
+  (confirm)="delete($event)"
+>
+  <p
+    [innerHTML]="
+      'novel.delete.text' | translate : { name: novel.generalInfo.title }
+    "
+  ></p>
+  <mat-form-field>
+    <mat-label>{{ 'novel.delete.form.nameField.label' | translate }}</mat-label>
+    <input
+      matInput
+      [(ngModel)]="novelName"
+      name="name"
+      required
+      [ngClass]="
+        novelName === novel.generalInfo.title ? 'field--ok' : 'field--ko'
+      "
+      autocomplete="off"
+    />
+  </mat-form-field>
+</owl-confirm-dialog>
+}

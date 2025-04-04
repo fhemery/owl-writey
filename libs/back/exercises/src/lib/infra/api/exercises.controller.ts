@@ -16,15 +16,17 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SseNotificationService } from '@owl/back/infra/sse';
 import {
+  HeartbeatEvent,
+  NotificationEvent,
+  SseEvent,
+} from '@owl/shared/common/contracts';
+import {
   connectedToExerciseEvent,
   disconnectedFromExerciseEvent,
   ExerciseDto,
   ExercisedUpdateEvent,
   GetAllExercisesResponseDto,
-  HeartbeatEvent,
-  NotificationEvent,
-  SseEvent,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 import { Observable } from 'rxjs';
 
 import {

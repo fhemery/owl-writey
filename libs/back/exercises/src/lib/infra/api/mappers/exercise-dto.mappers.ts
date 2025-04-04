@@ -6,7 +6,7 @@ import {
   ExerciseSummaryDto,
   ExerciseType,
   ExquisiteCorpseLinksDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import {
   ExerciseSummary,

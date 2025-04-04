@@ -1,4 +1,6 @@
-import { NovelRole } from '@owl/shared/contracts';
+import { NovelRole } from '@owl/shared/novels/contracts';
+
+import { NovelParticipant } from './novel-participant';
 
 export class NovelGeneralInfo {
   constructor(
@@ -6,12 +8,10 @@ export class NovelGeneralInfo {
     readonly description = '',
     readonly participants: NovelParticipant[]
   ) {}
-}
 
-export class NovelParticipant {
-  constructor(
-    readonly uid: string,
-    readonly name: string,
-    readonly role: NovelRole
-  ) {}
+  isAuthor(uid: string): boolean {
+    return this.participants.some(
+      (p) => p.uid === uid && p.role === NovelRole.Author
+    );
+  }
 }

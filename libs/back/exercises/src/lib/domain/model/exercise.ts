@@ -2,7 +2,7 @@ import {
   ExerciseParticipantRole,
   ExerciseStatus,
   ExerciseType,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { ExerciseException } from './exceptions/exercise-exception';
 import { ExerciseGeneralInfo } from './exercise-general-info';

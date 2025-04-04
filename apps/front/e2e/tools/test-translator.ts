@@ -1,4 +1,4 @@
-import { uiFr } from '@owl/shared/translations';
+import { uiFr } from '@owl/shared/common/translations';
 
 // Type to create dot-notation path strings
 type DotPrefix<T extends string> = T extends '' ? '' : `.${T}`;

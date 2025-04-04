@@ -1,4 +1,4 @@
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 
 export class TestUserToRegister {
   constructor(

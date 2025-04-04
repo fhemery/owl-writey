@@ -1,0 +1,13 @@
+<div class="novel-overview-no-chapter">
+  <div>{{ 'novel.overview.noChapters.label' | translate }}</div>
+  <p class="novel-overview-no-chapter__buttons">
+    <button
+      mat-raised-button
+      (click)="addChapter()"
+      (keyup.enter)="addChapter()"
+    >
+      <mat-icon>add</mat-icon>
+      {{ 'novel.overview.noChapters.button' | translate }}
+    </button>
+  </p>
+</div>

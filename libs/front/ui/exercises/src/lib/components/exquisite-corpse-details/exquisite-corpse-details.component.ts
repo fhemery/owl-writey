@@ -8,7 +8,7 @@ import {
   ExerciseDto,
   ExerciseStatus,
   ExquisiteCorpseExerciseDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 import { SocketIoModule } from 'ngx-socket-io';
 
 import { ExquisiteCorpseService } from '../../services/exquisite-corpse.service';

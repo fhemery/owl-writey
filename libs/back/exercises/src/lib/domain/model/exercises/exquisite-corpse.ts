@@ -1,4 +1,4 @@
-import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/exercises/contracts';
 
 import { ExerciseException } from '../exceptions/exercise-exception';
 import { Exercise } from '../exercise';
@@ -131,7 +131,7 @@ export class ExquisiteCorpseConfig {
     readonly initialText: string,
     readonly nbIterations: number | null = null,
     iterationDuration = 900,
-    readonly textSize?: { minWords?: number; maxWords?: number }
+    readonly textSize?: { minWords: number | null; maxWords: number | null }
   ) {
     if (nbIterations && nbIterations < 1) {
       throw new ExerciseException(
@@ -154,12 +154,20 @@ export class ExquisiteCorpseConfig {
     }
 
     if (textSize) {
-      if (textSize.minWords !== undefined && textSize.minWords < 1) {
+      if (
+        textSize.minWords !== undefined &&
+        textSize.minWords !== null &&
+        textSize.minWords < 1
+      ) {
         throw new ExerciseException(
           'Exquisite corpse: config.textSize.minWords must be at least 1'
         );
       }
-      if (textSize.maxWords !== undefined && textSize.maxWords < 1) {
+      if (
+        textSize.maxWords !== undefined &&
+        textSize.maxWords !== null &&
+        textSize.maxWords < 1
+      ) {
         throw new ExerciseException(
           'Exquisite corpse: config.textSize.maxWords must be at least 1'
         );

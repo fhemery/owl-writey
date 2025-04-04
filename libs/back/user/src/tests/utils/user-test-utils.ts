@@ -3,7 +3,7 @@ import {
   NestTestApplication,
   RegisteredTestUser,
 } from '@owl/back/test-utils';
-import { Role, UserToCreateDto } from '@owl/shared/contracts';
+import { Role, UserToCreateDto } from '@owl/shared/common/contracts';
 
 export class UserTestUtils {
   constructor(private readonly app: NestTestApplication) {}

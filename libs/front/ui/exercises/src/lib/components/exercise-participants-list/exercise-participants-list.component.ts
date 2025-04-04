@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto } from '@owl/shared/contracts';
+import { ExerciseDto } from '@owl/shared/exercises/contracts';
 
 @Component({
   selector: 'owl-exercise-participants-list',

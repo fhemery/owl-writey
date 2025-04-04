@@ -1,5 +1,8 @@
 import { ApiResponseStatus, TestUserBuilder } from '@owl/back/test-utils';
-import { ExerciseStatus, ExerciseToCreateDto } from '@owl/shared/contracts';
+import {
+  ExerciseStatus,
+  ExerciseToCreateDto,
+} from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';

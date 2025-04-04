@@ -1,0 +1,25 @@
+.novel-header {
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  h1 {
+    flex: 1 1 auto;
+    font-size: 1.6rem;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  mat-icon {
+    flex: 0 0 auto;
+
+    &.accent {
+      color: var(--color-accent);
+      cursor: pointer;
+    }
+  }
+}

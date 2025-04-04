@@ -2,7 +2,7 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import {
   ExerciseToCreateDto,
   ExquisiteCorpseExerciseDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
@@ -162,5 +162,25 @@ describe('POST /api/exercises (exquisite corpse)', () => {
       createdExercise.body as ExquisiteCorpseExerciseDto;
     expect(retrievedExercise.config?.textSize?.minWords).toBe(10);
     expect(retrievedExercise.config?.textSize?.maxWords).toBe(20);
+  });
+
+  it('should work with textSizes set to null', async () => {
+    await app.logAs(TestUserBuilder.Alice());
+    const exercise: ExerciseToCreateDto =
+      ExerciseTestBuilder.FromExquisiteCorpse()
+        .withConfigKey('iterationDuration', 0)
+        .withConfigKey('textSize', { minWords: null, maxWords: null })
+        .build();
+
+    const response = await exerciseUtils.create(exercise);
+    expect(response.status).toBe(201);
+
+    const createdExercise = await exerciseUtils.getOne(
+      response.locationId || ''
+    );
+    const retrievedExercise =
+      createdExercise.body as ExquisiteCorpseExerciseDto;
+    expect(retrievedExercise.config?.textSize?.minWords).toBe(null);
+    expect(retrievedExercise.config?.textSize?.maxWords).toBe(null);
   });
 });

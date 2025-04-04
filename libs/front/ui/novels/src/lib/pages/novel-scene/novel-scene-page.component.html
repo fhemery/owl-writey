@@ -1,0 +1,19 @@
+@if(scene(); as scene) {
+<div class="scene-page">
+  <h2
+    class="scene-page__title"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
+  >
+    {{ scene.generalInfo.title }}
+  </h2>
+  <div class="scene-page__text">
+    <owl-text-editor
+      [currentContent]="scene.text"
+      [debounceTime]="5000"
+      (update)="updateContent($event)"
+      nbLines="max"
+    ></owl-text-editor>
+  </div>
+</div>
+}

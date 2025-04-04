@@ -9,7 +9,7 @@ import {
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
   exquisiteCorpseTurnTakenEvent,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { expectNotificationReceived } from '../utils/exercise-events.utils';

@@ -1,4 +1,4 @@
-import { SseEvent } from '@owl/shared/contracts';
+import { SseEvent } from '@owl/shared/common/contracts';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Subject } from 'rxjs';
 

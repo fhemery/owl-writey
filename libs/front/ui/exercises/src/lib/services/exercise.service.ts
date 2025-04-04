@@ -4,7 +4,7 @@ import {
   ExerciseDto,
   exerciseErrors,
   ExerciseToCreateDto,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 import { firstValueFrom } from 'rxjs';
 
 export enum RemoveParticipantResult {

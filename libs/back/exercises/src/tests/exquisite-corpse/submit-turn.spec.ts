@@ -4,13 +4,15 @@ import {
   waitFor,
 } from '@owl/back/test-utils';
 import {
-  ExerciseDto,
   ExercisedUpdateEvent,
+  exquisiteCorpseTurnSubmittedEvent,
+} from '@owl/shared/exercises/contracts';
+import {
+  ExerciseDto,
   ExerciseStatus,
   ExquisiteCorpseExerciseDto,
   ExquisiteCorpseLinksDto,
-  exquisiteCorpseTurnSubmittedEvent,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
 import { expectNotificationReceived } from '../utils/exercise-events.utils';

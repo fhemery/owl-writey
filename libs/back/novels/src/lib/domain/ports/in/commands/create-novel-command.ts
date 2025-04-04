@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { NovelRole } from '@owl/shared/contracts';
+import { NovelRole } from '@owl/shared/novels/contracts';
 import { v4 as uuidV4 } from 'uuid';
 
 import {

@@ -1,5 +1,5 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { NovelToCreateDto } from '@owl/shared/contracts';
+import { NovelToCreateDto } from '@owl/shared/novels/contracts';
 
 import { app, moduleTestInit } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';

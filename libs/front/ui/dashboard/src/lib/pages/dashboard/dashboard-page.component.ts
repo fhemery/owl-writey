@@ -5,7 +5,9 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { ExerciseSummaryDto, NovelSummaryDto } from '@owl/shared/contracts';
+// TODO : Split into exercises and novels
+import { ExerciseSummaryDto } from '@owl/shared/exercises/contracts';
+import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
 import { DashboardExercisesComponent } from '../../components/dashboard-exercises/dashboard-exercises.component';
 import { DashboardNovelsComponent } from '../../components/dashboard-novels/dashboard-novels.component';

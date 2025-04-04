@@ -21,7 +21,7 @@ import {
   ExerciseDto,
   ExerciseStatus,
   ExerciseType,
-} from '@owl/shared/contracts';
+} from '@owl/shared/exercises/contracts';
 
 import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite-form-corpse.component';
 

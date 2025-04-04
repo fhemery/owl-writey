@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/exercises/contracts';
 import { Repository } from 'typeorm';
 
 import {

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FirebaseAuthService } from '@owl/front/auth';
-import { SseEvent } from '@owl/shared/contracts';
+import { SseEvent } from '@owl/shared/common/contracts';
 import { filter, finalize, from, map, Observable, switchMap } from 'rxjs';
 
 import { SseSubscriberService } from './sse.subscriber.service';

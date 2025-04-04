@@ -1,0 +1,65 @@
+@if(scene(); as scene){
+<div class="chapter-scene">
+  <div
+    class="chapter-scene__title"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
+  >
+    {{ scene.generalInfo.title }}
+  </div>
+  <div
+    class="chapter-scene__outline"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateOutline($event)"
+    [innerHTML]="scene.generalInfo.outline"
+  >
+    {{ scene.generalInfo.outline }}
+  </div>
+  <div class="chapter-scene__footer">
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(-1)"
+      (keyup.enter)="onMoveScene(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.move.up.label' | translate"
+    >
+      <mat-icon class="action--move">move_up</mat-icon>
+    </a>
+
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(1)"
+      (keyup.enter)="onMoveScene(1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.move.down.label' | translate"
+    >
+      <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="onTransferScene()"
+      (keyup.enter)="onTransferScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.transfer.label' | translate"
+    >
+      <mat-icon class="action--move">north_east</mat-icon>
+    </a>
+    <div class="chapter-scene__footer--placeholder"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="onDeleteScene()"
+      (keyup.enter)="onDeleteScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.delete.label' | translate"
+    >
+      <mat-icon class="action--delete">delete</mat-icon>
+    </a>
+  </div>
+</div>
+}

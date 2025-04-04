@@ -1,0 +1,26 @@
+<div class="novel-page">
+  @if (isLoading()) {
+  <div class="loading">
+    <div class="loading__spinner"></div>
+  </div>
+  } @else { @if (novel(); as novel) {
+  <div class="layout">
+    <div class="layout__title">
+      <owl-novel-header [novel]="novel" />
+    </div>
+    <div class="layout__sidebar">
+      <owl-novel-sidebar [novel]="novel"></owl-novel-sidebar>
+    </div>
+    <div class="layout__content">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="layout__right-panel">
+      <owl-novel-right-pane></owl-novel-right-pane>
+    </div>
+  </div>
+  } @else {
+  <div class="alert">
+    {{ 'novel.main.notFound' | translate }}
+  </div>
+  } }
+</div>

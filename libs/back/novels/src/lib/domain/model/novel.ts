@@ -7,4 +7,8 @@ export class Novel {
     readonly generalInfo: NovelGeneralInfo,
     readonly chapters: Chapter[]
   ) {}
+
+  isAuthor(uid: string): boolean {
+    return this.generalInfo.isAuthor(uid);
+  }
 }

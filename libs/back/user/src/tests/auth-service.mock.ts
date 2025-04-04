@@ -1,6 +1,6 @@
 import { AuthService, TokenDetails, UserDetails } from '@owl/back/auth';
 import { ResettableMock } from '@owl/back/test-utils';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 
 type AuthServiceInterface = Pick<AuthService, keyof AuthService>;
 

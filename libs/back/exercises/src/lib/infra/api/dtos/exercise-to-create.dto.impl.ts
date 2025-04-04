@@ -1,4 +1,7 @@
-import { ExerciseToCreateDto, ExerciseType } from '@owl/shared/contracts';
+import {
+  ExerciseToCreateDto,
+  ExerciseType,
+} from '@owl/shared/exercises/contracts';
 import { IsEnum, IsString, MinLength } from 'class-validator';
 
 export class ExerciseToCreateDtoImpl implements ExerciseToCreateDto {

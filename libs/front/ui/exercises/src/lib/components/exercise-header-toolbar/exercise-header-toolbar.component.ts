@@ -2,12 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseDto, ExerciseStatus } from '@owl/shared/contracts';
+import {
+  ConfirmDialogService,
+  NotificationService,
+} from '@owl/front/ui/common';
+import { ExerciseDto, ExerciseStatus } from '@owl/shared/exercises/contracts';
 
-import { ExerciseDeleteDialogComponent } from '../exercise-delete-dialog/exercise-delete-dialog.component';
-import { ExerciseFinishDialogComponent } from '../exercise-finish-dialog/exercise-finish-dialog.component';
-import { ExerciseLeaveDialogComponent } from '../exercise-leave-dialog/exercise-leave-dialog.component';
+import { ExerciseService } from '../../services/exercise.service';
 import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-share-dialog.component';
 
 @Component({
@@ -18,6 +21,10 @@ import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-
 })
 export class ExerciseHeaderToolbarComponent {
   readonly dialog = inject(MatDialog);
+  readonly #dialogService = inject(ConfirmDialogService);
+  readonly #exerciseService = inject(ExerciseService);
+  readonly #notificationService = inject(NotificationService);
+  readonly #router = inject(Router);
 
   isAdmin = input.required<boolean>();
   exercise = input.required<ExerciseDto>();
@@ -28,26 +35,65 @@ export class ExerciseHeaderToolbarComponent {
     });
   }
 
-  delete(): void {
-    this.dialog.open(ExerciseDeleteDialogComponent, {
-      data: { link: this.exercise()._links.delete },
-    });
+  async delete(): Promise<void> {
+    const isConfirmed = await this.#dialogService.openConfirmDialog(
+      'exercise.delete.title',
+      'exercise.delete.message'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    const result = await this.#exerciseService.delete(
+      this.exercise()._links.delete || ''
+    );
+    if (result) {
+      this.#notificationService.showSuccess('exercise.delete.result.ok');
+      await this.#router.navigateByUrl('/dashboard');
+    } else {
+      this.#notificationService.showError('exercise.delete.result.error');
+    }
   }
 
   edit(): void {
     throw new Error('Method not implemented.');
   }
 
-  leave(): void {
-    this.dialog.open(ExerciseLeaveDialogComponent, {
-      data: { link: this.exercise()._links.leave },
-    });
+  async leave(): Promise<void> {
+    const isConfirmed = await this.#dialogService.openConfirmDialog(
+      'exercise.leave.title',
+      'exercise.leave.message'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    const result = await this.#exerciseService.removeParticipant(
+      this.exercise()._links.leave || ''
+    );
+    if (result) {
+      this.#notificationService.showSuccess('exercise.leave.result.ok');
+      await this.#router.navigateByUrl('/dashboard');
+    } else {
+      this.#notificationService.showError('exercise.leave.result.error');
+    }
   }
 
-  finish(): void {
-    this.dialog.open(ExerciseFinishDialogComponent, {
-      data: { link: this.exercise()._links.finish },
-    });
+  async finish(): Promise<void> {
+    const isConfirmed = await this.#dialogService.openConfirmDialog(
+      'exercise.finish.title',
+      'exercise.finish.message'
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    const result = await this.#exerciseService.finish(
+      this.exercise()._links.finish || ''
+    );
+    if (result) {
+      this.#notificationService.showSuccess('exercise.finish.result.ok');
+      await this.#router.navigateByUrl('/dashboard');
+    } else {
+      this.#notificationService.showError('exercise.leave.result.error');
+    }
   }
 
   protected readonly ExerciseStatus = ExerciseStatus;

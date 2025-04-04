@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 
 import { AuthGuard, RolesGuard } from './auth.guard';
 

@@ -1,0 +1,8 @@
+<div class="novel-header" [routerLink]="['/novels', novel().id, 'edit']">
+  <h1 [matTooltip]="novel().generalInfo.title">
+    {{ novel().generalInfo.title }}
+  </h1>
+  <a [title]="'novel.main.header.edit' | translate">
+    <mat-icon class="accent">edit</mat-icon>
+  </a>
+</div>

@@ -27,17 +27,33 @@
       "@owl/back/test-utils": ["libs/back/test-utils/src/index.ts"],
       "@owl/back/user": ["libs/back/user/src/index.ts"],
       "@owl/back/websocket": ["libs/back/infra/websocket/src/index.ts"],
+      "@owl/front/app": ["libs/front/app/src/index.ts"],
       "@owl/front/auth": ["libs/front/auth/src/index.ts"],
       "@owl/front/infra": ["libs/front/infra/src/index.ts"],
-      "@owl/front/app": ["libs/front/app/src/index.ts"],
       "@owl/front/ui/common": ["libs/front/ui/common/src/index.ts"],
       "@owl/front/ui/dashboard": ["libs/front/ui/dashboard/src/index.ts"],
       "@owl/front/ui/exercises": ["libs/front/ui/exercises/src/index.ts"],
       "@owl/front/ui/login": ["libs/front/ui/login/src/index.ts"],
       "@owl/front/ui/novels": ["libs/front/ui/novels/src/index.ts"],
       "@owl/front/ui/register": ["libs/front/ui/register/src/index.ts"],
-      "@owl/shared/contracts": ["libs/shared/contracts/src/index.ts"],
-      "@owl/shared/translations": ["libs/shared/translations/src/index.ts"],
+      "@owl/shared/common/contracts": [
+        "libs/shared/common/contracts/src/index.ts"
+      ],
+      "@owl/shared/common/translations": [
+        "libs/shared/common/translations/src/index.ts"
+      ],
+      "@owl/shared/exercises/contracts": [
+        "libs/shared/exercises/contracts/src/index.ts"
+      ],
+      "@owl/shared/exercises/translations": [
+        "libs/shared/exercises/translations/src/index.ts"
+      ],
+      "@owl/shared/novels/contracts": [
+        "libs/shared/novels/contracts/src/index.ts"
+      ],
+      "@owl/shared/novels/translations": [
+        "libs/shared/novels/translations/src/index.ts"
+      ],
       "@owl/shared/word-utils": ["libs/shared/word-utils/src/index.ts"]
     }
   },

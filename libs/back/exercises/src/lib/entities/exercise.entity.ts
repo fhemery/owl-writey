@@ -1,4 +1,4 @@
-import { ExerciseStatus, ExerciseType } from '@owl/shared/contracts';
+import { ExerciseStatus, ExerciseType } from '@owl/shared/exercises/contracts';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 import { ExerciseGeneralInfo, ExerciseSummary } from '../domain/model';

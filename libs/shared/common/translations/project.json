@@ -1,0 +1,26 @@
+{
+  "name": "shared-common-translations",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/common/translations/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/common/translations",
+        "main": "libs/shared/common/translations/src/index.ts",
+        "tsConfig": "libs/shared/common/translations/tsconfig.lib.json",
+        "assets": ["libs/shared/common/translations/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/common/translations/jest.config.ts"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.transfer-scene-dialog {
+  ul {
+    list-style: none;
+    li {
+      cursor: pointer;
+      &:hover {
+        background-color: var(--color-primary-light);
+      }
+    }
+  }
+
+  &__scene--selected {
+    background-color: var(--color-success-background);
+    color: var(--color-success);
+  }
+}

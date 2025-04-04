@@ -8,7 +8,7 @@ import {
   signOut,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Role } from '@owl/shared/contracts';
+import { Role } from '@owl/shared/common/contracts';
 import { from, map, of, switchMap, tap } from 'rxjs';
 
 import { User } from '../model/user';

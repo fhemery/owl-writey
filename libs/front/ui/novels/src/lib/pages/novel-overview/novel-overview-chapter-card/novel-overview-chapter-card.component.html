@@ -1,0 +1,49 @@
+<div class="chapter-card">
+  <div
+    class="chapter-card__title"
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
+  >
+    {{ chapter().title }}
+  </div>
+  <div
+    class="chapter-card__content"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateOutline($event)"
+    [innerHTML]="chapter().outline"
+  ></div>
+  <div class="chapter-card__footer">
+    <a
+      class="chapter-card__action"
+      (click)="onMoveChapter(-1)"
+      (keyup.enter)="onMoveChapter(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.move.left.label' | translate"
+    >
+      <mat-icon class="action--move">move_up</mat-icon>
+    </a>
+    <a
+      class="chapter-card__action"
+      (click)="onMoveChapter(1)"
+      (keyup.enter)="onMoveChapter(1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.move.right.label' | translate"
+    >
+      <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+    <div class="chapter-card__footer--placeholder"></div>
+    <a
+      class="chapter-card__action"
+      (click)="onDeleteChapter()"
+      (keyup.enter)="onDeleteChapter()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.overview.chapter.delete.label' | translate"
+    >
+      <mat-icon class="action--delete">delete</mat-icon>
+    </a>
+  </div>
+</div>

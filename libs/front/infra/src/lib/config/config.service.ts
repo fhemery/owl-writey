@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, signal } from '@angular/core';
-import { ConfigurationDto } from '@owl/shared/contracts';
+import { ConfigurationDto } from '@owl/shared/common/contracts';
 import { firstValueFrom } from 'rxjs';
 
 import { ApplicationConfiguration } from './model/application.configuration';

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExerciseToCreateDto } from '@owl/shared/contracts';
+import { ExerciseToCreateDto } from '@owl/shared/exercises/contracts';
 
 import { ExerciseFormComponent } from '../../components/exercise-form/exercise-form.component';
 import { ExerciseService } from '../../services/exercise.service';

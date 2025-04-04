@@ -1,0 +1,77 @@
+@if (items(); as items) {
+<div class="corkboard">
+  <!-- Loop through each item in the items array -->
+  @for(item of items; track $index; let i = $index) {
+  <ng-container>
+    <!-- Add button before each item -->
+    <div
+      class="corkboard__interstitial"
+      dndDropzone
+      (dndDrop)="dropAt($event, i)"
+      [ngClass]="{ 'dropzone--active': isDragOngoing() }"
+    >
+      <a
+        tabindex="0"
+        [title]="addNewLabel() | translate"
+        (click)="onAddNew(i)"
+        (keydown.enter)="onAddNew(i)"
+        (keydown.space)="onAddNew(i)"
+      >
+        @if(!isDragOngoing()) {
+        <mat-icon>add</mat-icon>
+        }
+      </a>
+    </div>
+
+    <!-- Item content using the provided template -->
+    <div
+      class="corkboard__item"
+      [dndDraggable]="i"
+      (dndStart)="dragStart()"
+      (dndEnd)="dragEnd()"
+    >
+      <div class="corkboard__item--handle" dndHandle>
+        <mat-icon>drag_handle</mat-icon>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="
+          itemTemplate();
+          context: { $implicit: item, index: i }
+        "
+      ></ng-container>
+    </div>
+  </ng-container>
+  }
+  <!-- Add button at the end -->
+  @let i = items.length;
+  <div
+    class="corkboard__interstitial"
+    dndDropzone
+    (dndDrop)="dropAt($event, i)"
+    [ngClass]="{ 'dropzone--active': isDragOngoing() }"
+  >
+    <a
+      tabindex="0"
+      [title]="addNewLabel() | translate"
+      (click)="onAddNew(i)"
+      (keydown.enter)="onAddNew(i)"
+      (keydown.space)="onAddNew(i)"
+    >
+      @if(!isDragOngoing()) {
+      <mat-icon>add</mat-icon>
+      }
+    </a>
+  </div>
+  <div class="corkboard__new">
+    <a
+      tabindex="0"
+      [title]="addNewLabel() | translate"
+      (click)="onAddNew(items.length)"
+      (keydown.enter)="onAddNew(items.length)"
+      (keydown.space)="onAddNew(items.length)"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+  </div>
+</div>
+}

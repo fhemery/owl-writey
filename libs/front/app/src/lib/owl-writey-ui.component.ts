@@ -12,8 +12,8 @@ import {
   UserNotificationsService,
 } from '@owl/front/infra';
 import { NotificationService } from '@owl/front/ui/common';
-import { NotificationEvent, SseEvent } from '@owl/shared/contracts';
-import { uiFr } from '@owl/shared/translations';
+import { NotificationEvent, SseEvent } from '@owl/shared/common/contracts';
+import { uiFr } from '@owl/shared/common/translations';
 import { Subscription } from 'rxjs';
 
 import { FooterComponent } from './components/footer/footer.component';
