@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,6 +27,7 @@ describe('NovelCreatePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        BrowserModule,
         NovelCreatePageComponent,
         TranslateModule.forRoot(),
         NoopAnimationsModule,

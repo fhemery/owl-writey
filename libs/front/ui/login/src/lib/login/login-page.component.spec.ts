@@ -103,5 +103,15 @@ describe('LoginPageComponent', () => {
         testUtils.hasText('auth.form.password.error.required', 'mat-error')
       ).toBeTruthy();
     });
+
+    it('should display an error if login and password are wrong', async () => {
+      loginService.login = vi.fn().mockResolvedValue(false);
+      testUtils.updateInputField('input[name="login"]', 'test@test.fr');
+      testUtils.updateInputField('input[name="password"]', 'test1234!');
+      await testUtils.submitReactiveForm('#loginForm');
+
+      expect(testUtils.hasElement('.error-panel')).toBeTruthy();
+      expect(testUtils.hasText('auth.error', '.error-panel')).toBeTruthy();
+    });
   });
 });

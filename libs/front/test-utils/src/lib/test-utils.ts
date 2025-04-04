@@ -128,8 +128,8 @@ export class TestUtils {
 
   async submitReactiveForm(selector: string): Promise<void> {
     this.dispatchEvent('submit', selector);
-    this.fixture.detectChanges();
     await this.fixture.whenStable();
+    this.fixture.detectChanges();
   }
 
   getDocumentNbElements(selector: string): number {
