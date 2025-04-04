@@ -2,10 +2,10 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from '@owl/shared/common/contracts';
 
-import { FirebaseAuthService } from './firebase-auth.service';
+import { AUTH_SERVICE } from '../auth.service.interface';
 
 export const authGuard = async (): Promise<boolean> => {
-  const authService = inject(FirebaseAuthService);
+  const authService = inject(AUTH_SERVICE);
   const router = inject(Router);
 
   const isLoggedIn = !!authService.user();
@@ -16,7 +16,7 @@ export const authGuard = async (): Promise<boolean> => {
 };
 
 export const notAuthGuard = async (): Promise<boolean> => {
-  const authService = inject(FirebaseAuthService);
+  const authService = inject(AUTH_SERVICE);
   const router = inject(Router);
 
   const isLoggedIn = !!authService.user();
@@ -27,7 +27,7 @@ export const notAuthGuard = async (): Promise<boolean> => {
 };
 
 const checkRole = async (role: Role): Promise<boolean> => {
-  const authService = inject(FirebaseAuthService);
+  const authService = inject(AUTH_SERVICE);
   const router = inject(Router);
 
   const user = authService.user();

@@ -16,7 +16,7 @@ import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 
 @Component({
   selector: 'owl-login',
@@ -39,7 +39,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
 })
 export class LoginComponent {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authService = inject(FirebaseAuthService);
+  private readonly authService = inject(AUTH_SERVICE);
 
   loginForm = this.formBuilder.group({
     login: new FormControl<string>('', [Validators.required, Validators.email]),

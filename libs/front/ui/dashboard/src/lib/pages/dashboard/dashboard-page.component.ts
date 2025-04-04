@@ -4,7 +4,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 // TODO : Split into exercises and novels
 import { ExerciseSummaryDto } from '@owl/shared/exercises/contracts';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
@@ -30,7 +30,7 @@ import { DashboardService } from '../../services/dashboard.service';
 export class DashboardPageComponent implements OnInit {
   displayFinished = false;
   readonly dashboardService = inject(DashboardService);
-  readonly authService = inject(FirebaseAuthService);
+  readonly authService = inject(AUTH_SERVICE);
   user = this.authService.user;
 
   exercises = signal<ExerciseSummaryDto[] | null>(null);

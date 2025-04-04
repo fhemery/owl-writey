@@ -20,7 +20,12 @@ import {
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { appRoutes } from '@owl/front/app';
-import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
+import {
+  AUTH_SERVICE,
+  authInterceptor,
+  AuthService,
+  FirebaseAuthService,
+} from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
 import { provideQuillConfig } from 'ngx-quill';
 
@@ -40,7 +45,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideAppInitializer(() => {
-      const auth = inject(FirebaseAuthService);
+      const auth = inject(AUTH_SERVICE);
       const config = inject(ConfigService);
       return Promise.all([config.init(environment), initializeAuth(auth)]);
     }),
@@ -70,12 +75,14 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { subscriptSizing: 'dynamic' },
     },
+    {
+      provide: AUTH_SERVICE,
+      useClass: FirebaseAuthService,
+    },
   ],
 };
 
-export function initializeAuth(
-  authService: FirebaseAuthService
-): Promise<void> {
+export function initializeAuth(authService: AuthService): Promise<void> {
   let onResolve: () => void;
   const promise = new Promise<void>((resolve) => {
     onResolve = resolve;

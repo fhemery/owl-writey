@@ -7,7 +7,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 import { UserNotificationsService } from '@owl/front/infra';
 import { NotificationService } from '@owl/front/ui/common';
 import { NotificationEvent } from '@owl/shared/common/contracts';
@@ -87,7 +87,7 @@ export const ExerciseStore = signalStore(
   })),
   withHooks({
     onInit: async (store) => {
-      const auth = inject(FirebaseAuthService);
+      const auth = inject(AUTH_SERVICE);
 
       patchState(store, (state) => ({
         ...state,
