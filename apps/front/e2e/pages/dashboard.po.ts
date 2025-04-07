@@ -14,7 +14,7 @@ export class DashboardPo extends BasePo {
   }
 
   get newExercices(): Locator {
-    return this.pageLocator.locator('a[routerlink="/exerces/new"]');
+    return this.pageLocator.locator('a[routerlink="/exercises/new"]');
   }
 
   constructor(page: Page) {
@@ -26,6 +26,7 @@ export class DashboardPo extends BasePo {
   }
 
   async shouldBeDisplayed(): Promise<void> {
+    console.log('URL:', await this.page.url());
     await expect(this.pageLocator).toBeVisible();
   }
 

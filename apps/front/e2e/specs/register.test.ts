@@ -8,12 +8,25 @@ test.describe('Register page', () => {
   let registerPo: RegisterPo;
   let dashboardPo: DashboardPo;
   let loginPo: LoginPo;
+  let userId: string | undefined;
 
   test.beforeEach(async ({ page }) => {
     registerPo = new RegisterPo(page);
     dashboardPo = new DashboardPo(page);
     loginPo = new LoginPo(page);
     await registerPo.goTo();
+  });
+
+  test.afterEach(async ({ request }) => {
+    if (userId) {
+      const response = await request.delete(`/users/${userId}`, {
+        // headers: {
+        //   'Authorization': `Bearer ${OWL_FIREBASE_API_KEY}`
+        // }
+      });
+      expect(response.ok()).toBeTruthy();
+      console.log("🗑️ User deleted after test:", userId);
+    }
   });
 
   test('should be displayed', async () => {

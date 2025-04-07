@@ -21,5 +21,7 @@ Scenario Outline: Login form validation
     |          field         |                result                 |
     |     LoginValidEmail    | I am redirected to the dashboard page |
     |   LoginInvalidEmail    |       It should display an error      |
+    |    LoginEmptyEmail     |       It should display an error      |
     |   LoginValidPassword   | I am redirected to the dashboard page |
     |  LoginInvalidPassword  |       It should display an error      |
+    |   LoginEmptyPassword   |       It should display an error      |

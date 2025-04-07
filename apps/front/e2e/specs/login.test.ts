@@ -35,8 +35,8 @@ test.describe('Login page', () => {
 
   // Invalid tests
   test('should display error if wrong logins are entered', async () => {
-    await loginPo.logAs('wrongLogin', 'wrongPassword');
-    await loginPo.shouldDisplayTranslatedText('auth.error');
+    await loginPo.wronglyLoggedAs('wrongLogin', 'wrongPassword');
+    await loginPo.shouldDisplayTranslatedText('auth.form.email.error.email');
   });
 
   // test('should display error if login fields are empty', async () => {

@@ -1,19 +1,17 @@
 Feature: Dashboard Feature
 
     Background:
-        Given I go to dashboard page
+        Given I am connected
+        And Dashboard page should be displayed 
 
-    @Automated @P0
-    Scenario: Display the dashboard page
-        Then Dashboard page should be displayed
-
+    @Automated
+    Scenario: Display new exercise form
+        When I click to Create a new exercise
+        Then Display the new exercise form
+    
     @Automated
     Scenario: Display exercises done
         When I click to exercises done toggle
         Then Display exercises done on the dashboard
-    
-    @Automated
-    Scenario: Display new exercise form
-        When I click to Create a new exercise
-        Then Redirect and display the new exercises form
+   
     

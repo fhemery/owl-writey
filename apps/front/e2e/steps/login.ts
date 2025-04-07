@@ -24,25 +24,48 @@ When('I fill the login form with {string}', async ({ loginPo }, field: string) =
     const testData: Record<string, [string, string] > = {
         LoginValidEmail: ['bob@hemit.fr', 'Test123!'],
         LoginInvalidEmail: ['invalid-email', 'password'],
+        LoginEmptyEmail: ['', 'password'],
 
         LoginValidPassword: ['bob@hemit.fr', 'Test123!'],
         LoginInvalidPassword: ['bob@hemit.fr', 'short'],
+        LoginEmptyPassword: ['bob@hemit.fr', '']
     };
 
-    const [email, password] = testData[field];
-    const isValid = field.startsWith('Valid');
+    const [login, password] = testData[field];
+    const isValid = field.startsWith('LoginValid');
     (global as any).lastUsedField = field;
 
     if(isValid) {
-        await loginPo.logAs(email, password);
-    } else {
-        await loginPo.wronglyLoggedAs(email, password);
+        await loginPo.logAs(login, password);
+    } else if (field === 'LoginInvalidPassword') { 
+        await loginPo.logAs(login, password);
+    }else {
+        await loginPo.wronglyLoggedAs(login, password);
     }
 });
 Then('{string} should be displayed for login', async ({ loginPo, dashboardPo }, result: string) => {
     if (result === 'I am redirected to the dashboard page') {
         await dashboardPo.shouldBeDisplayed();
     } else if (result === 'It should display an error') {
-            await loginPo.shouldDisplayTranslatedText('auth.error');
+
+        const lastInvalidField = (global as any).lastUsedField;
+        switch (lastInvalidField) {
+            case 'LoginInvalidEmail':
+                await loginPo.shouldDisplayTranslatedText('auth.form.email.error.email');
+                break;
+            case 'LoginEmptyEmail':
+                await loginPo.shouldDisplayTranslatedText('auth.form.email.error.required');
+                break;
+            
+            case 'LoginInvalidPassword':
+                await loginPo.shouldDisplayTranslatedText('auth.error');
+                break;
+            case 'LoginEmptyPassword':
+                await loginPo.shouldDisplayTranslatedText('auth.form.password.error.required');
+                break;
+            
+            default:
+            throw new Error(`Message d'erreur non défini pour le résultat: ${lastInvalidField}`);
+        }
     }
 });

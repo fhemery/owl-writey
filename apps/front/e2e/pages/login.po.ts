@@ -55,8 +55,8 @@ export class LoginPo extends BasePo {
     await this.logAs(user.login, user.password);
   }
 
-  async wronglyLoggedAs(userName: string, password: string): Promise<void> {
-    await this.loginInput.fill(userName);
+  async wronglyLoggedAs(login: string, password: string): Promise<void> {
+    await this.loginInput.fill(login);
     await this.passwordInput.fill(password);
     await this.passwordInput.blur();
   }
