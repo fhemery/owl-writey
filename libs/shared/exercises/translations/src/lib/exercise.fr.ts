@@ -23,7 +23,7 @@ export const exerciseFr = {
       },
       exquisiteCorpse: {
         description: {
-          text: "L'exercice du cadavre exquis est un jeu d'écriture collectif. Chaque participant.e écrit un texte à partir des précédents",
+          text: "L'exercice du cadavre exquis est un jeu d'écriture collectif. Chaque participant·e écrit un texte à partir des précédents",
         },
         nbIterations: {
           label: 'Nombre de tours',
@@ -70,7 +70,7 @@ export const exerciseFr = {
         },
         initialText: {
           label: 'Écrivez le début de votre histoire :',
-          help: "C'est le premier texte que verront vos participant.e.s. Il vous permet d'orienter l'histoire !",
+          help: "C'est le premier texte que verront vos participant·e·s. Il vous permet d'orienter l'histoire !",
           error: {
             required: 'Le texte initial est obligatoire',
             minlength: 'Le texte initial doit faire minimum 50 caractères',
@@ -99,7 +99,7 @@ export const exerciseFr = {
       },
     },
     participantList: {
-      header: 'Participant(es): {{count}}',
+      header: 'Participant·e·s: {{count}}',
       admin: 'Admin(e)',
     },
     share: {
@@ -152,7 +152,7 @@ export const exerciseFr = {
       },
       invite: {
         label:
-          "Vous pouvez invitez une autre Plume en utilisant l'icône au-dessus : ",
+          "Vous pouvez inviter une autre Plume en utilisant l'icône au-dessus : ",
       },
       yourTurn: {
         label: 'À vous de jouer !',

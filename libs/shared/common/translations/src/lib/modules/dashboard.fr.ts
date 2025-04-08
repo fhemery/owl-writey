@@ -21,7 +21,7 @@ export const dashboardFr = {
         create: 'Créez un roman',
       },
       loading: 'Chargement des romans en cours...',
-      playAlt: 'Entrez',
+      playAlt: 'Ouvrir le roman',
     },
   },
 };
