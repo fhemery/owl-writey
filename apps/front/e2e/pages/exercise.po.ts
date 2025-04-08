@@ -4,7 +4,7 @@ import { BasePo } from './base.po';
 
 export class ExercisePo extends BasePo {
   get pageLocator(): Locator {
-    return this.page.locator('.exercise-page');
+    return this.page.locator('.exercise-form');
   }
   get nameInput(): Locator{
     return this.pageLocator.locator('input[name="name"]');

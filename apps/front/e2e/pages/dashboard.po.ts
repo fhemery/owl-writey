@@ -13,8 +13,8 @@ export class DashboardPo extends BasePo {
     });
   }
 
-  get newExercices(): Locator {
-    return this.pageLocator.locator('a[routerlink="/exercises/new"]');
+  get newExercises(): Locator {
+    return this.pageLocator.locator('button[routerlink="/exercises/new"]');
   }
 
   constructor(page: Page) {
@@ -45,6 +45,6 @@ export class DashboardPo extends BasePo {
   }
 
   async createNewExercise(): Promise<void> {
-    await this.newExercices.click();
+    await this.newExercises.click();
   }
 }
