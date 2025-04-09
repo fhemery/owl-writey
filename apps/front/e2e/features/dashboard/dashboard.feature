@@ -14,4 +14,7 @@ Feature: Dashboard Feature
         When I click to exercises done toggle
         Then Display exercises done on the dashboard
    
-    
+    @Automated
+    Scenario: Display current exercise
+        When I click to playAlt button
+        Then Display the current exercise clicked on

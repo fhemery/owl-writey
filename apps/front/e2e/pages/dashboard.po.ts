@@ -6,15 +6,16 @@ export class DashboardPo extends BasePo {
   get pageLocator(): Locator {
     return this.page.locator('.dashboard-page');
   }
-
+  get newExercises(): Locator {
+    return this.pageLocator.locator('button[routerlink="/exercises/new"]');
+  }
   get toggleBtn(): Locator {
     return this.pageLocator.getByRole('switch', {
       name: this.translator.get('dashboard.exercises.includeFinished')
     });
   }
-
-  get newExercises(): Locator {
-    return this.pageLocator.locator('button[routerlink="/exercises/new"]');
+  get currentExercise(): Locator {
+    return this.pageLocator.locator('a[routerlink="/exercises/{{ ex.id }}"]');
   }
 
   constructor(page: Page) {
@@ -28,6 +29,10 @@ export class DashboardPo extends BasePo {
   async shouldBeDisplayed(): Promise<void> {
     console.log('URL:', await this.page.url());
     await expect(this.pageLocator).toBeVisible();
+  }
+
+  async createNewExercise(): Promise<void> {
+    await this.newExercises.click();
   }
 
   async displayEndedExercises(): Promise<boolean> {
@@ -44,7 +49,13 @@ export class DashboardPo extends BasePo {
     }
   }
 
-  async createNewExercise(): Promise<void> {
-    await this.newExercises.click();
+  async checkFinishedExercisesIncluded(): Promise<boolean> {
+    return await this.toggleBtn.isChecked();
   }
+
+  async displayCurrentExercise(): Promise<void> {
+    return await this.currentExercise.click();
+  }
+  
 }
+

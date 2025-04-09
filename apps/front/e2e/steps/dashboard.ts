@@ -14,17 +14,25 @@ Given('Dashboard page should be displayed', async ({ dashboardPo }) => {
     await dashboardPo.shouldBeDisplayed();
 });
 
-// Given('I go to dashboard page', async ({ dashboardPo }) => {
-//     console.log('📦 Navigating to dashboard');
-//     await dashboardPo.goTo();
-//     console.log('📍 Arrived on dashboard page');
-// });
-
-
 When('I click to Create a new exercise', async ({ dashboardPo }) => {
     await dashboardPo.createNewExercise();
 });
 
 Then('Display the new exercise form', async ({ exercisePo }) => {
     await exercisePo.shouldDisplayForm();
-})
+});
+
+When('I click to exercises done toggle', async ({ dashboardPo }) => {
+    await dashboardPo.displayEndedExercises();
+});
+
+Then('Display exercises done on the dashboard', async ({ dashboardPo}) => {
+    await dashboardPo.checkFinishedExercisesIncluded();
+});
+
+When('I click to playAlt button', async ({ dashboardPo }) => {
+    await dashboardPo.displayCurrentExercise();
+});
+Then('Display the current exercise clicked on', async ({ exercisePo }) => {
+    await exercisePo.shouldBeDisplayed();
+});
