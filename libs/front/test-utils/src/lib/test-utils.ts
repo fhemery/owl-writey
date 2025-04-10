@@ -41,6 +41,15 @@ export class TestUtils {
     return element as HTMLElement;
   }
 
+  isDisabled(selector: string): boolean {
+    const button: HTMLButtonElement | null =
+      this.fixture.nativeElement.querySelector(selector);
+    if (!button) {
+      throw new Error(`Element not found: ${selector}`);
+    }
+    return button.disabled;
+  }
+
   getDocumentElementAt(selector: string, index = 0): HTMLElement {
     const element = document.querySelectorAll(selector)[index];
     if (!element) {
@@ -111,6 +120,17 @@ export class TestUtils {
     }
   }
 
+  async waitStable(): Promise<void> {
+    // This seems overkill, but if multiple promises are pending,
+    // we need to wait for them all to resolve
+    await this.fixture.whenStable();
+    await this.fixture.whenStable();
+    await this.fixture.whenStable();
+    await this.fixture.whenStable();
+    await this.fixture.whenStable();
+    this.fixture.detectChanges();
+  }
+
   private getVariableName(getVar: () => unknown): string {
     const extractor = new RegExp('(.*)');
     const m = extractor.exec(getVar + '');
@@ -128,8 +148,7 @@ export class TestUtils {
 
   async submitReactiveForm(selector: string): Promise<void> {
     this.dispatchEvent('submit', selector);
-    await this.fixture.whenStable();
-    this.fixture.detectChanges();
+    await this.waitStable();
   }
 
   getDocumentNbElements(selector: string): number {
