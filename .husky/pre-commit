@@ -1,1 +1,8 @@
+#!/bin/sh
+
+# These variables are causing issues with vitest.
+unset ELECTRON_RUN_AS_NODE
+unset NX_WORKSPACE_ROOT_PATH
+
+
 pnpm run affected:lint && pnpm run affected:test
