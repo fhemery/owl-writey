@@ -16,5 +16,10 @@ Feature: Dashboard Feature
    
     @Automated
     Scenario: Display current exercise
-        When I click to playAlt button
+        When I click the Jouer button for exercise "<title>"
         Then Display the current exercise clicked on
+
+        Examples:
+            |                         title                          |
+            |                 Test le cadavre exquis                 |
+            |Lorem ipsum dolor sit amet, consectetur adipiscing elit.|

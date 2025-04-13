@@ -4,7 +4,7 @@ import { pageFixtures } from "../support/fixtures";
 export const fixtures = pageFixtures;
 const { Given, When, Then } = createBdd(fixtures);
 
-Given('I am connected', async ({ loginPo, dashboardPo }) => {
+Given('I am connected', async ({ loginPo }) => {
     await loginPo.goTo();
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
 });
@@ -30,9 +30,10 @@ Then('Display exercises done on the dashboard', async ({ dashboardPo}) => {
     await dashboardPo.checkFinishedExercisesIncluded();
 });
 
-When('I click to playAlt button', async ({ dashboardPo }) => {
-    await dashboardPo.displayCurrentExercise();
+When('I click the Jouer button for exercise {string}', async ({ dashboardPo }, exerciseTitle) => {
+    await dashboardPo.getExerciseByTitle(exerciseTitle).click();
 });
+
 Then('Display the current exercise clicked on', async ({ exercisePo }) => {
     await exercisePo.shouldBeDisplayed();
 });
