@@ -5,6 +5,7 @@ import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
 import { RegisterPo } from '../pages/register.po';
 import { ExercisePo } from '../pages/exercise.po';
+import { HeaderPo } from '../pages/header.po';
 
 interface Pages {
   homePo: HomePo;
@@ -12,6 +13,7 @@ interface Pages {
   registerPo: RegisterPo;
   dashboardPo: DashboardPo;
   exercisePo: ExercisePo;
+  headerPo: HeaderPo;
 }
 
 export const pageFixtures = base.extend<Pages>({
@@ -29,5 +31,8 @@ export const pageFixtures = base.extend<Pages>({
   },
   exercisePo: async ({ page }, use) => {
     await use(new ExercisePo(page));
+  },
+  headerPo: async ({ page }, use) => {
+    await use(new HeaderPo(page));
   },
 });

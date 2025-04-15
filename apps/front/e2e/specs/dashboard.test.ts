@@ -10,7 +10,7 @@ test.describe('Dashboard page', () => {
     let exercisePo: ExercisePo;
 
     test.beforeEach(async ({ page }) => {
-        console.log('🔧 beforeEach started');
+        // console.log('🔧 beforeEach started');
         loginPo = new LoginPo(page);
         dashboardPo = new DashboardPo(page);
         exercisePo = new ExercisePo(page);
