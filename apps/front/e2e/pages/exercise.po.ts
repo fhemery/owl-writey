@@ -52,4 +52,46 @@ export class ExercisePo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
 
+  async createdAs(
+    name: string,
+    nbIterations: string,
+    iterationDuration: string,
+    minWords: string,
+    maxWords: string,
+    initialText: string,
+    shouldRedirect = true
+  ): Promise<void> {
+    await this.nameInput.fill(name);
+    await this.nbIterationsInput.fill(nbIterations);
+    await this.iterationDurationInput.fill(iterationDuration);
+    await this.minWordsInput.fill(minWords);
+    await this.maxWordsInput.fill(maxWords);
+    await this.initialTxtInput.fill(initialText);
+    if (shouldRedirect) {
+      await Promise.all([
+        this.page.waitForURL('/exercises'),
+        this.submitButton.click(),
+      ]);
+    } else {
+      await this.submitButton.click();
+    }
+  }
+
+  async wronglyCreatedAs (
+    name: string,
+    nbIterations: string,
+    iterationDuration: string,
+    minWords: string,
+    maxWords: string,
+    initialText: string,
+    shouldRedirect = true
+  ): Promise<void> {
+    await this.nameInput.fill(name);
+    await this.nbIterationsInput.fill(nbIterations);
+    await this.iterationDurationInput.fill(iterationDuration);
+    await this.minWordsInput.fill(minWords);
+    await this.maxWordsInput.fill(maxWords);
+    await this.initialTxtInput.fill(initialText);
+    await this.initialTxtInput.blur();
+  }
 }
