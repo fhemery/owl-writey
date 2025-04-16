@@ -7,7 +7,7 @@ export class HeaderPo extends BasePo {
         return this.page.locator('.header');
     }
     get headerTitle(): Locator {
-        return this.pageLocator.locator('button[routerlink="/"]');
+        return this.pageLocator.locator('a[routerlink="/"]');
     }
     get loginBtn(): Locator {
         return this.pageLocator.locator('button[routerlink="/login"]');
@@ -42,6 +42,10 @@ export class HeaderPo extends BasePo {
 
     async redirectLogout(): Promise<void> {
         await this.logoutBtn.click();
+    }
+
+    async redirectHomepage(): Promise<void> {
+        await this.headerTitle.click();
     }
 
 }

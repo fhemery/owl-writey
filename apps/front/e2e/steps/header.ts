@@ -30,11 +30,9 @@ Then('Display the register page from the header', async({ registerPo }) => {
     await registerPo.shouldBeDisplayed();
 });
 
-Given('The user is connected', async ({ headerPo }) => {
-    await expect(headerPo.loginBtn).toBeHidden();
-    await expect(headerPo.registerBtn).toBeHidden();
-    await expect(headerPo.dashboardBtn).toBeVisible();
-    await expect(headerPo.logoutBtn).toBeVisible();
+Given('The user is connected', async ({ loginPo }) => {
+    await loginPo.goTo();
+    await loginPo.logAs('bob@hemit.fr', 'Test123!');
 });
 
 When('I click on the Dashboard button', async ({ headerPo }) => {
@@ -56,3 +54,20 @@ Then('User is logged out', async({ headerPo }) => {
 Then('Display the home page from the header', async({ homePo }) => {
     await homePo.shouldBeDisplayed();
 });
+
+// Given('The user is connected', async ({ loginPo }) => {
+//     await loginPo.goTo();
+//     await loginPo.logAs('bob@hemit.fr', 'Test123!');
+// });
+
+Given('The user is on the dashboard page', async ({ headerPo, dashboardPo }) => {
+    await headerPo.redirectDashboard();
+    await dashboardPo.shouldBeDisplayed();
+});
+
+When('I click on the Title button', async ({ headerPo }) => {
+    await headerPo.redirectHomepage();
+})
+Then('Display the home page from the headers title', async ({ homePo }) => {
+    await homePo.shouldBeDisplayed();
+})

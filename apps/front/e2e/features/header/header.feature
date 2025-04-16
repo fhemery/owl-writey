@@ -27,3 +27,10 @@ Scenario: Logout action is correct from the header
     When I click on the Logout button
     Then User is logged out 
     And Display the home page from the header
+
+@Automated
+Scenario: Homepage redirection is correct from the header
+    Given The user is connected 
+    And The user is on the dashboard page
+    When I click on the Title button
+    Then Display the home page from the headers title
