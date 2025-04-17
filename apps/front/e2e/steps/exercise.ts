@@ -16,8 +16,8 @@ Given('Display a new exercise form', async ({ exercisePo }) => {
 });
 
 When('I fill a new exercise form with {string}', async ({ exercisePo}, field: string) => {
-    const testData: Record<string, [string, string, string, string, string] > = {
-        ValidName: ['Ceci est un test', '3', '3', '4', 'Ceci est un test de début d\'histoire.'],
+    const testData: Record<string, [string, string, string, string, string, string] > = {
+        ValidName: ['Ceci est un test', '3', '5 minutes', '3', '4', 'Ceci est un test de début d\'histoire.'],
         InvalidName: ['Yo', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
         EmptydName: ['', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
 
@@ -38,14 +38,14 @@ When('I fill a new exercise form with {string}', async ({ exercisePo}, field: st
         EmptyInitialText: ['Ceci est un test', '3', '900', '3', '3', '']
     };
 
-    const [name, nbIterations, minWords, maxWords, initialText] = testData[field];
+    const [name, nbIterations, iterationDuration, minWords, maxWords, initialText] = testData[field];
     const isValid = field.startsWith('Valid');
 
     if (isValid) {
         await exercisePo.pageLocator.waitFor({ state: 'visible' });
-        await exercisePo.createdAs(name, nbIterations, minWords, maxWords, initialText);
+        await exercisePo.createdAs(name, nbIterations, iterationDuration, minWords, maxWords, initialText);
     } else {
-        await exercisePo.wronglyCreatedAs(name, nbIterations, minWords, maxWords, initialText);
+        await exercisePo.wronglyCreatedAs(name, nbIterations, iterationDuration, minWords, maxWords, initialText);
     }
 });
 
