@@ -55,7 +55,7 @@ export class ExercisePo extends BasePo {
   async createdAs(
     name: string,
     nbIterations: string,
-    iterationDuration: string,
+    // iterationDuration: string,
     minWords: string,
     maxWords: string,
     initialText: string,
@@ -63,7 +63,13 @@ export class ExercisePo extends BasePo {
   ): Promise<void> {
     await this.nameInput.fill(name);
     await this.nbIterationsInput.fill(nbIterations);
-    await this.iterationDurationInput.fill(iterationDuration);
+
+    // await this.iterationDurationInput.selectOption({ value: iterationDuration });
+    // await this.iterationDurationInput.click();
+    // const optionElement = this.page.locator('mat-option[role="option"][value="' + iterationDuration + '"]');
+    // await optionElement.waitFor({ state: 'visible' });
+    // await optionElement.click();
+
     await this.minWordsInput.fill(minWords);
     await this.maxWordsInput.fill(maxWords);
     await this.initialTxtInput.fill(initialText);
@@ -83,12 +89,12 @@ export class ExercisePo extends BasePo {
     iterationDuration: string,
     minWords: string,
     maxWords: string,
-    initialText: string,
-    shouldRedirect = true
+    initialText: string
   ): Promise<void> {
     await this.nameInput.fill(name);
     await this.nbIterationsInput.fill(nbIterations);
-    await this.iterationDurationInput.fill(iterationDuration);
+    await this.iterationDurationInput.click();
+    await this.iterationDurationInput.locator(`mat-option[value="${iterationDuration}"]`).click();
     await this.minWordsInput.fill(minWords);
     await this.maxWordsInput.fill(maxWords);
     await this.initialTxtInput.fill(initialText);
