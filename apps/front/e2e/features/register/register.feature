@@ -18,17 +18,24 @@ Feature: Registration Feature
         Then "<result>" should be displayed for registration
 
         Examples: 
-            |       field       |                result                 |
-            |    ValidPseudo    | I am redirected to the dashboard page |
-            |   InvalidPseudo   |       It should display an error      |
-            |    EmptyPseudo    |       It should display an error      |
-            |     ValidEmail    | I am redirected to the dashboard page |
-            |   InvalidEmail    |       It should display an error      |
-            |    EmptyEmail     |       It should display an error      |
-            |   ValidPassword   | I am redirected to the dashboard page |
-            |  InvalidPassword  |       It should display an error      |
-            |   EmptyPassword   |       It should display an error      |
-            | ValidRepeatedPswd | I am redirected to the dashboard page |
-            |InvalidRepeatedPswd|       It should display an error      |
-            | EmptyRepeatedPswd |       It should display an error      |
-            |  ExistingAccount  |       It should display an error      |
+            |        field        |                result                 |
+            |     ValidPseudo     | I am redirected to the dashboard page |
+            |    InvalidPseudo    |       It should display an error      |
+            |    EmptyPseudo      |       It should display an error      |
+            |   AttackSQLPseudo   |       It should display an error      |
+            |   Attack2SQLPseudo   |       It should display an error      |
+            |   AttackXSSPseudo   |       It should display an error      |
+            |      ValidEmail     | I am redirected to the dashboard page |
+            |    InvalidEmail     |       It should display an error      |
+            |     EmptyEmail      |       It should display an error      |
+            |   AttackSQLEmail    |       It should display an error      |
+            |   AttackXSSEmail    |       It should display an error      |
+            |    ValidPassword    | I am redirected to the dashboard page |
+            |   InvalidPassword   |       It should display an error      |
+            |    EmptyPassword    |       It should display an error      |
+            |    AttackSQLPswd    |       It should display an error      |
+            |    AttackXSSPswd    |       It should display an error      |
+            |  ValidRepeatedPswd  | I am redirected to the dashboard page |
+            | InvalidRepeatedPswd |       It should display an error      |
+            |  EmptyRepeatedPswd  |       It should display an error      |
+            |   ExistingAccount   |       It should display an error      |
