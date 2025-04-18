@@ -38,14 +38,14 @@ When('I fill a new exercise form with {string}', async ({ exercisePo}, field: st
         EmptyInitialText: ['Ceci est un test', '3', '900', '3', '3', '']
     };
 
-    const [name, nbIterations, iterationDuration, minWords, maxWords, initialText] = testData[field];
+    const [name, nbIterations, iterationDurationOption, minWords, maxWords, initialText] = testData[field];
     const isValid = field.startsWith('Valid');
 
     if (isValid) {
-        await exercisePo.pageLocator.waitFor({ state: 'visible' });
-        await exercisePo.createdAs(name, nbIterations, iterationDuration, minWords, maxWords, initialText);
+        // const iterationDurationNumber = parseInt(iterationDurationOption, 10);
+        await exercisePo.createdAs(name, nbIterations, iterationDurationOption, minWords, maxWords, initialText);
     } else {
-        await exercisePo.wronglyCreatedAs(name, nbIterations, iterationDuration, minWords, maxWords, initialText);
+        await exercisePo.wronglyCreatedAs(name, nbIterations, iterationDurationOption, minWords, maxWords, initialText);
     }
 });
 

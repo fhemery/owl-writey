@@ -14,7 +14,6 @@ export class ExercisePo extends BasePo {
   }
   get iterationDurationInput(): Locator{
     return this.pageLocator.locator('mat-select[formControlName="iterationDuration"]');
-
   }
   get minWordsInput(): Locator{
     return this.pageLocator.locator('input[name="minWords"]');
@@ -53,14 +52,10 @@ export class ExercisePo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
   
-  // async selectIterationDuration( iterationDuration: string) {
-    
-  // }
-
   async createdAs(
     name: string,
     nbIterations: string,
-    iterationDuration: string,
+    iterationDurationOption: string,
     minWords: string,
     maxWords: string,
     initialText: string,
@@ -69,9 +64,8 @@ export class ExercisePo extends BasePo {
     await this.nameInput.fill(name);
     await this.nbIterationsInput.fill(nbIterations);
 
-    // await this.iterationDurationInput('mat-select').click();
     await this.iterationDurationInput.click();
-    await this.pageLocator.locator(`mat-option:has-text("${iterationDuration}")`).click();
+    await this.iterationDurationInput.locator(`mat-option[role="option"][value="${iterationDurationOption}"]`).click();
 
     await this.minWordsInput.fill(minWords);
     await this.maxWordsInput.fill(maxWords);
