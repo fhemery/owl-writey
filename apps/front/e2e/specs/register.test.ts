@@ -167,4 +167,23 @@ test.describe('Register page', () => {
     );
     await registerPo.shouldDisplayTranslatedText('register.error');
   });
+
+  test('should delete a user via API', async({ request }) => {
+    const uid = 'uid';
+    const deleteUserUrl = `/api/user/${uid}`;
+    const authHeaders = {
+      // ajouter le token correspondant
+      'Authorization': `Bearer `,
+      'Content-Type': 'application/json',
+    };
+    const response = await request.delete(deleteUserUrl, {
+      headers: authHeaders,
+    });
+    expect(response.status()).toBe(204);
+
+    const getUserResponse = await request.get(`/api/users/${uid}`, {
+      headers: authHeaders,
+    });
+    expect(getUserResponse.status()).toBe(404);
+  });
 });
