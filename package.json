@@ -21,7 +21,8 @@
     "typeorm:migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
     "typeorm:migration:run": "ts-node ./node_modules/typeorm/cli.js -d ./apps/back/src/app/utils/datasource.ts migration:run",
     "typeorm:migration:show": "ts-node ./node_modules/typeorm/cli.js -d ./apps/back/src/app/utils/datasource.ts migration:show",
-    "typeorm:migration:revert": "ts-node ./node_modules/typeorm/cli.js -d ./apps/back/src/app/utils/datasource.ts migration:revert"
+    "typeorm:migration:revert": "ts-node ./node_modules/typeorm/cli.js -d ./apps/back/src/app/utils/datasource.ts migration:revert",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
