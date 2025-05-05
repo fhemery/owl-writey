@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { NovelDto, NovelToCreateDto } from '@owl/shared/novels/contracts';
-import { firstValueFrom } from 'rxjs';
+import { debounceTime, firstValueFrom, Subject } from 'rxjs';
 
 import { NovelViewModel } from '../model';
 import { novelMappers } from './mappers/novel.mappers';
@@ -11,6 +11,14 @@ import { novelMappers } from './mappers/novel.mappers';
 })
 export class NovelService {
   readonly #httpClient = inject(HttpClient);
+  readonly novelToUpdate = new Subject<NovelViewModel>();
+
+  constructor() {
+    this.novelToUpdate.pipe(debounceTime(2000)).subscribe(async (novel) => {
+      console.log('Updating novel');
+      await this.doUpdateNovel(novel);
+    });
+  }
 
   async createNovel(novel: NovelToCreateDto): Promise<string> {
     const response = await firstValueFrom(
@@ -29,6 +37,11 @@ export class NovelService {
   }
 
   async update(novel: NovelViewModel): Promise<boolean> {
+    this.novelToUpdate.next(novel);
+    return true;
+  }
+
+  private async doUpdateNovel(novel: NovelViewModel): Promise<boolean> {
     try {
       const response = await firstValueFrom(
         this.#httpClient.put<NovelDto>(

@@ -10,7 +10,6 @@
   <div class="scene-page__text">
     <owl-text-editor
       [currentContent]="scene.text"
-      [debounceTime]="5000"
       (update)="updateContent($event)"
       nbLines="max"
     ></owl-text-editor>
