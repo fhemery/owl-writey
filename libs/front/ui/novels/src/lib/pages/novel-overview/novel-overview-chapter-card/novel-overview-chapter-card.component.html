@@ -1,5 +1,6 @@
 <div class="chapter-card" (dblclick)="goToChapter()">
   <div
+    #titleElement
     class="chapter-card__title"
     owlContentEditable
     (contentChange)="updateTitle($event)"

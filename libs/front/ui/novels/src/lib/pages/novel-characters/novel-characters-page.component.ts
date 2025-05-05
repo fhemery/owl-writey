@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  QueryList,
+  signal,
+  ViewChildren,
+} from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -46,12 +53,16 @@ export class NovelCharactersPageComponent {
   });
   readonly selectedTags = signal<string[]>([]);
 
+  @ViewChildren(NovelCharacterCardComponent)
+  characterCards?: QueryList<NovelCharacterCardComponent>;
+
   constructor() {
     this.#novelContext.reset();
   }
 
   async addCharacterAt(index: number): Promise<void> {
     await this.#novelStore.addCharacterAt(index);
+    setTimeout(() => this.focusCharacterAt(index), 50);
   }
   async updateCharacter(character: NovelCharacterViewModel): Promise<void> {
     await this.#novelStore.updateCharacter(character);
@@ -86,5 +97,12 @@ export class NovelCharactersPageComponent {
     } else {
       this.selectedTags.update((tags) => [...tags, tag]);
     }
+  }
+
+  private focusCharacterAt(index?: number): void {
+    if (index === undefined) {
+      index = (this.characterCards?.length ?? 0) - 1;
+    }
+    this.characterCards?.get(index)?.focus();
   }
 }

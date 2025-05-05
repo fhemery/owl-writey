@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -26,6 +26,8 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
   styleUrl: './novel-overview-page.component.scss',
 })
 export class NovelOverviewPageComponent {
+  @ViewChildren(NovelOverviewChapterCardComponent)
+  chapterCards!: QueryList<NovelOverviewChapterCardComponent>;
   readonly #router = inject(Router);
   readonly #store = inject(NovelStore);
   readonly confirmDialogService = inject(ConfirmDialogService);
@@ -34,6 +36,14 @@ export class NovelOverviewPageComponent {
 
   async addChapterAt(index?: number): Promise<void> {
     await this.#store.addChapterAt(index);
+    setTimeout(() => this.focusChapterAt(index), 50);
+  }
+
+  private focusChapterAt(index?: number): void {
+    if (index === undefined) {
+      index = this.chapterCards.length - 1;
+    }
+    this.chapterCards.get(index)?.focus();
   }
 
   async updateChapter(chapter: NovelChapterViewModel): Promise<void> {

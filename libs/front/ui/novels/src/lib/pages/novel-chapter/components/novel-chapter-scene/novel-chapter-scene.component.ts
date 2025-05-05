@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  output,
+  ViewChild,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,6 +45,8 @@ export class NovelChapterSceneComponent {
   moveScene = output<number>();
   transferScene = output<void>();
   goTo = output<void>();
+
+  @ViewChild('titleElement') titleElement?: ElementRef;
 
   async updateTitle(title: string): Promise<void> {
     const newScene = new NovelSceneViewModel(
@@ -99,5 +108,9 @@ export class NovelChapterSceneComponent {
 
   goToScene(): void {
     this.goTo.emit();
+  }
+
+  focus(): void {
+    this.titleElement?.nativeElement?.click();
   }
 }

@@ -12,7 +12,7 @@
       [items]="chapter.scenes"
       [addNewLabel]="'novel.chapter.newScene' | translate"
       [itemTemplate]="sceneTemplate"
-      (addNew)="addScene($event)"
+      (addNew)="addSceneAt($event)"
       (moveItem)="moveScene($event)"
     ></owl-novel-corkboard>
 

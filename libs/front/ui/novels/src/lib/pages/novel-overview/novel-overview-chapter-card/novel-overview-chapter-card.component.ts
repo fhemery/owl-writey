@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenteditableDirective } from '@owl/front/ui/common';
@@ -21,6 +21,8 @@ export class NovelOverviewChapterCardComponent {
   deleteChapter = output<void>();
   moveChapter = output<number>();
   goTo = output<void>();
+
+  @ViewChild('titleElement') titleElement?: ElementRef;
 
   async updateTitle(title: string): Promise<void> {
     const newChapter = new NovelChapterViewModel(
@@ -60,5 +62,9 @@ export class NovelOverviewChapterCardComponent {
 
   async goToChapter(): Promise<void> {
     this.goTo.emit();
+  }
+
+  focus(): void {
+    this.titleElement?.nativeElement?.click();
   }
 }

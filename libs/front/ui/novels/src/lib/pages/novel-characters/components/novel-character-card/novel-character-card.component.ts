@@ -1,6 +1,14 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, model, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  model,
+  output,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
@@ -34,6 +42,8 @@ export class NovelCharacterCardComponent {
   readonly updateCharacter = output<NovelCharacterViewModel>();
   readonly deleteCharacter = output<void>();
   readonly moveCharacter = output<number>();
+
+  @ViewChild('titleElement') titleElement?: ElementRef;
 
   readonly currentTag = model('');
   readonly filteredTags = computed(() => {
@@ -99,5 +109,10 @@ export class NovelCharacterCardComponent {
       this.character().tags.filter((t) => t !== tag)
     );
     this.updateCharacter.emit(newCharacter);
+  }
+
+  focus(): void {
+    console.log('focus');
+    this.titleElement?.nativeElement?.click();
   }
 }

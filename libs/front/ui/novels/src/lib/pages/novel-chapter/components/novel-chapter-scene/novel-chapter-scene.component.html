@@ -2,6 +2,7 @@
 <div class="chapter-scene" (dblclick)="goToScene()">
   <div
     class="chapter-scene__title"
+    #titleElement
     owlContentEditable
     (contentChange)="updateTitle($event)"
   >

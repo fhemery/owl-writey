@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -46,14 +54,27 @@ export class NovelChapterPageComponent {
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
   );
 
+  @ViewChildren(NovelChapterSceneComponent)
+  sceneCards!: QueryList<NovelChapterSceneComponent>;
+
   constructor() {
     effect(() => {
       this.#novelContext.setChapter(this.chapterId());
     });
   }
 
-  async addScene($event: number): Promise<void> {
-    await this.#store.addSceneAt(this.chapterId(), $event);
+  async addSceneAt(index?: number): Promise<void> {
+    await this.#store.addSceneAt(this.chapterId(), index);
+    setTimeout(() => this.focusSceneAt(index), 50);
+  }
+
+  private focusSceneAt(index?: number): void {
+    if (this.sceneCards && this.sceneCards.length > 0) {
+      if (index === undefined) {
+        index = this.sceneCards.length - 1;
+      }
+      this.sceneCards.get(index)?.focus();
+    }
   }
 
   convertToScene(item: unknown): NovelSceneViewModel {
