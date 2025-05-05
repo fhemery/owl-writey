@@ -1,5 +1,8 @@
 Feature: Home Feature
 
+  Background:
+    Given I go to home page
+
     @Automated @P0
     Scenario: Display home page
         When I go to home page
@@ -10,17 +13,13 @@ Feature: Home Feature
         When I go to home page
         Then Home page should be displayed
 
-    
+
     Scenario: Check other link
         When I go to home page
         Then One step that is not defined
 
-    Background:
-        Given I got to Homepage
-    
-    @Automated
+
     Scenario: Keyboard navigation - Logical tabulation order
         When I navigate with the tab key
         Then It should be in a logical order to reach every interactive elements
 
-    
