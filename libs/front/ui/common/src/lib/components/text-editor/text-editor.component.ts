@@ -30,6 +30,7 @@ export class TextEditorComponent {
   minWords = input<number | null>(null);
   maxWords = input<number | null>(null);
 
+  private initialText = this.currentContent();
   currentText = signal(this.currentContent());
   height = computed<string>(() => {
     const lines = this.nbLines();
@@ -51,7 +52,8 @@ export class TextEditorComponent {
 
   constructor() {
     effect(() => {
-      if (this.currentContent() !== this.currentText()) {
+      if (this.currentContent() !== this.initialText) {
+        this.initialText = this.currentContent();
         this.currentText.set(this.currentContent());
       }
     });
