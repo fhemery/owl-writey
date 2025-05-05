@@ -28,9 +28,9 @@ export const exerciseFr = {
         nbIterations: {
           label: 'Nombre de tours',
           error: {
-            min: 'Le nombre de tours doit être supérieur à 1',
+            min: 'Le nombre de tours doit être positif. Laisser vide ou saisir "0" pour continuer indéfiniment.',
           },
-          help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laissez vide ou mettre \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
+          help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laisser vide ou saisir \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
         iterationDuration: {
           label: "Durée d'un tour",
@@ -65,15 +65,11 @@ export const exerciseFr = {
             text: "Les nombres minimum et maximum de mots qu'une Plume doit écrire à son tour. Laissez vide pour n'imposer aucune limite.",
           },
         },
-        authorCanAnswer: {
-          label: "L'auteur peut écrire une suite à son propre textes",
-        },
         initialText: {
           label: 'Écrivez le début de votre histoire :',
           help: "C'est le premier texte que verront vos participant·e·s. Il vous permet d'orienter l'histoire !",
           error: {
             required: 'Le texte initial est obligatoire',
-            minlength: 'Le texte initial doit faire minimum 50 caractères',
           },
         },
       },
@@ -106,7 +102,7 @@ export const exerciseFr = {
       title: "Inviter d'autres Plumes",
       link: {
         label:
-          "Envoi leur ce lien de partage pour qu'iels puissent rejoindre l'exercice",
+          "Envoyez ce lien de partage pour qu'iels puissent rejoindre l'exercice",
         copy: 'Copier',
         copied: 'Lien copié dans le presse-papier !',
       },
