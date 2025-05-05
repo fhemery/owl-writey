@@ -8,7 +8,9 @@
   @for(chapter of novel().chapters; track chapter.id) {
   <div
     class="chapter-list__level level--1"
-    [ngClass]="{ selected: chapter.id === selectedChapterId() }"
+    [ngClass]="{
+      selected: chapter.id === selectedChapterId() && !selectedSceneId()
+    }"
   >
     <div class="chapter-list__placeholder"></div>
     <mat-icon color="accent" (click)="toggleChapterOpen(chapter.id)">{{

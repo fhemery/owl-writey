@@ -15,7 +15,6 @@ export class NovelService {
 
   constructor() {
     this.novelToUpdate.pipe(debounceTime(2000)).subscribe(async (novel) => {
-      console.log('Updating novel');
       await this.doUpdateNovel(novel);
     });
   }
