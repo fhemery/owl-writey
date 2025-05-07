@@ -12,7 +12,7 @@ const patternsToRemove = [
   '@ngx',
   'd3',
   'ngx-',
-  'quill',
+  'prose',
   'rxjs',
   'swiper',
   'zone.js',

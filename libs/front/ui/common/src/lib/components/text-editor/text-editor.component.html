@@ -1,9 +1,14 @@
 <div class="text-editor" [style.max-width]="width()" [style.height]="height()">
-  <quill-editor
-    (onContentChanged)="updateContent($event)"
-    [placeholder]="placeholder()"
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+  <ngx-editor
+    [editor]="editor"
     [ngModel]="currentContent()"
-  ></quill-editor>
+    (focusIn)="focusIn()"
+    (focusOut)="focusOut()"
+    (ngModelChange)="updateText($event)"
+    [disabled]="false"
+    [placeholder]="'Type here...'"
+  ></ngx-editor>
   @if (showWords()) {
   <div
     class="text-editor__words"

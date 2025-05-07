@@ -4,20 +4,22 @@ import {
   computed,
   effect,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
-import { ContentChange, QuillEditorComponent } from 'ngx-quill';
+import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { debounceTime, Subject, tap } from 'rxjs';
 
 @Component({
   selector: 'owl-text-editor',
-  imports: [CommonModule, QuillEditorComponent, FormsModule],
+  imports: [CommonModule, NgxEditorModule, FormsModule],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
-export class TextEditorComponent {
+export class TextEditorComponent implements OnInit {
   currentContent = input<string>('');
   placeholder = input<string>('');
   width = input<string>('800px');
@@ -29,6 +31,12 @@ export class TextEditorComponent {
   showWords = input<boolean>(false);
   minWords = input<number | null>(null);
   maxWords = input<number | null>(null);
+
+  private updateTextWatcher$ = new Subject<string>();
+  private isFocused = false;
+
+  editor!: Editor;
+  toolbar: Toolbar = [['bold', 'italic']];
 
   private initialText = this.currentContent();
   currentText = signal(this.currentContent());
@@ -57,11 +65,42 @@ export class TextEditorComponent {
         this.currentText.set(this.currentContent());
       }
     });
+
+    this.editor = new Editor({
+      plugins: [],
+    });
   }
 
-  updateContent($event: ContentChange): void {
-    this.currentText.set($event.html || '');
-    this.update.emit(this.currentText());
-    this.isValid.emit(this.isWordLimitCorrect());
+  ngOnInit(): void {
+    this.updateTextWatcher$
+      .pipe(
+        tap((text: string) => this.currentText.set(text)),
+        debounceTime(2000)
+      )
+      .subscribe(() => {
+        if (this.isFocused) {
+          this.sendTextUpdate();
+        }
+      });
+  }
+
+  focusIn(): void {
+    this.isFocused = true;
+  }
+
+  focusOut(): void {
+    this.isFocused = false;
+    this.sendTextUpdate();
+  }
+
+  updateText($event: string): void {
+    this.updateTextWatcher$.next($event);
+  }
+
+  private sendTextUpdate(): void {
+    if (this.currentContent() !== this.currentText()) {
+      this.update.emit(this.currentText());
+      this.isValid.emit(this.isWordLimitCorrect());
+    }
   }
 }

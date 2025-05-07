@@ -8,17 +8,23 @@
 .text-editor {
   width: 100%;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-primary-light);
+  padding: 0.5rem 1rem;
 
-  quill-editor::ng-deep {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    .ql-container {
-      flex: 1;
-      width: 100%;
-      max-width: 100%;
-      overflow: auto;
-      background: white;
+  & ngx-editor::ng-deep {
+    display: block;
+    flex: 1 1 auto;
+
+    .NgxEditor {
+      height: 100%;
+    }
+
+    .item-link {
+      color: var(--color-accent);
+      cursor: pointer;
+      text-decoration: underline;
     }
   }
 
