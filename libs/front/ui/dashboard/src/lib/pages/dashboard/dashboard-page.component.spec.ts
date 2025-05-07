@@ -25,14 +25,28 @@ describe('DashboardPageComponent', () => {
   const mockExercises: ExerciseSummaryDto[] = [
     {
       id: '1',
-      name: 'Exercise 1',
+      name: 'Ongoing def',
       type: ExerciseType.ExquisiteCorpse,
       status: ExerciseStatus.Ongoing,
       _links: { self: 'self' },
     },
     {
       id: '2',
-      name: 'Exercise 2',
+      name: 'Finished abc',
+      type: ExerciseType.ExquisiteCorpse,
+      status: ExerciseStatus.Finished,
+      _links: { self: 'self' },
+    },
+    {
+      id: '3',
+      name: 'Ongoing abc',
+      type: ExerciseType.ExquisiteCorpse,
+      status: ExerciseStatus.Ongoing,
+      _links: { self: 'self' },
+    },
+    {
+      id: '4',
+      name: 'Finished def',
       type: ExerciseType.ExquisiteCorpse,
       status: ExerciseStatus.Finished,
       _links: { self: 'self' },
@@ -47,7 +61,6 @@ describe('DashboardPageComponent', () => {
   beforeEach(async (): Promise<void> => {
     dashboardService = {
       getExercises: vi.fn().mockImplementation(({ displayFinished }) => {
-        console.log('displayFinished', displayFinished);
         return Promise.resolve(
           mockExercises.filter((e) =>
             displayFinished ? true : e.status !== ExerciseStatus.Finished
@@ -79,7 +92,8 @@ describe('DashboardPageComponent', () => {
 
   describe('Exercises', () => {
     it('should load only non-finished exercises on init', async () => {
-      expect(testUtils.getNbElements('owl-dashboard-exercises')).toEqual(1);
+      await testUtils.waitStable();
+      expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toEqual(2);
     });
 
     it('should display exercises section', () => {
@@ -103,7 +117,20 @@ describe('DashboardPageComponent', () => {
         testUtils.clickToggle('#dashboardExercisesHeader mat-slide-toggle');
         await testUtils.waitStable();
 
-        expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toBe(2);
+        expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toBe(4);
+      });
+    });
+
+    describe('sorting', () => {
+      it('should sort exercises by completion, then by name', async () => {
+        testUtils.clickToggle('#dashboardExercisesHeader mat-slide-toggle');
+        await testUtils.waitStable();
+        const selector = 'owl-dashboard-exercise-card mat-card-title';
+
+        expect(testUtils.getTextForElementAt(selector, 0)).toBe('Ongoing abc');
+        expect(testUtils.getTextForElementAt(selector, 1)).toBe('Ongoing def');
+        expect(testUtils.getTextForElementAt(selector, 2)).toBe('Finished abc');
+        expect(testUtils.getTextForElementAt(selector, 3)).toBe('Finished def');
       });
     });
   });

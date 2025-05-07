@@ -6,7 +6,10 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AUTH_SERVICE } from '@owl/front/auth';
 // TODO : Split into exercises and novels
-import { ExerciseSummaryDto } from '@owl/shared/exercises/contracts';
+import {
+  ExerciseStatus,
+  ExerciseSummaryDto,
+} from '@owl/shared/exercises/contracts';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
 import { DashboardExercisesComponent } from '../../components/dashboard-exercises/dashboard-exercises.component';
@@ -49,7 +52,16 @@ export class DashboardPageComponent implements OnInit {
     const exercises = await this.dashboardService.getExercises({
       displayFinished: this.displayFinished,
     });
-    return this.exercises.set(exercises);
+    return this.exercises.set(this.sortExercises(exercises));
+  }
+
+  private sortExercises(exercises: ExerciseSummaryDto[]): ExerciseSummaryDto[] {
+    return exercises.sort((a, b) => {
+      if (a.status === b.status) {
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      }
+      return b.status === ExerciseStatus.Finished ? -1 : 1;
+    });
   }
 
   async reloadNovels(): Promise<void> {
