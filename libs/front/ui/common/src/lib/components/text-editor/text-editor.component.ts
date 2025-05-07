@@ -39,7 +39,13 @@ export class TextEditorComponent implements OnInit {
   private isFocused = false;
 
   editor!: Editor;
-  toolbar: Toolbar = [['bold', 'italic']];
+  toolbar: Toolbar = [
+    ['bold', 'italic', 'strike', 'underline'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+    ['blockquote', 'horizontal_rule'],
+    ['bullet_list', 'ordered_list'],
+    ['text_color'],
+  ];
 
   private initialText = this.currentContent();
   currentText = signal(this.currentContent());
