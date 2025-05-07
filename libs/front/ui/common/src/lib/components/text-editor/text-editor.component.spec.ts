@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { OutputRefSubscription } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -25,28 +26,28 @@ class EditorUtils {
     if (clearCurrentContent) {
       editorComponent.setContent('');
     }
-    let command = editorComponent.commands.focus('end');
+    editorComponent.commands.focus('end').exec();
     let isFirstOperation = true;
     text.split(`\n`).forEach((text) => {
       if (isFirstOperation) {
         isFirstOperation = false;
       } else {
-        command = command.insertNewLine();
+        editorComponent.commands.insertNewLine().exec();
       }
-      command.insertText(text);
+      editorComponent.commands.insertText(text).exec();
     });
 
-    command.exec();
     this.fixture.detectChanges();
   }
 }
 
-const editorSelector = '.ProseMirror.NgxEditor__Content';
+const editorSelector = 'ngx-editor';
 describe('TextEditorComponent', () => {
   let component: TextEditorComponent;
   let fixture: ComponentFixture<TextEditorComponent>;
   let testUtils: TestUtils;
   let lastEmittedText: string;
+  let subscription: OutputRefSubscription;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -62,16 +63,22 @@ describe('TextEditorComponent', () => {
     fixture = TestBed.createComponent(TextEditorComponent);
     component = fixture.componentInstance;
     testUtils = new TestUtils(fixture);
-    component.update.subscribe((value) => {
+
+    lastEmittedText = '';
+    subscription = component.update.subscribe((value) => {
       lastEmittedText = value;
     });
 
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    subscription.unsubscribe();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(testUtils.hasElement('.text-editor')).toBeTruthy();
+    expect(testUtils.hasElement(editorSelector)).toBeTruthy();
   });
 
   describe('Input parameters', () => {
@@ -101,9 +108,8 @@ describe('TextEditorComponent', () => {
     it('should emit the text when focus is lost', async () => {
       const editorUtils = new EditorUtils(fixture);
       editorUtils.typeText('Something');
-      testUtils.dispatchEvent('blur', editorSelector);
+      testUtils.dispatchEvent('focusOut', editorSelector);
 
-      fixture.detectChanges();
       await testUtils.waitStable();
 
       expect(lastEmittedText).toContain('Something');

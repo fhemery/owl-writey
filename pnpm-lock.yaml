@@ -110,12 +110,18 @@ importers:
       ngx-socket-io:
         specifier: ^4.8.4
         version: 4.8.4(@angular/common@19.2.6(@angular/core@19.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      prosemirror-inputrules:
+        specifier: ^1.5.0
+        version: 1.5.0
       prosemirror-model:
         specifier: ^1.25.1
         version: 1.25.1
       prosemirror-schema-basic:
         specifier: ^1.2.4
         version: 1.2.4
+      prosemirror-state:
+        specifier: ^1.4.3
+        version: 1.4.3
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.14

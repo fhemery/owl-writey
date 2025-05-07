@@ -11,7 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { inputRules } from 'prosemirror-inputrules';
 import { debounceTime, Subject, tap } from 'rxjs';
+
+import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
   selector: 'owl-text-editor',
@@ -67,7 +70,7 @@ export class TextEditorComponent implements OnInit {
     });
 
     this.editor = new Editor({
-      plugins: [],
+      plugins: [inputRules({ rules: syntaxInputRules })],
     });
   }
 
