@@ -63,6 +63,10 @@ export class TestUtils {
     return element.textContent?.trim() || '';
   }
 
+  clickToggle(selector: string): void {
+    this.clickElementAt(`${selector} button`);
+  }
+
   clickElementAt(selector: string, index = 0): void {
     const element = this.getElementAt(selector, index);
     element.dispatchEvent(new Event('click'));
