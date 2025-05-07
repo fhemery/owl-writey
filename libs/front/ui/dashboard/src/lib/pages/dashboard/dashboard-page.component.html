@@ -26,9 +26,11 @@
       <mat-icon>add</mat-icon>
     </button>
     <div class="placeholder"></div>
-    <mat-slide-toggle (change)="toggleFinished()">{{
-      'dashboard.exercises.includeFinished' | translate
-    }}</mat-slide-toggle>
+    <mat-slide-toggle
+      (change)="toggleFinished()"
+      [checked]="displayFinished()"
+      >{{ 'dashboard.exercises.includeFinished' | translate }}</mat-slide-toggle
+    >
   </div>
   <div class="dashboard-page__panel">
     <owl-dashboard-exercises

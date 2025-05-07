@@ -1,14 +1,15 @@
-import { signal } from '@angular/core';
+import { signal, WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AUTH_SERVICE, User } from '@owl/front/auth';
 import { TestUtils } from '@owl/front/test-utils';
+import { LocalConfigService } from '@owl/front/ui/common';
 import { Role } from '@owl/shared/common/contracts';
 import {
-  ExerciseStatus,
-  ExerciseSummaryDto,
-  ExerciseType,
+    ExerciseStatus,
+    ExerciseSummaryDto,
+    ExerciseType,
 } from '@owl/shared/exercises/contracts';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
@@ -20,7 +21,9 @@ describe('DashboardPageComponent', () => {
   let fixture: ComponentFixture<DashboardPageComponent>;
   let testUtils: TestUtils;
   let dashboardService: Partial<DashboardService>;
+  let localConfigService: Partial<LocalConfigService>;
   const user = signal<User | null>(new User('1', 'test', []));
+  let configSignal: WritableSignal<{ displayFinished?: boolean }>;
 
   const mockExercises: ExerciseSummaryDto[] = [
     {
@@ -69,12 +72,19 @@ describe('DashboardPageComponent', () => {
       }),
       getNovels: vi.fn().mockResolvedValue(mockNovels),
     };
-
+    configSignal = signal({});
+    localConfigService = {
+      getUpdates: vi.fn().mockReturnValue(configSignal),
+      update: vi.fn().mockImplementation((key: string, config: unknown) => {
+        configSignal.set(config as { displayFinished?: boolean });
+      }),
+    };
     await TestBed.configureTestingModule({
       imports: [DashboardPageComponent, TranslateModule.forRoot()],
       providers: [
         { provide: DashboardService, useValue: dashboardService },
         { provide: AUTH_SERVICE, useValue: { user: user } },
+        { provide: LocalConfigService, useValue: localConfigService },
         provideRouter([{ path: '**', component: DashboardPageComponent }]),
       ],
     }).compileComponents();
@@ -118,6 +128,20 @@ describe('DashboardPageComponent', () => {
         await testUtils.waitStable();
 
         expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toBe(4);
+      });
+
+      it('should persist from one session to another', async () => {
+        testUtils.clickToggle('#dashboardExercisesHeader mat-slide-toggle');
+        await testUtils.waitStable();
+
+        fixture = TestBed.createComponent(DashboardPageComponent);
+        component = fixture.componentInstance;
+        testUtils = new TestUtils(fixture);
+        fixture.detectChanges();
+        await testUtils.waitStable();
+
+        expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toBe(4);
+        expect(testUtils.hasActiveToggle('#dashboardExercisesHeader mat-slide-toggle')).toBe(true);
       });
     });
 

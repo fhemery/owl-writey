@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AUTH_SERVICE } from '@owl/front/auth';
+import { LocalConfigService } from '@owl/front/ui/common';
 // TODO : Split into exercises and novels
 import {
   ExerciseStatus,
@@ -15,6 +16,11 @@ import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 import { DashboardExercisesComponent } from '../../components/dashboard-exercises/dashboard-exercises.component';
 import { DashboardNovelsComponent } from '../../components/dashboard-novels/dashboard-novels.component';
 import { DashboardService } from '../../services/dashboard.service';
+
+export const DASHBOARD_CONFIG_KEY = 'dashboard.config';
+interface DashboardConfig {
+  displayFinished?: boolean;
+}
 
 @Component({
   selector: 'owl-dashboard-page',
@@ -31,10 +37,15 @@ import { DashboardService } from '../../services/dashboard.service';
   styleUrl: './dashboard-page.component.scss',
 })
 export class DashboardPageComponent implements OnInit {
-  displayFinished = false;
   readonly dashboardService = inject(DashboardService);
+
   readonly authService = inject(AUTH_SERVICE);
-  user = this.authService.user;
+  readonly user = this.authService.user;
+
+  readonly localConfigService = inject(LocalConfigService);
+  readonly config =
+    this.localConfigService.getUpdates<DashboardConfig>(DASHBOARD_CONFIG_KEY);
+  displayFinished = computed(() => this.config().displayFinished ?? false);
 
   exercises = signal<ExerciseSummaryDto[] | null>(null);
   novels = signal<NovelSummaryDto[] | null>(null);
@@ -44,13 +55,15 @@ export class DashboardPageComponent implements OnInit {
   }
 
   async toggleFinished(): Promise<void> {
-    this.displayFinished = !this.displayFinished;
+    this.localConfigService.update(DASHBOARD_CONFIG_KEY, {
+      displayFinished: !this.displayFinished(),
+    });
     await this.reloadExercises();
   }
 
   async reloadExercises(): Promise<void> {
     const exercises = await this.dashboardService.getExercises({
-      displayFinished: this.displayFinished,
+      displayFinished: this.displayFinished(),
     });
     return this.exercises.set(this.sortExercises(exercises));
   }

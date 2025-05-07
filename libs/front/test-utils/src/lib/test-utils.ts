@@ -127,6 +127,7 @@ export class TestUtils {
   async waitStable(): Promise<void> {
     // This seems overkill, but if multiple promises are pending,
     // we need to wait for them all to resolve
+    this.fixture.detectChanges();
     await this.fixture.whenStable();
     await this.fixture.whenStable();
     await this.fixture.whenStable();
