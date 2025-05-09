@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { authGuard, betaOnlyGuard, notAuthGuard } from '@owl/front/auth';
+import { authGuard, notAuthGuard } from '@owl/front/auth';
 
 import { HomePageComponent } from './pages/home/home-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
@@ -40,7 +40,7 @@ export const appRoutes: Route[] = [
     path: 'novels',
     loadChildren: () =>
       import('@owl/front/ui/novels').then((m) => m.novelsRoutes),
-    canActivate: [betaOnlyGuard],
+    canActivate: [authGuard],
   },
   {
     path: '**',
