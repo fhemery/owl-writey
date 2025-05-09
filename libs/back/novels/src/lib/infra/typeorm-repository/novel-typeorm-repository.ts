@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Novel } from '@owl/shared/novels/model';
 import { Repository } from 'typeorm';
 
-import { Novel } from '../../domain/model';
 import { NovelRepository } from '../../domain/ports';
 import { NovelEntity } from './entities/novel.entity';
 import { NovelContentEntity } from './entities/novel-content.entity';

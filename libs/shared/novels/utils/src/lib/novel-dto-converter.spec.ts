@@ -71,6 +71,9 @@ describe('Novel DTO Converters', () => {
       expect(novelDto.participants).toHaveLength(1);
       expect(novelDto.chapters).toHaveLength(2);
       expect(novelDto.chapters[0].scenes).toHaveLength(2);
+      expect(novelDto.chapters[0].scenes[1].generalInfo.pointOfViewId).toBe(
+        'character-1'
+      );
       expect(novelDto.chapters[1].scenes).toHaveLength(1);
       expect(novelDto.universe?.characters).toHaveLength(2);
     });
@@ -112,6 +115,7 @@ describe('Novel DTO Converters', () => {
       expect(novel.participants).toHaveLength(1);
       expect(novel.chapters).toHaveLength(2);
       expect(novel.chapters[0].scenes).toHaveLength(2);
+      expect(novel.chapters[0].scenes[1].generalInfo.pov).toBe('character-1');
       expect(novel.chapters[1].scenes).toHaveLength(1);
       expect(novel.universe.characters).toHaveLength(2);
     });
@@ -133,55 +137,13 @@ describe('Novel DTO Converters', () => {
 
   describe('Roundtrip conversion', () => {
     it('should maintain data integrity when converting from Novel to NovelDto and back', () => {
-      // Arrange
-      const authorId = 'author-id';
-      const authorName = 'Author Name';
-      const originalNovel = createComplexNovel(authorId, authorName);
+      const originalNovelDto = createComplexNovelDto();
 
       // Act
-      const novelDto = toNovelDto(originalNovel);
-      const convertedNovel = toNovel(novelDto);
+      const convertedNovel = toNovel(originalNovelDto);
+      const convertedNovelDto = toNovelDto(convertedNovel);
 
-      // Assert
-      expect(convertedNovel.id).toBe(originalNovel.id);
-      expect(convertedNovel.generalInfo.title).toBe(
-        originalNovel.generalInfo.title
-      );
-      expect(convertedNovel.generalInfo.description).toBe(
-        originalNovel.generalInfo.description
-      );
-      expect(convertedNovel.participants).toHaveLength(
-        originalNovel.participants.length
-      );
-      expect(convertedNovel.chapters).toHaveLength(
-        originalNovel.chapters.length
-      );
-      expect(convertedNovel.universe.characters).toHaveLength(
-        originalNovel.universe.characters.length
-      );
-
-      // Check chapters
-      for (let i = 0; i < originalNovel.chapters.length; i++) {
-        expect(convertedNovel.chapters[i].id).toBe(
-          originalNovel.chapters[i].id
-        );
-        expect(convertedNovel.chapters[i].generalInfo.title).toBe(
-          originalNovel.chapters[i].generalInfo.title
-        );
-        expect(convertedNovel.chapters[i].scenes).toHaveLength(
-          originalNovel.chapters[i].scenes.length
-        );
-      }
-
-      // Check characters
-      for (let i = 0; i < originalNovel.universe.characters.length; i++) {
-        expect(convertedNovel.universe.characters[i].id).toBe(
-          originalNovel.universe.characters[i].id
-        );
-        expect(convertedNovel.universe.characters[i].name).toBe(
-          originalNovel.universe.characters[i].name
-        );
-      }
+      expect(originalNovelDto).toEqual(convertedNovelDto);
     });
   });
 });
@@ -230,6 +192,7 @@ function createComplexNovelDto(): NovelDto {
   const scene2GeneralInfo: SceneGeneralInfoDto = {
     title: 'Scene 2',
     outline: 'Scene 2 outline',
+    pointOfViewId: 'character-1',
   };
 
   const scene3GeneralInfo: SceneGeneralInfoDto = {
@@ -324,7 +287,7 @@ function createComplexNovel(authorId: string, authorName: string): Novel {
       ),
       new NovelScene(
         'scene-2',
-        new NovelSceneGeneralInfo('Scene 2', 'Scene 2 outline'),
+        new NovelSceneGeneralInfo('Scene 2', 'Scene 2 outline', 'character-1'),
         'Scene 2 content'
       ),
     ]

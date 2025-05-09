@@ -1,6 +1,10 @@
+import {
+  Novel,
+  NovelBuilder,
+  NovelGeneralInfo,
+} from '@owl/shared/novels/model';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { Novel, NovelGeneralInfo, NovelUniverse } from '../../../domain/model';
 import { NovelParticipantEntity } from './novel-participant.entity';
 
 @Entity({ name: 'novels' })
@@ -25,22 +29,20 @@ export class NovelEntity {
     entity.id = novel.id;
     entity.title = novel.generalInfo.title;
     entity.description = novel.generalInfo.description;
-    entity.participants = novel.generalInfo.participants.map((participant) =>
+    entity.participants = novel.participants.map((participant) =>
       NovelParticipantEntity.From(participant, novel.id)
     );
     return entity;
   }
 
   toNovel(): Novel {
-    return new Novel(
+    return NovelBuilder.Existing(
       this.id,
-      new NovelGeneralInfo(
-        this.title,
-        this.description,
+      new NovelGeneralInfo(this.title, this.description)
+    )
+      .withParticipants(
         this.participants.map((participant) => participant.toNovelParticipant())
-      ),
-      [],
-      new NovelUniverse()
-    );
+      )
+      .build();
   }
 }

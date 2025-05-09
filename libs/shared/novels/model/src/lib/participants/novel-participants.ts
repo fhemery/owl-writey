@@ -15,6 +15,11 @@ export class NovelParticipants {
   get participants(): NovelParticipant[] {
     return [...this._participants];
   }
+  isAuthor(uid: string): boolean {
+    return this._participants.some(
+      (p) => p.uid === uid && p.role === NovelRole.Author
+    );
+  }
   copy(): NovelParticipants {
     return new NovelParticipants([...this._participants]);
   }

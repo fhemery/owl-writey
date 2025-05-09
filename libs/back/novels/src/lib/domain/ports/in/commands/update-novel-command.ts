@@ -1,8 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-
 import {
   Novel,
+  NovelBuilder,
   NovelGeneralInfo,
+} from '@owl/shared/novels/model';
+
+import {
   NovelNotAuthorException,
   NovelNotFoundException,
 } from '../../../model';
@@ -24,16 +27,17 @@ export class UpdateNovelCommand {
       throw new NovelNotAuthorException(novel.id);
     }
 
-    const novelToSave = new Novel(
+    const novelToSave = NovelBuilder.Existing(
       novel.id,
       new NovelGeneralInfo(
         novel.generalInfo.title,
-        novel.generalInfo.description,
-        existingNovel.generalInfo.participants
-      ),
-      novel.chapters,
-      novel.universe
-    );
+        novel.generalInfo.description
+      )
+    )
+      .withParticipants(existingNovel.participants)
+      .withChapters(novel.chapters)
+      .withUniverse(novel.universe)
+      .build();
 
     return this.novelRepository.save(novelToSave);
   }

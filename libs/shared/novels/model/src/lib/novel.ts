@@ -88,6 +88,9 @@ export class Novel {
   findCharacter(characterId: string): NovelCharacter | null {
     return this.universe.findCharacter(characterId);
   }
+  isAuthor(uid: string): boolean {
+    return this._participants.isAuthor(uid);
+  }
   copy(): Novel {
     return new Novel(
       this.id,

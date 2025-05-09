@@ -1,4 +1,4 @@
-import { Novel } from '../../model';
+import { Novel } from '@owl/shared/novels/model';
 
 export const NovelRepository = Symbol('NovelRepository');
 export interface NovelRepository {
