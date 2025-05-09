@@ -53,6 +53,7 @@
       "@owl/shared/novels/contracts": [
         "libs/shared/novels/contracts/src/index.ts"
       ],
+      "@owl/shared/novels/model": ["libs/shared/novels/model/src/index.ts"],
       "@owl/shared/novels/translations": [
         "libs/shared/novels/translations/src/index.ts"
       ],
