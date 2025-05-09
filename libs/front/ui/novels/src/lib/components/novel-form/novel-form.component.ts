@@ -24,8 +24,7 @@ import {
 } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextEditorComponent } from '@owl/front/ui/common';
-
-import { NovelViewModel } from '../../model';
+import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-form',
@@ -48,7 +47,7 @@ import { NovelViewModel } from '../../model';
 export class NovelFormComponent implements OnInit {
   update = output<NovelFormData>();
   delete = output<void>();
-  novel = input<NovelViewModel | null>(null);
+  novel = input<Novel | null>(null);
   isEditMode = computed(() => this.novel() !== null);
 
   private readonly formBuilder = inject(FormBuilder);

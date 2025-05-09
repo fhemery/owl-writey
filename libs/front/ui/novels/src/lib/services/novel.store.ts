@@ -7,18 +7,19 @@ import {
   withState,
 } from '@ngrx/signals';
 import { TranslateService } from '@ngx-translate/core';
-
 import {
-  NovelChapterViewModel,
-  NovelCharacterViewModel,
-  NovelGeneralInfoViewModel,
-  NovelSceneViewModel,
-  NovelViewModel,
-} from '../model';
+  Novel,
+  NovelBuilder,
+  NovelChapter,
+  NovelCharacter,
+  NovelGeneralInfo,
+  NovelScene,
+} from '@owl/shared/novels/model';
+
 import { NovelService } from './novel.service';
 
 export interface NovelState {
-  novel: NovelViewModel | null;
+  novel: Novel | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -40,7 +41,7 @@ export class NovelStore extends signalStore(
       novelService = inject(NovelService),
       translateService = inject(TranslateService)
     ) => ({
-      getNovel(): NovelViewModel {
+      getNovel(): Novel {
         const novel = store.novel();
         if (!novel) {
           throw new Error('Novel not found');
@@ -80,7 +81,7 @@ export class NovelStore extends signalStore(
         );
         await novelService.update(novel);
       },
-      async updateChapter(chapter: NovelChapterViewModel): Promise<boolean> {
+      async updateChapter(chapter: NovelChapter): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateChapter(chapter);
         patchState(store, { novel: novel.copy() });
@@ -95,15 +96,15 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
-      async deleteChapter(chapter: NovelChapterViewModel): Promise<boolean> {
+      async deleteChapter(chapter: NovelChapter): Promise<boolean> {
         const novel = this.getNovel();
-        novel.deleteChapter(chapter);
+        novel.deleteChapter(chapter.id);
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
       async updateScene(
         chapterId: string,
-        scene: NovelSceneViewModel
+        scene: NovelScene
       ): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateScene(chapterId, scene);
@@ -152,9 +153,7 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         await novelService.update(novel);
       },
-      async updateCharacter(
-        character: NovelCharacterViewModel
-      ): Promise<boolean> {
+      async updateCharacter(character: NovelCharacter): Promise<boolean> {
         const novel = this.getNovel();
         novel.updateCharacter(character);
         patchState(store, { novel: novel.copy() });
@@ -172,17 +171,13 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
-      async updateGeneralInfo(
-        generalInfo: NovelGeneralInfoViewModel
-      ): Promise<boolean> {
+      async updateGeneralInfo(generalInfo: NovelGeneralInfo): Promise<boolean> {
         const novel = this.getNovel();
-        const newNovel = new NovelViewModel(
-          novel.id,
-          generalInfo,
-          novel.participants,
-          novel.chapters,
-          novel.universe
-        );
+        const newNovel = NovelBuilder.Existing(novel.id, generalInfo)
+          .withParticipants(novel.participants)
+          .withChapters(novel.chapters)
+          .withUniverse(novel.universe)
+          .build();
         patchState(store, { novel: newNovel });
         return await novelService.update(newNovel);
       },

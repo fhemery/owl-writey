@@ -13,8 +13,8 @@ import {
   ConfirmDialogService,
   NotificationService,
 } from '@owl/front/ui/common';
+import { NovelCharacter } from '@owl/shared/novels/model';
 
-import { NovelCharacterViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
@@ -64,16 +64,16 @@ export class NovelCharactersPageComponent {
     await this.#novelStore.addCharacterAt(index);
     setTimeout(() => this.focusCharacterAt(index), 50);
   }
-  async updateCharacter(character: NovelCharacterViewModel): Promise<void> {
+  async updateCharacter(character: NovelCharacter): Promise<void> {
     await this.#novelStore.updateCharacter(character);
   }
-  convertToCharacter(item: unknown): NovelCharacterViewModel {
-    return item as NovelCharacterViewModel;
+  convertToCharacter(item: unknown): NovelCharacter {
+    return item as NovelCharacter;
   }
   async moveCharacter($event: { from: number; to: number }): Promise<void> {
     await this.#novelStore.moveCharacter($event.from, $event.to);
   }
-  async deleteCharacter(character: NovelCharacterViewModel): Promise<void> {
+  async deleteCharacter(character: NovelCharacter): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(
       'novel.character.deleteConfirm.title',
       'novel.character.deleteConfirm.text'

@@ -28,7 +28,7 @@ export const toNovelDto = (novel: Novel): NovelDto => {
     generalInfo: toNovelGeneralInfoDto(novel.generalInfo),
     participants: toNovelParticipantsDto(novel.participants),
     chapters: toNovelChaptersDto(novel.chapters),
-    universe: novel.universe,
+    universe: toNovelUniverseDto(novel.universe),
   };
 };
 
@@ -158,5 +158,16 @@ function toNovelSceneGeneralInfoDto(
   return {
     title: generalInfo.title,
     outline: generalInfo.outline,
+  };
+}
+
+function toNovelUniverseDto(universe: NovelUniverse): NovelUniverseDto {
+  return {
+    characters: universe.characters.map((c) => ({
+      id: c.id,
+      name: c.name,
+      description: c.description,
+      tags: c.tags,
+    })),
   };
 }

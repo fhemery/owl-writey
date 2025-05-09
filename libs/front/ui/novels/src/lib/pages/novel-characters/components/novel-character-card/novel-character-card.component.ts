@@ -16,8 +16,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenteditableDirective } from '@owl/front/ui/common';
-
-import { NovelCharacterViewModel } from '../../../../model';
+import { NovelCharacter } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-character-card',
@@ -37,9 +36,9 @@ import { NovelCharacterViewModel } from '../../../../model';
 export class NovelCharacterCardComponent {
   readonly addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  readonly character = input.required<NovelCharacterViewModel>();
+  readonly character = input.required<NovelCharacter>();
   readonly allTags = input<string[]>([]);
-  readonly updateCharacter = output<NovelCharacterViewModel>();
+  readonly updateCharacter = output<NovelCharacter>();
   readonly deleteCharacter = output<void>();
   readonly moveCharacter = output<number>();
 
@@ -59,7 +58,7 @@ export class NovelCharacterCardComponent {
 
   updateCharacterDescription(description: string): void {
     if (description !== this.character().description) {
-      const newCharacter = new NovelCharacterViewModel(
+      const newCharacter = new NovelCharacter(
         this.character().id,
         this.character().name,
         description,
@@ -71,7 +70,7 @@ export class NovelCharacterCardComponent {
 
   updateCharacterName(name: string): void {
     if (name !== this.character().name) {
-      const newCharacter = new NovelCharacterViewModel(
+      const newCharacter = new NovelCharacter(
         this.character().id,
         name,
         this.character().description,
@@ -93,7 +92,7 @@ export class NovelCharacterCardComponent {
     if (!newTag || this.character().tags.includes(newTag)) {
       return;
     }
-    const newCharacter = new NovelCharacterViewModel(
+    const newCharacter = new NovelCharacter(
       this.character().id,
       this.character().name,
       this.character().description,
@@ -102,7 +101,7 @@ export class NovelCharacterCardComponent {
     this.updateCharacter.emit(newCharacter);
   }
   removeTag(tag: string): void {
-    const newCharacter = new NovelCharacterViewModel(
+    const newCharacter = new NovelCharacter(
       this.character().id,
       this.character().name,
       this.character().description,

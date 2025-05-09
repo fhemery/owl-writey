@@ -3,8 +3,7 @@ import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NovelViewModel } from '../../../../../../model';
+import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-sidebar-universe',
@@ -13,5 +12,5 @@ import { NovelViewModel } from '../../../../../../model';
   styleUrl: './novel-sidebar-universe.component.scss',
 })
 export class NovelSidebarUniverseComponent {
-  readonly novel = input.required<NovelViewModel>();
+  readonly novel = input.required<Novel>();
 }

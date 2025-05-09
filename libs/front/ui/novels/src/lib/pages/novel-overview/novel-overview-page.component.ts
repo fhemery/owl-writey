@@ -6,8 +6,8 @@ import {
   ConfirmDialogService,
   NotificationService,
 } from '@owl/front/ui/common';
+import { NovelChapter } from '@owl/shared/novels/model';
 
-import { NovelChapterViewModel } from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelOverviewChapterCardComponent } from './novel-overview-chapter-card/novel-overview-chapter-card.component';
@@ -46,15 +46,15 @@ export class NovelOverviewPageComponent {
     this.chapterCards.get(index)?.focus();
   }
 
-  async updateChapter(chapter: NovelChapterViewModel): Promise<void> {
+  async updateChapter(chapter: NovelChapter): Promise<void> {
     await this.#store.updateChapter(chapter);
   }
 
-  convertToChapter(chapter: NovelChapterViewModel): NovelChapterViewModel {
+  convertToChapter(chapter: NovelChapter): NovelChapter {
     return chapter;
   }
 
-  async deleteChapter(chapter: NovelChapterViewModel): Promise<void> {
+  async deleteChapter(chapter: NovelChapter): Promise<void> {
     const confirmed = await this.confirmDialogService.openConfirmDialog(
       'novel.chapter.deleteConfirm.title',
       'novel.chapter.deleteConfirm.text'
@@ -77,7 +77,7 @@ export class NovelOverviewPageComponent {
     await this.#store.moveChapter($event.from, $event.to);
   }
 
-  async goTo(chapter: NovelChapterViewModel): Promise<void> {
+  async goTo(chapter: NovelChapter): Promise<void> {
     await this.#router.navigate([
       'novels',
       this.novel()?.id || '',
