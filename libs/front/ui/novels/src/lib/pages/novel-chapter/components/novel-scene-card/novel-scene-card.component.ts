@@ -20,7 +20,7 @@ import {
 import { NovelSelectPovComponent } from '../../../../components/novel-select-pov/novel-select-pov.component';
 
 @Component({
-  selector: 'owl-novel-chapter-scene',
+  selector: 'owl-novel-scene-card',
   imports: [
     CommonModule,
     ContenteditableDirective,
@@ -29,10 +29,10 @@ import { NovelSelectPovComponent } from '../../../../components/novel-select-pov
     MatMenuModule,
     NovelSelectPovComponent,
   ],
-  templateUrl: './novel-chapter-scene.component.html',
-  styleUrl: './novel-chapter-scene.component.scss',
+  templateUrl: './novel-scene-card.component.html',
+  styleUrl: './novel-scene-card.component.scss',
 })
-export class NovelChapterSceneComponent {
+export class NovelSceneCardComponent {
   readonly scene = input.required<NovelScene>();
   readonly novel = input.required<Novel>();
   readonly pov = computed(() => {

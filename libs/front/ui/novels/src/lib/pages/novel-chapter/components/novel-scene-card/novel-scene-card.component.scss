@@ -83,7 +83,7 @@
       }
 
       &.no-pov {
-        color: var(--color-inactive);
+        color: var(--color-inactive) !important;
       }
     }
 

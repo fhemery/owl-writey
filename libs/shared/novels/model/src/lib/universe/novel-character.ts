@@ -3,6 +3,11 @@ export class NovelCharacter {
     readonly id: string,
     readonly name: string,
     readonly description: string,
-    readonly tags: string[] = []
+    readonly tags: string[] = [],
+    readonly properties: NovelCharacterProperties = {}
   ) {}
+}
+
+export interface NovelCharacterProperties {
+  readonly color?: string;
 }

@@ -1,5 +1,8 @@
-import { NovelCharacterDto } from '@owl/shared/novels/contracts';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import {
+  NovelCharacterDto,
+  NovelCharacterPropertiesDto,
+} from '@owl/shared/novels/contracts';
+import { IsArray, IsNotEmpty, IsObject, IsString } from 'class-validator';
 
 export class NovelCharacterDtoImpl implements NovelCharacterDto {
   @IsString()
@@ -15,4 +18,7 @@ export class NovelCharacterDtoImpl implements NovelCharacterDto {
 
   @IsArray()
   tags!: string[];
+
+  @IsObject()
+  properties!: NovelCharacterPropertiesDto;
 }

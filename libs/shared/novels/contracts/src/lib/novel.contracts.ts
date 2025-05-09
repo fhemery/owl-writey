@@ -35,6 +35,11 @@ export interface NovelCharacterDto {
   name: string;
   description: string;
   tags: string[];
+  properties: NovelCharacterPropertiesDto;
+}
+
+export interface NovelCharacterPropertiesDto {
+  color?: string;
 }
 
 export interface NovelParticipantDto {

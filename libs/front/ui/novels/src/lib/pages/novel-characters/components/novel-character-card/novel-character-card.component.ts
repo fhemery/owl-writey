@@ -62,7 +62,8 @@ export class NovelCharacterCardComponent {
         this.character().id,
         this.character().name,
         description,
-        this.character().tags
+        this.character().tags,
+        this.character().properties
       );
       this.updateCharacter.emit(newCharacter);
     }
@@ -74,10 +75,25 @@ export class NovelCharacterCardComponent {
         this.character().id,
         name,
         this.character().description,
-        this.character().tags
+        this.character().tags,
+        this.character().properties
       );
       this.updateCharacter.emit(newCharacter);
     }
+  }
+
+  updateCharacterColor($event: Event): void {
+    const newCharacter = new NovelCharacter(
+      this.character().id,
+      this.character().name,
+      this.character().description,
+      this.character().tags,
+      {
+        ...this.character().properties,
+        color: ($event.target as HTMLInputElement).value,
+      }
+    );
+    this.updateCharacter.emit(newCharacter);
   }
 
   onMoveCharacter(delta: number): void {
@@ -96,7 +112,8 @@ export class NovelCharacterCardComponent {
       this.character().id,
       this.character().name,
       this.character().description,
-      [...this.character().tags, newTag]
+      [...this.character().tags, newTag],
+      this.character().properties
     );
     this.updateCharacter.emit(newCharacter);
   }
@@ -105,7 +122,8 @@ export class NovelCharacterCardComponent {
       this.character().id,
       this.character().name,
       this.character().description,
-      this.character().tags.filter((t) => t !== tag)
+      this.character().tags.filter((t) => t !== tag),
+      this.character().properties
     );
     this.updateCharacter.emit(newCharacter);
   }

@@ -1,11 +1,21 @@
 <div class="character-card">
-  <div
-    class="character-card__title"
-    #titleElement
-    owlContentEditable
-    (contentChange)="updateCharacterName($event)"
-  >
-    {{ character().name }}
+  <div class="character-card__header">
+    <div class="character-card__color-picker">
+      <input
+        type="color"
+        [value]="character().properties.color"
+        (change)="updateCharacterColor($event)"
+      />
+    </div>
+    <div
+      class="character-card__title"
+      #titleElement
+      owlContentEditable
+      (contentChange)="updateCharacterName($event)"
+    >
+      {{ character().name }}
+    </div>
+    <div class="character-card__header-placeholder">&nbsp;</div>
   </div>
   <div class="character-card__tags">
     <mat-form-field class="example-chip-list form-field-density-5">

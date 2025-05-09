@@ -76,6 +76,7 @@ describe('Novel DTO Converters', () => {
       );
       expect(novelDto.chapters[1].scenes).toHaveLength(1);
       expect(novelDto.universe?.characters).toHaveLength(2);
+      expect(novelDto.universe?.characters[0].properties.color).toBe('red');
     });
   });
 
@@ -118,6 +119,7 @@ describe('Novel DTO Converters', () => {
       expect(novel.chapters[0].scenes[1].generalInfo.pov).toBe('character-1');
       expect(novel.chapters[1].scenes).toHaveLength(1);
       expect(novel.universe.characters).toHaveLength(2);
+      expect(novel.universe.characters[0].properties.color).toBe('red');
     });
 
     it('should handle a NovelDto without a universe', () => {
@@ -245,6 +247,7 @@ function createComplexNovelDto(): NovelDto {
     name: 'Character 1',
     description: 'Character 1 description',
     tags: ['protagonist'],
+    properties: { color: 'red' },
   };
 
   const character2: NovelCharacterDto = {
@@ -252,6 +255,7 @@ function createComplexNovelDto(): NovelDto {
     name: 'Character 2',
     description: 'Character 2 description',
     tags: ['antagonist'],
+    properties: {},
   };
 
   const universe: NovelUniverseDto = {
@@ -310,7 +314,8 @@ function createComplexNovel(authorId: string, authorName: string): Novel {
     'character-1',
     'Character 1',
     'Character 1 description',
-    ['protagonist']
+    ['protagonist'],
+    { color: 'red' }
   );
 
   const character2 = new NovelCharacter(

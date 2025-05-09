@@ -168,6 +168,7 @@ describe('PUT /api/novels/:id', () => {
               name: 'New character name',
               description: 'New character description',
               tags: ['New tag 1', 'New tag 2'],
+              properties: {},
             },
           ],
         },

@@ -1,5 +1,11 @@
 @if(scene(); as scene){
-<div class="chapter-scene" (dblclick)="goToScene()">
+<div
+  class="chapter-scene"
+  (dblclick)="goToScene()"
+  [ngStyle]="{
+    border: pov() ? '1px solid ' + pov()?.properties?.color : 'none'
+  }"
+>
   <div
     class="chapter-scene__title"
     #titleElement
@@ -18,8 +24,16 @@
     {{ scene.generalInfo.outline }}
   </div>
   <div class="chapter-scene__details">
-    <a class="chapter-scene__details--pov" [matMenuTriggerFor]="povMenu">
-      <mat-icon [ngClass]="{ 'no-pov': !pov() }">person</mat-icon>
+    <a
+      class="chapter-scene__details--pov"
+      [matMenuTriggerFor]="povMenu"
+      [ngStyle]="{ color: pov()?.properties?.color || 'black' }"
+    >
+      <mat-icon
+        [ngClass]="{ 'no-pov': !pov() }"
+        [ngStyle]="{ color: pov()?.properties?.color || 'black' }"
+        >person</mat-icon
+      >
       <span>{{ pov()?.name }}</span>
     </a>
     <mat-menu #povMenu="matMenu">

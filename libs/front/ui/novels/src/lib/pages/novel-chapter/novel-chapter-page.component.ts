@@ -26,7 +26,7 @@ import { firstValueFrom } from 'rxjs';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
-import { NovelChapterSceneComponent } from './components/novel-chapter-scene/novel-chapter-scene.component';
+import { NovelSceneCardComponent } from './components/novel-scene-card/novel-scene-card.component';
 import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
 
 @Component({
@@ -35,7 +35,7 @@ import { TransferSceneDialogComponent } from './components/transfer-scene-dialog
     CommonModule,
     NovelCorkboardComponent,
     TranslateModule,
-    NovelChapterSceneComponent,
+    NovelSceneCardComponent,
     ContenteditableDirective,
   ],
   templateUrl: './novel-chapter-page.component.html',
@@ -54,8 +54,8 @@ export class NovelChapterPageComponent {
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
   );
 
-  @ViewChildren(NovelChapterSceneComponent)
-  sceneCards!: QueryList<NovelChapterSceneComponent>;
+  @ViewChildren(NovelSceneCardComponent)
+  sceneCards!: QueryList<NovelSceneCardComponent>;
 
   constructor() {
     effect(() => {

@@ -105,7 +105,7 @@ function toNovelCharacters(
   charactersDto: NovelCharacterDto[]
 ): NovelCharacter[] {
   return charactersDto.map(
-    (c) => new NovelCharacter(c.id, c.name, c.description, c.tags)
+    (c) => new NovelCharacter(c.id, c.name, c.description, c.tags, c.properties)
   );
 }
 
@@ -170,6 +170,7 @@ function toNovelUniverseDto(universe: NovelUniverse): NovelUniverseDto {
       name: c.name,
       description: c.description,
       tags: c.tags,
+      properties: c.properties,
     })),
   };
 }

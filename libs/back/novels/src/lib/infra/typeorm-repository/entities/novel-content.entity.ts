@@ -45,6 +45,7 @@ export class NovelContentEntity {
           name: c.name,
           description: c.description,
           tags: c.tags,
+          properties: c.properties,
         })),
       },
     };
@@ -81,7 +82,14 @@ export class NovelContentEntity {
       .withUniverse(
         new NovelUniverse(
           this.content.universe?.characters.map(
-            (c) => new NovelCharacter(c.id, c.name, c.description, c.tags)
+            (c) =>
+              new NovelCharacter(
+                c.id,
+                c.name,
+                c.description,
+                c.tags,
+                c.properties || {}
+              )
           ) || []
         )
       )
@@ -120,4 +128,9 @@ interface CharacterDao {
   name: string;
   description: string;
   tags: string[];
+  properties: CharacterPropertiesDao;
+}
+
+interface CharacterPropertiesDao {
+  color?: string;
 }
