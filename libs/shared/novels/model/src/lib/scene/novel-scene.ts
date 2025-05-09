@@ -4,7 +4,7 @@ export class NovelScene {
   constructor(
     readonly id: string,
     readonly generalInfo: NovelSceneGeneralInfo,
-    readonly text: string
+    readonly content: string
   ) {}
 
   deletePov(characterId: string): void {

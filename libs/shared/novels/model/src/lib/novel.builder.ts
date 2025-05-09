@@ -29,18 +29,11 @@ export class NovelBuilder {
     return builder;
   }
 
-  static Existing(
-    id: string,
-    generalInfo: NovelGeneralInfo,
-    authorId: string,
-    authorName: string
-  ): NovelBuilder {
+  static Existing(id: string, generalInfo: NovelGeneralInfo): NovelBuilder {
     const builder = new NovelBuilder();
     builder._id = id;
     builder._generalInfo = generalInfo;
-    builder._participants.push(
-      new NovelParticipant(authorId, authorName, NovelRole.Author)
-    );
+
     return builder;
   }
 

@@ -50,6 +50,7 @@
       "@owl/shared/exercises/translations": [
         "libs/shared/exercises/translations/src/index.ts"
       ],
+      "@owl/shared/novel/utils": ["libs/shared/novels/utils/src/index.ts"],
       "@owl/shared/novels/contracts": [
         "libs/shared/novels/contracts/src/index.ts"
       ],
