@@ -4,6 +4,7 @@ import {
   effect,
   importProvidersFrom,
   inject,
+  isDevMode,
   provideAppInitializer,
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
@@ -18,6 +19,7 @@ import {
   withComponentInputBinding,
   withDisabledInitialNavigation,
 } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
 import { appRoutes } from '@owl/front/app';
 import {
@@ -62,6 +64,10 @@ export const appConfig: ApplicationConfig = {
       provide: AUTH_SERVICE,
       useClass: FirebaseAuthService,
     },
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
 
