@@ -123,6 +123,11 @@ export const uiFr = {
       },
     },
   },
+  updateBanner: {
+    text: 'Une mise à jour est disponible !',
+    acceptLabel: 'Mettre à jour',
+    declineLabel: 'Plus tard',
+  },
   ...dashboardFr,
   ...notFoundFr,
   ...eventsFr,

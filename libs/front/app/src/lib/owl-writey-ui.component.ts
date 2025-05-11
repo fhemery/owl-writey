@@ -11,7 +11,10 @@ import {
   TranslationHubService,
   UserNotificationsService,
 } from '@owl/front/infra';
-import { NotificationService } from '@owl/front/ui/common';
+import {
+  NotificationService,
+  UpdateSnackbarComponent,
+} from '@owl/front/ui/common';
 import { NotificationEvent, SseEvent } from '@owl/shared/common/contracts';
 import { uiFr } from '@owl/shared/common/translations';
 import { Subscription } from 'rxjs';
@@ -21,7 +24,13 @@ import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'owl-writey-ui',
-  imports: [CommonModule, HeaderComponent, RouterOutlet, FooterComponent],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    RouterOutlet,
+    FooterComponent,
+    UpdateSnackbarComponent,
+  ],
   providers: [UserNotificationsService],
   templateUrl: './owl-writey-ui.component.html',
   styleUrl: './owl-writey-ui.component.scss',
