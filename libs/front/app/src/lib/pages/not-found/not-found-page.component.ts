@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 
 @Component({
   selector: 'owl-not-found-page',
@@ -13,6 +13,6 @@ import { FirebaseAuthService } from '@owl/front/auth';
   styleUrl: './not-found-page.component.scss',
 })
 export class NotFoundPageComponent {
-  readonly #auth = inject(FirebaseAuthService);
+  readonly #auth = inject(AUTH_SERVICE);
   user = this.#auth.user;
 }

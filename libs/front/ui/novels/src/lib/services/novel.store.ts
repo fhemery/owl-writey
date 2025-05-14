@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import {
   NovelChapterViewModel,
+  NovelCharacterViewModel,
   NovelGeneralInfoViewModel,
   NovelSceneViewModel,
   NovelViewModel,
@@ -141,6 +142,36 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
+      async addCharacterAt(index: number): Promise<void> {
+        const novel = this.getNovel();
+        novel.addCharacterAt(
+          translateService.instant('novel.defaults.newCharacter.name'),
+          '',
+          index
+        );
+        patchState(store, { novel: novel.copy() });
+        await novelService.update(novel);
+      },
+      async updateCharacter(
+        character: NovelCharacterViewModel
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.updateCharacter(character);
+        patchState(store, { novel: novel.copy() });
+        return await novelService.update(novel);
+      },
+      async moveCharacter(from: number, to: number): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.moveCharacter(from, to);
+        patchState(store, { novel: novel.copy() });
+        return await novelService.update(novel);
+      },
+      async deleteCharacter(id: string): Promise<boolean> {
+        const novel = this.getNovel();
+        novel.deleteCharacter(id);
+        patchState(store, { novel: novel.copy() });
+        return await novelService.update(novel);
+      },
       async updateGeneralInfo(
         generalInfo: NovelGeneralInfoViewModel
       ): Promise<boolean> {
@@ -149,7 +180,8 @@ export class NovelStore extends signalStore(
           novel.id,
           generalInfo,
           novel.participants,
-          novel.chapters
+          novel.chapters,
+          novel.universe
         );
         patchState(store, { novel: newNovel });
         return await novelService.update(newNovel);

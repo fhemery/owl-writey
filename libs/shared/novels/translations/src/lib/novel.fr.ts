@@ -10,9 +10,48 @@ export const novelFr = {
       newScene: {
         label: 'Nouvelle scène',
       },
+      newCharacter: {
+        label: 'Nouveau personnage',
+        name: 'Jane Doe',
+      },
     },
     sidebar: {
       title: 'Table des matières',
+      universe: {
+        characters: 'Personnages',
+      },
+    },
+    character: {
+      title: 'Personnages',
+      deleteConfirm: {
+        title: 'Supprimer le personnage',
+        text: "La suppression d'un personnage est irréversible. Êtes vous sûr(e) ?",
+        result: {
+          ok: 'Le personnage a bien été supprimé',
+          error: 'Une erreur est survenue lors de la suppression du personnage',
+        },
+      },
+      tags: {
+        label: 'Tags',
+        add: {
+          ariaLabel: 'Ajouter un tag',
+          placeholder: 'Ajouter un tag',
+        },
+        remove: {
+          ariaLabel: 'Supprimer le tag {{tag}}',
+        },
+      },
+      move: {
+        left: {
+          label: 'Remonter',
+        },
+        right: {
+          label: 'Descendre',
+        },
+      },
+      delete: {
+        label: 'Supprimer',
+      },
     },
     chapter: {
       deleteConfirm: {
@@ -43,6 +82,14 @@ export const novelFr = {
           label: 'Déplacer en bas',
         },
       },
+      pov: {
+        select: {
+          label: 'Sélectionner {{name}}',
+        },
+        unselect: {
+          label: 'Déselectionner',
+        },
+      },
       transfer: {
         label: 'Transférer vers un autre chapitre',
         text: 'Sélectionnez le chapitre et la scène APRÈS LAQUELLE vous voulez transférer la scène',
@@ -50,6 +97,9 @@ export const novelFr = {
         firstPosition: {
           label: 'Ajouter au début',
         },
+      },
+      goto: {
+        label: 'Accéder à la scène',
       },
     },
     overview: {
@@ -65,6 +115,9 @@ export const novelFr = {
         },
         delete: {
           label: 'Supprimer',
+        },
+        go: {
+          label: 'Voir',
         },
       },
       noChapters: {

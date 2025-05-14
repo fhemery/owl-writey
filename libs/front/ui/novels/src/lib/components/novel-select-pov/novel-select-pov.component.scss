@@ -1,0 +1,35 @@
+.select-pov {
+  padding: 0.5rem;
+
+  &__characters {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__character {
+    padding: 0.25rem;
+
+    mat-icon {
+      width: 1rem;
+      height: 1rem;
+      font-size: 1rem;
+    }
+
+    &.selected {
+      background-color: var(--color-success-background);
+      color: var(--color-success);
+    }
+
+    &__action,
+    &__unselect {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    & mat-icon.select-pov__unselect-icon {
+      color: var(--color-accent);
+    }
+  }
+}

@@ -7,13 +7,13 @@ import {
 import { inject } from '@angular/core';
 import { from, Observable, switchMap, take } from 'rxjs';
 
-import { FirebaseAuthService } from './firebase-auth.service';
+import { AUTH_SERVICE } from '../auth.service.interface';
 
 export const authInterceptor: HttpInterceptorFn = (
   request: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  const authService = inject(FirebaseAuthService);
+  const authService = inject(AUTH_SERVICE);
   const user = authService.user();
   if (!user) {
     return next(request);

@@ -78,9 +78,9 @@ Then('{string} should be displayed for exercise', async ({ exercisePo }, result:
                 await exercisePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.words.error.shouldHaveMaxWordsGreaterThanMinWords');
                 break;
 
-            case 'InvalidInitialText':
-                await exercisePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.minlength');
-                break;
+            // case 'InvalidInitialText':
+            //     await exercisePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.minlength');
+            //     break;
             case 'EmptyInitialText':
                 await exercisePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.required');
                 break;

@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 
 @Component({
   selector: 'owl-header',
@@ -23,7 +23,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  private readonly authService = inject(FirebaseAuthService);
+  private readonly authService = inject(AUTH_SERVICE);
   private readonly router = inject(Router);
 
   user = this.authService.user;

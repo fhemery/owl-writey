@@ -18,8 +18,10 @@ import { DndDropEvent, DndDropzoneDirective, DndModule } from 'ngx-drag-drop';
 })
 export class NovelCorkboardComponent {
   readonly addNewLabel = input<string>('');
+  readonly maxItems = input<2 | 4>(4);
   readonly items = input<unknown[]>([]);
   readonly itemTemplate = input<TemplateRef<unknown> | null>(null);
+  readonly disablePositionalAdd = input<boolean>(false);
   readonly addNew = output<number>();
   readonly moveItem = output<{ from: number; to: number }>();
 

@@ -15,10 +15,26 @@ export interface NovelSummaryDto {
 
 export interface NovelDto {
   id: string;
-  title: string;
-  description: string;
+  generalInfo: NovelGeneralInfoDto;
   participants: NovelParticipantDto[];
   chapters: ChapterDto[];
+  universe?: NovelUniverseDto;
+}
+
+export interface NovelGeneralInfoDto {
+  title: string;
+  description: string;
+}
+
+export interface NovelUniverseDto {
+  characters: NovelCharacterDto[];
+}
+
+export interface NovelCharacterDto {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
 }
 
 export interface NovelParticipantDto {
@@ -29,16 +45,25 @@ export interface NovelParticipantDto {
 
 export interface ChapterDto {
   id: string;
+  generalInfo: ChapterGeneralInfoDto;
+  scenes: SceneDto[];
+}
+
+export interface ChapterGeneralInfoDto {
   title: string;
   outline: string;
-  scenes: SceneDto[];
 }
 
 export interface SceneDto {
   id: string;
+  generalInfo: SceneGeneralInfoDto;
+  content: string;
+}
+
+export interface SceneGeneralInfoDto {
   title: string;
   outline: string;
-  content: string;
+  pointOfViewId?: string;
 }
 
 export interface GetAllNovelsResponseDto {

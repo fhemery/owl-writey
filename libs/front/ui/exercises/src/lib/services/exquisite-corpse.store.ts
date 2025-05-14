@@ -7,7 +7,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 import {
   ExquisiteCorpseContentDto,
   ExquisiteCorpseExerciseDto,
@@ -78,7 +78,7 @@ export const ExquisiteCorpseStore = signalStore(
   ),
   withHooks({
     onInit: (store) => {
-      const auth = inject(FirebaseAuthService);
+      const auth = inject(AUTH_SERVICE);
 
       patchState(store, (state) => ({
         ...state,

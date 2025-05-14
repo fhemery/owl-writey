@@ -6,7 +6,9 @@ export function countWordsFromHtml(text: string): number {
   }
 
   // Count words in the extracted text
-  return countWords(cheerio.load(text.replace(/>/g, '> ')).text());
+  return countWords(
+    cheerio.load(clearHtmlCharacters(text.replace(/>/g, '> '))).text()
+  );
 }
 /**
  * Counts words in a text string with French language considerations
@@ -33,4 +35,8 @@ function countWords(text: string): number {
     .filter((word) => word.trim().length > 0);
 
   return words.length;
+}
+
+function clearHtmlCharacters(text: string): string {
+  return cheerio.load(text.replace(/&nbsp;/g, ' ')).text();
 }

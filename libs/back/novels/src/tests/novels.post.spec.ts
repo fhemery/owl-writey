@@ -57,8 +57,10 @@ describe('/api/novels', () => {
         const getResponse = await novelUtils.get(response.locationId);
         expect(getResponse.status).toBe(200);
         expect(getResponse.body?.id).toEqual(response.locationId);
-        expect(getResponse.body?.title).toEqual(novel.title);
-        expect(getResponse.body?.description).toEqual(novel.description);
+        expect(getResponse.body?.generalInfo.title).toEqual(novel.title);
+        expect(getResponse.body?.generalInfo.description).toEqual(
+          novel.description
+        );
       });
     });
   });

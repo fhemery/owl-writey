@@ -1,0 +1,41 @@
+<div class="novel-character-page">
+  <h2>{{ 'novel.character.title' | translate }}</h2>
+  <div class="tags-filter">
+    <mat-chip-set>
+      @for (tag of allTags(); track tag) {
+      <mat-chip
+        (click)="toggleTag(tag)"
+        [ngClass]="{ 'mat-chip-selected': selectedTags().includes(tag) }"
+        >#{{ tag }}</mat-chip
+      >
+      }
+    </mat-chip-set>
+  </div>
+
+  <div class="characters">
+    <owl-novel-corkboard
+      [items]="characters()"
+      [maxItems]="2"
+      [itemTemplate]="characterTemplate"
+      [addNewLabel]="'novel.defaults.newCharacter.label' | translate"
+      [disablePositionalAdd]="selectedTags().length > 0"
+      (addNew)="addCharacterAt($event)"
+      (moveItem)="moveCharacter($event)"
+    ></owl-novel-corkboard>
+
+    <ng-template #characterTemplate let-item let-index="index">
+      <owl-novel-character-card
+        [character]="convertToCharacter(item)"
+        [allTags]="allTags()"
+        (updateCharacter)="updateCharacter($event)"
+        (deleteCharacter)="deleteCharacter(item)"
+        (moveCharacter)="
+          moveCharacter({
+            from: index,
+            to: index + $event
+          })
+        "
+      ></owl-novel-character-card>
+    </ng-template>
+  </div>
+</div>

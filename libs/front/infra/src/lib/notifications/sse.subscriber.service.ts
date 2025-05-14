@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 import { SseEvent } from '@owl/shared/common/contracts';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { UserStream } from './user-stream';
   providedIn: 'root',
 })
 export class SseSubscriberService {
-  private auth = inject(FirebaseAuthService);
+  private auth = inject(AUTH_SERVICE);
 
   async connect(url: string): Promise<UserStream> {
     const token = await this.auth.getToken();

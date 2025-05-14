@@ -22,10 +22,7 @@
             "input": "apps/front/public"
           }
         ],
-        "styles": [
-          "apps/front/src/styles.scss",
-          "node_modules/quill/dist/quill.snow.css"
-        ],
+        "styles": ["apps/front/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

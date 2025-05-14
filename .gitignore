@@ -54,3 +54,6 @@ TODO.md
 /apps/front/src/environments/environment.ts
 /apps/front/.features-gen
 /reports
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*

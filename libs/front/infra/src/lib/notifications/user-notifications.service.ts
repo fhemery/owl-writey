@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 import { SseEvent } from '@owl/shared/common/contracts';
 import { filter, finalize, from, map, Observable, switchMap } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { SseSubscriberService } from './sse.subscriber.service';
 
 @Injectable()
 export class UserNotificationsService {
-  private auth = inject(FirebaseAuthService);
+  private auth = inject(AUTH_SERVICE);
   private sseSubscriber = inject(SseSubscriberService);
   private user$ = toObservable(this.auth.user);
 

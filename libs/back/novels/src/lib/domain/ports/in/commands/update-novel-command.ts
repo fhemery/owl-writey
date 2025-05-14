@@ -31,7 +31,8 @@ export class UpdateNovelCommand {
         novel.generalInfo.description,
         existingNovel.generalInfo.participants
       ),
-      novel.chapters
+      novel.chapters,
+      novel.universe
     );
 
     return this.novelRepository.save(novelToSave);

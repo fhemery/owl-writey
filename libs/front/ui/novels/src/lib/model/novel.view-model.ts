@@ -6,7 +6,8 @@ export class NovelViewModel {
     readonly id: string,
     readonly generalInfo: NovelGeneralInfoViewModel,
     readonly participants: NovelParticipantViewModel[],
-    readonly chapters: NovelChapterViewModel[]
+    readonly chapters: NovelChapterViewModel[],
+    readonly universe: NovelUniverseViewModel
   ) {}
 
   addChapterAt(name: string, outline = '', index?: number): void {
@@ -14,11 +15,19 @@ export class NovelViewModel {
       this.chapters.splice(
         index,
         0,
-        new NovelChapterViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(
+          uuidV4(),
+          new NovelChapterGeneralInfoViewModel(name, outline || ''),
+          []
+        )
       );
     } else {
       this.chapters.push(
-        new NovelChapterViewModel(uuidV4(), name, outline || '')
+        new NovelChapterViewModel(
+          uuidV4(),
+          new NovelChapterGeneralInfoViewModel(name, outline || ''),
+          []
+        )
       );
     }
   }
@@ -78,12 +87,29 @@ export class NovelViewModel {
     const chapter = this.getChapter(chapterId);
     chapter.deleteScene(sceneId);
   }
+  addCharacterAt(name: string, description: string, index: number): void {
+    this.universe.addCharacterAt(name, description, index);
+  }
+  updateCharacter(character: NovelCharacterViewModel): void {
+    this.universe.updateCharacter(character);
+  }
+  moveCharacter(from: number, to: number): void {
+    this.universe.moveCharacter(from, to);
+  }
+  deleteCharacter(id: string): void {
+    this.universe.deleteCharacter(id);
+    this.chapters.forEach((c) => c.deletePov(id));
+  }
+  findCharacter(characterId: string): NovelCharacterViewModel | null {
+    return this.universe.findCharacter(characterId);
+  }
   copy(): NovelViewModel {
     return new NovelViewModel(
       this.id,
       this.generalInfo,
       this.participants,
-      this.chapters
+      this.chapters,
+      this.universe
     );
   }
   private getChapter(chapterId: string): NovelChapterViewModel {
@@ -107,11 +133,14 @@ export class NovelParticipantViewModel {
   ) {}
 }
 
+export class NovelChapterGeneralInfoViewModel {
+  constructor(readonly title: string, readonly outline: string) {}
+}
+
 export class NovelChapterViewModel {
   constructor(
     readonly id: string,
-    readonly title: string,
-    readonly outline: string,
+    readonly generalInfo: NovelChapterGeneralInfoViewModel,
     readonly scenes: NovelSceneViewModel[] = []
   ) {}
 
@@ -150,6 +179,9 @@ export class NovelChapterViewModel {
   containsScene(sceneId: string): boolean {
     return this.scenes.some((s) => s.id === sceneId);
   }
+  deletePov(characterId: string): void {
+    this.scenes.forEach((s) => s.deletePov(characterId));
+  }
   moveScene(sceneIndex: number, toIndex: number): void {
     const scene = this.scenes[sceneIndex];
     this.scenes.splice(sceneIndex, 1);
@@ -175,8 +207,71 @@ export class NovelSceneViewModel {
     readonly generalInfo: NovelSceneGeneralInfoViewModel,
     readonly text: string
   ) {}
+
+  deletePov(characterId: string): void {
+    if (this.generalInfo.pov === characterId) {
+      this.generalInfo.pov = undefined;
+    }
+  }
 }
 
 export class NovelSceneGeneralInfoViewModel {
-  constructor(readonly title: string, readonly outline: string) {}
+  constructor(
+    readonly title: string,
+    readonly outline: string,
+    public pov?: string
+  ) {}
+
+  deletePov(characterId: string): void {
+    if (this.pov === characterId) {
+      this.pov = undefined;
+    }
+  }
+}
+
+export class NovelUniverseViewModel {
+  constructor(readonly characters: NovelCharacterViewModel[] = []) {}
+
+  addCharacterAt(name: string, description: string, index: number): void {
+    if (index !== undefined) {
+      this.characters.splice(
+        index,
+        0,
+        new NovelCharacterViewModel(uuidV4(), name, description)
+      );
+    } else {
+      this.characters.push(
+        new NovelCharacterViewModel(uuidV4(), name, description)
+      );
+    }
+  }
+  findCharacter(characterId: string): NovelCharacterViewModel | null {
+    return this.characters.find((c) => c.id === characterId) || null;
+  }
+  updateCharacter(character: NovelCharacterViewModel): void {
+    const index = this.characters.findIndex((c) => c.id === character.id);
+    if (index !== -1) {
+      this.characters.splice(index, 1, character);
+    }
+  }
+  moveCharacter(from: number, to: number): void {
+    const character = this.characters[from];
+    this.characters.splice(from, 1);
+    this.characters.splice(to, 0, character);
+  }
+  deleteCharacter(characterId: string): void {
+    const index = this.characters.findIndex((c) => c.id === characterId);
+    if (index !== -1) {
+      this.characters.splice(index, 1);
+    }
+  }
+}
+
+export class NovelCharacterViewModel {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+    readonly description: string,
+    readonly tags: string[] = []
+  ) {}
 }

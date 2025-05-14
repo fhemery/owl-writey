@@ -20,9 +20,13 @@ import {
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { appRoutes } from '@owl/front/app';
-import { authInterceptor, FirebaseAuthService } from '@owl/front/auth';
+import {
+  AUTH_SERVICE,
+  authInterceptor,
+  AuthService,
+  FirebaseAuthService,
+} from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
-import { provideQuillConfig } from 'ngx-quill';
 
 import { environment } from '../environments/environment';
 
@@ -40,25 +44,9 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideAppInitializer(() => {
-      const auth = inject(FirebaseAuthService);
-      const config = inject(ConfigService);
+      const auth = inject(AUTH_SERVICE);
+      const config: ConfigService = inject(ConfigService);
       return Promise.all([config.init(environment), initializeAuth(auth)]);
-    }),
-    provideQuillConfig({
-      modules: {
-        toolbar: [
-          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-          ['blockquote', 'code-block'],
-
-          [{ header: 1 }, { header: 2 }], // custom button values
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-          [{ direction: 'rtl' }], // text direction
-
-          [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-          ['clean'], // remove formatting button
-        ],
-      },
     }),
     importProvidersFrom(
       BrowserAnimationsModule,
@@ -70,12 +58,14 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { subscriptSizing: 'dynamic' },
     },
+    {
+      provide: AUTH_SERVICE,
+      useClass: FirebaseAuthService,
+    },
   ],
 };
 
-export function initializeAuth(
-  authService: FirebaseAuthService
-): Promise<void> {
+export function initializeAuth(authService: AuthService): Promise<void> {
   let onResolve: () => void;
   const promise = new Promise<void>((resolve) => {
     onResolve = resolve;

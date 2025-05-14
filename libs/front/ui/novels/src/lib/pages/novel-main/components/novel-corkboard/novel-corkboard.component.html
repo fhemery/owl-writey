@@ -1,5 +1,5 @@
 @if (items(); as items) {
-<div class="corkboard">
+<div class="corkboard" [ngClass]="{ 'corkboard--2-items': maxItems() === 2 }">
   <!-- Loop through each item in the items array -->
   @for(item of items; track $index; let i = $index) {
   <ng-container>
@@ -17,7 +17,7 @@
         (keydown.enter)="onAddNew(i)"
         (keydown.space)="onAddNew(i)"
       >
-        @if(!isDragOngoing()) {
+        @if(!isDragOngoing() && !disablePositionalAdd()) {
         <mat-icon>add</mat-icon>
         }
       </a>
@@ -57,7 +57,7 @@
       (keydown.enter)="onAddNew(i)"
       (keydown.space)="onAddNew(i)"
     >
-      @if(!isDragOngoing()) {
+      @if(!isDragOngoing() && !disablePositionalAdd()) {
       <mat-icon>add</mat-icon>
       }
     </a>

@@ -55,10 +55,7 @@ export class ExquisiteFormCorpseComponent implements OnInit {
     );
     this.form.addControl(
       'initialText',
-      new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(50),
-      ])
+      new FormControl<string>('', [Validators.required])
     );
     this.form.addControl(
       'iterationDuration',

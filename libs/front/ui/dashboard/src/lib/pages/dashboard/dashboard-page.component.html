@@ -1,11 +1,12 @@
 <div class="dashboard-page">
   @if(user()?.isBetaUser()) {
-  <div class="dashboard-page__header">
+  <div class="dashboard-page__header" id="dashboardNovelsHeader">
     <h1>{{ 'dashboard.novels.title' | translate }}</h1>
     <button
       mat-fab
       routerLink="/novels/new"
       [title]="'dashboard.novels.createAlt' | translate"
+      id="dashboardNovelsAddButton"
     >
       <mat-icon>add</mat-icon>
     </button>
@@ -15,7 +16,7 @@
     <owl-dashboard-novels [novels]="novels()"></owl-dashboard-novels>
   </div>
   }
-  <div class="dashboard-page__header">
+  <div class="dashboard-page__header" id="dashboardExercisesHeader">
     <h1>{{ 'dashboard.exercises.title' | translate }}</h1>
     <button
       mat-fab
@@ -25,9 +26,11 @@
       <mat-icon>add</mat-icon>
     </button>
     <div class="placeholder"></div>
-    <mat-slide-toggle (change)="toggleFinished()">{{
-      'dashboard.exercises.includeFinished' | translate
-    }}</mat-slide-toggle>
+    <mat-slide-toggle
+      (change)="toggleFinished()"
+      [checked]="displayFinished()"
+      >{{ 'dashboard.exercises.includeFinished' | translate }}</mat-slide-toggle
+    >
   </div>
   <div class="dashboard-page__panel">
     <owl-dashboard-exercises

@@ -1,11 +1,14 @@
 import { NovelDto } from '@owl/shared/novels/contracts';
 
 import {
+  NovelChapterGeneralInfoViewModel,
   NovelChapterViewModel,
+  NovelCharacterViewModel,
   NovelGeneralInfoViewModel,
   NovelParticipantViewModel,
   NovelSceneGeneralInfoViewModel,
   NovelSceneViewModel,
+  NovelUniverseViewModel,
   NovelViewModel,
 } from '../../model';
 
@@ -13,7 +16,10 @@ export const novelMappers = {
   novelDtoToViewModel: (dto: NovelDto): NovelViewModel => {
     return new NovelViewModel(
       dto.id,
-      new NovelGeneralInfoViewModel(dto.title, dto.description),
+      new NovelGeneralInfoViewModel(
+        dto.generalInfo.title,
+        dto.generalInfo.description
+      ),
       dto.participants.map(
         (participant) =>
           new NovelParticipantViewModel(
@@ -26,28 +32,44 @@ export const novelMappers = {
         (chapter) =>
           new NovelChapterViewModel(
             chapter.id,
-            chapter.title,
-            chapter.outline,
+            new NovelChapterGeneralInfoViewModel(
+              chapter.generalInfo.title,
+              chapter.generalInfo.outline
+            ),
             chapter.scenes.map(
               (scene) =>
                 new NovelSceneViewModel(
                   scene.id,
                   new NovelSceneGeneralInfoViewModel(
-                    scene.title,
-                    scene.outline
+                    scene.generalInfo.title,
+                    scene.generalInfo.outline,
+                    scene.generalInfo.pointOfViewId
                   ),
                   scene.content
                 )
             )
           )
+      ),
+      new NovelUniverseViewModel(
+        dto.universe?.characters.map(
+          (character) =>
+            new NovelCharacterViewModel(
+              character.id,
+              character.name,
+              character.description,
+              character.tags
+            )
+        ) || []
       )
     );
   },
   novelViewModelToDto: (viewModel: NovelViewModel): NovelDto => {
     return {
       id: viewModel.id,
-      title: viewModel.generalInfo.title,
-      description: viewModel.generalInfo.description,
+      generalInfo: {
+        title: viewModel.generalInfo.title,
+        description: viewModel.generalInfo.description,
+      },
       participants: viewModel.participants.map((participant) => ({
         uid: participant.uid,
         name: participant.name,
@@ -55,15 +77,29 @@ export const novelMappers = {
       })),
       chapters: viewModel.chapters.map((chapter) => ({
         id: chapter.id,
-        title: chapter.title,
-        outline: chapter.outline,
+        generalInfo: {
+          title: chapter.generalInfo.title,
+          outline: chapter.generalInfo.outline,
+        },
         scenes: chapter.scenes.map((scene) => ({
           id: scene.id,
-          title: scene.generalInfo.title,
-          outline: scene.generalInfo.outline,
+          generalInfo: {
+            title: scene.generalInfo.title,
+            outline: scene.generalInfo.outline,
+            pointOfViewId: scene.generalInfo.pov,
+          },
           content: scene.text,
         })),
       })),
+      universe: {
+        characters:
+          viewModel.universe?.characters.map((character) => ({
+            id: character.id,
+            name: character.name,
+            description: character.description,
+            tags: character.tags,
+          })) || [],
+      },
     };
   },
 };

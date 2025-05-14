@@ -1,7 +1,8 @@
 @if(scene(); as scene){
-<div class="chapter-scene">
+<div class="chapter-scene" (dblclick)="goToScene()">
   <div
     class="chapter-scene__title"
+    #titleElement
     owlContentEditable
     (contentChange)="updateTitle($event)"
   >
@@ -15,6 +16,19 @@
     [innerHTML]="scene.generalInfo.outline"
   >
     {{ scene.generalInfo.outline }}
+  </div>
+  <div class="chapter-scene__details">
+    <a class="chapter-scene__details--pov" [matMenuTriggerFor]="povMenu">
+      <mat-icon [ngClass]="{ 'no-pov': !pov() }">person</mat-icon>
+      <span>{{ pov()?.name }}</span>
+    </a>
+    <mat-menu #povMenu="matMenu">
+      <owl-novel-select-pov
+        [currentlySelectedId]="pov()?.id"
+        [characters]="novel().universe.characters"
+        (selectedCharacter)="updatePov($event)"
+      ></owl-novel-select-pov>
+    </mat-menu>
   </div>
   <div class="chapter-scene__footer">
     <a
@@ -48,6 +62,17 @@
       [title]="'novel.scene.transfer.label' | translate"
     >
       <mat-icon class="action--move">north_east</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="goToScene()"
+      (keyup.enter)="goToScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.goto.label' | translate"
+    >
+      <mat-icon class="action--move">play_circle</mat-icon>
     </a>
     <div class="chapter-scene__footer--placeholder"></div>
     <a

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 
 import {
   RegisterComponent,
@@ -18,7 +18,7 @@ import { UserService } from './services/user.service';
 })
 export class RegisterPageComponent {
   private readonly userService = inject(UserService);
-  private readonly authService = inject(FirebaseAuthService);
+  private readonly authService = inject(AUTH_SERVICE);
   private readonly router = inject(Router);
 
   registerError = signal(false);

@@ -1,6 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
@@ -9,7 +18,11 @@ import {
 } from '@owl/front/ui/common';
 import { firstValueFrom } from 'rxjs';
 
-import { NovelChapterViewModel, NovelSceneViewModel } from '../../model';
+import {
+  NovelChapterGeneralInfoViewModel,
+  NovelChapterViewModel,
+  NovelSceneViewModel,
+} from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
@@ -29,6 +42,7 @@ import { TransferSceneDialogComponent } from './components/transfer-scene-dialog
   styleUrl: './novel-chapter-page.component.scss',
 })
 export class NovelChapterPageComponent {
+  readonly #router = inject(Router);
   readonly chapterId = input.required<string>();
   readonly #store = inject(NovelStore);
   readonly #dialog = inject(MatDialog);
@@ -40,14 +54,27 @@ export class NovelChapterPageComponent {
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
   );
 
+  @ViewChildren(NovelChapterSceneComponent)
+  sceneCards!: QueryList<NovelChapterSceneComponent>;
+
   constructor() {
     effect(() => {
       this.#novelContext.setChapter(this.chapterId());
     });
   }
 
-  async addScene($event: number): Promise<void> {
-    await this.#store.addSceneAt(this.chapterId(), $event);
+  async addSceneAt(index?: number): Promise<void> {
+    await this.#store.addSceneAt(this.chapterId(), index);
+    setTimeout(() => this.focusSceneAt(index), 50);
+  }
+
+  private focusSceneAt(index?: number): void {
+    if (this.sceneCards && this.sceneCards.length > 0) {
+      if (index === undefined) {
+        index = this.sceneCards.length - 1;
+      }
+      this.sceneCards.get(index)?.focus();
+    }
   }
 
   convertToScene(item: unknown): NovelSceneViewModel {
@@ -60,15 +87,17 @@ export class NovelChapterPageComponent {
 
   async updateChapterTitle(title: string): Promise<void> {
     const currentChapter = this.chapter();
-    if (!currentChapter || currentChapter.title === title) {
+    if (!currentChapter || currentChapter.generalInfo.title === title) {
       return;
     }
 
     await this.#store.updateChapter(
       new NovelChapterViewModel(
         currentChapter.id,
-        title,
-        currentChapter.outline,
+        new NovelChapterGeneralInfoViewModel(
+          title,
+          currentChapter.generalInfo.outline
+        ),
         currentChapter.scenes
       )
     );
@@ -120,5 +149,16 @@ export class NovelChapterPageComponent {
       transferResult.chapterId,
       transferResult.sceneIndex
     );
+  }
+
+  async goToScene(scene: NovelSceneViewModel): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.novel()?.id || '',
+      'chapters',
+      this.chapterId(),
+      'scenes',
+      scene.id,
+    ]);
   }
 }

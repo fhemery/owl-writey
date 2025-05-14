@@ -15,12 +15,9 @@ import {
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import {
-  ChapterDto,
   GetAllNovelsResponseDto,
   NovelDto,
-  NovelParticipantDto,
 } from '@owl/shared/novels/contracts';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 import {
   NovelNotAuthorException,
@@ -36,26 +33,10 @@ import {
   UpdateNovelCommand,
 } from '../../domain/ports';
 import { novelMapper } from './converter/novel-mapper';
-import { NovelToCreateDtoImpl } from './dtos/novel-to-create.dto.impl';
-
-class NovelDtoImpl implements NovelDto {
-  @IsString()
-  @IsNotEmpty()
-  id!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  title!: string;
-
-  @IsString()
-  description!: string;
-
-  @IsArray()
-  participants!: NovelParticipantDto[];
-
-  @IsArray()
-  chapters!: ChapterDto[];
-}
+import { 
+  NovelDtoImpl, 
+  NovelToCreateDtoImpl 
+} from './dtos';
 
 @Controller('novels')
 @ApiBearerAuth()

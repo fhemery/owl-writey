@@ -1,13 +1,18 @@
 <div class="text-editor" [style.max-width]="width()" [style.height]="height()">
-  <quill-editor
-    (onContentChanged)="updateContent($event)"
-    [placeholder]="placeholder()"
-    [(ngModel)]="textInput"
-  ></quill-editor>
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+  <ngx-editor
+    [editor]="editor"
+    [ngModel]="currentContent()"
+    (focusIn)="focusIn()"
+    (focusOut)="focusOut()"
+    (ngModelChange)="updateText($event)"
+    [disabled]="false"
+    [placeholder]="'Type here...'"
+  ></ngx-editor>
   @if (showWords()) {
   <div
     class="text-editor__words"
-    [ngClass]="{ 'text-editor__words--error': isWordLimitIncorrect() }"
+    [ngClass]="{ 'text-editor__words--error': !isWordLimitCorrect() }"
   >
     {{ nbWords() }}
     @if (minWords() || maxWords()) { / {{ minWords() ? minWords() : 0 }} -

@@ -5,7 +5,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { FirebaseAuthService } from '@owl/front/auth';
+import { AUTH_SERVICE } from '@owl/front/auth';
 
 @Component({
   selector: 'owl-logout-page',
@@ -16,7 +16,7 @@ import { FirebaseAuthService } from '@owl/front/auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoutPageComponent implements OnInit {
-  private readonly authService = inject(FirebaseAuthService);
+  private readonly authService = inject(AUTH_SERVICE);
 
   async ngOnInit(): Promise<void> {
     await this.authService.logout();

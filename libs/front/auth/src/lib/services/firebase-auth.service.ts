@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 import { Role } from '@owl/shared/common/contracts';
 import { from, map, of, switchMap, tap } from 'rxjs';
 
+import { AuthService } from '../auth.service.interface';
 import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FirebaseAuthService {
+export class FirebaseAuthService implements AuthService {
   isLoginEnabled = true;
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);

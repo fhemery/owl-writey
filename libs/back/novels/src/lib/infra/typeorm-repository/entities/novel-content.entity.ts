@@ -4,8 +4,10 @@ import {
   Chapter,
   ChapterGeneralInfo,
   Novel,
+  NovelCharacter,
   NovelGeneralInfo,
   NovelParticipant,
+  NovelUniverse,
   Scene,
   SceneGeneralInfo,
 } from '../../../domain/model';
@@ -34,8 +36,17 @@ export class NovelContentEntity {
           title: s.generalInfo.title,
           outline: s.generalInfo.outline,
           content: s.text,
+          pointOfView: s.generalInfo.pointOfViewId,
         })),
       })),
+      universe: {
+        characters: novel.universe.characters.map((c) => ({
+          id: c.id,
+          name: c.name,
+          description: c.description,
+          tags: c.tags,
+        })),
+      },
     };
     return entity;
   }
@@ -59,11 +70,16 @@ export class NovelContentEntity {
               (s) =>
                 new Scene(
                   s.id,
-                  new SceneGeneralInfo(s.title, s.outline),
+                  new SceneGeneralInfo(s.title, s.outline, s.pointOfView),
                   s.content
                 )
             )
           )
+      ),
+      new NovelUniverse(
+        this.content.universe?.characters.map(
+          (c) => new NovelCharacter(c.id, c.name, c.description, c.tags)
+        ) || []
       )
     );
   }
@@ -73,6 +89,7 @@ interface NovelDao {
   title: string;
   description: string;
   chapters: ChapterDao[];
+  universe?: UniverseDao;
 }
 
 interface ChapterDao {
@@ -86,5 +103,17 @@ interface SceneDao {
   id: string;
   title: string;
   outline: string;
+  pointOfView?: string;
   content: string;
+}
+
+interface UniverseDao {
+  characters: CharacterDao[];
+}
+
+interface CharacterDao {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
 }

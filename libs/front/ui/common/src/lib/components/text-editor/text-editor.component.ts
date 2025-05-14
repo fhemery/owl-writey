@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   input,
   OnInit,
   output,
@@ -9,12 +10,15 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
-import { ContentChange, QuillEditorComponent } from 'ngx-quill';
-import { debounceTime, Subject } from 'rxjs';
+import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { inputRules } from 'prosemirror-inputrules';
+import { debounceTime, Subject, tap } from 'rxjs';
+
+import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
   selector: 'owl-text-editor',
-  imports: [CommonModule, QuillEditorComponent, FormsModule],
+  imports: [CommonModule, NgxEditorModule, FormsModule],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -22,7 +26,6 @@ export class TextEditorComponent implements OnInit {
   currentContent = input<string>('');
   placeholder = input<string>('');
   width = input<string>('800px');
-  debounceTime = input<number>(1000);
   nbLines = input<number | 'max'>(10);
 
   update = output<string>();
@@ -32,7 +35,13 @@ export class TextEditorComponent implements OnInit {
   minWords = input<number | null>(null);
   maxWords = input<number | null>(null);
 
-  textInput = this.currentContent();
+  private updateTextWatcher$ = new Subject<string>();
+  private isFocused = false;
+
+  editor!: Editor;
+  toolbar: Toolbar = [['bold', 'italic']];
+
+  private initialText = this.currentContent();
   currentText = signal(this.currentContent());
   height = computed<string>(() => {
     const lines = this.nbLines();
@@ -43,32 +52,58 @@ export class TextEditorComponent implements OnInit {
   });
   nbWords = computed(() => countWordsFromHtml(this.currentText()));
 
-  readonly #debouncedText$ = new Subject<string>();
-
-  isWordLimitIncorrect = computed(() => {
-    const nbWords = this.nbWords();
+  isWordLimitCorrect = computed(() => {
     const minWords = this.minWords();
     const maxWords = this.maxWords();
     return (
-      (minWords !== null && nbWords < minWords) ||
-      (maxWords !== null && nbWords > maxWords)
+      (minWords === null || this.nbWords() >= minWords) &&
+      (maxWords === null || this.nbWords() <= maxWords)
     );
   });
 
-  ngOnInit(): void {
-    this.textInput = this.currentContent();
+  constructor() {
+    effect(() => {
+      if (this.currentContent() !== this.initialText) {
+        this.initialText = this.currentContent();
+        this.currentText.set(this.currentContent());
+      }
+    });
 
-    this.#debouncedText$
-      .pipe(debounceTime(this.debounceTime()))
-      .subscribe((text) => {
-        this.update.emit(text);
-        this.isValid.emit(!this.isWordLimitIncorrect());
+    this.editor = new Editor({
+      plugins: [inputRules({ rules: syntaxInputRules })],
+    });
+  }
+
+  ngOnInit(): void {
+    this.updateTextWatcher$
+      .pipe(
+        tap((text: string) => this.currentText.set(text)),
+        debounceTime(2000)
+      )
+      .subscribe(() => {
+        if (this.isFocused) {
+          this.sendTextUpdate();
+        }
       });
   }
 
-  updateContent($event: ContentChange): void {
-    const text = $event.html?.replace(/&nbsp;/g, ' ').trim() || '';
-    this.currentText.set(text);
-    this.#debouncedText$.next(text);
+  focusIn(): void {
+    this.isFocused = true;
+  }
+
+  focusOut(): void {
+    this.isFocused = false;
+    this.sendTextUpdate();
+  }
+
+  updateText($event: string): void {
+    this.updateTextWatcher$.next($event);
+  }
+
+  private sendTextUpdate(): void {
+    if (this.currentContent() !== this.currentText()) {
+      this.update.emit(this.currentText());
+      this.isValid.emit(this.isWordLimitCorrect());
+    }
   }
 }
