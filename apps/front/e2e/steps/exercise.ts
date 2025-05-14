@@ -15,27 +15,36 @@ Given('Display a new exercise form', async ({ exercisePo }) => {
     await exercisePo.shouldDisplayForm();
 });
 
+When('I change the duration of the exercise to {string}', async ({exercisePo}, value: string) => {
+    await exercisePo.changeDuration(value);
+});
+
+Then('{string} should be the selected duration', async ({exercisePo}, durationValue: string) => {
+  await exercisePo.shouldDisplayDuration(durationValue)
+});
+
+
 When('I fill a new exercise form with {string}', async ({ exercisePo}, field: string) => {
     const testData: Record<string, [string, string, string, string, string, string] > = {
-        ValidName: ['Ceci est un test', '3', '5 minutes', '3', '4', 'Ceci est un test de début d\'histoire.'],
-        InvalidName: ['Yo', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
-        EmptydName: ['', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        ValidName: ['Ceci est un test', '3', '5 minutes', '3', '4', 'Ceci est un test de début d\'histoire, beaucoup beaucoup beaucoup plus long que prévu'],
+        InvalidName: ['Yo', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        EmptyName: ['', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
 
-        ValidNbIterations: ['Ceci est un test', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
-        InvalidNbIterations: ['Ceci est un test', '0', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        ValidNbIterations: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        InvalidNbIterations: ['Ceci est un test', '0', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
 
-        ValidIterationDuration: ['Ceci est un test', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        ValidIterationDuration: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
 
-        ValidMinWords: ['Ceci est un test', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
-        InvalidMinWords: ['Ceci est un test', '3', '900', '0', '3', 'Ceci est un test de début d\'histoire.'],
+        ValidMinWords: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        InvalidMinWords: ['Ceci est un test', '3', '5 minutes', '0', '3', 'Ceci est un test de début d\'histoire.'],
 
-        ValidMaxWords: ['Ceci est un test', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
-        InvalidMaxWords: ['Ceci est un test', '3', '900', '3', '0', 'Ceci est un test de début d\'histoire.'],
-        MinMaxWordsComparison: ['Ceci est un test', '3', '900', '3', '2', 'Ceci est un test de début d\'histoire.'],
+        ValidMaxWords: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        InvalidMaxWords: ['Ceci est un test', '3', '5 minutes', '3', '0', 'Ceci est un test de début d\'histoire.'],
+        MinMaxWordsComparison: ['Ceci est un test', '3', '5 minutes', '3', '2', 'Ceci est un test de début d\'histoire.'],
 
-        ValidInitialText: ['Ceci est un test', '3', '900', '3', '3', 'Ceci est un test de début d\'histoire.'],
-        InvalidInitialText: ['Ceci est un test', '3', '900', '3', '3', 'Test'],
-        EmptyInitialText: ['Ceci est un test', '3', '900', '3', '3', '']
+        ValidInitialText: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Ceci est un test de début d\'histoire.'],
+        InvalidInitialText: ['Ceci est un test', '3', '5 minutes', '3', '3', 'Test'],
+        EmptyInitialText: ['Ceci est un test', '3', '5 minutes', '3', '3', '']
     };
 
     const [name, nbIterations, iterationDurationOption, minWords, maxWords, initialText] = testData[field];
@@ -62,7 +71,7 @@ Then('{string} should be displayed for exercise', async ({ exercisePo }, result:
             case 'EmptyName':
                 await exercisePo.shouldDisplayTranslatedText('exercise.form.name.error.required');
                 break;
-            
+
             case 'InvalidNbIterations':
                 await exercisePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.nbIterations.error.min');
                 break;

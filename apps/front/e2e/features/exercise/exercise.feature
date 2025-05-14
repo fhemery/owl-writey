@@ -1,11 +1,16 @@
 Feature: Exercise Feature
 
-    Background: 
-        Given I am connected as a user
-        And Display a new exercise form
+Background:
+    Given I am connected as a user
+    And Display a new exercise form
 
     @Automated
-    Scenario Outline: New exercise form 
+    Scenario: Change duration of exercise
+      When I change the duration of the exercise to "1 heure"
+      Then "1 heure" should be the selected duration
+
+    @Automated
+    Scenario Outline: New exercise form
         When I fill a new exercise form with "<field>"
         Then "<result>" should be displayed for exercise
 
@@ -25,4 +30,3 @@ Feature: Exercise Feature
         |   ValidInitialText   |I am redirected to the current exercise|
         |  InvalidInitialText  |       It should display an error      |
         |    EmptyInitialText  |       It should display an error      |
-
