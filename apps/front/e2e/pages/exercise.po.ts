@@ -32,6 +32,13 @@ export class ExercisePo extends BasePo {
       name: this.translator.get('exercise.form.submitButton.label'),
     });
   }
+  get exerciseTitle(): Locator {
+    return this.page.locator('h1');
+  }
+
+  getPage(): Page {
+    return this.page;
+  }
 
   constructor(page: Page) {
     super(page);
@@ -55,8 +62,11 @@ export class ExercisePo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
 
-  async shouldDisplayExercise(): Promise<void> {
-     expect(await this.page.locator('h1').innerText()).toContain(this.nameInput);
+  async shouldDisplayExercise(expectedTitle: string): Promise<void> {
+    //  expect(await this.page.locator('h1').innerText()).toContain(this.nameInput);
+    await expect(this.page.url()).toContain('/exercises/');
+    await expect(this.exerciseTitle).toBeVisible();
+    await expect(this.exerciseTitle).toContainText(expectedTitle);
   }
 
   async createdAs(
