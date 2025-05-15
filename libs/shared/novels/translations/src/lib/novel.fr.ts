@@ -40,6 +40,12 @@ export const novelFr = {
     },
     character: {
       title: 'Personnages',
+      description: {
+        placeholder: 'Description du personnage',
+      },
+      color: {
+        tooltip: 'Couleur du personnage',
+      },
       deleteConfirm: {
         title: 'Supprimer le personnage',
         text: "La suppression d'un personnage est irréversible. Êtes-vous sûr(e) ?",

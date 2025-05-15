@@ -91,6 +91,12 @@
         display: none;
       }
     }
+
+    &:empty::before {
+      content: attr(data-placeholder);
+      color: var(--color-inactive);
+      pointer-events: none;
+    }
   }
 
   &__footer {

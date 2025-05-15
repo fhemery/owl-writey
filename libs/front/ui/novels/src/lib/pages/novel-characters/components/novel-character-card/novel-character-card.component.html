@@ -5,6 +5,7 @@
         type="color"
         [value]="character().properties.color"
         (change)="updateCharacterColor($event)"
+        [title]="'novel.character.color.tooltip' | translate"
       />
     </div>
     <div
@@ -70,6 +71,9 @@
     [multiLine]="true"
     (contentChange)="updateCharacterDescription($event)"
     [innerHTML]="character().description"
+    [attr.data-placeholder]="
+      'novel.character.description.placeholder' | translate
+    "
   ></div>
   <div class="character-card__footer">
     <a
