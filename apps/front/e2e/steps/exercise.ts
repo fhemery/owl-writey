@@ -23,6 +23,13 @@ Then('{string} should be the selected duration', async ({exercisePo}, durationVa
   await exercisePo.shouldDisplayDuration(durationValue)
 });
 
+When('I fill a new exercise form with valid data', async ({ exercisePo }) => {
+    await exercisePo.createdAs('Test d\'exercice owl-writey', '4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
+});
+Then('I am redirected to the current exercise', async ({ exercisePo }) => {
+    await exercisePo.shouldDisplayExercise();
+});
+
 
 When('I fill a new exercise form with {string}', async ({ exercisePo}, field: string) => {
     const testData: Record<string, [string, string, string, string, string, string] > = {

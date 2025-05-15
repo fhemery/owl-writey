@@ -10,6 +10,11 @@ Background:
       Then "1 heure" should be the selected duration
 
     @Automated
+    Scenario: Create a new exercise
+      When I fill a new exercise form with valid data
+      Then I am redirected to the current exercise
+
+
     Scenario Outline: New exercise form
         When I fill a new exercise form with "<field>"
         Then "<result>" should be displayed for exercise

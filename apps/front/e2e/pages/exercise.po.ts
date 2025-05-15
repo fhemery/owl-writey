@@ -55,6 +55,10 @@ export class ExercisePo extends BasePo {
     await expect(this.submitButton).toBeVisible();
   }
 
+  async shouldDisplayExercise(): Promise<void> {
+     expect(await this.page.locator('h1').innerText()).toContain(this.nameInput);
+  }
+
   async createdAs(
     name: string,
     nbIterations: string,
