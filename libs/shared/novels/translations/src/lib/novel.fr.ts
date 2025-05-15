@@ -41,7 +41,7 @@ export const novelFr = {
     character: {
       title: 'Personnages',
       description: {
-        placeholder: 'Description du personnage',
+        placeholder: 'Détails du personnage',
       },
       color: {
         tooltip: 'Couleur du personnage',
@@ -87,6 +87,7 @@ export const novelFr = {
         },
       },
       pov: {
+        label: 'Point de vue',
         select: {
           label: 'Sélectionner {{name}}',
         },

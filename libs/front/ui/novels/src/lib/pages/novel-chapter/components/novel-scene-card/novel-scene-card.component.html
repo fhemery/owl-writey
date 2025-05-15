@@ -28,6 +28,7 @@
       class="chapter-scene__details--pov"
       [matMenuTriggerFor]="povMenu"
       [ngStyle]="{ color: pov()?.properties?.color || 'black' }"
+      [title]="'novel.scene.pov.label' | translate"
     >
       <mat-icon
         [ngClass]="{ 'no-pov': !pov() }"
