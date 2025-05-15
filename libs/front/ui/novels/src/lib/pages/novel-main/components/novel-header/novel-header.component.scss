@@ -15,8 +15,8 @@
   }
 
   mat-icon {
+    padding-top: 0.2rem;
     flex: 0 0 auto;
-
     &.accent {
       color: var(--color-accent);
       cursor: pointer;
