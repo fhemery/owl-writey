@@ -38,7 +38,11 @@
         </mat-chip>
         }
         <input
-          [placeholder]="'novel.character.tags.add.placeholder' | translate"
+          [placeholder]="
+            character().tags.length > 0
+              ? ''
+              : ('novel.character.tags.add.placeholder' | translate)
+          "
           autocomplete="off"
           [(ngModel)]="currentTag"
           #tagInput
@@ -46,6 +50,8 @@
           [matAutocomplete]="auto"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           (matChipInputTokenEnd)="addTag($event.value); tagInput.value = ''"
+          (keyup.escape)="tagInput.value = ''"
+          (blur)="addTag(tagInput.value); tagInput.value = ''"
         />
         <mat-autocomplete
           #auto="matAutocomplete"
