@@ -1,0 +1,13 @@
+// Main style entry point
+@use 'sass:map';
+@use './breakpoints' as breakpoints;
+@forward './breakpoints';
+@forward './mixins';
+
+// Re-export breakpoints for direct access
+:export {
+  breakpoint-desktop: map.get(breakpoints.$breakpoints, desktop);
+  breakpoint-medium: map.get(breakpoints.$breakpoints, medium);
+  breakpoint-tablet: map.get(breakpoints.$breakpoints, tablet);
+  breakpoint-mobile: map.get(breakpoints.$breakpoints, mobile);
+}

@@ -8,9 +8,7 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/front",
         "index": "apps/front/src/index.html",
@@ -24,9 +22,12 @@
             "input": "apps/front/public"
           }
         ],
-        "styles": [
-          "apps/front/src/styles.scss"
-        ],
+        "styles": ["apps/front/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/front/ui/common/src/lib/styles"
+          ]
+        },
         "scripts": []
       },
       "configurations": {
@@ -77,9 +78,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/front/jest.config.ts"
       }
