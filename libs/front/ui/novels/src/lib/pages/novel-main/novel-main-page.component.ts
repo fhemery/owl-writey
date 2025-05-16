@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -17,6 +25,7 @@ import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.
     NovelRightPaneComponent,
     RouterOutlet,
     TranslateModule,
+    MatIcon,
   ],
   templateUrl: './novel-main-page.component.html',
   styleUrls: ['./novel-main-page.component.scss'],
@@ -30,8 +39,52 @@ export class NovelMainPageComponent implements OnInit {
   readonly isLoading = this.#novelStore.isLoading;
   readonly novel = this.#novelStore.novel;
 
+  readonly deviceType = signal<DeviceType>(getDeviceType());
+  readonly isMobile = computed(() => this.deviceType() === DeviceType.Mobile);
+  readonly leftPaneState = signal<ToggleState>(ToggleState.Unknown);
+
+  readonly isLeftPaneOpen = computed(() => {
+    switch (this.leftPaneState()) {
+      case ToggleState.Open:
+        return true;
+      case ToggleState.Closed:
+        return false;
+      case ToggleState.Unknown:
+        return this.deviceType() !== DeviceType.Mobile;
+    }
+  });
+
   ngOnInit(): void {
     // Load the novel when the component initializes
     void this.#novelStore.loadNovel(this.id());
+    window.addEventListener('resize', () => {
+      this.deviceType.set(getDeviceType());
+    });
   }
+
+  toggleLeftPane(): void {
+    this.leftPaneState.set(
+      this.isLeftPaneOpen() ? ToggleState.Closed : ToggleState.Open
+    );
+  }
+}
+
+function getDeviceType(): DeviceType {
+  const width = window.innerWidth;
+  return width < 480
+    ? DeviceType.Mobile
+    : width < 768
+    ? DeviceType.Tablet
+    : DeviceType.Desktop;
+}
+
+enum DeviceType {
+  Mobile,
+  Tablet,
+  Desktop,
+}
+enum ToggleState {
+  Unknown = 'Unknown',
+  Open = 'Open',
+  Closed = 'Closed',
 }

@@ -4,14 +4,41 @@
     <div class="loading__spinner"></div>
   </div>
   } @else { @if (novel(); as novel) {
-  <div class="layout">
-    <div class="layout__title">
+  <div class="layout" [ngClass]="{ isMobile: isMobile() }">
+    <div
+      class="layout__sidebar"
+      [ngClass]="{ 'layout__sidebar--collapsed': !isLeftPaneOpen() }"
+    >
+      @if (isMobile() && isLeftPaneOpen()) {
+      <a
+        class="left-pane-toggle"
+        (click)="toggleLeftPane()"
+        tabindex="0"
+        (keyup.enter)="toggleLeftPane()"
+      >
+        <mat-icon>arrow_left</mat-icon>
+      </a>
+      }
       <owl-novel-header [novel]="novel" />
-    </div>
-    <div class="layout__sidebar">
       <owl-novel-sidebar [novel]="novel"></owl-novel-sidebar>
     </div>
-    <div class="layout__content">
+    <div
+      class="layout__content"
+      [ngClass]="{ 'layout__content--full': !isLeftPaneOpen() }"
+    >
+      <a
+        class="left-pane-toggle"
+        (click)="toggleLeftPane()"
+        tabindex="0"
+        (keyup.enter)="toggleLeftPane()"
+      >
+        @if (!isLeftPaneOpen()) {
+        <mat-icon>arrow_right</mat-icon>
+        } @else {
+        <mat-icon>arrow_left</mat-icon>
+        }
+      </a>
+
       <router-outlet></router-outlet>
     </div>
     <div class="layout__right-panel">
