@@ -3,6 +3,7 @@ export const novelFr = {
     createPage: {
       title: 'Nouveau roman',
     },
+
     actions: {
       move: {
         label: 'Déplacer',
@@ -137,6 +138,7 @@ export const novelFr = {
       header: {
         edit: 'Modifier les informations générales',
       },
+      toggleLeftPane: 'Afficher/Masquer le panneau de gauche',
     },
     delete: {
       header: 'Supprimer {{name}}',
