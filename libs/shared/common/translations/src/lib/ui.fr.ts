@@ -128,6 +128,12 @@ export const uiFr = {
     acceptLabel: 'Mettre à jour',
     declineLabel: 'Plus tard',
   },
+  textEditor: {
+    fullscreen: {
+      enter: 'Entrer en mode plein écran',
+      exit: 'Sortir du mode plein écran',
+    },
+  },
   ...dashboardFr,
   ...notFoundFr,
   ...eventsFr,

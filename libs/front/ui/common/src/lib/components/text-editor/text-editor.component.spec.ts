@@ -9,6 +9,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 import { TestUtils } from '@owl/front/test-utils';
 import { Editor, NgxEditorModule } from 'ngx-editor';
 
@@ -57,6 +58,7 @@ describe('TextEditorComponent', () => {
         FormsModule,
         NgxEditorModule,
         BrowserAnimationsModule,
+        TranslateModule.forRoot(),
       ],
     }).compileComponents();
 

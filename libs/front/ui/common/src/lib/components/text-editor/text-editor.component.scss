@@ -8,10 +8,19 @@
 .text-editor {
   width: 100%;
   margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-primary-light);
+  height: 100%;
+
   padding: 0.5rem 1rem;
+  position: relative;
+
+  &--wrapper {
+    margin: 0 auto;
+    max-width: 800px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-primary-light);
+  }
 
   & ngx-editor::ng-deep {
     display: block;

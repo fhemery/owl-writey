@@ -3,10 +3,13 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   input,
   OnInit,
   output,
   signal,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
@@ -14,11 +17,12 @@ import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { inputRules } from 'prosemirror-inputrules';
 import { debounceTime, Subject, tap } from 'rxjs';
 
+import { FullscreenMenuComponent } from './fullscreen-menu/fullscreen-menu.component';
 import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
   selector: 'owl-text-editor',
-  imports: [CommonModule, NgxEditorModule, FormsModule],
+  imports: [CommonModule, NgxEditorModule, FormsModule, FullscreenMenuComponent],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -46,6 +50,8 @@ export class TextEditorComponent implements OnInit {
     ['bullet_list', 'ordered_list'],
     ['text_color'],
   ];
+  
+  @ViewChild('customMenu') customMenu!: TemplateRef<any>;
 
   private initialText = this.currentContent();
   currentText = signal(this.currentContent());
@@ -67,7 +73,7 @@ export class TextEditorComponent implements OnInit {
     );
   });
 
-  constructor() {
+  constructor(private elementRef: ElementRef) {
     effect(() => {
       if (this.currentContent() !== this.initialText) {
         this.initialText = this.currentContent();
@@ -101,6 +107,8 @@ export class TextEditorComponent implements OnInit {
     this.isFocused = false;
     this.sendTextUpdate();
   }
+
+
 
   updateText($event: string): void {
     this.updateTextWatcher$.next($event);
