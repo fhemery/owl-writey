@@ -1,13 +1,16 @@
+import { Page } from '@playwright/test';
 import { test as base } from 'playwright-bdd';
 
+import { CommonPo } from '../pages/common.po';
 import { DashboardPo } from '../pages/dashboard.po';
+import { ExercisePo } from '../pages/exercise.po';
+import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
 import { RegisterPo } from '../pages/register.po';
-import { ExercisePo } from '../pages/exercise.po';
-import { HeaderPo } from '../pages/header.po';
 
 interface Pages {
+  commonPo: CommonPo;
   homePo: HomePo;
   loginPo: LoginPo;
   registerPo: RegisterPo;
@@ -16,7 +19,14 @@ interface Pages {
   headerPo: HeaderPo;
 }
 
+export interface AllFixtures extends Pages {
+  page: Page;
+}
+
 export const pageFixtures = base.extend<Pages>({
+  commonPo: async ({ page }, use) => {
+    await use(new CommonPo(page));
+  },
   homePo: async ({ page }, use) => {
     await use(new HomePo(page));
   },

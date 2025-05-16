@@ -19,3 +19,21 @@ Background:
       When I fill a new exercise form with wrong data
       Then It should display an error on the corresponding field
 
+    
+    Scenario: Wrong title for exercise
+      When I enter 'a' in field 'name'
+      # When I enter an invalid value in the exercise field
+      # When I select '15 minutes' from field 'duration'
+      Then It should display error 'exercise.form.name.error.minlength'
+
+    @Automated
+    Scenario Outline: Wrong data for exercise
+      When I enter '<value>' in field '<fieldName>'
+      # When I enter an invalid value in the exercise field
+      # When I select '15 minutes' from field 'duration'
+      Then It should display error '<errorKey>'
+
+      Examples: 
+      | value | fieldName | errorKey |
+      | a     | name      | exercise.form.name.error.minlength |
+      |     | initialText   | exercise.form.exquisiteCorpse.initialText.error.required |
