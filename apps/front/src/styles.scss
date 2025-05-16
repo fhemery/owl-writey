@@ -57,6 +57,10 @@ body {
   line-height: 1.6;
   height: 100%;
   font-size: 1rem;
+
+  @include styles.respond-to(mobile) {
+    font-size: 75%;
+  }
 }
 
 .mat-mdc-card-header-text {

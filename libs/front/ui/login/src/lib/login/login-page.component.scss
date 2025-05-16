@@ -1,0 +1,17 @@
+@use 'commonStyles' as styles;
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  owl-login {
+    width: 80%;
+  }
+
+  @include styles.respond-to(mobile) {
+    owl-login {
+      width: 95%;
+    }
+  }
+}
