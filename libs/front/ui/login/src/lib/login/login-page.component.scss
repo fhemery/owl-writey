@@ -6,7 +6,13 @@
   align-items: center;
 
   owl-login {
-    width: 80%;
+    width: 50%;
+  }
+
+  @include styles.respond-to(tablet) {
+    owl-login {
+      width: 80%;
+    }
   }
 
   @include styles.respond-to(mobile) {
