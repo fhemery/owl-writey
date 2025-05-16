@@ -1,4 +1,4 @@
-Feature: Exercise Feature
+Feature: ExerciseCreate Feature
 
 Background:
     Given I am connected as a user

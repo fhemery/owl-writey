@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { LoginPo } from '../pages/login.po';
 import { DashboardPo } from '../pages/dashboard.po';
-import { ExercisePo } from '../pages/exercise.po';
+import { ExercisePo } from '../pages/exerciseCreate.po';
 
 test.describe('Dashboard page', () => {
     let loginPo: LoginPo;

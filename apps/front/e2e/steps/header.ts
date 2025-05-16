@@ -56,11 +56,6 @@ Then('Display the home page from the header', async({ homePo }: AllFixtures) => 
     await homePo.shouldBeDisplayed();
 });
 
-// Given('The user is connected', async ({ loginPo }) => {
-//     await loginPo.goTo();
-//     await loginPo.logAs('bob@hemit.fr', 'Test123!');
-// });
-
 Given('The user is on the dashboard page', async ({ headerPo, dashboardPo }: AllFixtures) => {
     await headerPo.redirectDashboard();
     await dashboardPo.shouldBeDisplayed();

@@ -2,7 +2,7 @@ import { expect, Locator, Page } from '@playwright/test';
 
 import { BasePo } from './base.po';
 
-export class ExercisePo extends BasePo {
+export class ExerciseCreatePo extends BasePo {
 
   get pageLocator(): Locator {
     return this.page.locator('.exercise-form');
@@ -64,7 +64,7 @@ export class ExercisePo extends BasePo {
 
   async shouldDisplayExercise(expectedTitle: string): Promise<void> {
     //  expect(await this.page.locator('h1').innerText()).toContain(this.nameInput);
-    await expect(this.page.url()).toContain('/exercises/');
+    expect(this.page.url()).toContain('/exercises/');
     await expect(this.exerciseTitle).toBeVisible();
     await expect(this.exerciseTitle).toContainText(expectedTitle);
   }

@@ -3,7 +3,8 @@ import { test as base } from 'playwright-bdd';
 
 import { CommonPo } from '../pages/common.po';
 import { DashboardPo } from '../pages/dashboard.po';
-import { ExercisePo } from '../pages/exercise.po';
+import { ExerciseCreatePo } from '../pages/exerciseCreate.po';
+import { ExerciseCurrentPo } from '../pages/exerciseCurrent.po';
 import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
@@ -11,12 +12,13 @@ import { RegisterPo } from '../pages/register.po';
 
 interface Pages {
   commonPo: CommonPo;
+  dashboardPo: DashboardPo;
+  exerciseCreatePo: ExerciseCreatePo;
+  exerciseCurrentPo: ExerciseCurrentPo;
+  headerPo: HeaderPo;
   homePo: HomePo;
   loginPo: LoginPo;
   registerPo: RegisterPo;
-  dashboardPo: DashboardPo;
-  exercisePo: ExercisePo;
-  headerPo: HeaderPo;
 }
 
 export interface AllFixtures extends Pages {
@@ -27,6 +29,18 @@ export const pageFixtures = base.extend<Pages>({
   commonPo: async ({ page }, use) => {
     await use(new CommonPo(page));
   },
+  dashboardPo: async ({ page }, use) => {
+    await use(new DashboardPo(page));
+  },
+  exerciseCreatePo: async ({ page }, use) => {
+    await use(new ExerciseCreatePo(page));
+  },
+  exerciseCurrentPo: async ({ page }, use) => {
+    await use(new ExerciseCurrentPo(page));
+  },
+  headerPo: async ({ page }, use) => {
+    await use(new HeaderPo(page));
+  },
   homePo: async ({ page }, use) => {
     await use(new HomePo(page));
   },
@@ -35,14 +49,5 @@ export const pageFixtures = base.extend<Pages>({
   },
   registerPo: async ({ page }, use) => {
     await use(new RegisterPo(page));
-  },
-  dashboardPo: async ({ page }, use) => {
-    await use(new DashboardPo(page));
-  },
-  exercisePo: async ({ page }, use) => {
-    await use(new ExercisePo(page));
-  },
-  headerPo: async ({ page }, use) => {
-    await use(new HeaderPo(page));
   },
 });

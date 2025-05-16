@@ -19,8 +19,8 @@ When('I click to Create a new exercise', async ({ dashboardPo }: AllFixtures) =>
     await dashboardPo.createNewExercise();
 });
 
-Then('Display the new exercise form', async ({ exercisePo }: AllFixtures) => {
-    await exercisePo.shouldDisplayForm();
+Then('Display the new exercise form', async ({ exerciseCreatePo }: AllFixtures) => {
+    await exerciseCreatePo.shouldDisplayForm();
 });
 
 When('I click to exercises done toggle', async ({ dashboardPo }: AllFixtures) => {
@@ -35,6 +35,6 @@ When('I click the Jouer button for exercise {string}', async ({ dashboardPo }: A
     await dashboardPo.getExerciseByTitle(exerciseTitle).click();
 });
 
-Then('Display the current exercise clicked on', async ({ exercisePo }: AllFixtures) => {
-    await exercisePo.shouldBeDisplayed();
+Then('Display the current exercise clicked on', async ({ exerciseCurrentPo }: AllFixtures) => {
+    await exerciseCurrentPo.shouldBeDisplayed();
 });
