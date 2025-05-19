@@ -2,6 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   effect,
+  ErrorHandler,
   importProvidersFrom,
   inject,
   isDevMode,
@@ -29,6 +30,7 @@ import {
   FirebaseAuthService,
 } from '@owl/front/auth';
 import { ConfigService } from '@owl/front/infra';
+import { FrontErrorHandler } from '@owl/front/ui/common';
 
 import { environment } from '../environments/environment';
 
@@ -68,6 +70,7 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    { provide: ErrorHandler, useClass: FrontErrorHandler },
   ],
 };
 

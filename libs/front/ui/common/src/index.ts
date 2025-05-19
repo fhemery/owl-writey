@@ -7,3 +7,4 @@ export * from './lib/services/notification.service';
 export * from './lib/services/time.pipe';
 export * from './lib/services/confirm-dialog.service';
 export * from './lib/services/local.config.service';
+export * from './lib/services/logs';
