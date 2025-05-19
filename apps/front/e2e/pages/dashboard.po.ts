@@ -14,9 +14,11 @@ export class DashboardPo extends BasePo {
       name: this.translator.get('dashboard.exercises.includeFinished')
     });
   }
-  // get currentExercise(): Locator {
-  //   return this.pageLocator.locator('a[routerlink="/exercises/{{ex.id}}"]');
-  // }
+  get currentExercise(): Locator {
+    return this.pageLocator.locator('h1', {
+      hasText: this.translator.get('dashboard.exercises.title')
+    });
+  }
   
   constructor(page: Page) {
     super(page);
@@ -27,7 +29,7 @@ export class DashboardPo extends BasePo {
   }
   
   async shouldBeDisplayed(): Promise<void> {
-    console.log('URL:', await this.page.url());
+    console.log('URL:', this.page.url());
     await expect(this.pageLocator).toBeVisible();
   }
 
@@ -35,37 +37,31 @@ export class DashboardPo extends BasePo {
     await this.newExercises.click();
   }
 
-  async displayEndedExercises(): Promise<boolean> {
-    await this.toggleBtn.click();
+  async displayEndedExercises(): Promise<void> {
+    return await this.toggleBtn.click();
     
-    try {
-      await this.page.waitForSelector('exercise-card__finished', {
-        state: 'visible',
-        timeout: 2000
-      });
-      return true;
-    } catch (error){
-      return false;
-    }
+    // try {
+    //   await this.page.waitForSelector('exercise-card__finished', {
+    //     state: 'visible',
+    //     timeout: 2000
+    //   });
+    //   return true;
+    // } catch (error){
+    //   return false;
+    // }
   }
   
   async checkFinishedExercisesIncluded(): Promise<boolean> {
     return await this.toggleBtn.isChecked();
   }
 
-  // async displayCurrentExercise(): Promise<void> {
-  //   return await this.currentExercise.click();
-  // }
-  
-  getExerciseByTitle(title: string): Locator {
-    // const exerciseTitle = this.pageLocator.locator('mat-card').filter({ hasText: title });
-    const exerciseCard = this.pageLocator.locator('mat-card').filter({ 
-      has: this.pageLocator.locator('mat-card-title:has-text("' + title + '")') 
-    });
-    // const exerciseContainer = exerciseCard;
-    const playBtnLink = exerciseCard.locator('mat-card-footer .exercise-card__footer a[title="dashboard.exercises.playAlt"]');
-    return playBtnLink.locator('mat-icon.accent:has-text("play_arrow")');
+  async displayCurrentExercise(): Promise<void> {
+    return await this.currentExercise.click();
   }
+  
+  // getExerciseByTitle(title: string): Locator {
+    
+  // }
 
 }
 

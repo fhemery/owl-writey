@@ -31,8 +31,8 @@ Then('Display exercises done on the dashboard', async ({ dashboardPo}: AllFixtur
     await dashboardPo.checkFinishedExercisesIncluded();
 });
 
-When('I click the Jouer button for exercise {string}', async ({ dashboardPo }: AllFixtures, exerciseTitle) => {
-    await dashboardPo.getExerciseByTitle(exerciseTitle).click();
+When('I click the Jouer button for exercise {string}', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.displayCurrentExercise();
 });
 
 Then('Display the current exercise clicked on', async ({ exerciseCurrentPo }: AllFixtures) => {
