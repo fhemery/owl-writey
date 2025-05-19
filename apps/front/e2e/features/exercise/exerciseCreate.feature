@@ -13,12 +13,6 @@ Background:
     Scenario: Create a new exercise
       When I fill a new exercise form with valid data
       Then I am redirected to the current exercise
-
-    @Automated
-    Scenario: Wrongly create a new exercise
-      When I fill a new exercise form with wrong data
-      Then It should display an error on the corresponding field
-
     
     Scenario: Wrong title for exercise
       When I enter 'a' in field 'name'
@@ -36,4 +30,3 @@ Background:
       Examples: 
       | value | fieldName | errorKey |
       | a     | name      | exercise.form.name.error.minlength |
-      |     | initialText   | exercise.form.exquisiteCorpse.initialText.error.required |

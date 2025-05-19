@@ -12,14 +12,19 @@ Feature: Login Feature
         When I click on the Register link
         Then Display registration page
 
-    @Automated
+    @Automated @P1
     Scenario: Validate the login form 
         When I fill the login form with valid data
         Then I am redirected to the dashboard page from the login page
 
-    @Automated
-    Scenario: Invalidate the login form 
-        When I fill the login form with wrong data
-        Then It should display an error on the login form
+    @Automated @P1
+    Scenario Outline: Wrong data for registration
+        When I enter '<value>' in field '<fieldName>'
+        Then It should display error '<errorKey>'
 
+        Examples: 
+        | value       | fieldName         | errorKey |
+        |invalid-email| login            | register.form.email.error.invalid  |
+        |             | login            | register.form.email.error.required |
+        |             | password          | register.form.password.error.required  |
 
