@@ -28,9 +28,16 @@ Then('I am redirected to the dashboard page from the register page', async ({ da
     await dashboardPo.shouldBeDisplayed();
 });
 
-When('I fill the registration form with wrong data', async ({ registerPo }: AllFixtures) => {
-    await registerPo.wronglyRegisterAs('Ed', 'owl-30@hemit.fr', 'password', 'password');
+When('I enter the registration with existing data', async ({ registerPo }: AllFixtures) => {
+    await registerPo.registerAsWithoutRedirect('Teddy', 'bob@hemit.fr', 'password', 'password');
 });
-Then('It should display an error on the register form', async ({ registerPo }: AllFixtures) => {
-    await registerPo.shouldDisplayTranslatedText('register.form.name.error.minlength');
+Then('It should display the error register.error', async ({ registerPo }: AllFixtures) => {
+    await registerPo.shouldDisplayTranslatedText('register.error');
+});
+
+When('Password are mismatched while trying to register', async ({ registerPo }: AllFixtures) => {
+    await registerPo.wronglyRegisterAs('Edward', 'owl-37@hemit.fr', 'password', 'password$');
+});
+Then('It should display the following error register.form.error.passwordNotMatching', async ({ registerPo }: AllFixtures) => {
+    await registerPo.shouldDisplayTranslatedText('register.form.error.passwordNotMatching');
 });

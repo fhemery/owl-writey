@@ -38,3 +38,18 @@ Then('It should display an error on the corresponding field', async ({ exerciseC
     await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.name.error.minlength');
 });
 
+When('I add a negative figure to the iteration nb', async ({ exerciseCreatePo }: AllFixtures) => {
+    await exerciseCreatePo.wronglyCreatedAs(
+        'Hello my dear', '-4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
+});
+Then('It should display the following error exercise.form.exquisiteCorpse.nbIterations.error.min', async ({ exerciseCreatePo }: AllFixtures) => {
+    await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.nbIterations.error.min');
+});
+
+When('I do not add content in the initialText field', async ({ exerciseCreatePo }: AllFixtures) => {
+    await exerciseCreatePo.wronglyCreatedAs(
+        'Hello my dear', '4', '5 minutes', '4', '5', '');
+});
+Then('It should display the following error exercise.form.exquisiteCorpse.initialText.error.required', async ({ exerciseCreatePo }: AllFixtures) => {
+    await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.required');
+});

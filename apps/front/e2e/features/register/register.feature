@@ -32,3 +32,13 @@ Feature: Registration Feature
         |             | password          | register.form.password.error.required  |
         | short       | repeatPassword    | register.form.repeatPassword.error.minlength |
         |             | repeatPassword    | register.form.repeatPassword.error.required  |
+
+    @Automated
+    Scenario: Try to register with an existing account
+        When I enter the registration with existing data
+        Then It should display the error register.error 
+
+    @Automated
+    Scenario: Password mismatch in the registration process
+        When Password are mismatched while trying to register
+        Then It should display the following error register.form.error.passwordNotMatching
