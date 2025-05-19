@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@owl-writey/checking": ["libs/front/ui/checking/src/index.ts"],
+      "@owl/back/infra/logs": ["libs/back/infra/logs/src/index.ts"],
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
       "@owl/back/config": ["libs/back/config/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],

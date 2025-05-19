@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware, AuthModule } from '@owl/back/auth';
 import { ConfigModule } from '@owl/back/config';
 import { ExercisesModule } from '@owl/back/exercises';
+import { LogsModule } from '@owl/back/infra/logs';
 import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
 import { UsersModule } from '@owl/back/user';
@@ -27,6 +28,7 @@ import { ConnectionData } from './utils/datasource';
     UsersModule,
     ExercisesModule,
     NovelsModule,
+    LogsModule,
   ],
 })
 export class AppModule {
