@@ -87,6 +87,25 @@ export class TestUtils {
     return this.getDocumentElementAt(selector, index).textContent?.trim() || '';
   }
 
+  getValue(selector: string): string {
+    const input: HTMLInputElement | null =
+      this.fixture.nativeElement.querySelector(selector);
+    if (!input) {
+      throw new Error(`Element not found: ${selector}`);
+    }
+    return input.value;
+  }
+
+  hasSelectedValue(selectName: string, value: string): boolean {
+    const select = this.fixture.nativeElement.querySelector(
+      `mat-select[name=${selectName}] .mat-mdc-select-value`
+    );
+    if (!select) {
+      throw new Error(`Element not found: ${selectName}`);
+    }
+    return select.innerHTML?.trim()?.includes(value);
+  }
+
   dispatchEvent(
     eventToDispatch: string,
     selector: string,
