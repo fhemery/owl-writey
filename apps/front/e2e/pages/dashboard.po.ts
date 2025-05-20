@@ -19,6 +19,9 @@ export class DashboardPo extends BasePo {
       hasText: this.translator.get('dashboard.exercises.title')
     });
   }
+  get newNovels(): Locator {
+    return this.pageLocator.locator('button[routerlink="/novels/new"]');
+  }
   
   constructor(page: Page) {
     super(page);
