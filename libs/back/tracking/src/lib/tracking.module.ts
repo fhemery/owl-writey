@@ -5,19 +5,22 @@ import { UsersModule } from '@owl/back/user';
 import { TrackingFacade } from './domain';
 import { TrackingService } from './domain';
 import { TrackingController } from './infra/api/tracking.controller';
-import { PosthogTrackingService } from './infra/posthog/posthog-tracking.service';
+import { FakeTrackingFacade } from './infra/tracking-facades/fake-tracker/fake-tracking.facade';
+import { PosthogTrackingService } from './infra/tracking-facades/posthog-tracker/posthog-tracking.service';
 
 @Module({
   imports: [ConfigModule, UsersModule],
   controllers: [TrackingController],
   providers: [
     TrackingService,
-    PosthogTrackingService,
     {
       provide: TrackingFacade,
-      useClass: PosthogTrackingService,
+      useClass:
+        process.env['POSTHOG_ENABLED'] === '1'
+          ? PosthogTrackingService
+          : FakeTrackingFacade,
     },
   ],
   exports: [TrackingService, TrackingFacade],
 })
-export class PostHogTrackingModule {}
+export class TrackingModule {}

@@ -1,8 +1,6 @@
-import { ResettableMock } from '@owl/back/test-utils';
+import { TrackingEvent, TrackingFacade } from '../../../domain';
 
-import { TrackingEvent, TrackingFacade } from '../../lib/domain';
-
-export class FakeTrackingFacade implements TrackingFacade, ResettableMock {
+export class FakeTrackingFacade implements TrackingFacade {
   events: TrackingEvent[] = [];
 
   trackEvent(event: TrackingEvent): Promise<void> {

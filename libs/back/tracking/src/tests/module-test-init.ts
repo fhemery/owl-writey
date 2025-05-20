@@ -1,23 +1,24 @@
 import {
   IntegrationTestApplicationBuilder,
-  NestTestApplication,
+  NestIntegrationTestApplication,
   TestUserBuilder,
 } from '@owl/back/test-utils';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { TrackingFacade } from '../lib/domain';
-import { PostHogTrackingModule } from '../lib/posthog-tracking.module';
-import { FakeTrackingFacade } from './utils/fake-tracking.facade';
+import { FakeTrackingFacade } from '../lib/infra/tracking-facades/fake-tracker/fake-tracking.facade';
+import { TrackingModule } from '../lib/tracking.module';
 
-export let app: NestTestApplication;
-export const fakeTrackingFacade = new FakeTrackingFacade();
+export let app: NestIntegrationTestApplication;
+export let fakeTrackingFacade: FakeTrackingFacade;
 
 export const moduleTestInit = async (): Promise<void> => {
   beforeAll(async () => {
     app = await new IntegrationTestApplicationBuilder()
       .withFakeInMemoryDb()
-      .withMock(TrackingFacade, fakeTrackingFacade)
-      .build(PostHogTrackingModule);
+      .build(TrackingModule);
+
+    fakeTrackingFacade = app.getInstance<FakeTrackingFacade>(TrackingFacade);
   });
 
   beforeAll(async () => {
@@ -29,6 +30,7 @@ export const moduleTestInit = async (): Promise<void> => {
 
   afterEach(async () => {
     await app.reset();
+    await fakeTrackingFacade.reset();
   });
 
   afterAll(async () => {

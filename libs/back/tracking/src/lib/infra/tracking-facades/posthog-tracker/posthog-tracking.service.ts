@@ -2,8 +2,8 @@ import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PostHog } from 'posthog-node';
 
-import { TrackingFacade } from '../../domain';
-import { TrackingEvent } from '../../domain/model';
+import { TrackingFacade } from '../../../domain';
+import { TrackingEvent } from '../../../domain/model';
 
 /**
  * PostHog tracking service implementation

@@ -1,7 +1,8 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelToCreateDto } from '@owl/shared/novels/contracts';
 
-import { app, moduleTestInit } from './module-test-init';
+import { NovelCreatedTrackingEvent } from '../lib/infra/tracking/events/novel-created-tracking-event';
+import { app, fakeTrackingFacade, moduleTestInit } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
 import { NovelTestUtils } from './utils/novel-test-utils';
 
@@ -61,6 +62,27 @@ describe('/api/novels', () => {
         expect(getResponse.body?.generalInfo.description).toEqual(
           novel.description
         );
+      });
+
+      describe('events', () => {
+        it('should emit a tracking event', async () => {
+          await app.logAs(TestUserBuilder.Alice());
+          const novel = NovelTestBuilder.Default();
+
+          const response = await novelUtils.create(novel);
+
+          const event = fakeTrackingFacade.getByName('novel.created');
+          expect(event).toHaveLength(1);
+
+          expect(event[0]).toEqual({
+            ...new NovelCreatedTrackingEvent(
+              response.locationId || '',
+              novel.title,
+              TestUserBuilder.Alice().uid
+            ),
+            timestamp: expect.any(Date),
+          });
+        });
       });
     });
   });

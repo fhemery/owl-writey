@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 import { NovelBuilder } from '@owl/shared/novels/model';
 
+import { NovelCreateEvent } from '../../../events';
 import { NovelToCreate } from '../../../model';
 import { NovelRepository, NovelUserFacade } from '../../out';
 
@@ -8,7 +10,8 @@ import { NovelRepository, NovelUserFacade } from '../../out';
 export class CreateNovelCommand {
   constructor(
     @Inject(NovelRepository) private readonly novelRepository: NovelRepository,
-    @Inject(NovelUserFacade) private readonly novelUserFacade: NovelUserFacade
+    @Inject(NovelUserFacade) private readonly novelUserFacade: NovelUserFacade,
+    private readonly eventEmitter: EventEmitterFacade
   ) {}
 
   async execute(novelToCreate: NovelToCreate): Promise<string> {
@@ -25,6 +28,10 @@ export class CreateNovelCommand {
       user.name
     ).build();
     await this.novelRepository.save(novel);
+
+    // Emit novel created event
+    this.eventEmitter.emit(new NovelCreateEvent(novel));
+
     return novel.id;
   }
 }
