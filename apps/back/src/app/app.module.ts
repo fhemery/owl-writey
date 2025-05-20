@@ -8,6 +8,7 @@ import { ExercisesModule } from '@owl/back/exercises';
 import { LogsModule } from '@owl/back/infra/logs';
 import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
+import { PostHogTrackingModule } from '@owl/back/tracking';
 import { UsersModule } from '@owl/back/user';
 import * as admin from 'firebase-admin';
 import { join } from 'path';
@@ -29,6 +30,7 @@ import { ConnectionData } from './utils/datasource';
     ExercisesModule,
     NovelsModule,
     LogsModule,
+    PostHogTrackingModule,
   ],
 })
 export class AppModule {

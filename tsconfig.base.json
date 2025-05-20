@@ -16,17 +16,18 @@
     "baseUrl": ".",
     "paths": {
       "@owl-writey/checking": ["libs/front/ui/checking/src/index.ts"],
-      "@owl/back/infra/logs": ["libs/back/infra/logs/src/index.ts"],
       "@owl/back/auth": ["libs/back/auth/src/index.ts"],
       "@owl/back/config": ["libs/back/config/src/index.ts"],
       "@owl/back/exercises": ["libs/back/exercises/src/index.ts"],
       "@owl/back/infra/events": ["libs/back/infra/events/src/index.ts"],
+      "@owl/back/infra/logs": ["libs/back/infra/logs/src/index.ts"],
       "@owl/back/infra/sse": [
         "libs/back/infra/server-sent-events/src/index.ts"
       ],
       "@owl/back/novels": ["libs/back/novels/src/index.ts"],
       "@owl/back/ping": ["libs/back/ping/src/index.ts"],
       "@owl/back/test-utils": ["libs/back/test-utils/src/index.ts"],
+      "@owl/back/tracking": ["libs/back/tracking/src/index.ts"],
       "@owl/back/user": ["libs/back/user/src/index.ts"],
       "@owl/back/websocket": ["libs/back/infra/websocket/src/index.ts"],
       "@owl/front/app": ["libs/front/app/src/index.ts"],
