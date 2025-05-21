@@ -26,7 +26,7 @@ describe('POST /api/novel/:id/events', () => {
 
       const response = await novelUtils.sendEvent(
         existingNovel.id,
-        new NovelTitleChangedEvent('new Title')
+        new NovelTitleChangedEvent('new Title', TestUserBuilder.Alice().uid)
       );
       expect(response.status).toBe(401);
     });
@@ -35,7 +35,7 @@ describe('POST /api/novel/:id/events', () => {
       await app.logAs(TestUserBuilder.Alice());
       const response = await novelUtils.sendEvent(
         'other-id',
-        new NovelTitleChangedEvent('new Title')
+        new NovelTitleChangedEvent('new Title', TestUserBuilder.Alice().uid)
       );
       expect(response.status).toBe(404);
     });
@@ -44,7 +44,7 @@ describe('POST /api/novel/:id/events', () => {
       await app.logAs(TestUserBuilder.Bob());
       const response = await novelUtils.sendEvent(
         existingNovel.id,
-        new NovelTitleChangedEvent('new Title')
+        new NovelTitleChangedEvent('new Title', TestUserBuilder.Bob().uid)
       );
       expect(response.status).toBe(404);
     });
@@ -55,7 +55,7 @@ describe('POST /api/novel/:id/events', () => {
       await app.logAs(TestUserBuilder.Alice());
       const response = await novelUtils.sendEvent(
         existingNovel.id,
-        new NovelTitleChangedEvent('new Title')
+        new NovelTitleChangedEvent('new Title', TestUserBuilder.Alice().uid)
       );
       expect(response.status).toBe(204);
     });
@@ -66,7 +66,10 @@ describe('POST /api/novel/:id/events', () => {
 
       const response = await novelUtils.sendEvent(
         existingNovel.id,
-        new NovelDescriptionChangedEvent(newDescription)
+        new NovelDescriptionChangedEvent(
+          newDescription,
+          TestUserBuilder.Alice().uid
+        )
       );
       expect(response.status).toBe(204);
 

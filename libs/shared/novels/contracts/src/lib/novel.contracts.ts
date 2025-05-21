@@ -77,9 +77,19 @@ export interface GetAllNovelsResponseDto {
   data: NovelSummaryDto[];
 }
 
-export interface NovelEventDto {
+export interface NovelEventToPushDto {
+  eventId: string;
   eventName: string;
   eventVersion: string;
+  data: unknown;
+}
+
+export interface NovelEventDto {
+  eventId: string;
+  eventName: string;
+  eventVersion: string;
+  userId: string;
+  eventSequentialId?: number;
   data: unknown;
 }
 

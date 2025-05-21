@@ -6,13 +6,26 @@ export class NovelDomainEventFactory {
   static From(
     eventName: string,
     eventVersion: string,
-    data: unknown
+    data: unknown,
+    userId: string,
+    eventId?: string,
+    eventSequentialId?: number
   ): NovelBaseDomainEvent {
     switch (eventName) {
       case NovelTitleChangedEvent.eventName:
-        return NovelTitleChangedEvent.From(data);
+        return NovelTitleChangedEvent.From(
+          data,
+          userId,
+          eventId,
+          eventSequentialId
+        );
       case NovelDescriptionChangedEvent.eventName:
-        return NovelDescriptionChangedEvent.From(data);
+        return NovelDescriptionChangedEvent.From(
+          data,
+          userId,
+          eventId,
+          eventSequentialId
+        );
       default:
         throw new Error(`Unknown domain event name: ${eventName}`);
     }

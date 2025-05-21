@@ -10,23 +10,41 @@ export class NovelTitleChangedEvent extends NovelBaseDomainEvent<NovelTitleChang
   static readonly eventName = 'Novel:TitleChanged';
   static readonly eventVersion = '1';
 
-  static From(data: unknown): NovelTitleChangedEvent {
+  static From(
+    data: unknown,
+    userId: string,
+    eventId?: string,
+    eventSequentialId?: number
+  ): NovelTitleChangedEvent {
     const title = (data as NovelTitleChangedEventData)?.title;
     if (!title) {
       throw new NovelException(
         `While parsing NovelTitleChangedEvent: Missing title in data ${data}`
       );
     }
-    return new NovelTitleChangedEvent(title);
+    return new NovelTitleChangedEvent(
+      title,
+      userId,
+      eventId,
+      eventSequentialId
+    );
   }
 
-  constructor(title: string) {
+  constructor(
+    title: string,
+    userId: string,
+    eventId?: string,
+    eventSequentialId?: number
+  ) {
     super(
+      eventId,
       NovelTitleChangedEvent.eventName,
       NovelTitleChangedEvent.eventVersion,
+      userId,
       {
         title,
-      }
+      },
+      eventSequentialId
     );
   }
 

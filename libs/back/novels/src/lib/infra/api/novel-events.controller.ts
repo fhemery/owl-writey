@@ -1,18 +1,21 @@
 import {
-    Body,
-    Controller,
-    HttpCode,
-    HttpStatus,
-    NotFoundException,
-    Param,
-    Post,
-    Req,
-    Sse,
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+  Req,
+  Sse,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { HeartbeatEvent, SseEvent } from '@owl/shared/common/contracts';
-import { NovelEventDto, NovelSseEvent } from '@owl/shared/novels/contracts';
+import {
+  NovelEventToPushDto,
+  NovelSseEvent,
+} from '@owl/shared/novels/contracts';
 import { NovelDomainEventFactory } from '@owl/shared/novels/model';
 import { IsObject, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
@@ -21,7 +24,10 @@ import { NovelNotFoundException } from '../../domain/model';
 import { NovelApplyEventCommand } from '../../domain/ports';
 import { GetNovelEventsQuery } from '../../domain/ports/in/query';
 
-class NovelEventDtoImpl implements NovelEventDto {
+class NovelEventToPushDtoImpl implements NovelEventToPushDto {
+  @IsString()
+  readonly eventId!: string;
+
   @IsString()
   readonly eventName!: string;
   @IsString()
@@ -43,14 +49,16 @@ export class NovelEventsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async sendEvent(
     @Param('id') id: string,
-    @Body() event: NovelEventDtoImpl,
+    @Body() event: NovelEventToPushDtoImpl,
     @Req() request: RequestWithUser
   ): Promise<void> {
     try {
       const domainEvent = NovelDomainEventFactory.From(
         event.eventName,
         event.eventVersion,
-        event.data
+        event.data,
+        request.user.uid,
+        event.eventId
       );
       await this.sendEventCommand.execute(id, request.user.uid, domainEvent);
     } catch (error) {

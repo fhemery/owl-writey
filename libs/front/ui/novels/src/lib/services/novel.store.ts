@@ -7,6 +7,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { TranslateService } from '@ngx-translate/core';
+import { AUTH_SERVICE } from '@owl/front/auth';
 import {
   Novel,
   NovelChapter,
@@ -22,12 +23,14 @@ export interface NovelState {
   novel: Novel | null;
   isLoading: boolean;
   error: string | null;
+  userId: string;
 }
 
 const initialState: NovelState = {
   novel: null,
   isLoading: true,
   error: null,
+  userId: '',
 };
 
 @Injectable({
@@ -173,7 +176,10 @@ export class NovelStore extends signalStore(
       },
       async updateTitle(title: string): Promise<boolean> {
         const novel = this.getNovel();
-        const updateTitleEvent = new NovelTitleChangedEvent(title);
+        const updateTitleEvent = new NovelTitleChangedEvent(
+          title,
+          store.userId()
+        );
 
         patchState(store, { novel: updateTitleEvent.applyTo(novel) });
         return await novelService.sendEvent(novel.id, updateTitleEvent);
@@ -181,7 +187,8 @@ export class NovelStore extends signalStore(
       async updateDescription(description: string): Promise<boolean> {
         const novel = this.getNovel();
         const updateDescriptionEvent = new NovelDescriptionChangedEvent(
-          description
+          description,
+          store.userId()
         );
 
         patchState(store, { novel: updateDescriptionEvent.applyTo(novel) });
@@ -189,5 +196,10 @@ export class NovelStore extends signalStore(
       },
     })
   ),
-  withHooks({})
+  withHooks({
+    onInit(store) {
+      const auth = inject(AUTH_SERVICE);
+      patchState(store, { userId: auth.user()?.uid });
+    },
+  })
 ) {}

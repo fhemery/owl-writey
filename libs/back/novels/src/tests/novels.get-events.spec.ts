@@ -51,7 +51,10 @@ describe('GET /api/novel/:id/events', () => {
 
       const sendResponse = await novelUtils.sendEvent(
         existingNovel.id,
-        new NovelDescriptionChangedEvent(newDescription)
+        new NovelDescriptionChangedEvent(
+          newDescription,
+          TestUserBuilder.Alice().uid
+        )
       );
       expect(sendResponse.status).toBe(204);
 

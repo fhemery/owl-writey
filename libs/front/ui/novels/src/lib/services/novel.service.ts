@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { toNovel, toNovelDto } from '@owl/shared/novel/utils';
-import { NovelDto, NovelToCreateDto } from '@owl/shared/novels/contracts';
+import {
+  NovelDto,
+  NovelEventToPushDto,
+  NovelToCreateDto,
+} from '@owl/shared/novels/contracts';
 import { Novel, NovelBaseDomainEvent } from '@owl/shared/novels/model';
 import { debounceTime, firstValueFrom, Subject } from 'rxjs';
 
@@ -43,12 +47,14 @@ export class NovelService {
     novelId: string,
     event: NovelBaseDomainEvent
   ): Promise<boolean> {
+    const eventDto: NovelEventToPushDto = {
+      eventId: event.eventId,
+      eventName: event.eventName,
+      eventVersion: event.eventVersion,
+      data: event.data,
+    };
     await firstValueFrom(
-      this.#httpClient.post<void>(`/api/novels/${novelId}/events`, {
-        eventName: event.eventName,
-        eventVersion: event.eventVersion,
-        data: event.data,
-      })
+      this.#httpClient.post<void>(`/api/novels/${novelId}/events`, eventDto)
     );
     return true;
   }
