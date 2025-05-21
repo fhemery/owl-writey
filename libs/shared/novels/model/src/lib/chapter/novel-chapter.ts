@@ -65,11 +65,12 @@ export class NovelChapter {
       this.scenes.splice(index, 1, scene);
     }
   }
-  deleteScene(sceneId: string): void {
+  deleteScene(sceneId: string): NovelChapter {
     const index = this.scenes.findIndex((s) => s.id === sceneId);
     if (index !== -1) {
-      this.scenes.splice(index, 1);
+      return this.withScenes(this.scenes.filter((s) => s.id !== sceneId));
     }
+    return this;
   }
 
   private withGeneralInfo(generalInfo: NovelChapterGeneralInfo): NovelChapter {

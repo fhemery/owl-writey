@@ -111,9 +111,16 @@ export class NovelChapters {
     const chapter = this.findChapter(chapterId);
     chapter?.moveScene(sceneIndex, toIndex);
   }
-  deleteScene(chapterId: string, sceneId: string): void {
-    const chapter = this.findChapter(chapterId);
-    chapter?.deleteScene(sceneId);
+  deleteScene(chapterId: string, sceneId: string): NovelChapters {
+    const chapterIndex = this._chapters.findIndex((c) => c.id === chapterId);
+    if (chapterIndex === -1) {
+      return this;
+    }
+    return new NovelChapters([
+      ...this._chapters.slice(0, chapterIndex),
+      this._chapters[chapterIndex].deleteScene(sceneId),
+      ...this._chapters.slice(chapterIndex + 1),
+    ]);
   }
   deletePov(id: string): void {
     this._chapters.forEach((c) => c.deletePov(id));

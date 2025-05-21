@@ -20,6 +20,7 @@ import {
   NovelDescriptionChangedEvent,
   NovelScene,
   NovelSceneAddedEvent,
+  NovelSceneDeletedEvent,
   NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
 import { v4 as uuidv4 } from 'uuid';
@@ -187,9 +188,15 @@ export class NovelStore extends signalStore(
       },
       async deleteScene(chapterId: string, sceneId: string): Promise<boolean> {
         const novel = this.getNovel();
-        novel.deleteScene(chapterId, sceneId);
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        const event = new NovelSceneDeletedEvent(
+          {
+            chapterId,
+            sceneId,
+          },
+          store.userId()
+        );
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
       async addCharacterAt(index: number): Promise<void> {
         const novel = this.getNovel();
