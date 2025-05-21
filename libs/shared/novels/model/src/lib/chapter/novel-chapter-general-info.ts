@@ -6,4 +6,7 @@ export class NovelChapterGeneralInfo {
       throw new NovelException('Title of chapter must be provided');
     }
   }
+  withTitle(title: string): NovelChapterGeneralInfo {
+    return new NovelChapterGeneralInfo(title, this.outline);
+  }
 }

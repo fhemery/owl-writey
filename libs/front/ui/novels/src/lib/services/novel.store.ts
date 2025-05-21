@@ -14,6 +14,7 @@ import {
   NovelChapterAddedEvent,
   NovelChapterDeletedEvent,
   NovelChapterMovedEvent,
+  NovelChapterTitleUpdatedEvent,
   NovelCharacter,
   NovelDescriptionChangedEvent,
   NovelScene,
@@ -95,9 +96,15 @@ export class NovelStore extends signalStore(
       },
       async updateChapter(chapter: NovelChapter): Promise<boolean> {
         const novel = this.getNovel();
-        novel.updateChapter(chapter);
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        const event = new NovelChapterTitleUpdatedEvent(
+          {
+            id: chapter.id,
+            title: chapter.generalInfo.title,
+          },
+          store.userId()
+        );
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
       async moveChapter(
         chapterIndex: number,

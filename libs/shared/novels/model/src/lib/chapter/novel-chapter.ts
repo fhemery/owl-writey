@@ -33,6 +33,10 @@ export class NovelChapter {
       );
     }
   }
+  updateTitle(title: string): NovelChapter {
+    return this.withGeneralInfo(this.generalInfo.withTitle(title));
+  }
+
   addExistingSceneAt(scene: NovelScene, sceneIndex: number): void {
     if (sceneIndex !== undefined) {
       this.scenes.splice(sceneIndex, 0, scene);
@@ -62,5 +66,9 @@ export class NovelChapter {
     if (index !== -1) {
       this.scenes.splice(index, 1);
     }
+  }
+
+  private withGeneralInfo(generalInfo: NovelChapterGeneralInfo): NovelChapter {
+    return new NovelChapter(this.id, generalInfo, this.scenes);
   }
 }

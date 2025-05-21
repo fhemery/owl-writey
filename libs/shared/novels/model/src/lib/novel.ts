@@ -33,9 +33,13 @@ export class Novel {
   addChapterAt(id: string, name: string, outline = '', index?: number): Novel {
     return this.withChapters(this._chapters.addAt(id, name, outline, index));
   }
-  updateChapter(chapter: NovelChapter): void {
-    this._chapters.update(chapter);
+  updateChapter(chapter: NovelChapter): Novel {
+    return this.withChapters(this._chapters.update(chapter));
   }
+  findChapter(id: string): NovelChapter | null {
+    return this._chapters.findChapter(id);
+  }
+
   moveChapter(chapterId: string, atIndex: number): Novel {
     return this.withChapters(this._chapters.move(chapterId, atIndex));
   }
