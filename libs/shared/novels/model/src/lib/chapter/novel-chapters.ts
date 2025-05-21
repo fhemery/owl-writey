@@ -1,5 +1,3 @@
-import { v4 as uuidV4 } from 'uuid';
-
 import { ChapterNotFoundException } from '../exceptions/chapter-not-found.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelChapter } from './novel-chapter';
@@ -15,27 +13,21 @@ export class NovelChapters {
     return [...this._chapters];
   }
 
-  addAt(name: string, outline = '', index?: number): void {
+  addAt(id: string, name: string, outline = '', index?: number): NovelChapters {
     if (index !== undefined) {
-      this._chapters.splice(
-        index,
-        0,
-        new NovelChapter(
-          uuidV4(),
-          new NovelChapterGeneralInfo(name, outline),
-          []
-        )
-      );
+      return new NovelChapters([
+        ...this._chapters.slice(0, index),
+        new NovelChapter(id, new NovelChapterGeneralInfo(name, outline), []),
+        ...this._chapters.slice(index),
+      ]);
     } else {
-      this._chapters.push(
-        new NovelChapter(
-          uuidV4(),
-          new NovelChapterGeneralInfo(name, outline),
-          []
-        )
-      );
+      return new NovelChapters([
+        ...this._chapters,
+        new NovelChapter(id, new NovelChapterGeneralInfo(name, outline), []),
+      ]);
     }
   }
+
   update(chapter: NovelChapter): void {
     const index = this._chapters.findIndex((c) => c.id === chapter.id);
     if (index !== -1) {

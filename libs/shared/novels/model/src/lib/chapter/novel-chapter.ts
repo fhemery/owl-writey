@@ -1,5 +1,6 @@
 import { v4 as uuidV4 } from 'uuid';
 
+import { NovelException } from '../exceptions/novel.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelSceneGeneralInfo } from '../scene/novel-scene-general-info';
 import { NovelChapterGeneralInfo } from './novel-chapter-general-info';
@@ -9,7 +10,11 @@ export class NovelChapter {
     readonly id: string,
     readonly generalInfo: NovelChapterGeneralInfo,
     readonly scenes: NovelScene[] = []
-  ) {}
+  ) {
+    if (!id) {
+      throw new NovelException('Id of chapter must be provided');
+    }
+  }
 
   addNewSceneAt(
     title: string,

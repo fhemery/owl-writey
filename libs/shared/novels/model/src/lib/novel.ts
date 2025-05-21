@@ -30,8 +30,8 @@ export class Novel {
     return this._participants.participants;
   }
 
-  addChapterAt(name: string, outline = '', index?: number): void {
-    this._chapters.addAt(name, outline, index);
+  addChapterAt(id: string, name: string, outline = '', index?: number): Novel {
+    return this.withChapters(this._chapters.addAt(id, name, outline, index));
   }
   updateChapter(chapter: NovelChapter): void {
     this._chapters.update(chapter);
@@ -113,6 +113,16 @@ export class Novel {
       generalInfo,
       this.participants,
       this.chapters,
+      this.universe
+    );
+  }
+
+  private withChapters(chapters: NovelChapters): Novel {
+    return new Novel(
+      this.id,
+      this.generalInfo,
+      this.participants,
+      chapters.chapters,
       this.universe
     );
   }

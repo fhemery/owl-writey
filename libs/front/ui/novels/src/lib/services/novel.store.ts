@@ -11,11 +11,13 @@ import { AUTH_SERVICE } from '@owl/front/auth';
 import {
   Novel,
   NovelChapter,
+  NovelChapterAddedEvent,
   NovelCharacter,
   NovelDescriptionChangedEvent,
   NovelScene,
   NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
+import { v4 as uuidv4 } from 'uuid';
 
 import { NovelService } from './novel.service';
 
@@ -65,14 +67,19 @@ export class NovelStore extends signalStore(
         const novel = this.getNovel();
         return await novelService.delete(novel.id);
       },
-      async addChapterAt(index?: number): Promise<void> {
+      async addChapterAt(index?: number): Promise<boolean> {
         const novel = this.getNovel();
-        novel.addChapterAt(
-          translateService.instant('novel.defaults.newChapter.label'),
-          '',
-          index
+        const event = new NovelChapterAddedEvent(
+          {
+            id: uuidv4(),
+            name: translateService.instant('novel.defaults.newChapter.label'),
+            outline: '',
+            at: index,
+          },
+          store.userId()
         );
-        await novelService.update(novel);
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
       async addSceneAt(chapterId: string, index?: number): Promise<void> {
         const novel = this.getNovel();
