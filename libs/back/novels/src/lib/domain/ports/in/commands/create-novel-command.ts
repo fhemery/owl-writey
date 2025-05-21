@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitterFacade } from '@owl/back/infra/events';
 import { NovelBuilder } from '@owl/shared/novels/model';
 
-import { NovelCreateEvent } from '../../../events';
+import { NovelCreatedEvent } from '../../../events';
 import { NovelToCreate } from '../../../model';
 import { NovelRepository, NovelUserFacade } from '../../out';
 
@@ -30,7 +30,7 @@ export class CreateNovelCommand {
     await this.novelRepository.save(novel);
 
     // Emit novel created event
-    this.eventEmitter.emit(new NovelCreateEvent(novel));
+    this.eventEmitter.emit(new NovelCreatedEvent(novel));
 
     return novel.id;
   }

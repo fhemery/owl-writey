@@ -1,11 +1,14 @@
-import { TrackingEvent } from '@owl/back/tracking';
+import { NovelBaseTrackingEvent } from './novel-base-tracking-event';
 
-export class NovelCreatedTrackingEvent extends TrackingEvent {
+export class NovelCreatedTrackingEvent extends NovelBaseTrackingEvent<{
+  title: string;
+  authorId: string;
+}> {
   constructor(
-    readonly novelId: string,
+    novelId: string,
     readonly title: string,
     readonly authorId: string
   ) {
-    super('novel.created', { novelId, title, authorId }, authorId, novelId);
+    super('novel.created', novelId, { title, authorId });
   }
 }

@@ -1,9 +1,16 @@
+import { Logger } from '@nestjs/common';
+
 import { TrackingEvent, TrackingFacade } from '../../../domain';
 
 export class FakeTrackingFacade implements TrackingFacade {
+  private readonly logger = new Logger(FakeTrackingFacade.name);
+
   events: TrackingEvent[] = [];
 
   trackEvent(event: TrackingEvent): Promise<void> {
+    this.logger.log(
+      `Tracking event: ${event.eventName} - ${JSON.stringify(event.data)}`
+    );
     this.events.push(event);
     return Promise.resolve();
   }
