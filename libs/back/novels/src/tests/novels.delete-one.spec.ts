@@ -2,18 +2,16 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelDto } from '@owl/shared/novels/contracts';
 
 import { NovelDeletedTrackingEvent } from '../lib/infra/tracking/events/novel-deleted-tracking-event';
-import { app, fakeTrackingFacade, moduleTestInit } from './module-test-init';
+import {
+  app,
+  fakeTrackingFacade,
+  moduleTestInit,
+  novelUtils,
+} from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
-import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('DELETE /novels/:id', () => {
   void moduleTestInit();
-
-  let novelUtils: NovelTestUtils;
-
-  beforeEach(() => {
-    novelUtils = new NovelTestUtils(app);
-  });
 
   let existingNovel: NovelDto;
   beforeEach(async () => {

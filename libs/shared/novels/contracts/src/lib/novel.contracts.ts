@@ -1,3 +1,5 @@
+import { SseEvent } from '@owl/shared/common/contracts';
+
 export interface NovelToCreateDto {
   title: string;
   description: string;
@@ -79,4 +81,11 @@ export interface NovelEventDto {
   eventName: string;
   eventVersion: string;
   data: unknown;
+}
+
+export class NovelSseEvent extends SseEvent<NovelEventDto[]> {
+  static readonly eventName = 'novelEvent';
+  constructor(events: NovelEventDto[]) {
+    super(NovelSseEvent.eventName, events);
+  }
 }

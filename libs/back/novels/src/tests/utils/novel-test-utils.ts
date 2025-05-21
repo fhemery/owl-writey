@@ -1,4 +1,10 @@
-import { ApiResponse, NestTestApplication } from '@owl/back/test-utils';
+import {
+  ApiResponse,
+  NestTestApplication,
+  SseEventList,
+  SseUtils,
+  waitFor,
+} from '@owl/back/test-utils';
 import {
   GetAllNovelsResponseDto,
   NovelDto,
@@ -7,6 +13,7 @@ import {
 } from '@owl/shared/novels/contracts';
 
 export class NovelTestUtils {
+  readonly #sseUtils = new SseUtils();
   constructor(private readonly app: NestTestApplication) {}
 
   create(novel: NovelToCreateDto): Promise<ApiResponse<void>> {
@@ -58,7 +65,40 @@ export class NovelTestUtils {
     );
   }
 
+  async getEvents(
+    novelId: string,
+    applicationPort: number
+  ): Promise<SseEventList> {
+    // Connect to the SSE endpoint
+    const connection = await this.#sseUtils.connect(
+      `http://localhost:${applicationPort}/api/novels/${novelId}/events`
+    );
+
+    // Wait for the connection to be established and events to be received
+    // Use a more reliable approach with retries
+    let retries = 0;
+    const maxRetries = 5;
+
+    while (retries < maxRetries) {
+      await waitFor(100); // Longer wait time
+
+      // Check if we've received any events
+      if (connection._events && connection._events.length > 0) {
+        break;
+      }
+
+      retries++;
+    }
+
+    return connection;
+  }
+
   async deleteOne(id: string): Promise<ApiResponse<void>> {
     return await this.app.delete(`/api/novels/${id}`);
+  }
+
+  async reset(): Promise<void> {
+    this.#sseUtils.disconnectAll();
+    return Promise.resolve();
   }
 }

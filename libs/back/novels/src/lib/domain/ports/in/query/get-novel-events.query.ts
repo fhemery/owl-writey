@@ -5,7 +5,7 @@ import { NovelNotFoundException } from '../../../model';
 import { NovelRepository } from '../../out';
 
 @Injectable()
-export class NovelApplyEventCommand {
+export class GetNovelEventsQuery {
   constructor(
     @Inject(NovelRepository)
     private readonly novelRepository: NovelRepository
@@ -13,16 +13,13 @@ export class NovelApplyEventCommand {
 
   async execute(
     novelId: string,
-    userId: string,
-    event: NovelBaseDomainEvent
-  ): Promise<void> {
-    const novel = await this.novelRepository.getOne(novelId, userId);
-    if (!novel) {
+    userId: string
+  ): Promise<NovelBaseDomainEvent[]> {
+    const hasNovel = await this.novelRepository.exists(novelId, userId);
+    if (!hasNovel) {
       throw new NovelNotFoundException(novelId);
     }
-    const newNovel = event.applyTo(novel);
-    await this.novelRepository.save(newNovel);
-
-    await this.novelRepository.pushEvents(novelId, [event]);
+    const events = await this.novelRepository.getEvents(novelId);
+    return events;
   }
 }

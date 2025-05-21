@@ -7,17 +7,21 @@ import { FakeTrackingFacade, TrackingFacade } from '@owl/back/tracking';
 
 import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { NovelsModule } from '../lib/novels.module';
+import { NovelTestUtils } from './utils/novel-test-utils';
 
 export let app: NestIntegrationTestApplication;
 export let fakeTrackingFacade: FakeTrackingFacade;
+export let novelUtils: NovelTestUtils;
 
-export const moduleTestInit = async (): Promise<void> => {
+export const moduleTestInit = async (port?: number): Promise<void> => {
   beforeAll(async () => {
     app = await new IntegrationTestApplicationBuilder()
       .withFakeInMemoryDb()
+      .withPortExposition(port)
       .build(NovelsModule);
 
     fakeTrackingFacade = app.getInstance<FakeTrackingFacade>(TrackingFacade);
+    novelUtils = new NovelTestUtils(app);
   });
 
   beforeAll(async () => {
@@ -30,6 +34,7 @@ export const moduleTestInit = async (): Promise<void> => {
   afterEach(async () => {
     await app.reset();
     await fakeTrackingFacade.reset();
+    await novelUtils.reset();
   });
 
   afterAll(async () => {

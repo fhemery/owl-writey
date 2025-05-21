@@ -1,17 +1,10 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 
-import { app, moduleTestInit } from './module-test-init';
+import { app, moduleTestInit, novelUtils } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
-import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('GET /novels/:id', () => {
   void moduleTestInit();
-
-  let novelUtils: NovelTestUtils;
-
-  beforeEach(() => {
-    novelUtils = new NovelTestUtils(app);
-  });
 
   describe('error cases', () => {
     it('should return 401 if user is not logged', async () => {

@@ -2,17 +2,16 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelToCreateDto } from '@owl/shared/novels/contracts';
 
 import { NovelCreatedTrackingEvent } from '../lib/infra/tracking/events/novel-created-tracking-event';
-import { app, fakeTrackingFacade, moduleTestInit } from './module-test-init';
+import {
+  app,
+  fakeTrackingFacade,
+  moduleTestInit,
+  novelUtils,
+} from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
-import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('/api/novels', () => {
   void moduleTestInit();
-  let novelUtils: NovelTestUtils;
-
-  beforeEach(async () => {
-    novelUtils = new NovelTestUtils(app);
-  });
 
   describe('POST /', () => {
     describe('error cases', () => {
