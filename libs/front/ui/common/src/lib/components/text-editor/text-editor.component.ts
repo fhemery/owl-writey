@@ -22,7 +22,12 @@ import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
   selector: 'owl-text-editor',
-  imports: [CommonModule, NgxEditorModule, FormsModule, FullscreenMenuComponent],
+  imports: [
+    CommonModule,
+    NgxEditorModule,
+    FormsModule,
+    FullscreenMenuComponent,
+  ],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -50,8 +55,8 @@ export class TextEditorComponent implements OnInit {
     ['bullet_list', 'ordered_list'],
     ['text_color'],
   ];
-  
-  @ViewChild('customMenu') customMenu!: TemplateRef<any>;
+
+  @ViewChild('customMenu') customMenu!: TemplateRef<unknown>;
 
   private initialText = this.currentContent();
   currentText = signal(this.currentContent());
@@ -107,8 +112,6 @@ export class TextEditorComponent implements OnInit {
     this.isFocused = false;
     this.sendTextUpdate();
   }
-
-
 
   updateText($event: string): void {
     this.updateTextWatcher$.next($event);

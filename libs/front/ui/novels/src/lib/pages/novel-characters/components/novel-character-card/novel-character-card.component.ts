@@ -129,7 +129,6 @@ export class NovelCharacterCardComponent {
   }
 
   focus(): void {
-    console.log('focus');
     this.titleElement?.nativeElement?.click();
   }
 }

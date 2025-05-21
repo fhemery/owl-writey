@@ -161,7 +161,6 @@ export class FullscreenMenuComponent implements OnInit, OnDestroy {
     // If browser is not in fullscreen mode but our component thinks it is,
     // update our state and remove the fullscreen class
     if (!document.fullscreenElement && this.isFullscreen()) {
-      console.log('Fullscreen exited via Escape key');
       this.isFullscreen.set(false);
       this.getEditorElement()?.classList.remove('text-editor--fullscreen');
     }
