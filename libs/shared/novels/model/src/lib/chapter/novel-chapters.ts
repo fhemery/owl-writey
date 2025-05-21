@@ -39,11 +39,15 @@ export class NovelChapters {
     this._chapters.splice(chapterIndex, 1);
     this._chapters.splice(toIndex, 0, chapter);
   }
-  delete(chapterId: string): void {
+  delete(chapterId: string): NovelChapters {
     const index = this._chapters.findIndex((c) => c.id === chapterId);
     if (index !== -1) {
-      this._chapters.splice(index, 1);
+      return new NovelChapters([
+        ...this._chapters.slice(0, index),
+        ...this._chapters.slice(index + 1),
+      ]);
     }
+    return this;
   }
   addSceneAt(
     chapterId: string,
