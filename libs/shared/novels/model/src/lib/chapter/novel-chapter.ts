@@ -1,5 +1,3 @@
-import { v4 as uuidV4 } from 'uuid';
-
 import { NovelException } from '../exceptions/novel.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelSceneGeneralInfo } from '../scene/novel-scene-general-info';
@@ -17,26 +15,28 @@ export class NovelChapter {
   }
 
   addNewSceneAt(
+    sceneId: string,
     title: string,
     outline: string,
     index: number | undefined
-  ): void {
+  ): NovelChapter {
     if (index !== undefined) {
-      this.scenes.splice(
-        index,
-        0,
-        new NovelScene(uuidV4(), new NovelSceneGeneralInfo(title, outline), '')
-      );
+      return this.withScenes([
+        ...this.scenes.slice(0, index),
+        new NovelScene(sceneId, new NovelSceneGeneralInfo(title, outline), ''),
+        ...this.scenes.slice(index),
+      ]);
     } else {
-      this.scenes.push(
-        new NovelScene(uuidV4(), new NovelSceneGeneralInfo(title, outline), '')
-      );
+      return this.withScenes([
+        ...this.scenes,
+        new NovelScene(sceneId, new NovelSceneGeneralInfo(title, outline), ''),
+      ]);
     }
   }
   updateTitle(title: string): NovelChapter {
     return this.withGeneralInfo(this.generalInfo.withTitle(title));
   }
-  
+
   updateOutline(outline: string): NovelChapter {
     return this.withGeneralInfo(this.generalInfo.withOutline(outline));
   }
@@ -74,5 +74,8 @@ export class NovelChapter {
 
   private withGeneralInfo(generalInfo: NovelChapterGeneralInfo): NovelChapter {
     return new NovelChapter(this.id, generalInfo, this.scenes);
+  }
+  private withScenes(scenes: NovelScene[]): NovelChapter {
+    return new NovelChapter(this.id, this.generalInfo, scenes);
   }
 }

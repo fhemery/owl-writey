@@ -67,12 +67,25 @@ export class NovelChapters {
   }
   addSceneAt(
     chapterId: string,
+    sceneId: string,
     title: string,
     outline = '',
     index?: number
-  ): void {
-    const chapter = this.findChapter(chapterId);
-    chapter?.addNewSceneAt(title, outline, index);
+  ): NovelChapters {
+    const chapterIndex = this._chapters.findIndex((c) => c.id === chapterId);
+    if (chapterIndex === -1) {
+      return this;
+    }
+    return new NovelChapters([
+      ...this._chapters.slice(0, chapterIndex),
+      this._chapters[chapterIndex].addNewSceneAt(
+        sceneId,
+        title,
+        outline,
+        index
+      ),
+      ...this._chapters.slice(chapterIndex + 1),
+    ]);
   }
   updateScene(chapterId: string, scene: NovelScene): void {
     const chapter = this.findChapter(chapterId);

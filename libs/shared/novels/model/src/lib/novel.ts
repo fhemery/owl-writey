@@ -48,11 +48,14 @@ export class Novel {
   }
   addSceneAt(
     chapterId: string,
+    sceneId: string,
     title: string,
     outline = '',
     index?: number
-  ): void {
-    this._chapters.addSceneAt(chapterId, title, outline, index);
+  ): Novel {
+    return this.withChapters(
+      this._chapters.addSceneAt(chapterId, sceneId, title, outline, index)
+    );
   }
   updateScene(chapterId: string, scene: NovelScene): void {
     this._chapters.updateScene(chapterId, scene);
