@@ -36,6 +36,10 @@ export class NovelChapter {
   updateTitle(title: string): NovelChapter {
     return this.withGeneralInfo(this.generalInfo.withTitle(title));
   }
+  
+  updateOutline(outline: string): NovelChapter {
+    return this.withGeneralInfo(this.generalInfo.withOutline(outline));
+  }
 
   addExistingSceneAt(scene: NovelScene, sceneIndex: number): void {
     if (sceneIndex !== undefined) {

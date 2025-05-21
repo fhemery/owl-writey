@@ -16,11 +16,7 @@ import {
   ContenteditableDirective,
   NotificationService,
 } from '@owl/front/ui/common';
-import {
-  NovelChapter,
-  NovelChapterGeneralInfo,
-  NovelScene,
-} from '@owl/shared/novels/model';
+import { NovelScene } from '@owl/shared/novels/model';
 import { firstValueFrom } from 'rxjs';
 
 import { NovelStore } from '../../services/novel.store';
@@ -91,13 +87,7 @@ export class NovelChapterPageComponent {
       return;
     }
 
-    await this.#store.updateChapter(
-      new NovelChapter(
-        currentChapter.id,
-        new NovelChapterGeneralInfo(title, currentChapter.generalInfo.outline),
-        currentChapter.scenes
-      )
-    );
+    await this.#store.updateChapterTitle(currentChapter.id, title);
   }
 
   async moveScene($event: { from: number; to: number }): Promise<void> {

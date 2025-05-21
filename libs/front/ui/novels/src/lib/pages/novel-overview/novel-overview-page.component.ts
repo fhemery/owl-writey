@@ -46,8 +46,19 @@ export class NovelOverviewPageComponent {
     this.chapterCards.get(index)?.focus();
   }
 
-  async updateChapter(chapter: NovelChapter): Promise<void> {
-    await this.#store.updateChapter(chapter);
+  async updateChapter(
+    currentChapter: NovelChapter,
+    newChapter: NovelChapter
+  ): Promise<void> {
+    if (currentChapter.generalInfo.title !== newChapter.generalInfo.title) {
+      await this.#store.updateChapterTitle(
+        currentChapter.id,
+        newChapter.generalInfo.title
+      );
+    }
+    if (currentChapter.generalInfo.outline !== newChapter.generalInfo.outline) {
+      await this.#store.updateChapterOutline(newChapter);
+    }
   }
 
   convertToChapter(chapter: NovelChapter): NovelChapter {

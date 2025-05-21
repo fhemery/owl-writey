@@ -16,7 +16,7 @@
     <ng-template #chapterTemplate let-item let-index="index">
       <owl-novel-overview-chapter-card
         [chapter]="convertToChapter(item)"
-        (updateChapter)="updateChapter($event)"
+        (updateChapter)="updateChapter(item, $event)"
         (deleteChapter)="deleteChapter(item)"
         (moveChapter)="
           moveChapter({

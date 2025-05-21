@@ -9,4 +9,8 @@ export class NovelChapterGeneralInfo {
   withTitle(title: string): NovelChapterGeneralInfo {
     return new NovelChapterGeneralInfo(title, this.outline);
   }
+  
+  withOutline(outline: string): NovelChapterGeneralInfo {
+    return new NovelChapterGeneralInfo(this.title, outline);
+  }
 }
