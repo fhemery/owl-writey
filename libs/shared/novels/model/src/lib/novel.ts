@@ -78,6 +78,12 @@ export class Novel {
   updateCharacter(character: NovelCharacter): void {
     this.universe.updateCharacter(character);
   }
+  updateTitle(title: string): Novel {
+    return this.withGeneralInfo(this.generalInfo.withTitle(title));
+  }
+  updateDescription(description: string): Novel {
+    return this.withGeneralInfo(this.generalInfo.withDescription(description));
+  }
   moveCharacter(from: number, to: number): void {
     this.universe.moveCharacter(from, to);
   }
@@ -98,6 +104,16 @@ export class Novel {
       this._participants.participants,
       this._chapters.chapters,
       this.universe.copy()
+    );
+  }
+
+  private withGeneralInfo(generalInfo: NovelGeneralInfo): Novel {
+    return new Novel(
+      this.id,
+      generalInfo,
+      this.participants,
+      this.chapters,
+      this.universe
     );
   }
 }

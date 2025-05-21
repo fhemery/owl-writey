@@ -8,8 +8,10 @@ import {
   DeleteNovelCommand,
   GetAllNovelsQuery,
   GetNovelQuery,
+  NovelApplyEventCommand,
   UpdateNovelCommand,
 } from './domain/ports';
+import { NovelEventsController } from './infra/api/novel-events.controller';
 import { NovelsController } from './infra/api/novels.controller';
 import { NovelTrackingListeners } from './infra/tracking';
 import { NovelTypeormModule } from './infra/typeorm-repository/novel-typeorm.module';
@@ -17,7 +19,7 @@ import { NovelUserModule } from './infra/user-facade/novel-user.module';
 
 @Module({
   imports: [NovelTypeormModule, NovelUserModule, TrackingModule, EventsModule],
-  controllers: [NovelsController],
+  controllers: [NovelsController, NovelEventsController],
   providers: [
     CreateNovelCommand,
     GetNovelQuery,
@@ -25,6 +27,7 @@ import { NovelUserModule } from './infra/user-facade/novel-user.module';
     DeleteAllNovelsCommand,
     UpdateNovelCommand,
     DeleteNovelCommand,
+    NovelApplyEventCommand,
     NovelTrackingListeners,
   ],
   exports: [],

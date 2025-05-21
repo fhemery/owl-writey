@@ -9,11 +9,11 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import {
   Novel,
-  NovelBuilder,
   NovelChapter,
   NovelCharacter,
-  NovelGeneralInfo,
+  NovelDescriptionChangedEvent,
   NovelScene,
+  NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
 
 import { NovelService } from './novel.service';
@@ -171,15 +171,21 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
-      async updateGeneralInfo(generalInfo: NovelGeneralInfo): Promise<boolean> {
+      async updateTitle(title: string): Promise<boolean> {
         const novel = this.getNovel();
-        const newNovel = NovelBuilder.Existing(novel.id, generalInfo)
-          .withParticipants(novel.participants)
-          .withChapters(novel.chapters)
-          .withUniverse(novel.universe)
-          .build();
-        patchState(store, { novel: newNovel });
-        return await novelService.update(newNovel);
+        const updateTitleEvent = new NovelTitleChangedEvent(title);
+
+        patchState(store, { novel: updateTitleEvent.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, updateTitleEvent);
+      },
+      async updateDescription(description: string): Promise<boolean> {
+        const novel = this.getNovel();
+        const updateDescriptionEvent = new NovelDescriptionChangedEvent(
+          description
+        );
+
+        patchState(store, { novel: updateDescriptionEvent.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, updateDescriptionEvent);
       },
     })
   ),

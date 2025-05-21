@@ -74,3 +74,9 @@ export interface SceneGeneralInfoDto {
 export interface GetAllNovelsResponseDto {
   data: NovelSummaryDto[];
 }
+
+export interface NovelEventDto {
+  eventName: string;
+  eventVersion: string;
+  data: unknown;
+}

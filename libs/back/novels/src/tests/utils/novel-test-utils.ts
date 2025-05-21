@@ -2,6 +2,7 @@ import { ApiResponse, NestTestApplication } from '@owl/back/test-utils';
 import {
   GetAllNovelsResponseDto,
   NovelDto,
+  NovelEventDto,
   NovelToCreateDto,
 } from '@owl/shared/novels/contracts';
 
@@ -44,6 +45,16 @@ export class NovelTestUtils {
     return await this.app.put<NovelDto>(
       `/api/novels/${overrideId || novel.id}`,
       novel
+    );
+  }
+
+  async sendEvent(
+    novelId: string,
+    event: NovelEventDto
+  ): Promise<ApiResponse<void>> {
+    return await this.app.post<NovelEventDto, void>(
+      `/api/novels/${novelId}/events`,
+      event
     );
   }
 

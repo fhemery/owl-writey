@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@owl/front/ui/common';
-import { NovelGeneralInfo } from '@owl/shared/novels/model';
 
 import {
   NovelFormComponent,
@@ -25,9 +24,13 @@ export class NovelEditComponent {
   novel = this.store.novel;
 
   async update($event: NovelFormData): Promise<void> {
-    const result = await this.store.updateGeneralInfo(
-      new NovelGeneralInfo($event.title, $event.description)
-    );
+    let result = true;
+    if ($event.title !== this.novel()?.generalInfo.title) {
+      result &&= await this.store.updateTitle($event.title);
+    }
+    if ($event.description !== this.novel()?.generalInfo.description) {
+      result &&= await this.store.updateDescription($event.description);
+    }
     if (!result) {
       this.notificationService.showError('novel.edit.result.ko');
     } else {
