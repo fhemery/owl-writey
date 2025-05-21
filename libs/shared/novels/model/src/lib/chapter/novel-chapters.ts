@@ -34,11 +34,23 @@ export class NovelChapters {
       this._chapters.splice(index, 1, chapter);
     }
   }
-  move(chapterIndex: number, toIndex: number): void {
+  move(chapterId: string, atIndex: number): NovelChapters {
+    const chapterIndex = this._chapters.findIndex((c) => c.id === chapterId);
+    if (chapterIndex === -1) {
+      return this;
+    }
     const chapter = this._chapters[chapterIndex];
-    this._chapters.splice(chapterIndex, 1);
-    this._chapters.splice(toIndex, 0, chapter);
+    const otherChapters = this.chapters.filter((c) => c.id !== chapterId);
+    if (atIndex > chapterIndex) {
+      atIndex--;
+    }
+    return new NovelChapters([
+      ...otherChapters.slice(0, atIndex),
+      chapter,
+      ...otherChapters.slice(atIndex),
+    ]);
   }
+
   delete(chapterId: string): NovelChapters {
     const index = this._chapters.findIndex((c) => c.id === chapterId);
     if (index !== -1) {

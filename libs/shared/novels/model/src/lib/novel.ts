@@ -36,8 +36,8 @@ export class Novel {
   updateChapter(chapter: NovelChapter): void {
     this._chapters.update(chapter);
   }
-  moveChapter(chapterIndex: number, toIndex: number): void {
-    this._chapters.move(chapterIndex, toIndex);
+  moveChapter(chapterId: string, atIndex: number): Novel {
+    return this.withChapters(this._chapters.move(chapterId, atIndex));
   }
   deleteChapter(chapterId: string): Novel {
     return this.withChapters(this._chapters.delete(chapterId));

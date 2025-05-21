@@ -13,6 +13,7 @@ import {
   NovelChapter,
   NovelChapterAddedEvent,
   NovelChapterDeletedEvent,
+  NovelChapterMovedEvent,
   NovelCharacter,
   NovelDescriptionChangedEvent,
   NovelScene,
@@ -103,9 +104,12 @@ export class NovelStore extends signalStore(
         toIndex: number
       ): Promise<boolean> {
         const novel = this.getNovel();
-        novel.moveChapter(chapterIndex, toIndex);
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        const event = new NovelChapterMovedEvent(
+          { id: novel.chapters[chapterIndex].id, atIndex: toIndex },
+          store.userId()
+        );
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
       async deleteChapter(chapter: NovelChapter): Promise<boolean> {
         const novel = this.getNovel();
