@@ -1,26 +1,56 @@
+import {
+  NovelChapterAddedEvent,
+  NovelChapterAddedEventData,
+  NovelChapterDeletedEvent,
+  NovelChapterDeletedEventData,
+  NovelChapterMovedEvent,
+  NovelChapterMovedEventData,
+  NovelChapterOutlineUpdatedEvent,
+  NovelChapterOutlineUpdatedEventData,
+  NovelChapterTitleUpdatedEvent,
+  NovelChapterTitleUpdatedEventData,
+} from './chapters';
+import {
+  NovelCharacterAddedEvent,
+  NovelCharacterAddedEventData,
+  NovelCharacterColorUpdatedEvent,
+  NovelCharacterColorUpdatedEventData,
+  NovelCharacterDeletedEvent,
+  NovelCharacterDeletedEventData,
+  NovelCharacterDescriptionUpdatedEvent,
+  NovelCharacterDescriptionUpdatedEventData,
+  NovelCharacterMovedEvent,
+  NovelCharacterMovedEventData,
+  NovelCharacterNameUpdatedEvent,
+  NovelCharacterNameUpdatedEventData,
+  NovelCharacterTagsUpdatedEvent,
+  NovelCharacterTagsUpdatedEventData,
+} from './characters';
+import {
+  NovelDescriptionChangedEvent,
+  NovelDescriptionChangedEventData,
+  NovelTitleChangedEvent,
+  NovelTitleChangedEventData,
+} from './general-info';
 import { NovelBaseDomainEvent } from './novel-base-domain-event';
-import { NovelChapterAddedEvent, NovelChapterAddedEventData } from './novel-chapter-added-event';
-import { NovelChapterDeletedEvent, NovelChapterDeletedEventData } from './novel-chapter-deleted-event';
-import { NovelChapterMovedEvent, NovelChapterMovedEventData } from './novel-chapter-moved-event';
-import { NovelChapterOutlineUpdatedEvent, NovelChapterOutlineUpdatedEventData } from './novel-chapter-outline-updated.event';
-import { NovelChapterTitleUpdatedEvent, NovelChapterTitleUpdatedEventData } from './novel-chapter-title-updated.event';
-import { NovelCharacterAddedEvent, NovelCharacterAddedEventData } from './novel-character-added-event';
-import { NovelCharacterColorUpdatedEvent, NovelCharacterColorUpdatedEventData } from './novel-character-color-updated.event';
-import { NovelCharacterDeletedEvent, NovelCharacterDeletedEventData } from './novel-character-deleted-event';
-import { NovelCharacterDescriptionUpdatedEvent, NovelCharacterDescriptionUpdatedEventData } from './novel-character-description-updated.event';
-import { NovelCharacterMovedEvent, NovelCharacterMovedEventData } from './novel-character-moved-event';
-import { NovelCharacterNameUpdatedEvent, NovelCharacterNameUpdatedEventData } from './novel-character-name-updated.event';
-import { NovelCharacterTagsUpdatedEvent, NovelCharacterTagsUpdatedEventData } from './novel-character-tags-updated.event';
-import { NovelDescriptionChangedEvent, NovelDescriptionChangedEventData } from './novel-description-changed-event';
-import { NovelSceneAddedEvent, NovelSceneAddedEventData } from './novel-scene-added-event';
-import { NovelSceneContentUpdatedEvent, NovelSceneContentUpdatedEventData } from './novel-scene-content-updated.event';
-import { NovelSceneDeletedEvent, NovelSceneDeletedEventData } from './novel-scene-deleted-event';
-import { NovelSceneMovedEvent, NovelSceneMovedEventData } from './novel-scene-moved-event';
-import { NovelSceneOutlineUpdatedEvent, NovelSceneOutlineUpdatedEventData } from './novel-scene-outline-updated.event';
-import { NovelScenePovUpdatedEvent, NovelScenePovUpdatedEventData } from './novel-scene-pov-updated.event';
-import { NovelSceneTitleUpdatedEvent, NovelSceneTitleUpdatedEventData } from './novel-scene-title-updated.event';
-import { NovelSceneTransferedEvent, NovelSceneTransferedEventData } from './novel-scene-transfered-event';
-import { NovelTitleChangedEvent, NovelTitleChangedEventData } from './novel-title-changed-event';
+import {
+  NovelSceneAddedEvent,
+  NovelSceneAddedEventData,
+  NovelSceneContentUpdatedEvent,
+  NovelSceneContentUpdatedEventData,
+  NovelSceneDeletedEvent,
+  NovelSceneDeletedEventData,
+  NovelSceneMovedEvent,
+  NovelSceneMovedEventData,
+  NovelSceneOutlineUpdatedEvent,
+  NovelSceneOutlineUpdatedEventData,
+  NovelScenePovUpdatedEvent,
+  NovelScenePovUpdatedEventData,
+  NovelSceneTitleUpdatedEvent,
+  NovelSceneTitleUpdatedEventData,
+  NovelSceneTransferedEvent,
+  NovelSceneTransferedEventData,
+} from './scenes';
 
 export class NovelDomainEventFactory {
   static From(
