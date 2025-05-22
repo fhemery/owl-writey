@@ -1,5 +1,6 @@
 import { NovelChapter } from './chapter/novel-chapter';
 import { NovelChapters } from './chapter/novel-chapters';
+import { NovelException } from './exceptions/novel.exception';
 import { NovelGeneralInfo } from './novel-general-info';
 import { NovelParticipant } from './participants/novel-participant';
 import { NovelParticipants } from './participants/novel-participants';
@@ -10,6 +11,7 @@ import { NovelUniverse } from './universe/novel-universe';
 export class Novel {
   private _chapters: NovelChapters;
   private _participants: NovelParticipants;
+
   constructor(
     readonly id: string,
     readonly generalInfo: NovelGeneralInfo,
@@ -119,6 +121,18 @@ export class Novel {
   }
   findCharacter(characterId: string): NovelCharacter | null {
     return this.universe.findCharacter(characterId);
+  }
+  updateScenePov(chapterId: string, sceneId: string, povId?: string): Novel {
+    if (povId && !this.findCharacter(povId)) {
+      throw new NovelException('Character not found');
+    }
+    const scene = this.findScene(chapterId, sceneId);
+    if (!scene) {
+      return this;
+    }
+    return this.withChapters(
+      this._chapters.updateScene(chapterId, scene.withPov(povId))
+    );
   }
   isAuthor(uid: string): boolean {
     return this._participants.isAuthor(uid);
