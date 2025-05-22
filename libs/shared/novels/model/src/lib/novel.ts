@@ -107,6 +107,11 @@ export class Novel {
   moveCharacter(from: number, to: number): void {
     this.universe.moveCharacter(from, to);
   }
+  doMoveCharacter(characterId: string, toIndex: number): Novel {
+    return this.withUniverse(
+      this.universe.doMoveCharacter(characterId, toIndex)
+    );
+  }
   deleteCharacter(id: string): Novel {
     return this.withChapters(this._chapters.removePov(id)).withUniverse(
       this.universe.deleteCharacter(id)

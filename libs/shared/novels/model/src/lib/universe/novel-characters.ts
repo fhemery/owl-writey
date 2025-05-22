@@ -45,6 +45,27 @@ export class NovelCharacters {
     this._characters.splice(from, 1);
     this._characters.splice(to, 0, character);
   }
+  doMoveCharacter(characterId: string, toIndex: number): NovelCharacters {
+    const character = this.findCharacter(characterId);
+    if (!character) {
+      return this;
+    }
+    const characterIndex = this._characters.findIndex(
+      (c) => c.id === characterId
+    );
+    const otherCharacters = this._characters.filter(
+      (c) => c.id !== characterId
+    );
+    if (characterIndex < toIndex) {
+      toIndex--;
+    }
+    return new NovelCharacters([
+      ...otherCharacters.slice(0, toIndex),
+      character,
+      ...otherCharacters.slice(toIndex),
+    ]);
+  }
+
   deleteCharacter(characterId: string): NovelCharacters {
     const character = this.findCharacter(characterId);
     if (!character) {

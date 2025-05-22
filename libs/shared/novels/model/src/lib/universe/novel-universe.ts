@@ -26,6 +26,12 @@ export class NovelUniverse {
   updateCharacter(character: NovelCharacter): void {
     this._characters.updateCharacter(character);
   }
+  doMoveCharacter(characterId: string, toIndex: number): NovelUniverse {
+    return this.withCharacters(
+      this._characters.doMoveCharacter(characterId, toIndex)
+    );
+  }
+
   moveCharacter(from: number, to: number): void {
     this._characters.moveCharacter(from, to);
   }

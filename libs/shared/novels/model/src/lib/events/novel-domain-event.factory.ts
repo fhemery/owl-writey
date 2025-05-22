@@ -6,6 +6,7 @@ import { NovelChapterOutlineUpdatedEvent } from './novel-chapter-outline-updated
 import { NovelChapterTitleUpdatedEvent } from './novel-chapter-title-updated.event';
 import { NovelCharacterAddedEvent } from './novel-character-added-event';
 import { NovelCharacterDeletedEvent } from './novel-character-deleted-event';
+import { NovelCharacterMovedEvent } from './novel-character-moved-event';
 import { NovelDescriptionChangedEvent } from './novel-description-changed-event';
 import { NovelSceneAddedEvent } from './novel-scene-added-event';
 import { NovelSceneContentUpdatedEvent } from './novel-scene-content-updated.event';
@@ -141,6 +142,13 @@ export class NovelDomainEventFactory {
         );
       case NovelCharacterDeletedEvent.eventName:
         return NovelCharacterDeletedEvent.From(
+          data,
+          userId,
+          eventId,
+          eventSequentialId
+        );
+      case NovelCharacterMovedEvent.eventName:
+        return NovelCharacterMovedEvent.From(
           data,
           userId,
           eventId,

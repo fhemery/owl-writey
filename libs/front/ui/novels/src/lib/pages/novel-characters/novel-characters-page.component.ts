@@ -71,7 +71,11 @@ export class NovelCharactersPageComponent {
     return item as NovelCharacter;
   }
   async moveCharacter($event: { from: number; to: number }): Promise<void> {
-    await this.#novelStore.moveCharacter($event.from, $event.to);
+    const character = this.novel()?.universe?.characters[$event.from];
+    if (!character) {
+      return;
+    }
+    await this.#novelStore.moveCharacter(character.id, $event.to);
   }
   async deleteCharacter(character: NovelCharacter): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(

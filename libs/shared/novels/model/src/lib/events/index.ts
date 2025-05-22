@@ -17,3 +17,4 @@ export * from './novel-scene-pov-updated.event';
 export * from './novel-scene-content-updated.event';
 export * from './novel-character-added-event';
 export * from './novel-character-deleted-event';
+export * from './novel-character-moved-event';
