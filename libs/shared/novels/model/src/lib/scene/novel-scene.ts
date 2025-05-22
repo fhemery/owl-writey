@@ -14,18 +14,18 @@ export class NovelScene {
   }
 
   withTitle(title: string): NovelScene {
-    return new NovelScene(
-      this.id,
-      this.generalInfo.withTitle(title),
-      this.content
-    );
+    return this.withGeneralInfo(this.generalInfo.withTitle(title));
   }
 
   updateOutline(outline: string): NovelScene {
-    return new NovelScene(
-      this.id,
-      this.generalInfo.withOutline(outline),
-      this.content
-    );
+    return this.withGeneralInfo(this.generalInfo.withOutline(outline));
+  }
+
+  updatePov(povId?: string): NovelScene {
+    return this.withGeneralInfo(this.generalInfo.withPov(povId));
+  }
+
+  private withGeneralInfo(generalInfo: NovelSceneGeneralInfo): NovelScene {
+    return new NovelScene(this.id, generalInfo, this.content);
   }
 }

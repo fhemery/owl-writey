@@ -17,4 +17,7 @@ export class NovelSceneGeneralInfo {
   withOutline(outline: string): NovelSceneGeneralInfo {
     return new NovelSceneGeneralInfo(this.title, outline, this.pov);
   }
+  withPov(povId?: string): NovelSceneGeneralInfo {
+    return new NovelSceneGeneralInfo(this.title, this.outline, povId);
+  }
 }

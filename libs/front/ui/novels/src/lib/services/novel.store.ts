@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AUTH_SERVICE } from '@owl/front/auth';
 import {
   Novel,
+  NovelBaseDomainEvent,
   NovelChapter,
   NovelChapterAddedEvent,
   NovelChapterDeletedEvent,
@@ -23,6 +24,7 @@ import {
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
   NovelSceneOutlineUpdatedEvent,
+  NovelScenePovUpdatedEvent,
   NovelSceneTitleUpdatedEvent,
   NovelSceneTransferedEvent,
   NovelTitleChangedEvent,
@@ -78,108 +80,110 @@ export class NovelStore extends signalStore(
         return await novelService.delete(novel.id);
       },
       async addChapterAt(index?: number): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelChapterAddedEvent(
-          {
-            id: uuidv4(),
-            name: translateService.instant('novel.defaults.newChapter.label'),
-            outline: '',
-            at: index,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelChapterAddedEvent(
+            {
+              id: uuidv4(),
+              name: translateService.instant('novel.defaults.newChapter.label'),
+              outline: '',
+              at: index,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async addSceneAt(chapterId: string, index?: number): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneAddedEvent(
-          {
-            chapterId,
-            sceneId: uuidv4(),
-            title: translateService.instant('novel.defaults.newScene.label'),
-            outline: '',
-            at: index,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneAddedEvent(
+            {
+              chapterId,
+              sceneId: uuidv4(),
+              title: translateService.instant('novel.defaults.newScene.label'),
+              outline: '',
+              at: index,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async updateChapterTitle(
         chapterId: string,
         title: string
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelChapterTitleUpdatedEvent(
-          {
-            id: chapterId,
-            title: title,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelChapterTitleUpdatedEvent(
+            {
+              id: chapterId,
+              title: title,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
 
       async updateChapterOutline(chapter: NovelChapter): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelChapterOutlineUpdatedEvent(
-          {
-            id: chapter.id,
-            outline: chapter.generalInfo.outline,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelChapterOutlineUpdatedEvent(
+            {
+              id: chapter.id,
+              outline: chapter.generalInfo.outline,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async moveChapter(
         chapterIndex: number,
         toIndex: number
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelChapterMovedEvent(
-          { id: novel.chapters[chapterIndex].id, atIndex: toIndex },
-          store.userId()
+        // TODO : Request the chapterId here
+        return await this._applyEvent(
+          new NovelChapterMovedEvent(
+            { id: this.getNovel().chapters[chapterIndex].id, atIndex: toIndex },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async deleteChapter(chapter: NovelChapter): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelChapterDeletedEvent(
-          { id: chapter.id },
-          store.userId()
+        return await this._applyEvent(
+          new NovelChapterDeletedEvent({ id: chapter.id }, store.userId())
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async updateSceneOutline(
         chapterId: string,
         sceneId: string,
         outline: string
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneOutlineUpdatedEvent(
-          { chapterId, sceneId, outline },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneOutlineUpdatedEvent(
+            { chapterId, sceneId, outline },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async updateSceneTitle(
         chapterId: string,
         sceneId: string,
         title: string
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneTitleUpdatedEvent(
-          { chapterId, sceneId, title },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneTitleUpdatedEvent(
+            { chapterId, sceneId, title },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
+      },
+      async updateScenePov(
+        chapterId: string,
+        sceneId: string,
+        povId?: string
+      ): Promise<boolean> {
+        return await this._applyEvent(
+          new NovelScenePovUpdatedEvent(
+            { chapterId, sceneId, povId },
+            store.userId()
+          )
+        );
       },
       async updateScene(
         chapterId: string,
@@ -190,18 +194,17 @@ export class NovelStore extends signalStore(
         patchState(store, { novel: novel.copy() });
         return await novelService.update(novel);
       },
-      async doMoveScene(
+      async moveScene(
         chapterId: string,
         sceneId: string,
         toIndex: number
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneMovedEvent(
-          { chapterId, sceneId, at: toIndex },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneMovedEvent(
+            { chapterId, sceneId, at: toIndex },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async transferScene(
         initialChapterId: string,
@@ -209,30 +212,28 @@ export class NovelStore extends signalStore(
         targetChapterId: string,
         sceneIndex: number
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneTransferedEvent(
-          {
-            initialChapterId,
-            sceneId,
-            targetChapterId,
-            at: sceneIndex,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneTransferedEvent(
+            {
+              initialChapterId,
+              sceneId,
+              targetChapterId,
+              at: sceneIndex,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async deleteScene(chapterId: string, sceneId: string): Promise<boolean> {
-        const novel = this.getNovel();
-        const event = new NovelSceneDeletedEvent(
-          {
-            chapterId,
-            sceneId,
-          },
-          store.userId()
+        return await this._applyEvent(
+          new NovelSceneDeletedEvent(
+            {
+              chapterId,
+              sceneId,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: event.applyTo(novel) });
-        return await novelService.sendEvent(novel.id, event);
       },
       async addCharacterAt(index: number): Promise<void> {
         const novel = this.getNovel();
@@ -281,6 +282,12 @@ export class NovelStore extends signalStore(
 
         patchState(store, { novel: updateDescriptionEvent.applyTo(novel) });
         return await novelService.sendEvent(novel.id, updateDescriptionEvent);
+      },
+
+      async _applyEvent(event: NovelBaseDomainEvent): Promise<boolean> {
+        const novel = this.getNovel();
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
     })
   ),
