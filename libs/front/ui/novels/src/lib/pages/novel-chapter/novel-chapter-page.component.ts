@@ -91,7 +91,11 @@ export class NovelChapterPageComponent {
   }
 
   async moveScene($event: { from: number; to: number }): Promise<void> {
-    await this.#store.moveScene(this.chapterId(), $event.from, $event.to);
+    const sceneId = this.chapter()?.scenes[$event.from].id;
+    if (!sceneId) {
+      return;
+    }
+    await this.#store.doMoveScene(this.chapterId(), sceneId, $event.to);
   }
 
   async deleteScene(scene: NovelScene): Promise<void> {

@@ -107,10 +107,17 @@ export class NovelChapters {
     initialChapter?.deleteScene(sceneId);
     targetChapter?.addExistingSceneAt(scene, sceneIndex);
   }
-  moveScene(chapterId: string, sceneIndex: number, toIndex: number): void {
-    const chapter = this.findChapter(chapterId);
-    chapter?.moveScene(sceneIndex, toIndex);
+  doMoveScene(chapterId: string, sceneId: string, at: number): NovelChapters {
+    if (!this.findChapter(chapterId)) {
+      return this;
+    }
+    return new NovelChapters([
+      ...this._chapters.map((c) =>
+        c.id === chapterId ? c.doMoveScene(sceneId, at) : c
+      ),
+    ]);
   }
+
   deleteScene(chapterId: string, sceneId: string): NovelChapters {
     const chapterIndex = this._chapters.findIndex((c) => c.id === chapterId);
     if (chapterIndex === -1) {

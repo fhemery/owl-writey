@@ -73,9 +73,12 @@ export class Novel {
       sceneIndex
     );
   }
-  moveScene(chapterId: string, sceneIndex: number, toIndex: number): void {
-    this._chapters.moveScene(chapterId, sceneIndex, toIndex);
+  doMoveScene(chapterId: string, sceneId: string, at: number): Novel {
+    return this.withChapters(
+      this._chapters.doMoveScene(chapterId, sceneId, at)
+    );
   }
+
   deleteScene(chapterId: string, sceneId: string): Novel {
     return this.withChapters(this._chapters.deleteScene(chapterId, sceneId));
   }

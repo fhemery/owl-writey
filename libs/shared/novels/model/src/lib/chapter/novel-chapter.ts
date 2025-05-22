@@ -54,10 +54,21 @@ export class NovelChapter {
   deletePov(characterId: string): void {
     this.scenes.forEach((s) => s.deletePov(characterId));
   }
-  moveScene(sceneIndex: number, toIndex: number): void {
+  doMoveScene(sceneId: string, at: number): NovelChapter {
+    const sceneIndex = this.scenes.findIndex((s) => s.id === sceneId);
+    if (sceneIndex === -1) {
+      return this;
+    }
     const scene = this.scenes[sceneIndex];
-    this.scenes.splice(sceneIndex, 1);
-    this.scenes.splice(toIndex, 0, scene);
+    const otherScenes = this.scenes.filter((s) => s.id !== sceneId);
+    if (at > sceneIndex) {
+      at--;
+    }
+    return new NovelChapter(this.id, this.generalInfo, [
+      ...otherScenes.slice(0, at),
+      scene,
+      ...otherScenes.slice(at),
+    ]);
   }
   updateScene(scene: NovelScene): void {
     const index = this.scenes.findIndex((s) => s.id === scene.id);

@@ -9,3 +9,4 @@ export * from './novel-chapter-title-updated.event';
 export * from './novel-chapter-outline-updated.event';
 export * from './novel-scene-added-event';
 export * from './novel-scene-deleted-event';
+export * from './novel-scene-moved-event';
