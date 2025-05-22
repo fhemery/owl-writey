@@ -17,12 +17,16 @@ export class NovelScene {
     return this.withGeneralInfo(this.generalInfo.withTitle(title));
   }
 
-  updateOutline(outline: string): NovelScene {
+  withOutline(outline: string): NovelScene {
     return this.withGeneralInfo(this.generalInfo.withOutline(outline));
   }
 
-  updatePov(povId?: string): NovelScene {
+  withPov(povId?: string): NovelScene {
     return this.withGeneralInfo(this.generalInfo.withPov(povId));
+  }
+
+  withContent(content: string): NovelScene {
+    return new NovelScene(this.id, this.generalInfo, content);
   }
 
   private withGeneralInfo(generalInfo: NovelSceneGeneralInfo): NovelScene {

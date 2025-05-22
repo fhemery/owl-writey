@@ -57,7 +57,7 @@ export class NovelScenePovUpdatedEvent extends NovelBaseDomainEvent<NovelScenePo
     }
     return novel.updateScene(
       this.data.chapterId,
-      scene.updatePov(this.data.povId)
+      scene.withPov(this.data.povId)
     );
   }
 }

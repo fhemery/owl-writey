@@ -87,22 +87,20 @@ export class NovelChapterPageComponent {
         initialScene.id,
         newScene.generalInfo.title
       );
-    } else if (
-      initialScene.generalInfo.outline !== newScene.generalInfo.outline
-    ) {
+    }
+    if (initialScene.generalInfo.outline !== newScene.generalInfo.outline) {
       await this.#store.updateSceneOutline(
         this.chapterId(),
         initialScene.id,
         newScene.generalInfo.outline
       );
-    } else if (initialScene.generalInfo.pov !== newScene.generalInfo.pov) {
+    }
+    if (initialScene.generalInfo.pov !== newScene.generalInfo.pov) {
       await this.#store.updateScenePov(
         this.chapterId(),
         initialScene.id,
         newScene.generalInfo.pov || undefined
       );
-    } else if (initialScene.content !== newScene.content) {
-      await this.#store.updateScene(this.chapterId(), newScene);
     }
   }
 

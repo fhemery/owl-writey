@@ -1,11 +1,11 @@
 import {
   NovelBuilder,
   NovelException,
-  NovelScenePovUpdatedEvent,
-  NovelScenePovUpdatedEventData,
+  NovelSceneContentUpdatedEvent,
+  NovelSceneContentUpdatedEventData,
 } from '../../lib';
 
-describe('NovelScenePovUpdatedEvent', () => {
+describe('NovelSceneContentUpdatedEvent', () => {
   const novel = NovelBuilder.New(
     'title',
     'description',
@@ -21,18 +21,18 @@ describe('NovelScenePovUpdatedEvent', () => {
 
   describe('static From', () => {
     it('should create a new event', () => {
-      const event = NovelScenePovUpdatedEvent.From(
+      const event = NovelSceneContentUpdatedEvent.From(
         {
           chapterId: 'chapter-1',
           sceneId: 'scene-1',
-          povId: 'pov-1',
+          content: 'New Content',
         },
         'userId'
       );
-      expect(event).toBeInstanceOf(NovelScenePovUpdatedEvent);
+      expect(event).toBeInstanceOf(NovelSceneContentUpdatedEvent);
       expect(event.data.chapterId).toBe('chapter-1');
       expect(event.data.sceneId).toBe('scene-1');
-      expect(event.data.povId).toBe('pov-1');
+      expect(event.data.content).toBe('New Content');
     });
   });
 
@@ -40,11 +40,11 @@ describe('NovelScenePovUpdatedEvent', () => {
     it('should fail if there is no chapter id', () => {
       expect(
         () =>
-          new NovelScenePovUpdatedEvent(
+          new NovelSceneContentUpdatedEvent(
             {
               sceneId: 'scene-1',
-              povId: 'pov-1',
-            } as NovelScenePovUpdatedEventData,
+              content: 'New Content',
+            } as NovelSceneContentUpdatedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -53,11 +53,24 @@ describe('NovelScenePovUpdatedEvent', () => {
     it('should fail if there is no scene id', () => {
       expect(
         () =>
-          new NovelScenePovUpdatedEvent(
+          new NovelSceneContentUpdatedEvent(
             {
               chapterId: 'chapter-1',
-              povId: 'pov-1',
-            } as NovelScenePovUpdatedEventData,
+              content: 'New Content',
+            } as NovelSceneContentUpdatedEventData,
+            'userId'
+          )
+      ).toThrowError(NovelException);
+    });
+
+    it('should fail if there is no content', () => {
+      expect(
+        () =>
+          new NovelSceneContentUpdatedEvent(
+            {
+              chapterId: 'chapter-1',
+              sceneId: 'scene-1',
+            } as NovelSceneContentUpdatedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -65,67 +78,44 @@ describe('NovelScenePovUpdatedEvent', () => {
   });
 
   describe('applyTo', () => {
-    it('should update the scene POV', () => {
-      const event = new NovelScenePovUpdatedEvent(
+    it('should update the scene content', () => {
+      const event = new NovelSceneContentUpdatedEvent(
         {
           chapterId: 'chapter-2',
           sceneId: 'scene-2',
-          povId: 'pov-1',
+          content: 'Updated Content',
         },
         'userId'
       );
 
       const updatedNovel = event.applyTo(novel);
 
-      expect(
-        updatedNovel.findScene('chapter-2', 'scene-2')?.generalInfo.pov
-      ).toBe('pov-1');
-    });
-
-    it('should work if there is no pov id', () => {
-      const scene = novel.findScene('chapter-2', 'scene-2');
-      if (!scene) {
-        expect.fail('Scene not found');
-      }
-      const newNovel = novel.updateScene('chapter-2', scene.withPov('Bob'));
-      const event = new NovelScenePovUpdatedEvent(
-        {
-          chapterId: 'chapter-2',
-          sceneId: 'scene-2',
-        } as NovelScenePovUpdatedEventData,
-        'userId'
+      expect(updatedNovel.findScene('chapter-2', 'scene-2')?.content).toBe(
+        'Updated Content'
       );
-
-      const updatedNovel = event.applyTo(newNovel);
-
-      expect(
-        updatedNovel.findScene('chapter-2', 'scene-2')?.generalInfo.pov
-      ).toBeUndefined();
     });
 
     it('should do nothing if chapter does not exist', () => {
-      const event = new NovelScenePovUpdatedEvent(
+      const event = new NovelSceneContentUpdatedEvent(
         {
           chapterId: 'non-existent',
           sceneId: 'scene-2',
-          povId: 'pov-1',
+          content: 'Updated Content',
         },
         'userId'
       );
 
       const updatedNovel = event.applyTo(novel);
 
-      expect(
-        updatedNovel.findScene('chapter-2', 'scene-2')?.generalInfo.pov
-      ).toBeUndefined();
+      expect(updatedNovel.findScene('chapter-2', 'scene-2')?.content).toBe('');
     });
 
     it('should do nothing if scene does not exist', () => {
-      const event = new NovelScenePovUpdatedEvent(
+      const event = new NovelSceneContentUpdatedEvent(
         {
           chapterId: 'chapter-2',
           sceneId: 'non-existent',
-          povId: 'pov-1',
+          content: 'Updated Content',
         },
         'userId'
       );

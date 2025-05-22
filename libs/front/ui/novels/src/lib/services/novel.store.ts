@@ -19,8 +19,8 @@ import {
   NovelChapterTitleUpdatedEvent,
   NovelCharacter,
   NovelDescriptionChangedEvent,
-  NovelScene,
   NovelSceneAddedEvent,
+  NovelSceneContentUpdatedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
   NovelSceneOutlineUpdatedEvent,
@@ -185,14 +185,17 @@ export class NovelStore extends signalStore(
           )
         );
       },
-      async updateScene(
+      async updateSceneContent(
         chapterId: string,
-        scene: NovelScene
+        sceneId: string,
+        content: string
       ): Promise<boolean> {
-        const novel = this.getNovel();
-        novel.updateScene(chapterId, scene);
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        return await this._applyEvent(
+          new NovelSceneContentUpdatedEvent(
+            { chapterId, sceneId, content },
+            store.userId()
+          )
+        );
       },
       async moveScene(
         chapterId: string,

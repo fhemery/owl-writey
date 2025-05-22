@@ -4,7 +4,6 @@ import {
   ContenteditableDirective,
   TextEditorComponent,
 } from '@owl/front/ui/common';
-import { NovelScene } from '@owl/shared/novels/model';
 
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
@@ -24,8 +23,7 @@ export class NovelScenePageComponent {
   scene = computed(() => {
     return this.#novelStore
       .getNovel()
-      .chapters.find((c) => c.id === this.chapterId())
-      ?.scenes.find((s) => s.id === this.sceneId());
+      ?.findScene(this.chapterId(), this.sceneId());
   });
 
   constructor() {
@@ -35,16 +33,11 @@ export class NovelScenePageComponent {
   }
 
   async updateContent(newText: string): Promise<void> {
-    const currentScene = this.scene();
-    if (!currentScene) {
-      return;
-    }
-    const scene = new NovelScene(
-      currentScene.id,
-      currentScene.generalInfo,
+    await this.#novelStore.updateSceneContent(
+      this.chapterId(),
+      this.sceneId(),
       newText
     );
-    await this.#novelStore.updateScene(this.chapterId(), scene);
   }
 
   async updateTitle(title: string): Promise<void> {

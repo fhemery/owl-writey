@@ -2,14 +2,14 @@ import { NovelException } from '../exceptions/novel.exception';
 import { Novel } from '../novel';
 import { NovelBaseDomainEvent } from './novel-base-domain-event';
 
-export interface NovelSceneOutlineUpdatedEventData {
+export interface NovelSceneContentUpdatedEventData {
   chapterId: string;
   sceneId: string;
-  outline: string;
+  content: string;
 }
 
-export class NovelSceneOutlineUpdatedEvent extends NovelBaseDomainEvent<NovelSceneOutlineUpdatedEventData> {
-  static eventName = 'Novel:SceneOutlineUpdated';
+export class NovelSceneContentUpdatedEvent extends NovelBaseDomainEvent<NovelSceneContentUpdatedEventData> {
+  static eventName = 'Novel:SceneContentUpdated';
   static eventVersion = '1.0.0';
 
   static From(
@@ -17,9 +17,9 @@ export class NovelSceneOutlineUpdatedEvent extends NovelBaseDomainEvent<NovelSce
     userId: string,
     eventId?: string,
     eventSequentialId?: number
-  ): NovelSceneOutlineUpdatedEvent {
-    return new NovelSceneOutlineUpdatedEvent(
-      data as NovelSceneOutlineUpdatedEventData,
+  ): NovelSceneContentUpdatedEvent {
+    return new NovelSceneContentUpdatedEvent(
+      data as NovelSceneContentUpdatedEventData,
       userId,
       eventId,
       eventSequentialId
@@ -27,7 +27,7 @@ export class NovelSceneOutlineUpdatedEvent extends NovelBaseDomainEvent<NovelSce
   }
 
   constructor(
-    data: NovelSceneOutlineUpdatedEventData,
+    data: NovelSceneContentUpdatedEventData,
     userId: string,
     eventId?: string,
     eventSequentialId?: number
@@ -40,14 +40,14 @@ export class NovelSceneOutlineUpdatedEvent extends NovelBaseDomainEvent<NovelSce
       throw new NovelException('Scene ID must be provided');
     }
 
-    if (data.outline === undefined) {
-      throw new NovelException('Scene outline must be provided');
+    if (data.content === undefined) {
+      throw new NovelException('Scene content must be provided');
     }
 
     super(
       eventId,
-      NovelSceneOutlineUpdatedEvent.eventName,
-      NovelSceneOutlineUpdatedEvent.eventVersion,
+      NovelSceneContentUpdatedEvent.eventName,
+      NovelSceneContentUpdatedEvent.eventVersion,
       userId,
       data,
       eventSequentialId
@@ -61,7 +61,7 @@ export class NovelSceneOutlineUpdatedEvent extends NovelBaseDomainEvent<NovelSce
     }
     return novel.updateScene(
       this.data.chapterId,
-      scene.withOutline(this.data.outline)
+      scene.withContent(this.data.content)
     );
   }
 }
