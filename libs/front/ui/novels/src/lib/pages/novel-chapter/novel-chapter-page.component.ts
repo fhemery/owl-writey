@@ -87,6 +87,14 @@ export class NovelChapterPageComponent {
         initialScene.id,
         newScene.generalInfo.title
       );
+    } else if (
+      initialScene.generalInfo.outline !== newScene.generalInfo.outline
+    ) {
+      await this.#store.updateSceneOutline(
+        this.chapterId(),
+        initialScene.id,
+        newScene.generalInfo.outline
+      );
     } else {
       await this.#store.updateScene(this.chapterId(), newScene);
     }

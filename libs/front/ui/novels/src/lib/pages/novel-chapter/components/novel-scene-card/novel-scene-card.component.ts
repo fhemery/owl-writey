@@ -39,6 +39,7 @@ export class NovelSceneCardComponent {
     const povId = this.scene()?.generalInfo.pov;
     return povId ? this.novel().findCharacter(povId) : null;
   });
+  // TODO : modify to have different signals for the different updates ?
   updateScene = output<NovelScene>();
   deleteScene = output<void>();
   moveScene = output<number>();

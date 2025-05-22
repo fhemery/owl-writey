@@ -22,6 +22,7 @@ import {
   NovelSceneAddedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
+  NovelSceneOutlineUpdatedEvent,
   NovelSceneTitleUpdatedEvent,
   NovelSceneTransferedEvent,
   NovelTitleChangedEvent,
@@ -149,6 +150,19 @@ export class NovelStore extends signalStore(
         const novel = this.getNovel();
         const event = new NovelChapterDeletedEvent(
           { id: chapter.id },
+          store.userId()
+        );
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
+      },
+      async updateSceneOutline(
+        chapterId: string,
+        sceneId: string,
+        outline: string
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        const event = new NovelSceneOutlineUpdatedEvent(
+          { chapterId, sceneId, outline },
           store.userId()
         );
         patchState(store, { novel: event.applyTo(novel) });

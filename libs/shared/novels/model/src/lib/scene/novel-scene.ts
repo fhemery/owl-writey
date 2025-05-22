@@ -20,4 +20,12 @@ export class NovelScene {
       this.content
     );
   }
+
+  updateOutline(outline: string): NovelScene {
+    return new NovelScene(
+      this.id,
+      this.generalInfo.withOutline(outline),
+      this.content
+    );
+  }
 }
