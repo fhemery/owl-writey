@@ -41,11 +41,15 @@ export class NovelChapter {
     return this.withGeneralInfo(this.generalInfo.withOutline(outline));
   }
 
-  addExistingSceneAt(scene: NovelScene, sceneIndex: number): void {
+  addExistingSceneAt(scene: NovelScene, sceneIndex: number): NovelChapter {
     if (sceneIndex !== undefined) {
-      this.scenes.splice(sceneIndex, 0, scene);
+      return this.withScenes([
+        ...this.scenes.slice(0, sceneIndex),
+        scene,
+        ...this.scenes.slice(sceneIndex),
+      ]);
     } else {
-      this.scenes.push(scene);
+      return this.withScenes([...this.scenes, scene]);
     }
   }
   containsScene(sceneId: string): boolean {

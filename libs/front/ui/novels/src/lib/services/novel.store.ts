@@ -22,6 +22,7 @@ import {
   NovelSceneAddedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
+  NovelSceneTransferedEvent,
   NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
 import { v4 as uuidv4 } from 'uuid';
@@ -181,14 +182,17 @@ export class NovelStore extends signalStore(
         sceneIndex: number
       ): Promise<boolean> {
         const novel = this.getNovel();
-        novel.transferScene(
-          initialChapterId,
-          sceneId,
-          targetChapterId,
-          sceneIndex
+        const event = new NovelSceneTransferedEvent(
+          {
+            initialChapterId,
+            sceneId,
+            targetChapterId,
+            at: sceneIndex,
+          },
+          store.userId()
         );
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
       },
       async deleteScene(chapterId: string, sceneId: string): Promise<boolean> {
         const novel = this.getNovel();

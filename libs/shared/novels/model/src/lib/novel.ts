@@ -65,12 +65,14 @@ export class Novel {
     sceneId: string,
     targetChapterId: string,
     sceneIndex: number
-  ): void {
-    this._chapters.transferScene(
-      initialChapterId,
-      sceneId,
-      targetChapterId,
-      sceneIndex
+  ): Novel {
+    return this.withChapters(
+      this._chapters.transferScene(
+        initialChapterId,
+        sceneId,
+        targetChapterId,
+        sceneIndex
+      )
     );
   }
   doMoveScene(chapterId: string, sceneId: string, at: number): Novel {
