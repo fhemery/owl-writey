@@ -12,20 +12,6 @@ export class NovelSceneTitleUpdatedEvent extends NovelBaseDomainEvent<NovelScene
   static eventName = 'Novel:SceneTitleUpdated';
   static eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelSceneTitleUpdatedEvent {
-    return new NovelSceneTitleUpdatedEvent(
-      data as NovelSceneTitleUpdatedEventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     data: NovelSceneTitleUpdatedEventData,
     userId: string,

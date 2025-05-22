@@ -1,8 +1,8 @@
 import {
   NovelBuilder,
   NovelException,
-  NovelSceneDeletedData,
   NovelSceneDeletedEvent,
+  NovelSceneDeletedEventData,
 } from '../../lib';
 
 describe('NovelSceneDeletedEvent', () => {
@@ -16,21 +16,6 @@ describe('NovelSceneDeletedEvent', () => {
     .addChapterAt('chapter-1', 'Chapter 1', 'Outline')
     .addSceneAt('chapter-1', 'scene-1', 'Scene Title', 'Scene Outline');
 
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelSceneDeletedEvent.From(
-        {
-          chapterId: 'chapter-1',
-          sceneId: 'scene-1',
-        },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelSceneDeletedEvent);
-      expect(event.data.chapterId).toBe('chapter-1');
-      expect(event.data.sceneId).toBe('scene-1');
-    });
-  });
-
   describe('error cases', () => {
     it('should fail if there is no chapterId', () => {
       expect(
@@ -38,7 +23,7 @@ describe('NovelSceneDeletedEvent', () => {
           new NovelSceneDeletedEvent(
             {
               sceneId: 'scene-1',
-            } as NovelSceneDeletedData,
+            } as NovelSceneDeletedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -50,7 +35,7 @@ describe('NovelSceneDeletedEvent', () => {
           new NovelSceneDeletedEvent(
             {
               chapterId: 'chapter-1',
-            } as NovelSceneDeletedData,
+            } as NovelSceneDeletedEventData,
             'userId'
           )
       ).toThrowError(NovelException);

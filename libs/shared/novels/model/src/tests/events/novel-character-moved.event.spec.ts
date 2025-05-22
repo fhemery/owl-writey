@@ -12,18 +12,6 @@ const basicNovel = NovelBuilder.New(
   'authorName'
 ).build();
 describe('NovelChacterMovedEvent', () => {
-  describe('from', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterMovedEvent.From(
-        { characterId: '1', toIndex: 2 },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelCharacterMovedEvent);
-      expect(event.data.characterId).toBe('1');
-      expect(event.data.toIndex).toBe(2);
-    });
-  });
-
   describe('applyTo', () => {
     it('should move character forward properly', () => {
       const novel = basicNovel

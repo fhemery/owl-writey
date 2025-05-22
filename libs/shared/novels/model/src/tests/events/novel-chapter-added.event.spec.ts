@@ -12,20 +12,6 @@ const basicNovel = NovelBuilder.New(
 ).build();
 
 describe('NovelChapterAddedEvent', () => {
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelChapterAddedEvent.From(
-        { name: 'new', outline: 'outline', at: 0, id: '1' },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelChapterAddedEvent);
-      expect(event.data.id).toBe('1');
-      expect(event.data.name).toBe('new');
-      expect(event.data.outline).toBe('outline');
-      expect(event.data.at).toBe(0);
-    });
-  });
-
   describe('applyTo', () => {
     it('should apply to a novel', () => {
       const event = new NovelChapterAddedEvent(

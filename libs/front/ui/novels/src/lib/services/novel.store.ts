@@ -344,7 +344,7 @@ export class NovelStore extends signalStore(
       async updateTitle(title: string): Promise<boolean> {
         const novel = this.getNovel();
         const updateTitleEvent = new NovelTitleChangedEvent(
-          title,
+          { title },
           store.userId()
         );
 
@@ -354,7 +354,7 @@ export class NovelStore extends signalStore(
       async updateDescription(description: string): Promise<boolean> {
         const novel = this.getNovel();
         const updateDescriptionEvent = new NovelDescriptionChangedEvent(
-          description,
+          { description },
           store.userId()
         );
 

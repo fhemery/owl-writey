@@ -1,27 +1,11 @@
 import {
   NovelBuilder,
   NovelDescriptionChangedEvent,
+  NovelDescriptionChangedEventData,
   NovelException,
 } from '../../lib';
 
 describe('NovelDescriptionChangedEvent', () => {
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelDescriptionChangedEvent.From(
-        { description: 'new' },
-        'uid'
-      );
-      expect(event).toBeInstanceOf(NovelDescriptionChangedEvent);
-      expect(event.data.description).toBe('new');
-    });
-
-    it('should fail if there is no description', () => {
-      expect(() => NovelDescriptionChangedEvent.From('ab', 'uid')).toThrowError(
-        NovelException
-      );
-    });
-  });
-
   it('should apply to a novel', () => {
     const novel = NovelBuilder.New(
       'title',
@@ -29,9 +13,30 @@ describe('NovelDescriptionChangedEvent', () => {
       'authorId',
       'authorName'
     ).build();
-    const event = new NovelDescriptionChangedEvent('new', 'uid');
+    const event = new NovelDescriptionChangedEvent(
+      { description: 'new' },
+      'uid'
+    );
 
     const newNovel = event.applyTo(novel);
     expect(newNovel.generalInfo.description).toBe('new');
+  });
+
+  describe('error cases', () => {
+    it('should fail if description is not provided', () => {
+      const novel = NovelBuilder.New(
+        'title',
+        'description',
+        'authorId',
+        'authorName'
+      ).build();
+      expect(
+        () =>
+          new NovelDescriptionChangedEvent(
+            {} as NovelDescriptionChangedEventData,
+            'uid'
+          )
+      ).toThrowError(new NovelException('Description is required'));
+    });
   });
 });

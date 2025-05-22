@@ -11,22 +11,6 @@ export class NovelCharacterColorUpdatedEvent extends NovelBaseDomainEvent<NovelC
   static readonly eventName = 'Novel:CharacterColorUpdated';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelCharacterColorUpdatedEvent {
-    const eventData = data as NovelCharacterColorUpdatedEventData;
-
-    return new NovelCharacterColorUpdatedEvent(
-      eventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     data: NovelCharacterColorUpdatedEventData,
     userId: string,

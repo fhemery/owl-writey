@@ -16,18 +16,6 @@ describe('NovelCharacterTagsUpdatedEvent', () => {
     .addCharacterAt('character-1', 'Character 1', 'Description')
     .addCharacterAt('character-2', 'Character 2', 'Description');
 
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterTagsUpdatedEvent.From(
-        { characterId: 'character-1', tags: ['tag-1', 'tag-2'] },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelCharacterTagsUpdatedEvent);
-      expect(event.data.characterId).toBe('character-1');
-      expect(event.data.tags).toEqual(['tag-1', 'tag-2']);
-    });
-  });
-
   describe('error cases', () => {
     it('should fail if there is no id', () => {
       expect(

@@ -52,7 +52,7 @@ describe('GET /api/novel/:id/events', () => {
       const sendResponse = await novelUtils.sendEvent(
         existingNovel.id,
         new NovelDescriptionChangedEvent(
-          newDescription,
+          { description: newDescription },
           TestUserBuilder.Alice().uid
         )
       );

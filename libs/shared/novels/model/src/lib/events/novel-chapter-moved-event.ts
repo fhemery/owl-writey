@@ -2,31 +2,17 @@ import { NovelException } from '../exceptions/novel.exception';
 import { Novel } from '../novel';
 import { NovelBaseDomainEvent } from './novel-base-domain-event';
 
-export interface NovelChapterMovedData {
+export interface NovelChapterMovedEventData {
   id: string;
   atIndex: number;
 }
 
-export class NovelChapterMovedEvent extends NovelBaseDomainEvent<NovelChapterMovedData> {
+export class NovelChapterMovedEvent extends NovelBaseDomainEvent<NovelChapterMovedEventData> {
   static readonly eventName = 'Novel:ChapterMoved';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelChapterMovedEvent {
-    return new NovelChapterMovedEvent(
-      data as NovelChapterMovedData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
-    data: NovelChapterMovedData,
+    data: NovelChapterMovedEventData,
     userId: string,
     eventId?: string,
     eventSequentialId?: number

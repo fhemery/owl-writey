@@ -15,19 +15,6 @@ describe('NovelCharacterNameUpdatedEvent', () => {
     .build()
     .addCharacterAt('character-1', 'Character 1', 'Description')
     .addCharacterAt('character-2', 'Character 2', 'Description');
-
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterNameUpdatedEvent.From(
-        { id: 'character-1', name: 'New Name' },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelCharacterNameUpdatedEvent);
-      expect(event.data.id).toBe('character-1');
-      expect(event.data.name).toBe('New Name');
-    });
-  });
-
   describe('error cases', () => {
     it('should fail if there is no id', () => {
       expect(

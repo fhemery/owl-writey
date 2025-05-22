@@ -10,22 +10,6 @@ export class NovelCharacterDeletedEvent extends NovelBaseDomainEvent {
   static readonly eventName = 'Novel:CharacterDeleted';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelCharacterDeletedEvent {
-    const eventData = data as NovelCharacterDeletedEventData;
-
-    return new NovelCharacterDeletedEvent(
-      eventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     public override readonly data: NovelCharacterDeletedEventData,
     userId: string,

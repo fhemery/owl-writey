@@ -14,22 +14,6 @@ export class NovelSceneAddedEvent extends NovelBaseDomainEvent {
   static readonly eventName = 'Novel:SceneAdded';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelSceneAddedEvent {
-    const eventData = data as NovelSceneAddedEventData;
-
-    return new NovelSceneAddedEvent(
-      eventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     public override readonly data: NovelSceneAddedEventData,
     userId: string,

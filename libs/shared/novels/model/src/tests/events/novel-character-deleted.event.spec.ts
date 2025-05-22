@@ -13,17 +13,6 @@ const basicNovel = NovelBuilder.New(
 ).build();
 
 describe('NovelCharacterDeletedEvent', () => {
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterDeletedEvent.From(
-        { characterId: '1' },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelCharacterDeletedEvent);
-      expect(event.data.characterId).toBe('1');
-    });
-  });
-
   describe('applyTo', () => {
     it('should delete the character', () => {
       const novel = basicNovel

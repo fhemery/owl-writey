@@ -2,7 +2,7 @@ import { NovelException } from '../exceptions/novel.exception';
 import { Novel } from '../novel';
 import { NovelBaseDomainEvent } from './novel-base-domain-event';
 
-interface NovelTitleChangedEventData {
+export interface NovelTitleChangedEventData {
   title: string;
 }
 
@@ -10,39 +10,27 @@ export class NovelTitleChangedEvent extends NovelBaseDomainEvent<NovelTitleChang
   static readonly eventName = 'Novel:TitleChanged';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelTitleChangedEvent {
-    const title = (data as NovelTitleChangedEventData)?.title;
-    if (!title) {
-      throw new NovelException(
-        `While parsing NovelTitleChangedEvent: Missing title in data ${data}`
-      );
-    }
-    return new NovelTitleChangedEvent(
-      title,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
-    title: string,
+    data: NovelTitleChangedEventData,
     userId: string,
     eventId?: string,
     eventSequentialId?: number
   ) {
+    if (!data.title.trim()) {
+      throw new NovelException('Title is required');
+    }
+
+    if (data.title.length < 3) {
+      throw new NovelException('Title must be at least 3 characters long');
+    }
+
     super(
       eventId,
       NovelTitleChangedEvent.eventName,
       NovelTitleChangedEvent.eventVersion,
       userId,
       {
-        title,
+        title: data.title,
       },
       eventSequentialId
     );

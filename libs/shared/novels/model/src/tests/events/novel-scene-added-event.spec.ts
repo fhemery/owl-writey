@@ -18,25 +18,6 @@ describe('NovelSceneAddedEvent', () => {
     'Outline'
   );
 
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelSceneAddedEvent.From(
-        {
-          chapterId: 'chapter-1',
-          sceneId: 'scene-1',
-          title: 'New Scene',
-          outline: 'Scene Outline',
-        },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelSceneAddedEvent);
-      expect(event.data.chapterId).toBe('chapter-1');
-      expect(event.data.sceneId).toBe('scene-1');
-      expect(event.data.title).toBe('New Scene');
-      expect(event.data.outline).toBe('Scene Outline');
-    });
-  });
-
   describe('error cases', () => {
     it('should fail if there is no chapterId', () => {
       expect(

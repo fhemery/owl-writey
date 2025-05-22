@@ -16,15 +16,28 @@ describe('NovelCharacterColorUpdatedEvent', () => {
     .addCharacterAt('character-1', 'Character 1', 'Description')
     .addCharacterAt('character-2', 'Character 2', 'Description');
 
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterColorUpdatedEvent.From(
+  describe('error cases', () => {
+    it('should fail if there is no id', () => {
+      expect(
+        () =>
+          new NovelCharacterColorUpdatedEvent(
+            { color: 'New Color' } as NovelCharacterColorUpdatedEventData,
+            'userId'
+          )
+      ).toThrowError(NovelException);
+    });
+  });
+
+  describe('applyTo', () => {
+    it('should update the character color', () => {
+      const event = new NovelCharacterColorUpdatedEvent(
         { characterId: 'character-1', color: 'New Color' },
         'userId'
       );
-      expect(event).toBeInstanceOf(NovelCharacterColorUpdatedEvent);
-      expect(event.data.characterId).toBe('character-1');
-      expect(event.data.color).toBe('New Color');
+
+      const updatedNovel = event.applyTo(novel);
+
+      expect(updatedNovel.universe.characters.length).toBe(2);
     });
   });
 

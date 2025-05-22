@@ -12,20 +12,6 @@ export class NovelSceneTransferedEvent extends NovelBaseDomainEvent<NovelSceneTr
   static eventName = 'Novel:SceneTransfered';
   static eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelSceneTransferedEvent {
-    return new NovelSceneTransferedEvent(
-      data as NovelSceneTransferedEventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     data: NovelSceneTransferedEventData,
     userId: string,

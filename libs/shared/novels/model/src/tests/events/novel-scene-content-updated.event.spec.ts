@@ -19,23 +19,6 @@ describe('NovelSceneContentUpdatedEvent', () => {
     .addSceneAt('chapter-2', 'scene-2', 'Scene 2', 'Outline')
     .addSceneAt('chapter-2', 'scene-3', 'Scene 3', 'Outline');
 
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelSceneContentUpdatedEvent.From(
-        {
-          chapterId: 'chapter-1',
-          sceneId: 'scene-1',
-          content: 'New Content',
-        },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelSceneContentUpdatedEvent);
-      expect(event.data.chapterId).toBe('chapter-1');
-      expect(event.data.sceneId).toBe('scene-1');
-      expect(event.data.content).toBe('New Content');
-    });
-  });
-
   describe('error cases', () => {
     it('should fail if there is no chapter id', () => {
       expect(

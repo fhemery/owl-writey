@@ -6,29 +6,14 @@ import {
 } from '../../lib';
 
 describe('NovelChapterOutlineUpdatedEvent', () => {
-  const basicNovel = NovelBuilder.New(
+  const novel = NovelBuilder.New(
     'title',
     'description',
     'authorId',
     'authorName'
-  ).build();
-  const novelWithChapters = basicNovel.addChapterAt(
-    'chapter-1',
-    'Chapter 1',
-    'Outline'
-  );
-
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelChapterOutlineUpdatedEvent.From(
-        { id: 'chapter-1', outline: 'New Outline' },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelChapterOutlineUpdatedEvent);
-      expect(event.data.id).toBe('chapter-1');
-      expect(event.data.outline).toBe('New Outline');
-    });
-  });
+  )
+    .build()
+    .addChapterAt('chapter-1', 'Chapter 1', 'Outline');
 
   describe('error cases', () => {
     it('should fail if there is no id', () => {
@@ -59,11 +44,13 @@ describe('NovelChapterOutlineUpdatedEvent', () => {
         'userId'
       );
 
-      const updatedNovel = event.applyTo(novelWithChapters);
+      const updatedNovel = event.applyTo(novel);
 
       expect(updatedNovel.chapters.length).toBe(1);
       expect(updatedNovel.chapters[0].id).toBe('chapter-1');
-      expect(updatedNovel.chapters[0].generalInfo.outline).toBe('Updated Outline');
+      expect(updatedNovel.chapters[0].generalInfo.outline).toBe(
+        'Updated Outline'
+      );
       expect(updatedNovel.chapters[0].generalInfo.title).toBe('Chapter 1');
     });
 
@@ -73,7 +60,7 @@ describe('NovelChapterOutlineUpdatedEvent', () => {
         'userId'
       );
 
-      const updatedNovel = event.applyTo(novelWithChapters);
+      const updatedNovel = event.applyTo(novel);
 
       expect(updatedNovel.chapters.length).toBe(1);
       expect(updatedNovel.chapters[0].generalInfo.outline).toBe('Outline');

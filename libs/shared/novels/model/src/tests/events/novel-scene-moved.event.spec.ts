@@ -1,8 +1,8 @@
 import {
   NovelBuilder,
   NovelException,
-  NovelSceneMovedData,
   NovelSceneMovedEvent,
+  NovelSceneMovedEventData,
 } from '../../lib';
 
 const basicNovel = NovelBuilder.New(
@@ -80,7 +80,7 @@ describe('NovelSceneMovedEvent', () => {
       expect(
         () =>
           new NovelSceneMovedEvent(
-            { sceneId: 'scene-1-id', at: 1 } as NovelSceneMovedData,
+            { sceneId: 'scene-1-id', at: 1 } as NovelSceneMovedEventData,
             'uid'
           )
       ).toThrowError(NovelException);
@@ -89,7 +89,7 @@ describe('NovelSceneMovedEvent', () => {
       expect(
         () =>
           new NovelSceneMovedEvent(
-            { chapterId: 'chapter-1-id', at: 1 } as NovelSceneMovedData,
+            { chapterId: 'chapter-1-id', at: 1 } as NovelSceneMovedEventData,
             'uid'
           )
       ).toThrowError(NovelException);
@@ -101,7 +101,7 @@ describe('NovelSceneMovedEvent', () => {
             {
               chapterId: 'chapter-1-id',
               sceneId: 'scene-1-id',
-            } as NovelSceneMovedData,
+            } as NovelSceneMovedEventData,
             'uid'
           )
       ).toThrowError(NovelException);
@@ -115,7 +115,7 @@ describe('NovelSceneMovedEvent', () => {
               chapterId: 'chapter-1-id',
               sceneId: 'scene-1-id',
               at: -1,
-            } as NovelSceneMovedData,
+            } as NovelSceneMovedEventData,
             'uid'
           )
       ).toThrowError(NovelException);

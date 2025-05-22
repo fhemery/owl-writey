@@ -13,20 +13,6 @@ const basicNovel = NovelBuilder.New(
 ).build();
 
 describe('NovelCharacterAddedEvent', () => {
-  describe('static From', () => {
-    it('should create a new event', () => {
-      const event = NovelCharacterAddedEvent.From(
-        { name: 'new', description: 'description', at: 0, characterId: '1' },
-        'userId'
-      );
-      expect(event).toBeInstanceOf(NovelCharacterAddedEvent);
-      expect(event.data.characterId).toBe('1');
-      expect(event.data.name).toBe('new');
-      expect(event.data.description).toBe('description');
-      expect(event.data.at).toBe(0);
-    });
-  });
-
   describe('applyTo', () => {
     it('should add the character at provided index', () => {
       const event = new NovelCharacterAddedEvent(

@@ -1,26 +1,26 @@
 import { NovelBaseDomainEvent } from './novel-base-domain-event';
-import { NovelChapterAddedEvent } from './novel-chapter-added-event';
-import { NovelChapterDeletedEvent } from './novel-chapter-deleted-event';
-import { NovelChapterMovedEvent } from './novel-chapter-moved-event';
-import { NovelChapterOutlineUpdatedEvent } from './novel-chapter-outline-updated.event';
-import { NovelChapterTitleUpdatedEvent } from './novel-chapter-title-updated.event';
-import { NovelCharacterAddedEvent } from './novel-character-added-event';
-import { NovelCharacterColorUpdatedEvent } from './novel-character-color-updated.event';
-import { NovelCharacterDeletedEvent } from './novel-character-deleted-event';
-import { NovelCharacterDescriptionUpdatedEvent } from './novel-character-description-updated.event';
-import { NovelCharacterMovedEvent } from './novel-character-moved-event';
-import { NovelCharacterNameUpdatedEvent } from './novel-character-name-updated.event';
-import { NovelCharacterTagsUpdatedEvent } from './novel-character-tags-updated.event';
-import { NovelDescriptionChangedEvent } from './novel-description-changed-event';
-import { NovelSceneAddedEvent } from './novel-scene-added-event';
-import { NovelSceneContentUpdatedEvent } from './novel-scene-content-updated.event';
-import { NovelSceneDeletedEvent } from './novel-scene-deleted-event';
-import { NovelSceneMovedEvent } from './novel-scene-moved-event';
-import { NovelSceneOutlineUpdatedEvent } from './novel-scene-outline-updated.event';
-import { NovelScenePovUpdatedEvent } from './novel-scene-pov-updated.event';
-import { NovelSceneTitleUpdatedEvent } from './novel-scene-title-updated.event';
-import { NovelSceneTransferedEvent } from './novel-scene-transfered-event';
-import { NovelTitleChangedEvent } from './novel-title-changed-event';
+import { NovelChapterAddedEvent, NovelChapterAddedEventData } from './novel-chapter-added-event';
+import { NovelChapterDeletedEvent, NovelChapterDeletedEventData } from './novel-chapter-deleted-event';
+import { NovelChapterMovedEvent, NovelChapterMovedEventData } from './novel-chapter-moved-event';
+import { NovelChapterOutlineUpdatedEvent, NovelChapterOutlineUpdatedEventData } from './novel-chapter-outline-updated.event';
+import { NovelChapterTitleUpdatedEvent, NovelChapterTitleUpdatedEventData } from './novel-chapter-title-updated.event';
+import { NovelCharacterAddedEvent, NovelCharacterAddedEventData } from './novel-character-added-event';
+import { NovelCharacterColorUpdatedEvent, NovelCharacterColorUpdatedEventData } from './novel-character-color-updated.event';
+import { NovelCharacterDeletedEvent, NovelCharacterDeletedEventData } from './novel-character-deleted-event';
+import { NovelCharacterDescriptionUpdatedEvent, NovelCharacterDescriptionUpdatedEventData } from './novel-character-description-updated.event';
+import { NovelCharacterMovedEvent, NovelCharacterMovedEventData } from './novel-character-moved-event';
+import { NovelCharacterNameUpdatedEvent, NovelCharacterNameUpdatedEventData } from './novel-character-name-updated.event';
+import { NovelCharacterTagsUpdatedEvent, NovelCharacterTagsUpdatedEventData } from './novel-character-tags-updated.event';
+import { NovelDescriptionChangedEvent, NovelDescriptionChangedEventData } from './novel-description-changed-event';
+import { NovelSceneAddedEvent, NovelSceneAddedEventData } from './novel-scene-added-event';
+import { NovelSceneContentUpdatedEvent, NovelSceneContentUpdatedEventData } from './novel-scene-content-updated.event';
+import { NovelSceneDeletedEvent, NovelSceneDeletedEventData } from './novel-scene-deleted-event';
+import { NovelSceneMovedEvent, NovelSceneMovedEventData } from './novel-scene-moved-event';
+import { NovelSceneOutlineUpdatedEvent, NovelSceneOutlineUpdatedEventData } from './novel-scene-outline-updated.event';
+import { NovelScenePovUpdatedEvent, NovelScenePovUpdatedEventData } from './novel-scene-pov-updated.event';
+import { NovelSceneTitleUpdatedEvent, NovelSceneTitleUpdatedEventData } from './novel-scene-title-updated.event';
+import { NovelSceneTransferedEvent, NovelSceneTransferedEventData } from './novel-scene-transfered-event';
+import { NovelTitleChangedEvent, NovelTitleChangedEventData } from './novel-title-changed-event';
 
 export class NovelDomainEventFactory {
   static From(
@@ -33,155 +33,155 @@ export class NovelDomainEventFactory {
   ): NovelBaseDomainEvent {
     switch (eventName) {
       case NovelTitleChangedEvent.eventName:
-        return NovelTitleChangedEvent.From(
-          data,
+        return new NovelTitleChangedEvent(
+          data as NovelTitleChangedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelDescriptionChangedEvent.eventName:
-        return NovelDescriptionChangedEvent.From(
-          data,
+        return new NovelDescriptionChangedEvent(
+          data as NovelDescriptionChangedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelChapterAddedEvent.eventName:
-        return NovelChapterAddedEvent.From(
-          data,
+        return new NovelChapterAddedEvent(
+          data as NovelChapterAddedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelChapterDeletedEvent.eventName:
-        return NovelChapterDeletedEvent.From(
-          data,
+        return new NovelChapterDeletedEvent(
+          data as NovelChapterDeletedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelChapterMovedEvent.eventName:
-        return NovelChapterMovedEvent.From(
-          data,
+        return new NovelChapterMovedEvent(
+          data as NovelChapterMovedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelChapterTitleUpdatedEvent.eventName:
-        return NovelChapterTitleUpdatedEvent.From(
-          data,
+        return new NovelChapterTitleUpdatedEvent(
+          data as NovelChapterTitleUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelChapterOutlineUpdatedEvent.eventName:
-        return NovelChapterOutlineUpdatedEvent.From(
-          data,
+        return new NovelChapterOutlineUpdatedEvent(
+          data as NovelChapterOutlineUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneAddedEvent.eventName:
-        return NovelSceneAddedEvent.From(
-          data,
+        return new NovelSceneAddedEvent(
+          data as NovelSceneAddedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneDeletedEvent.eventName:
-        return NovelSceneDeletedEvent.From(
-          data,
+        return new NovelSceneDeletedEvent(
+          data as NovelSceneDeletedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneMovedEvent.eventName:
-        return NovelSceneMovedEvent.From(
-          data,
+        return new NovelSceneMovedEvent(
+          data as NovelSceneMovedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneTransferedEvent.eventName:
-        return NovelSceneTransferedEvent.From(
-          data,
+        return new NovelSceneTransferedEvent(
+          data as NovelSceneTransferedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneTitleUpdatedEvent.eventName:
-        return NovelSceneTitleUpdatedEvent.From(
-          data,
+        return new NovelSceneTitleUpdatedEvent(
+          data as NovelSceneTitleUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneOutlineUpdatedEvent.eventName:
-        return NovelSceneOutlineUpdatedEvent.From(
-          data,
+        return new NovelSceneOutlineUpdatedEvent(
+          data as NovelSceneOutlineUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelScenePovUpdatedEvent.eventName:
-        return NovelScenePovUpdatedEvent.From(
-          data,
+        return new NovelScenePovUpdatedEvent(
+          data as NovelScenePovUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelSceneContentUpdatedEvent.eventName:
-        return NovelSceneContentUpdatedEvent.From(
-          data,
+        return new NovelSceneContentUpdatedEvent(
+          data as NovelSceneContentUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterAddedEvent.eventName:
-        return NovelCharacterAddedEvent.From(
-          data,
+        return new NovelCharacterAddedEvent(
+          data as NovelCharacterAddedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterDeletedEvent.eventName:
-        return NovelCharacterDeletedEvent.From(
-          data,
+        return new NovelCharacterDeletedEvent(
+          data as NovelCharacterDeletedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterMovedEvent.eventName:
-        return NovelCharacterMovedEvent.From(
-          data,
+        return new NovelCharacterMovedEvent(
+          data as NovelCharacterMovedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterNameUpdatedEvent.eventName:
-        return NovelCharacterNameUpdatedEvent.From(
-          data,
+        return new NovelCharacterNameUpdatedEvent(
+          data as NovelCharacterNameUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterDescriptionUpdatedEvent.eventName:
-        return NovelCharacterDescriptionUpdatedEvent.From(
-          data,
+        return new NovelCharacterDescriptionUpdatedEvent(
+          data as NovelCharacterDescriptionUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterTagsUpdatedEvent.eventName:
-        return NovelCharacterTagsUpdatedEvent.From(
-          data,
+        return new NovelCharacterTagsUpdatedEvent(
+          data as NovelCharacterTagsUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
         );
       case NovelCharacterColorUpdatedEvent.eventName:
-        return NovelCharacterColorUpdatedEvent.From(
-          data,
+        return new NovelCharacterColorUpdatedEvent(
+          data as NovelCharacterColorUpdatedEventData,
           userId,
           eventId,
           eventSequentialId

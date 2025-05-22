@@ -1,7 +1,7 @@
 import {
   NovelBuilder,
-  NovelChapterMovedData,
   NovelChapterMovedEvent,
+  NovelChapterMovedEventData,
   NovelException,
 } from '../../lib';
 
@@ -61,7 +61,7 @@ describe('NovelChapterMovedEvent', () => {
       expect(
         () =>
           new NovelChapterMovedEvent(
-            { id: '1' } as NovelChapterMovedData,
+            { id: '1' } as NovelChapterMovedEventData,
             'uid'
           )
       ).toThrowError(NovelException);

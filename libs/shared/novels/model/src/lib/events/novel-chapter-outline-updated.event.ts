@@ -11,22 +11,6 @@ export class NovelChapterOutlineUpdatedEvent extends NovelBaseDomainEvent {
   static readonly eventName = 'NovelChapterOutlineUpdated';
   static readonly eventVersion = '1';
 
-  static From(
-    data: unknown,
-    userId: string,
-    eventId?: string,
-    eventSequentialId?: number
-  ): NovelChapterOutlineUpdatedEvent {
-    const eventData = data as NovelChapterOutlineUpdatedEventData;
-
-    return new NovelChapterOutlineUpdatedEvent(
-      eventData,
-      userId,
-      eventId,
-      eventSequentialId
-    );
-  }
-
   constructor(
     public override readonly data: NovelChapterOutlineUpdatedEventData,
     userId: string,
