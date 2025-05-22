@@ -12,4 +12,12 @@ export class NovelScene {
       this.generalInfo.pov = undefined;
     }
   }
+
+  withTitle(title: string): NovelScene {
+    return new NovelScene(
+      this.id,
+      this.generalInfo.withTitle(title),
+      this.content
+    );
+  }
 }

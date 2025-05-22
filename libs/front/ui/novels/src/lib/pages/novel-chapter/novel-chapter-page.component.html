@@ -20,7 +20,7 @@
       <owl-novel-scene-card
         [novel]="novel"
         [scene]="convertToScene(item)"
-        (updateScene)="updateScene($event)"
+        (updateScene)="updateScene(item, $event)"
         (deleteScene)="deleteScene(item)"
         (moveScene)="moveScene({ from: index, to: index + $event })"
         (transferScene)="transferScene(item)"

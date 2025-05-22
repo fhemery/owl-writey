@@ -77,8 +77,19 @@ export class NovelChapterPageComponent {
     return item as NovelScene;
   }
 
-  async updateScene($event: NovelScene): Promise<void> {
-    await this.#store.updateScene(this.chapterId(), $event);
+  async updateScene(
+    initialScene: NovelScene,
+    newScene: NovelScene
+  ): Promise<void> {
+    if (initialScene.generalInfo.title !== newScene.generalInfo.title) {
+      await this.#store.updateSceneTitle(
+        this.chapterId(),
+        initialScene.id,
+        newScene.generalInfo.title
+      );
+    } else {
+      await this.#store.updateScene(this.chapterId(), newScene);
+    }
   }
 
   async updateChapterTitle(title: string): Promise<void> {
@@ -86,8 +97,6 @@ export class NovelChapterPageComponent {
     if (!currentChapter || currentChapter.generalInfo.title === title) {
       return;
     }
-
-    await this.#store.updateChapterTitle(currentChapter.id, title);
   }
 
   async moveScene($event: { from: number; to: number }): Promise<void> {

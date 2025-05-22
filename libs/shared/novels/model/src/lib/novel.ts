@@ -39,7 +39,9 @@ export class Novel {
   findChapter(id: string): NovelChapter | null {
     return this._chapters.findChapter(id);
   }
-
+  findScene(chapterId: string, sceneId: string): NovelScene | null {
+    return this._chapters.findScene(chapterId, sceneId);
+  }
   moveChapter(chapterId: string, atIndex: number): Novel {
     return this.withChapters(this._chapters.move(chapterId, atIndex));
   }
@@ -57,8 +59,8 @@ export class Novel {
       this._chapters.addSceneAt(chapterId, sceneId, title, outline, index)
     );
   }
-  updateScene(chapterId: string, scene: NovelScene): void {
-    this._chapters.updateScene(chapterId, scene);
+  updateScene(chapterId: string, scene: NovelScene): Novel {
+    return this.withChapters(this._chapters.updateScene(chapterId, scene));
   }
   transferScene(
     initialChapterId: string,

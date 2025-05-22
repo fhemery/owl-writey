@@ -74,11 +74,14 @@ export class NovelChapter {
       ...otherScenes.slice(at),
     ]);
   }
-  updateScene(scene: NovelScene): void {
-    const index = this.scenes.findIndex((s) => s.id === scene.id);
-    if (index !== -1) {
-      this.scenes.splice(index, 1, scene);
+  updateScene(scene: NovelScene): NovelChapter {
+    const existingScene = this.scenes.find((s) => s.id === scene.id);
+    if (!existingScene) {
+      return this;
     }
+    return this.withScenes(
+      this.scenes.map((s) => (s.id === scene.id ? scene : s))
+    );
   }
   deleteScene(sceneId: string): NovelChapter {
     const index = this.scenes.findIndex((s) => s.id === sceneId);

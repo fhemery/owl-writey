@@ -10,4 +10,7 @@ export class NovelSceneGeneralInfo {
       this.pov = undefined;
     }
   }
+  withTitle(title: string): NovelSceneGeneralInfo {
+    return new NovelSceneGeneralInfo(title, this.outline, this.pov);
+  }
 }

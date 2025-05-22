@@ -87,9 +87,10 @@ export class NovelChapters {
       ...this._chapters.slice(chapterIndex + 1),
     ]);
   }
-  updateScene(chapterId: string, scene: NovelScene): void {
-    const chapter = this.findChapter(chapterId);
-    chapter?.updateScene(scene);
+  updateScene(chapterId: string, scene: NovelScene): NovelChapters {
+    return new NovelChapters(
+      this._chapters.map((c) => (c.id === chapterId ? c.updateScene(scene) : c))
+    );
   }
 
   transferScene(
@@ -151,5 +152,11 @@ export class NovelChapters {
 
   findChapter(chapterId: string): NovelChapter | null {
     return this._chapters.find((c) => c.id === chapterId) || null;
+  }
+
+  findScene(chapterId: string, sceneId: string): NovelScene | null {
+    return (
+      this.findChapter(chapterId)?.scenes.find((s) => s.id === sceneId) || null
+    );
   }
 }

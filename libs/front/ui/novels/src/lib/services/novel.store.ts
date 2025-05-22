@@ -22,6 +22,7 @@ import {
   NovelSceneAddedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
+  NovelSceneTitleUpdatedEvent,
   NovelSceneTransferedEvent,
   NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
@@ -148,6 +149,19 @@ export class NovelStore extends signalStore(
         const novel = this.getNovel();
         const event = new NovelChapterDeletedEvent(
           { id: chapter.id },
+          store.userId()
+        );
+        patchState(store, { novel: event.applyTo(novel) });
+        return await novelService.sendEvent(novel.id, event);
+      },
+      async updateSceneTitle(
+        chapterId: string,
+        sceneId: string,
+        title: string
+      ): Promise<boolean> {
+        const novel = this.getNovel();
+        const event = new NovelSceneTitleUpdatedEvent(
+          { chapterId, sceneId, title },
           store.userId()
         );
         patchState(store, { novel: event.applyTo(novel) });
