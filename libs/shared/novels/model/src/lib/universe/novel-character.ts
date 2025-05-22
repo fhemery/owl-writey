@@ -6,6 +6,16 @@ export class NovelCharacter {
     readonly tags: string[] = [],
     readonly properties: NovelCharacterProperties = {}
   ) {}
+
+  withName(name: string): NovelCharacter {
+    return new NovelCharacter(
+      this.id,
+      name,
+      this.description,
+      this.tags,
+      this.properties
+    );
+  }
 }
 
 export interface NovelCharacterProperties {

@@ -27,7 +27,7 @@
       <owl-novel-character-card
         [character]="convertToCharacter(item)"
         [allTags]="allTags()"
-        (updateCharacter)="updateCharacter($event)"
+        (updateCharacter)="updateCharacter(item, $event)"
         (deleteCharacter)="deleteCharacter(item)"
         (moveCharacter)="
           moveCharacter({

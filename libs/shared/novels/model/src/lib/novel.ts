@@ -95,8 +95,8 @@ export class Novel {
     );
   }
 
-  updateCharacter(character: NovelCharacter): void {
-    this.universe.updateCharacter(character);
+  updateCharacter(character: NovelCharacter): Novel {
+    return this.withUniverse(this.universe.updateCharacter(character));
   }
   updateTitle(title: string): Novel {
     return this.withGeneralInfo(this.generalInfo.withTitle(title));

@@ -34,11 +34,16 @@ export class NovelCharacters {
   findCharacter(characterId: string): NovelCharacter | null {
     return this._characters.find((c) => c.id === characterId) || null;
   }
-  updateCharacter(character: NovelCharacter): void {
+  updateCharacter(character: NovelCharacter): NovelCharacters {
     const index = this._characters.findIndex((c) => c.id === character.id);
     if (index !== -1) {
-      this._characters.splice(index, 1, character);
+      return new NovelCharacters([
+        ...this._characters.slice(0, index),
+        character,
+        ...this._characters.slice(index + 1),
+      ]);
     }
+    return this;
   }
   moveCharacter(from: number, to: number): void {
     const character = this._characters[from];

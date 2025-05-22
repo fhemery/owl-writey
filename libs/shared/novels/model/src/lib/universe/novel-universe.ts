@@ -23,8 +23,8 @@ export class NovelUniverse {
   findCharacter(characterId: string): NovelCharacter | null {
     return this._characters.findCharacter(characterId) || null;
   }
-  updateCharacter(character: NovelCharacter): void {
-    this._characters.updateCharacter(character);
+  updateCharacter(character: NovelCharacter): NovelUniverse {
+    return this.withCharacters(this._characters.updateCharacter(character));
   }
   doMoveCharacter(characterId: string, toIndex: number): NovelUniverse {
     return this.withCharacters(

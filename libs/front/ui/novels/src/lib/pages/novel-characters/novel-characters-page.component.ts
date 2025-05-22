@@ -64,8 +64,18 @@ export class NovelCharactersPageComponent {
     await this.#novelStore.addCharacterAt(index);
     setTimeout(() => this.focusCharacterAt(index), 50);
   }
-  async updateCharacter(character: NovelCharacter): Promise<void> {
-    await this.#novelStore.updateCharacter(character);
+  async updateCharacter(
+    previousCharacter: NovelCharacter,
+    newCharacter: NovelCharacter
+  ): Promise<void> {
+    if (previousCharacter.name !== newCharacter.name) {
+      await this.#novelStore.updateCharacterName(
+        previousCharacter.id,
+        newCharacter.name
+      );
+    } else {
+      await this.#novelStore.updateCharacter(newCharacter);
+    }
   }
   convertToCharacter(item: unknown): NovelCharacter {
     return item as NovelCharacter;
