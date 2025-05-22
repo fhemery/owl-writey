@@ -32,6 +32,10 @@ export class Novel {
     return this._participants.participants;
   }
 
+  isAuthor(uid: string): boolean {
+    return this._participants.isAuthor(uid);
+  }
+
   addChapterAt(id: string, name: string, outline = '', index?: number): Novel {
     return this.withChapters(this._chapters.addAt(id, name, outline, index));
   }
@@ -132,18 +136,6 @@ export class Novel {
     }
     return this.withChapters(
       this._chapters.updateScene(chapterId, scene.withPov(povId))
-    );
-  }
-  isAuthor(uid: string): boolean {
-    return this._participants.isAuthor(uid);
-  }
-  copy(): Novel {
-    return new Novel(
-      this.id,
-      this.generalInfo.copy(),
-      this._participants.participants,
-      this._chapters.chapters,
-      this.universe.copy()
     );
   }
 

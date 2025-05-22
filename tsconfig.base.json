@@ -46,6 +46,7 @@
       "@owl/shared/common/translations": [
         "libs/shared/common/translations/src/index.ts"
       ],
+      "@owl/shared/common/utils": ["libs/shared/common/utils/src/index.ts"],
       "@owl/shared/exercises/contracts": [
         "libs/shared/exercises/contracts/src/index.ts"
       ],

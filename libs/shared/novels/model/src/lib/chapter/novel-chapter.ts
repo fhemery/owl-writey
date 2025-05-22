@@ -1,3 +1,5 @@
+import { arrayUtils } from '@owl/shared/common/utils';
+
 import { NovelException } from '../exceptions/novel.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelSceneGeneralInfo } from '../scene/novel-scene-general-info';
@@ -23,18 +25,13 @@ export class NovelChapter {
     outline: string,
     index: number | undefined
   ): NovelChapter {
-    if (index !== undefined) {
-      return this.withScenes([
-        ...this.scenes.slice(0, index),
+    return this.withScenes(
+      arrayUtils.insertAt(
+        this.scenes,
         new NovelScene(sceneId, new NovelSceneGeneralInfo(title, outline), ''),
-        ...this.scenes.slice(index),
-      ]);
-    } else {
-      return this.withScenes([
-        ...this.scenes,
-        new NovelScene(sceneId, new NovelSceneGeneralInfo(title, outline), ''),
-      ]);
-    }
+        index
+      )
+    );
   }
   updateTitle(title: string): NovelChapter {
     return this.withGeneralInfo(this.generalInfo.withTitle(title));
@@ -45,34 +42,16 @@ export class NovelChapter {
   }
 
   addExistingSceneAt(scene: NovelScene, sceneIndex: number): NovelChapter {
-    if (sceneIndex !== undefined) {
-      return this.withScenes([
-        ...this.scenes.slice(0, sceneIndex),
-        scene,
-        ...this.scenes.slice(sceneIndex),
-      ]);
-    } else {
-      return this.withScenes([...this.scenes, scene]);
-    }
+    return this.withScenes(arrayUtils.insertAt(this.scenes, scene, sceneIndex));
   }
   containsScene(sceneId: string): boolean {
     return this.scenes.some((s) => s.id === sceneId);
   }
   moveScene(sceneId: string, at: number): NovelChapter {
-    const sceneIndex = this.scenes.findIndex((s) => s.id === sceneId);
-    if (sceneIndex === -1) {
+    if (!this.findScene(sceneId)) {
       return this;
     }
-    const scene = this.scenes[sceneIndex];
-    const otherScenes = this.scenes.filter((s) => s.id !== sceneId);
-    if (at > sceneIndex) {
-      at--;
-    }
-    return new NovelChapter(this.id, this.generalInfo, [
-      ...otherScenes.slice(0, at),
-      scene,
-      ...otherScenes.slice(at),
-    ]);
+    return this.withScenes(arrayUtils.moveItem(this.scenes, sceneId, at));
   }
   updateScene(scene: NovelScene): NovelChapter {
     const existingScene = this.scenes.find((s) => s.id === scene.id);
@@ -84,11 +63,10 @@ export class NovelChapter {
     );
   }
   deleteScene(sceneId: string): NovelChapter {
-    const index = this.scenes.findIndex((s) => s.id === sceneId);
-    if (index !== -1) {
-      return this.withScenes(this.scenes.filter((s) => s.id !== sceneId));
+    if (!this.findScene(sceneId)) {
+      return this;
     }
-    return this;
+    return this.withScenes(arrayUtils.removeItem(this.scenes, sceneId));
   }
 
   private withGeneralInfo(generalInfo: NovelChapterGeneralInfo): NovelChapter {
@@ -96,5 +74,9 @@ export class NovelChapter {
   }
   private withScenes(scenes: NovelScene[]): NovelChapter {
     return new NovelChapter(this.id, this.generalInfo, scenes);
+  }
+
+  findScene(sceneId: string): NovelScene | null {
+    return this.scenes.find((s) => s.id === sceneId) || null;
   }
 }

@@ -6,6 +6,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
+    "@owl/shared/common/utils": "*",
     "@owl/shared/novels/contracts": "*",
     "tslib": "^2.3.0",
     "uuid": "^11.1.0"
