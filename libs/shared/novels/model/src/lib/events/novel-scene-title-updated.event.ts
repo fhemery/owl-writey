@@ -10,7 +10,7 @@ export interface NovelSceneTitleUpdatedEventData {
 
 export class NovelSceneTitleUpdatedEvent extends NovelBaseDomainEvent<NovelSceneTitleUpdatedEventData> {
   static eventName = 'Novel:SceneTitleUpdated';
-  static eventVersion = '1.0.0';
+  static eventVersion = '1';
 
   static From(
     data: unknown,

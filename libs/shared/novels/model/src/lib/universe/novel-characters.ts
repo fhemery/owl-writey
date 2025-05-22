@@ -1,5 +1,3 @@
-import { v4 as uuidV4 } from 'uuid';
-
 import { NovelCharacter } from './novel-character';
 
 export class NovelCharacters {
@@ -14,15 +12,23 @@ export class NovelCharacters {
   copy(): NovelCharacters {
     return new NovelCharacters([...this._characters]);
   }
-  addCharacterAt(name: string, description: string, index?: number): void {
+  addCharacterAt(
+    id: string,
+    name: string,
+    description: string,
+    index?: number
+  ): NovelCharacters {
     if (index !== undefined) {
-      this._characters.splice(
-        index,
-        0,
-        new NovelCharacter(uuidV4(), name, description)
-      );
+      return new NovelCharacters([
+        ...this._characters.slice(0, index),
+        new NovelCharacter(id, name, description),
+        ...this._characters.slice(index),
+      ]);
     } else {
-      this._characters.push(new NovelCharacter(uuidV4(), name, description));
+      return new NovelCharacters([
+        ...this._characters,
+        new NovelCharacter(id, name, description),
+      ]);
     }
   }
   findCharacter(characterId: string): NovelCharacter | null {

@@ -18,6 +18,7 @@ import {
   NovelChapterOutlineUpdatedEvent,
   NovelChapterTitleUpdatedEvent,
   NovelCharacter,
+  NovelCharacterAddedEvent,
   NovelDescriptionChangedEvent,
   NovelSceneAddedEvent,
   NovelSceneContentUpdatedEvent,
@@ -238,15 +239,20 @@ export class NovelStore extends signalStore(
           )
         );
       },
-      async addCharacterAt(index: number): Promise<void> {
-        const novel = this.getNovel();
-        novel.addCharacterAt(
-          translateService.instant('novel.defaults.newCharacter.name'),
-          '',
-          index
+      async addCharacterAt(index: number): Promise<boolean> {
+        return await this._applyEvent(
+          new NovelCharacterAddedEvent(
+            {
+              characterId: uuidv4(),
+              name: translateService.instant(
+                'novel.defaults.newCharacter.name'
+              ),
+              description: '',
+              at: index,
+            },
+            store.userId()
+          )
         );
-        patchState(store, { novel: novel.copy() });
-        await novelService.update(novel);
       },
       async updateCharacter(character: NovelCharacter): Promise<boolean> {
         const novel = this.getNovel();

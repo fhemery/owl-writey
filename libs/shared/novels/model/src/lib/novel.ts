@@ -86,9 +86,17 @@ export class Novel {
   deleteScene(chapterId: string, sceneId: string): Novel {
     return this.withChapters(this._chapters.deleteScene(chapterId, sceneId));
   }
-  addCharacterAt(name: string, description: string, index: number): void {
-    this.universe.addCharacterAt(name, description, index);
+  addCharacterAt(
+    id: string,
+    name: string,
+    description: string,
+    index?: number
+  ): Novel {
+    return this.withUniverse(
+      this.universe.addCharacterAt(id, name, description, index)
+    );
   }
+
   updateCharacter(character: NovelCharacter): void {
     this.universe.updateCharacter(character);
   }
@@ -138,6 +146,15 @@ export class Novel {
       this.participants,
       chapters.chapters,
       this.universe
+    );
+  }
+  private withUniverse(universe: NovelUniverse): Novel {
+    return new Novel(
+      this.id,
+      this.generalInfo,
+      this.participants,
+      this.chapters,
+      universe
     );
   }
 }

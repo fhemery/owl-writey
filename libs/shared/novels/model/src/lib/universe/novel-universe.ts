@@ -10,8 +10,15 @@ export class NovelUniverse {
   get characters(): NovelCharacter[] {
     return [...this._characters.characters];
   }
-  addCharacterAt(name: string, description: string, index: number): void {
-    this._characters.addCharacterAt(name, description, index);
+  addCharacterAt(
+    id: string,
+    name: string,
+    description: string,
+    index?: number
+  ): NovelUniverse {
+    return this.withCharacters(
+      this._characters.addCharacterAt(id, name, description, index)
+    );
   }
   findCharacter(characterId: string): NovelCharacter | null {
     return this._characters.findCharacter(characterId) || null;
@@ -27,5 +34,9 @@ export class NovelUniverse {
   }
   copy(): NovelUniverse {
     return new NovelUniverse([...this._characters.characters]);
+  }
+
+  private withCharacters(characters: NovelCharacters): NovelUniverse {
+    return new NovelUniverse(characters.characters);
   }
 }
