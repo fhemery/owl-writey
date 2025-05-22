@@ -64,7 +64,7 @@ describe('NovelCharacterNameUpdatedEvent', () => {
   });
 
   describe('applyTo', () => {
-    it('should update the chapter title', () => {
+    it('should update the character name', () => {
       const event = new NovelCharacterNameUpdatedEvent(
         { id: 'character-1', name: 'Updated Name' },
         'userId'

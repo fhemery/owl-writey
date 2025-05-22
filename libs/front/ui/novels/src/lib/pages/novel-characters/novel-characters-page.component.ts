@@ -73,6 +73,11 @@ export class NovelCharactersPageComponent {
         previousCharacter.id,
         newCharacter.name
       );
+    } else if (previousCharacter.description !== newCharacter.description) {
+      await this.#novelStore.updateCharacterDescription(
+        previousCharacter.id,
+        newCharacter.description
+      );
     } else {
       await this.#novelStore.updateCharacter(newCharacter);
     }

@@ -16,6 +16,16 @@ export class NovelCharacter {
       this.properties
     );
   }
+
+  withDescription(description: string): NovelCharacter {
+    return new NovelCharacter(
+      this.id,
+      this.name,
+      description,
+      this.tags,
+      this.properties
+    );
+  }
 }
 
 export interface NovelCharacterProperties {
