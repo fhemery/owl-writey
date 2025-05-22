@@ -26,6 +26,16 @@ export class NovelCharacter {
       this.properties
     );
   }
+
+  withTags(tags: string[]): NovelCharacter {
+    return new NovelCharacter(
+      this.id,
+      this.name,
+      this.description,
+      tags,
+      this.properties
+    );
+  }
 }
 
 export interface NovelCharacterProperties {
