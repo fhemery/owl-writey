@@ -19,6 +19,7 @@ import {
   NovelChapterTitleUpdatedEvent,
   NovelCharacter,
   NovelCharacterAddedEvent,
+  NovelCharacterColorUpdatedEvent,
   NovelCharacterDeletedEvent,
   NovelCharacterDescriptionUpdatedEvent,
   NovelCharacterMovedEvent,
@@ -296,6 +297,20 @@ export class NovelStore extends signalStore(
             {
               characterId,
               tags,
+            },
+            store.userId()
+          )
+        );
+      },
+      async updateCharacterColor(
+        characterId: string,
+        color?: string
+      ): Promise<boolean> {
+        return await this._applyEvent(
+          new NovelCharacterColorUpdatedEvent(
+            {
+              characterId,
+              color,
             },
             store.userId()
           )

@@ -64,6 +64,7 @@ export class NovelCharactersPageComponent {
     await this.#novelStore.addCharacterAt(index);
     setTimeout(() => this.focusCharacterAt(index), 50);
   }
+
   async updateCharacter(
     previousCharacter: NovelCharacter,
     newCharacter: NovelCharacter
@@ -73,18 +74,24 @@ export class NovelCharactersPageComponent {
         previousCharacter.id,
         newCharacter.name
       );
-    } else if (previousCharacter.description !== newCharacter.description) {
+    }
+    if (previousCharacter.description !== newCharacter.description) {
       await this.#novelStore.updateCharacterDescription(
         previousCharacter.id,
         newCharacter.description
       );
-    } else if (previousCharacter.tags !== newCharacter.tags) {
+    }
+    if (previousCharacter.tags !== newCharacter.tags) {
       await this.#novelStore.updateCharacterTags(
         previousCharacter.id,
         newCharacter.tags
       );
-    } else {
-      await this.#novelStore.updateCharacter(newCharacter);
+    }
+    if (previousCharacter.properties.color !== newCharacter.properties.color) {
+      await this.#novelStore.updateCharacterColor(
+        previousCharacter.id,
+        newCharacter.properties.color
+      );
     }
   }
   convertToCharacter(item: unknown): NovelCharacter {

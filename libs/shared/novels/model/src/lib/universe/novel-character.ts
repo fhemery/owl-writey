@@ -36,6 +36,13 @@ export class NovelCharacter {
       this.properties
     );
   }
+
+  withColor(color?: string): NovelCharacter {
+    return new NovelCharacter(this.id, this.name, this.description, this.tags, {
+      ...this.properties,
+      color,
+    });
+  }
 }
 
 export interface NovelCharacterProperties {
