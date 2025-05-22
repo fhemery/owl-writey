@@ -55,7 +55,7 @@ export class NovelSceneMovedEvent extends NovelBaseDomainEvent<NovelSceneMovedDa
   }
 
   applyTo(novel: Novel): Novel {
-    return novel.doMoveScene(
+    return novel.moveScene(
       this.data.chapterId,
       this.data.sceneId,
       this.data.at

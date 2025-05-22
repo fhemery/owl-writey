@@ -77,10 +77,8 @@ export class Novel {
       )
     );
   }
-  doMoveScene(chapterId: string, sceneId: string, at: number): Novel {
-    return this.withChapters(
-      this._chapters.doMoveScene(chapterId, sceneId, at)
-    );
+  moveScene(chapterId: string, sceneId: string, at: number): Novel {
+    return this.withChapters(this._chapters.moveScene(chapterId, sceneId, at));
   }
 
   deleteScene(chapterId: string, sceneId: string): Novel {
@@ -109,9 +107,10 @@ export class Novel {
   moveCharacter(from: number, to: number): void {
     this.universe.moveCharacter(from, to);
   }
-  deleteCharacter(id: string): void {
-    this.universe.deleteCharacter(id);
-    this._chapters.deletePov(id);
+  deleteCharacter(id: string): Novel {
+    return this.withChapters(this._chapters.removePov(id)).withUniverse(
+      this.universe.deleteCharacter(id)
+    );
   }
   findCharacter(characterId: string): NovelCharacter | null {
     return this.universe.findCharacter(characterId);

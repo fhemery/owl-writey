@@ -4,6 +4,9 @@ import { NovelSceneGeneralInfo } from '../scene/novel-scene-general-info';
 import { NovelChapterGeneralInfo } from './novel-chapter-general-info';
 
 export class NovelChapter {
+  removePov(id: string): NovelChapter {
+    return this.withScenes(this.scenes.map((s) => s.removePov(id)));
+  }
   constructor(
     readonly id: string,
     readonly generalInfo: NovelChapterGeneralInfo,
@@ -55,10 +58,7 @@ export class NovelChapter {
   containsScene(sceneId: string): boolean {
     return this.scenes.some((s) => s.id === sceneId);
   }
-  deletePov(characterId: string): void {
-    this.scenes.forEach((s) => s.deletePov(characterId));
-  }
-  doMoveScene(sceneId: string, at: number): NovelChapter {
+  moveScene(sceneId: string, at: number): NovelChapter {
     const sceneIndex = this.scenes.findIndex((s) => s.id === sceneId);
     if (sceneIndex === -1) {
       return this;

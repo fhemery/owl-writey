@@ -29,8 +29,8 @@ export class NovelUniverse {
   moveCharacter(from: number, to: number): void {
     this._characters.moveCharacter(from, to);
   }
-  deleteCharacter(characterId: string): void {
-    this._characters.deleteCharacter(characterId);
+  deleteCharacter(characterId: string): NovelUniverse {
+    return this.withCharacters(this._characters.deleteCharacter(characterId));
   }
   copy(): NovelUniverse {
     return new NovelUniverse([...this._characters.characters]);

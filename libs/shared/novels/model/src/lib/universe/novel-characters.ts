@@ -45,10 +45,13 @@ export class NovelCharacters {
     this._characters.splice(from, 1);
     this._characters.splice(to, 0, character);
   }
-  deleteCharacter(characterId: string): void {
-    const index = this._characters.findIndex((c) => c.id === characterId);
-    if (index !== -1) {
-      this._characters.splice(index, 1);
+  deleteCharacter(characterId: string): NovelCharacters {
+    const character = this.findCharacter(characterId);
+    if (!character) {
+      return this;
     }
+    return new NovelCharacters(
+      this._characters.filter((c) => c.id !== characterId)
+    );
   }
 }

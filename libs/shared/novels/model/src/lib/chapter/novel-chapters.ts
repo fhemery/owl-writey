@@ -120,13 +120,13 @@ export class NovelChapters {
       ),
     ]);
   }
-  doMoveScene(chapterId: string, sceneId: string, at: number): NovelChapters {
+  moveScene(chapterId: string, sceneId: string, at: number): NovelChapters {
     if (!this.findChapter(chapterId)) {
       return this;
     }
     return new NovelChapters([
       ...this._chapters.map((c) =>
-        c.id === chapterId ? c.doMoveScene(sceneId, at) : c
+        c.id === chapterId ? c.moveScene(sceneId, at) : c
       ),
     ]);
   }
@@ -142,10 +142,9 @@ export class NovelChapters {
       ...this._chapters.slice(chapterIndex + 1),
     ]);
   }
-  deletePov(id: string): void {
-    this._chapters.forEach((c) => c.deletePov(id));
+  removePov(id: string): NovelChapters {
+    return new NovelChapters(this._chapters.map((c) => c.removePov(id)));
   }
-
   copy(): NovelChapters {
     return new NovelChapters([...this._chapters]);
   }

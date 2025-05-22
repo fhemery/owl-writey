@@ -19,6 +19,7 @@ import {
   NovelChapterTitleUpdatedEvent,
   NovelCharacter,
   NovelCharacterAddedEvent,
+  NovelCharacterDeletedEvent,
   NovelDescriptionChangedEvent,
   NovelSceneAddedEvent,
   NovelSceneContentUpdatedEvent,
@@ -267,10 +268,9 @@ export class NovelStore extends signalStore(
         return await novelService.update(novel);
       },
       async deleteCharacter(id: string): Promise<boolean> {
-        const novel = this.getNovel();
-        novel.deleteCharacter(id);
-        patchState(store, { novel: novel.copy() });
-        return await novelService.update(novel);
+        return await this._applyEvent(
+          new NovelCharacterDeletedEvent({ characterId: id }, store.userId())
+        );
       },
       async updateTitle(title: string): Promise<boolean> {
         const novel = this.getNovel();
