@@ -118,6 +118,20 @@ describe('NovelCharacterAddedEvent', () => {
             )
         ).toThrowError(NovelException);
       });
+
+      it('should fail if character already exists', () => {
+        const novel = basicNovel.addCharacterAt(
+          '1',
+          'character',
+          'description'
+        );
+
+        const event = new NovelCharacterAddedEvent(
+          { characterId: '1', name: 'new', description: 'description', at: 0 },
+          'userId'
+        );
+        expect(() => event.applyTo(novel)).toThrowError(NovelException);
+      });
     });
   });
 });

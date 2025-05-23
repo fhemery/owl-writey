@@ -1,5 +1,6 @@
 import { arrayUtils } from '@owl/shared/common/utils';
 
+import { NovelException } from '../exceptions/novel.exception';
 import { NovelCharacter } from './novel-character';
 
 export class NovelCharacters {
@@ -20,6 +21,9 @@ export class NovelCharacters {
     description: string,
     index?: number
   ): NovelCharacters {
+    if (this.findCharacter(id)) {
+      throw new NovelException('Character already exists');
+    }
     return new NovelCharacters(
       arrayUtils.insertAt(
         this._characters,

@@ -60,6 +60,25 @@ describe('NovelSceneAddedEvent', () => {
           )
       ).toThrowError(NovelException);
     });
+
+    it('should fail if sceneId already exist, in whatever chapter', () => {
+      const existingSceneId = 'existing-scene-id';
+      const newNovel = novelWithChapters
+        .addSceneAt('chapter-1', existingSceneId, 'New Scene', 'Scene Outline')
+        .addChapterAt('chapter-2', 'Chapter 2', 'Outline');
+
+      const event = new NovelSceneAddedEvent(
+        {
+          chapterId: 'chapter-2',
+          sceneId: existingSceneId,
+          title: 'New Scene',
+          outline: 'Scene Outline',
+        },
+        'userId'
+      );
+
+      expect(() => event.applyTo(newNovel)).toThrowError(NovelException);
+    });
   });
 
   describe('applyTo', () => {

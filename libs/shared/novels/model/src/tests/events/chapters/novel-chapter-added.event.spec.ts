@@ -67,6 +67,16 @@ describe('NovelChapterAddedEvent', () => {
             )
         ).toThrowError(NovelException);
       });
+
+      it('should fail if chapter already exists', () => {
+        const novel = basicNovel.addChapterAt('1', 'chapter', 'outline');
+
+        const event = new NovelChapterAddedEvent(
+          { id: '1', name: 'new', outline: 'outline', at: 0 },
+          'userId'
+        );
+        expect(() => event.applyTo(novel)).toThrowError(NovelException);
+      });
     });
   });
 });

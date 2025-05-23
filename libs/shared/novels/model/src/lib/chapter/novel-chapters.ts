@@ -1,5 +1,6 @@
 import { arrayUtils } from '@owl/shared/common/utils';
 
+import { NovelException } from '../exceptions/novel.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelChapter } from './novel-chapter';
 import { NovelChapterGeneralInfo } from './novel-chapter-general-info';
@@ -15,6 +16,9 @@ export class NovelChapters {
   }
 
   addAt(id: string, name: string, outline = '', index?: number): NovelChapters {
+    if (this.findChapter(id)) {
+      throw new NovelException('Chapter already exists');
+    }
     return new NovelChapters(
       arrayUtils.insertAt(
         this._chapters,
@@ -37,6 +41,9 @@ export class NovelChapters {
   delete(chapterId: string): NovelChapters {
     return new NovelChapters(arrayUtils.removeItem(this._chapters, chapterId));
   }
+  alreadyHasScene(sceneId: string): boolean {
+    return this._chapters.some((c) => c.containsScene(sceneId));
+  }
 
   addSceneAt(
     chapterId: string,
@@ -45,6 +52,9 @@ export class NovelChapters {
     outline = '',
     index?: number
   ): NovelChapters {
+    if (this.alreadyHasScene(sceneId)) {
+      throw new NovelException('Scene already exists');
+    }
     return new NovelChapters(
       this._chapters.map((c) =>
         c.id === chapterId ? c.addNewSceneAt(sceneId, title, outline, index) : c
