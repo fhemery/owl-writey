@@ -7,7 +7,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { SubmitTurnRequestDto } from '@owl/shared/exercises/contracts';
 import { IsNotEmpty, IsString } from 'class-validator';
@@ -20,6 +20,10 @@ import {
 } from '../../domain/ports';
 
 class SubmitTurnRequestDtoImpl implements SubmitTurnRequestDto {
+  @ApiProperty({
+    description: 'The content of the turn',
+    example: 'Once upon a time...',
+  })
   @IsString()
   @IsNotEmpty()
   content!: string;

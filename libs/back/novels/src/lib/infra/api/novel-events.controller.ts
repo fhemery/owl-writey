@@ -12,29 +12,14 @@ import {
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
 import { HeartbeatEvent, SseEvent } from '@owl/shared/common/contracts';
-import {
-  NovelEventToPushDto,
-  NovelSseEvent,
-} from '@owl/shared/novels/contracts';
+import { NovelSseEvent } from '@owl/shared/novels/contracts';
 import { NovelDomainEventFactory } from '@owl/shared/novels/model';
-import { IsObject, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
 import { NovelNotFoundException } from '../../domain/model';
 import { NovelApplyEventCommand } from '../../domain/ports';
 import { GetNovelEventsQuery } from '../../domain/ports/in/query';
-
-class NovelEventToPushDtoImpl implements NovelEventToPushDto {
-  @IsString()
-  readonly eventId!: string;
-
-  @IsString()
-  readonly eventName!: string;
-  @IsString()
-  readonly eventVersion!: string;
-  @IsObject()
-  readonly data: unknown;
-}
+import { NovelEventToPushDtoImpl } from './dtos/novel-event-to-push.dto.impl';
 
 @Controller('novels/:id/events')
 @ApiBearerAuth()

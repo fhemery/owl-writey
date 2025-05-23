@@ -28,20 +28,13 @@ import {
   Role,
   SseEvent,
   UserDto,
-  UserToCreateDto,
 } from '@owl/shared/common/contracts';
-import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
+import { UserToCreateDtoImpl } from './dtos/user-to-create.dto.impl';
 import { UserDeletedEvent } from './model';
 import { User } from './model/user';
 import { UsersService } from './users.service';
-
-class UserToCreateDtoImpl implements UserToCreateDto {
-  @IsString()
-  @IsNotEmpty()
-  name!: string;
-}
 
 @Controller('users')
 @ApiBearerAuth()
