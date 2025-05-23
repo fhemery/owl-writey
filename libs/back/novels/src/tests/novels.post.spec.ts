@@ -77,6 +77,7 @@ describe('/api/novels', () => {
             ...new NovelCreatedTrackingEvent(
               response.locationId || '',
               novel.title,
+              TestUserBuilder.Alice().uid,
               TestUserBuilder.Alice().uid
             ),
             timestamp: expect.any(Date),

@@ -1,9 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { TrackingService } from '@owl/back/tracking';
+import {
+  Novel,
+  NovelBaseDomainEvent,
+  NovelChapterAddedEvent,
+} from '@owl/shared/novels/model';
 
-import { NovelCreatedEvent, NovelDeletedEvent } from '../../domain/events';
+import {
+  NovelCreatedEvent,
+  NovelDeletedEvent,
+  NovelUpdatedEvent,
+} from '../../domain/events';
 import { NovelBaseTrackingEvent } from './events/novel-base-tracking-event';
+import { NovelChapterAddedTrackingEvent } from './events/novel-chapter-added-tracking-event';
 import { NovelCreatedTrackingEvent } from './events/novel-created-tracking-event';
 import { NovelDeletedTrackingEvent } from './events/novel-deleted-tracking-event';
 
@@ -27,6 +37,7 @@ export class NovelTrackingListeners {
       new NovelCreatedTrackingEvent(
         novel.id,
         novel.generalInfo.title,
+        novel.participants[0].uid,
         novel.participants[0].uid
       )
     );
@@ -39,7 +50,37 @@ export class NovelTrackingListeners {
   @OnEvent(NovelDeletedEvent.EventName)
   async handleNovelDeletedEvent(event: NovelDeletedEvent): Promise<void> {
     const novel = event.payload;
-    await this.sendEvent(new NovelDeletedTrackingEvent(novel.id));
+    await this.sendEvent(
+      new NovelDeletedTrackingEvent(novel.id, novel.participants[0].uid)
+    );
+  }
+
+  @OnEvent(NovelUpdatedEvent.EventName)
+  async handleNovelUpdatedEvent(event: NovelUpdatedEvent): Promise<void> {
+    const trackingEvent = this.convertToTrackingEvent(
+      event.payload.event,
+      event.payload.novel
+    );
+    if (!trackingEvent) {
+      return;
+    }
+    await this.sendEvent(trackingEvent);
+  }
+  convertToTrackingEvent(
+    event: NovelBaseDomainEvent,
+    novel: Novel
+  ): NovelBaseTrackingEvent | null {
+    switch (event.eventName) {
+      case NovelChapterAddedEvent.eventName:
+        return new NovelChapterAddedTrackingEvent(
+          novel.id,
+          (event as NovelChapterAddedEvent).data.name,
+          (event as NovelChapterAddedEvent).data.id,
+          novel.participants[0].uid
+        );
+      default:
+        return null;
+    }
   }
 
   /**

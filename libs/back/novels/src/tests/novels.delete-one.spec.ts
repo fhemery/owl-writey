@@ -79,7 +79,7 @@ describe('DELETE /novels/:id', () => {
         expect(event).toHaveLength(1);
 
         expect(event[0]).toEqual({
-          ...new NovelDeletedTrackingEvent(existingNovel.id),
+          ...new NovelDeletedTrackingEvent(existingNovel.id, TestUserBuilder.Alice().uid),
           timestamp: expect.any(Date),
         });
       });

@@ -7,8 +7,9 @@ export class NovelCreatedTrackingEvent extends NovelBaseTrackingEvent<{
   constructor(
     novelId: string,
     readonly title: string,
-    readonly authorId: string
+    readonly authorId: string,
+    userId: string
   ) {
-    super('novel.created', novelId, { title, authorId });
+    super('novel.created', novelId, { title, authorId }, userId);
   }
 }
