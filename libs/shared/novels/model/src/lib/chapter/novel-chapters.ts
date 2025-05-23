@@ -25,27 +25,19 @@ export class NovelChapters {
   }
 
   update(chapter: NovelChapter): NovelChapters {
-    if (!this.findChapter(chapter.id)) {
-      return this;
-    }
     return new NovelChapters(arrayUtils.replaceItem(this._chapters, chapter));
   }
 
   move(chapterId: string, atIndex: number): NovelChapters {
-    if (!this.findChapter(chapterId)) {
-      return this;
-    }
     return new NovelChapters(
       arrayUtils.moveItem(this._chapters, chapterId, atIndex)
     );
   }
 
   delete(chapterId: string): NovelChapters {
-    if (!this.findChapter(chapterId)) {
-      return this;
-    }
     return new NovelChapters(arrayUtils.removeItem(this._chapters, chapterId));
   }
+
   addSceneAt(
     chapterId: string,
     sceneId: string,
@@ -53,9 +45,6 @@ export class NovelChapters {
     outline = '',
     index?: number
   ): NovelChapters {
-    if (!this.findChapter(chapterId)) {
-      return this;
-    }
     return new NovelChapters(
       this._chapters.map((c) =>
         c.id === chapterId ? c.addNewSceneAt(sceneId, title, outline, index) : c
@@ -96,9 +85,6 @@ export class NovelChapters {
     );
   }
   moveScene(chapterId: string, sceneId: string, at: number): NovelChapters {
-    if (!this.findScene(chapterId, sceneId)) {
-      return this;
-    }
     return new NovelChapters(
       this._chapters.map((c) =>
         c.id === chapterId ? c.moveScene(sceneId, at) : c
@@ -107,9 +93,6 @@ export class NovelChapters {
   }
 
   deleteScene(chapterId: string, sceneId: string): NovelChapters {
-    if (!this.findScene(chapterId, sceneId)) {
-      return this;
-    }
     return new NovelChapters(
       this._chapters.map((c) =>
         c.id === chapterId ? c.deleteScene(sceneId) : c

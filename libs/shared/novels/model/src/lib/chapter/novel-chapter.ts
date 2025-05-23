@@ -48,24 +48,12 @@ export class NovelChapter {
     return this.scenes.some((s) => s.id === sceneId);
   }
   moveScene(sceneId: string, at: number): NovelChapter {
-    if (!this.findScene(sceneId)) {
-      return this;
-    }
     return this.withScenes(arrayUtils.moveItem(this.scenes, sceneId, at));
   }
   updateScene(scene: NovelScene): NovelChapter {
-    const existingScene = this.scenes.find((s) => s.id === scene.id);
-    if (!existingScene) {
-      return this;
-    }
-    return this.withScenes(
-      this.scenes.map((s) => (s.id === scene.id ? scene : s))
-    );
+    return this.withScenes(arrayUtils.replaceItem(this.scenes, scene));
   }
   deleteScene(sceneId: string): NovelChapter {
-    if (!this.findScene(sceneId)) {
-      return this;
-    }
     return this.withScenes(arrayUtils.removeItem(this.scenes, sceneId));
   }
 
