@@ -35,6 +35,6 @@ export class NovelCharacterMovedEvent extends NovelBaseDomainEvent {
   }
 
   applyTo(novel: Novel): Novel {
-    return novel.doMoveCharacter(this.data.characterId, this.data.toIndex);
+    return novel.moveCharacter(this.data.characterId, this.data.toIndex);
   }
 }

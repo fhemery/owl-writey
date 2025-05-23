@@ -1,3 +1,5 @@
+import { arrayUtils } from '@owl/shared/common/utils';
+
 import { NovelCharacter } from './novel-character';
 
 export class NovelCharacters {
@@ -18,66 +20,30 @@ export class NovelCharacters {
     description: string,
     index?: number
   ): NovelCharacters {
-    if (index !== undefined) {
-      return new NovelCharacters([
-        ...this._characters.slice(0, index),
+    return new NovelCharacters(
+      arrayUtils.insertAt(
+        this._characters,
         new NovelCharacter(id, name, description),
-        ...this._characters.slice(index),
-      ]);
-    } else {
-      return new NovelCharacters([
-        ...this._characters,
-        new NovelCharacter(id, name, description),
-      ]);
-    }
+        index
+      )
+    );
   }
   findCharacter(characterId: string): NovelCharacter | null {
     return this._characters.find((c) => c.id === characterId) || null;
   }
   updateCharacter(character: NovelCharacter): NovelCharacters {
-    const index = this._characters.findIndex((c) => c.id === character.id);
-    if (index !== -1) {
-      return new NovelCharacters([
-        ...this._characters.slice(0, index),
-        character,
-        ...this._characters.slice(index + 1),
-      ]);
-    }
-    return this;
-  }
-  moveCharacter(from: number, to: number): void {
-    const character = this._characters[from];
-    this._characters.splice(from, 1);
-    this._characters.splice(to, 0, character);
-  }
-  doMoveCharacter(characterId: string, toIndex: number): NovelCharacters {
-    const character = this.findCharacter(characterId);
-    if (!character) {
-      return this;
-    }
-    const characterIndex = this._characters.findIndex(
-      (c) => c.id === characterId
-    );
-    const otherCharacters = this._characters.filter(
-      (c) => c.id !== characterId
-    );
-    if (characterIndex < toIndex) {
-      toIndex--;
-    }
-    return new NovelCharacters([
-      ...otherCharacters.slice(0, toIndex),
-      character,
-      ...otherCharacters.slice(toIndex),
-    ]);
-  }
-
-  deleteCharacter(characterId: string): NovelCharacters {
-    const character = this.findCharacter(characterId);
-    if (!character) {
-      return this;
-    }
     return new NovelCharacters(
-      this._characters.filter((c) => c.id !== characterId)
+      arrayUtils.replaceItem(this._characters, character)
+    );
+  }
+  moveCharacter(characterId: string, toIndex: number): NovelCharacters {
+    return new NovelCharacters(
+      arrayUtils.moveItem(this._characters, characterId, toIndex)
+    );
+  }
+  deleteCharacter(characterId: string): NovelCharacters {
+    return new NovelCharacters(
+      arrayUtils.removeItem(this._characters, characterId)
     );
   }
 }

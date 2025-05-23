@@ -26,14 +26,10 @@ export class NovelUniverse {
   updateCharacter(character: NovelCharacter): NovelUniverse {
     return this.withCharacters(this._characters.updateCharacter(character));
   }
-  doMoveCharacter(characterId: string, toIndex: number): NovelUniverse {
+  moveCharacter(characterId: string, toIndex: number): NovelUniverse {
     return this.withCharacters(
-      this._characters.doMoveCharacter(characterId, toIndex)
+      this._characters.moveCharacter(characterId, toIndex)
     );
-  }
-
-  moveCharacter(from: number, to: number): void {
-    this._characters.moveCharacter(from, to);
   }
   deleteCharacter(characterId: string): NovelUniverse {
     return this.withCharacters(this._characters.deleteCharacter(characterId));
