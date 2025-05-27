@@ -11,6 +11,7 @@ import {
   NovelCharacterDeletedEvent,
   NovelCharacterTagsUpdatedEvent,
   NovelSceneAddedEvent,
+  NovelSceneContentUpdatedEvent,
   NovelSceneDeletedEvent,
 } from '@owl/shared/novels/model';
 
@@ -29,6 +30,7 @@ import { NovelCharacterTagsChangedTrackingEvent } from './events/novel-character
 import { NovelCreatedTrackingEvent } from './events/novel-created-tracking-event';
 import { NovelDeletedTrackingEvent } from './events/novel-deleted-tracking-event';
 import { NovelSceneAddedTrackingEvent } from './events/novel-scene-added-tracking-event';
+import { NovelSceneContentUpdatedTrackingEvent } from './events/novel-scene-content-updated-tracking-event';
 import { NovelSceneDeletedTrackingEvent } from './events/novel-scene-deleted-tracking-event';
 
 /**
@@ -135,6 +137,16 @@ export class NovelTrackingListeners {
           novel.id,
           (event as NovelSceneDeletedEvent).data.chapterId,
           (event as NovelSceneDeletedEvent).data.sceneId,
+          novel.participants[0].uid
+        );
+      case NovelSceneContentUpdatedEvent.eventName:
+        return new NovelSceneContentUpdatedTrackingEvent(
+          novel.id,
+          (event as NovelSceneContentUpdatedEvent).data.chapterId,
+          (event as NovelSceneContentUpdatedEvent).data.sceneId,
+          (
+            event as NovelSceneContentUpdatedEvent
+          ).data.diff.stats.diffWordCount,
           novel.participants[0].uid
         );
       default:

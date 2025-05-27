@@ -9,4 +9,5 @@ export * from './events/novel-character-color-changed-tracking-event';
 export * from './events/novel-character-deleted-tracking-event';
 export * from './events/novel-character-tags-changed-tracking-event';
 export * from './events/novel-scene-added-tracking-event';
+export * from './events/novel-scene-content-updated-tracking-event';
 export * from './events/novel-scene-deleted-tracking-event';

@@ -10,8 +10,10 @@ import {
   NovelCharacterDeletedEvent,
   NovelCharacterTagsUpdatedEvent,
   NovelSceneAddedEvent,
+  NovelSceneContentUpdatedEvent,
   NovelSceneDeletedEvent,
 } from '@owl/shared/novels/model';
+import { generateTextDiff } from '@owl/shared/word-utils';
 
 import {
   NovelChapterAddedTrackingEvent,
@@ -21,6 +23,7 @@ import {
   NovelCharacterDeletedTrackingEvent,
   NovelCharacterTagsChangedTrackingEvent,
   NovelSceneAddedTrackingEvent,
+  NovelSceneContentUpdatedTrackingEvent,
   NovelSceneDeletedTrackingEvent,
 } from '../lib/infra/tracking';
 import {
@@ -208,6 +211,32 @@ describe('POST /api/novel/:id/events', () => {
         await sendAndCheckBackEvent(
           new NovelSceneDeletedEvent(
             { chapterId: 'chapter-id', sceneId: '123' },
+            TestUserBuilder.Alice().uid
+          ),
+          existingNovel.id,
+          expectedEvent
+        );
+      });
+
+      it('should track scene content update', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const diff = generateTextDiff('old', 'new content');
+
+        const expectedEvent = new NovelSceneContentUpdatedTrackingEvent(
+          existingNovel.id,
+          'chapter-id',
+          '123',
+          diff.stats.diffWordCount,
+          TestUserBuilder.Alice().uid
+        );
+
+        await sendAndCheckBackEvent(
+          new NovelSceneContentUpdatedEvent(
+            {
+              chapterId: 'chapter-id',
+              sceneId: '123',
+              diff,
+            },
             TestUserBuilder.Alice().uid
           ),
           existingNovel.id,
