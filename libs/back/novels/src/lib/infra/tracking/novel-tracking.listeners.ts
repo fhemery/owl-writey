@@ -5,6 +5,13 @@ import {
   Novel,
   NovelBaseDomainEvent,
   NovelChapterAddedEvent,
+  NovelChapterDeletedEvent,
+  NovelCharacterAddedEvent,
+  NovelCharacterColorUpdatedEvent,
+  NovelCharacterDeletedEvent,
+  NovelCharacterTagsUpdatedEvent,
+  NovelSceneAddedEvent,
+  NovelSceneDeletedEvent,
 } from '@owl/shared/novels/model';
 
 import {
@@ -14,8 +21,15 @@ import {
 } from '../../domain/events';
 import { NovelBaseTrackingEvent } from './events/novel-base-tracking-event';
 import { NovelChapterAddedTrackingEvent } from './events/novel-chapter-added-tracking-event';
+import { NovelChapterDeletedTrackingEvent } from './events/novel-chapter-deleted-tracking-event';
+import { NovelCharacterAddedTrackingEvent } from './events/novel-character-added-tracking-event';
+import { NovelCharacterColorChangedTrackingEvent } from './events/novel-character-color-changed-tracking-event';
+import { NovelCharacterDeletedTrackingEvent } from './events/novel-character-deleted-tracking-event';
+import { NovelCharacterTagsChangedTrackingEvent } from './events/novel-character-tags-changed-tracking-event';
 import { NovelCreatedTrackingEvent } from './events/novel-created-tracking-event';
 import { NovelDeletedTrackingEvent } from './events/novel-deleted-tracking-event';
+import { NovelSceneAddedTrackingEvent } from './events/novel-scene-added-tracking-event';
+import { NovelSceneDeletedTrackingEvent } from './events/novel-scene-deleted-tracking-event';
 
 /**
  * Listener for novel-related events to track them in analytics
@@ -74,8 +88,53 @@ export class NovelTrackingListeners {
       case NovelChapterAddedEvent.eventName:
         return new NovelChapterAddedTrackingEvent(
           novel.id,
-          (event as NovelChapterAddedEvent).data.name,
           (event as NovelChapterAddedEvent).data.id,
+          novel.participants[0].uid
+        );
+      case NovelChapterDeletedEvent.eventName:
+        return new NovelChapterDeletedTrackingEvent(
+          novel.id,
+          (event as NovelChapterDeletedEvent).data.id,
+          novel.participants[0].uid
+        );
+      case NovelCharacterAddedEvent.eventName:
+        return new NovelCharacterAddedTrackingEvent(
+          novel.id,
+          (event as NovelCharacterAddedEvent).data.characterId,
+          novel.participants[0].uid
+        );
+      case NovelCharacterDeletedEvent.eventName:
+        return new NovelCharacterDeletedTrackingEvent(
+          novel.id,
+          (event as NovelCharacterDeletedEvent).data.characterId,
+          novel.participants[0].uid
+        );
+      case NovelCharacterColorUpdatedEvent.eventName:
+        return new NovelCharacterColorChangedTrackingEvent(
+          novel.id,
+          (event as NovelCharacterColorUpdatedEvent).data.characterId,
+          (event as NovelCharacterColorUpdatedEvent).data.color || 'undefined',
+          novel.participants[0].uid
+        );
+      case NovelCharacterTagsUpdatedEvent.eventName:
+        return new NovelCharacterTagsChangedTrackingEvent(
+          novel.id,
+          (event as NovelCharacterTagsUpdatedEvent).data.characterId,
+          (event as NovelCharacterTagsUpdatedEvent).data.tags,
+          novel.participants[0].uid
+        );
+      case NovelSceneAddedEvent.eventName:
+        return new NovelSceneAddedTrackingEvent(
+          novel.id,
+          (event as NovelSceneAddedEvent).data.chapterId,
+          (event as NovelSceneAddedEvent).data.sceneId,
+          novel.participants[0].uid
+        );
+      case NovelSceneDeletedEvent.eventName:
+        return new NovelSceneDeletedTrackingEvent(
+          novel.id,
+          (event as NovelSceneDeletedEvent).data.chapterId,
+          (event as NovelSceneDeletedEvent).data.sceneId,
           novel.participants[0].uid
         );
       default:

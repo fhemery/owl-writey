@@ -1,9 +1,9 @@
 import { NovelBaseTrackingEvent } from './novel-base-tracking-event';
 
-export class NovelChapterAddedTrackingEvent extends NovelBaseTrackingEvent<{
+export class NovelChapterDeletedTrackingEvent extends NovelBaseTrackingEvent<{
   chapterId: string;
 }> {
   constructor(novelId: string, chapterId: string, userId: string) {
-    super('novel.chapterAdded', novelId, { chapterId }, userId);
+    super('novel.chapterDeleted', novelId, { chapterId }, userId);
   }
 }
