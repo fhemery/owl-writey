@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 
+
 export function countWordsFromHtml(text: string): number {
   if (!text) {
     return 0;

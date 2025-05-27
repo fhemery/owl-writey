@@ -95,6 +95,12 @@ importers:
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
+      diff:
+        specifier: ^8.0.2
+        version: 8.0.2
+      diff_match_patch:
+        specifier: ^0.1.1
+        version: 0.1.1
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -258,6 +264,9 @@ importers:
       '@types/cheerio':
         specifier: ^0.22.35
         version: 0.22.35
+      '@types/diff-match-patch':
+        specifier: ^1.0.36
+        version: 1.0.36
       '@types/event-source-polyfill':
         specifier: ^1.0.5
         version: 1.0.5
@@ -3749,6 +3758,9 @@ packages:
   '@types/cors@2.8.17':
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
 
+  '@types/diff-match-patch@1.0.36':
+    resolution: {integrity: sha512-xFdR6tkm0MWvBfO8xXCSsinYxHcqkQUlcHeSpMC2ukzOb6lwQAfDmW+Qt0AvlGd8HpsS28qKsB+oPeJn9I39jg==}
+
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
 
@@ -5163,6 +5175,13 @@ packages:
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
+
+  diff@8.0.2:
+    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
+    engines: {node: '>=0.3.1'}
+
+  diff_match_patch@0.1.1:
+    resolution: {integrity: sha512-Nkwjapx+h/XztshNiNomITTPtST6AMSORrAz/qCvZzDFdzadbsPwosPTkpKrwZdlBthAfOE2bCgxtn/ksml+gg==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -13963,6 +13982,8 @@ snapshots:
     dependencies:
       '@types/node': 18.16.9
 
+  '@types/diff-match-patch@1.0.36': {}
+
   '@types/eslint-scope@3.7.7':
     dependencies:
       '@types/eslint': 9.6.1
@@ -15575,6 +15596,10 @@ snapshots:
   diff-sequences@29.6.3: {}
 
   diff@4.0.2: {}
+
+  diff@8.0.2: {}
+
+  diff_match_patch@0.1.1: {}
 
   dir-glob@3.0.1:
     dependencies:
