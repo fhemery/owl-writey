@@ -1,3 +1,5 @@
+import { generateTextDiff } from '@owl/shared/word-utils';
+
 import {
   NovelBuilder,
   NovelException,
@@ -26,8 +28,13 @@ describe('NovelSceneContentUpdatedEvent', () => {
           new NovelSceneContentUpdatedEvent(
             {
               sceneId: 'scene-1',
-              content: 'New Content',
-            } as NovelSceneContentUpdatedEventData,
+              diff: {
+                patches: [],
+                stats: {
+                  diffWordCount: 0,
+                },
+              },
+            } as unknown as NovelSceneContentUpdatedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -39,8 +46,13 @@ describe('NovelSceneContentUpdatedEvent', () => {
           new NovelSceneContentUpdatedEvent(
             {
               chapterId: 'chapter-1',
-              content: 'New Content',
-            } as NovelSceneContentUpdatedEventData,
+              diff: {
+                patches: [],
+                stats: {
+                  diffWordCount: 0,
+                },
+              },
+            } as unknown as NovelSceneContentUpdatedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -53,7 +65,7 @@ describe('NovelSceneContentUpdatedEvent', () => {
             {
               chapterId: 'chapter-1',
               sceneId: 'scene-1',
-            } as NovelSceneContentUpdatedEventData,
+            } as unknown as NovelSceneContentUpdatedEventData,
             'userId'
           )
       ).toThrowError(NovelException);
@@ -66,7 +78,7 @@ describe('NovelSceneContentUpdatedEvent', () => {
         {
           chapterId: 'chapter-2',
           sceneId: 'scene-2',
-          content: 'Updated Content',
+          diff: generateTextDiff('', 'Updated Content'),
         },
         'userId'
       );
@@ -83,7 +95,7 @@ describe('NovelSceneContentUpdatedEvent', () => {
         {
           chapterId: 'non-existent',
           sceneId: 'scene-2',
-          content: 'Updated Content',
+          diff: generateTextDiff('', 'Updated Content'),
         },
         'userId'
       );
@@ -98,7 +110,7 @@ describe('NovelSceneContentUpdatedEvent', () => {
         {
           chapterId: 'chapter-2',
           sceneId: 'non-existent',
-          content: 'Updated Content',
+          diff: generateTextDiff('', 'Updated Content'),
         },
         'userId'
       );

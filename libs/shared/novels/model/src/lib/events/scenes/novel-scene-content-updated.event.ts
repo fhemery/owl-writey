@@ -1,3 +1,5 @@
+import { applyTextDiff, TextDiff } from '@owl/shared/word-utils';
+
 import { NovelException } from '../../exceptions/novel.exception';
 import { Novel } from '../../novel';
 import { NovelBaseDomainEvent } from '../novel-base-domain-event';
@@ -5,7 +7,7 @@ import { NovelBaseDomainEvent } from '../novel-base-domain-event';
 export interface NovelSceneContentUpdatedEventData {
   chapterId: string;
   sceneId: string;
-  content: string;
+  diff: TextDiff;
 }
 
 export class NovelSceneContentUpdatedEvent extends NovelBaseDomainEvent<NovelSceneContentUpdatedEventData> {
@@ -26,8 +28,8 @@ export class NovelSceneContentUpdatedEvent extends NovelBaseDomainEvent<NovelSce
       throw new NovelException('Scene ID must be provided');
     }
 
-    if (data.content === undefined) {
-      throw new NovelException('Scene content must be provided');
+    if (!data.diff) {
+      throw new NovelException('Scene diff must be provided');
     }
 
     super(
@@ -47,7 +49,7 @@ export class NovelSceneContentUpdatedEvent extends NovelBaseDomainEvent<NovelSce
     }
     return novel.updateScene(
       this.data.chapterId,
-      scene.withContent(this.data.content)
+      scene.withContent(applyTextDiff(scene.content, this.data.diff))
     );
   }
 }

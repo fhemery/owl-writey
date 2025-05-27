@@ -1,3 +1,5 @@
+import { generateTextDiff } from '@owl/shared/word-utils';
+
 import {
   NovelChapterAddedEvent,
   NovelChapterDeletedEvent,
@@ -117,7 +119,11 @@ describe('NovelDomainEventFactory', () => {
     },
     {
       name: 'Novel:SceneContentUpdated',
-      data: { chapterId: '1', sceneId: 's1', content: 'New content' },
+      data: {
+        chapterId: '1',
+        sceneId: 's1',
+        diff: generateTextDiff('', 'New content'),
+      },
       expectedType: NovelSceneContentUpdatedEvent,
       version: '1',
     },

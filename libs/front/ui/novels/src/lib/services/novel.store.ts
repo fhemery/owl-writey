@@ -35,6 +35,7 @@ import {
   NovelSceneTransferedEvent,
   NovelTitleChangedEvent,
 } from '@owl/shared/novels/model';
+import { generateTextDiff } from '@owl/shared/word-utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import { NovelService } from './novel.service';
@@ -196,9 +197,12 @@ export class NovelStore extends signalStore(
         sceneId: string,
         content: string
       ): Promise<boolean> {
+        const oldContent =
+          this.getNovel().findScene(chapterId, sceneId)?.content || '';
+
         return await this._applyEvent(
           new NovelSceneContentUpdatedEvent(
-            { chapterId, sceneId, content },
+            { chapterId, sceneId, diff: generateTextDiff(oldContent, content) },
             store.userId()
           )
         );
