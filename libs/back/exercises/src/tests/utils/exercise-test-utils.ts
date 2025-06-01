@@ -104,6 +104,10 @@ export class ExerciseTestUtils {
     return await this.app.delete(`/api/exercises/${exerciseId}`);
   }
 
+  async deleteAll(): Promise<ApiResponse<void>> {
+    return await this.app.delete(`/api/exercises`);
+  }
+
   async createAndRetrieve(exercise: ExerciseToCreateDto): Promise<ExerciseDto> {
     const createResponse = await this.create(exercise);
     if (createResponse.status !== ApiResponseStatus.CREATED) {
