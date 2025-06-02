@@ -1,15 +1,17 @@
 import { AuthService } from '@owl/back/auth';
 import {
   IntegrationTestApplicationBuilder,
-  NestTestApplication,
+  NestIntegrationTestApplication,
   TestUserBuilder,
+  UserTestUtils,
 } from '@owl/back/test-utils';
+import { FakeTrackingFacade, TrackingFacade } from '@owl/back/tracking';
 
 import { UsersModule } from '../lib/users.module';
 import { AuthServiceMock } from './auth-service.mock';
-import { UserTestUtils } from './utils/user-test-utils';
 
-export let app: NestTestApplication;
+export let app: NestIntegrationTestApplication;
+export let fakeTrackingFacade: FakeTrackingFacade;
 export const authServiceMock: AuthServiceMock = new AuthServiceMock();
 
 export const moduleTestInit = (): void => {
@@ -18,6 +20,8 @@ export const moduleTestInit = (): void => {
       .withFakeInMemoryDb()
       .withMock(AuthService, authServiceMock)
       .build(UsersModule);
+
+    fakeTrackingFacade = app.getInstance<FakeTrackingFacade>(TrackingFacade);
   });
 
   // Yes, this is a before each, 'cause we are sometimes removing users ^_^

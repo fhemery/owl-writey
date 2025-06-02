@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from '@owl/back/user';
 
 import { TrackingFacade } from './domain';
 import { TrackingService } from './domain';
@@ -9,7 +8,7 @@ import { FakeTrackingFacade } from './infra/tracking-facades/fake-tracker/fake-t
 import { PosthogTrackingService } from './infra/tracking-facades/posthog-tracker/posthog-tracking.service';
 
 @Module({
-  imports: [ConfigModule, UsersModule],
+  imports: [ConfigModule],
   controllers: [TrackingController],
   providers: [
     TrackingService,

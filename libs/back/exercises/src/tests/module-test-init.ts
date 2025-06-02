@@ -4,10 +4,10 @@ import {
   IntegrationTestApplicationBuilder,
   NestIntegrationTestApplication,
   TestUserBuilder,
+  UserTestUtils,
 } from '@owl/back/test-utils';
 import { FakeTrackingFacade, TrackingFacade } from '@owl/back/tracking';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { ExercisesModule } from '../lib/exercises.module';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 

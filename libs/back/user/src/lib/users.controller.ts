@@ -32,7 +32,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { UserToCreateDtoImpl } from './dtos/user-to-create.dto.impl';
-import { UserDeletedEvent } from './model';
+import { UserCreatedEvent, UserDeletedEvent } from './model';
 import { User } from './model/user';
 import { UsersService } from './users.service';
 
@@ -94,6 +94,7 @@ export class UsersController {
       throw new InternalServerErrorException('User has not been authenticated');
     }
     await this.userService.create(new User(uid, email, user.name));
+    this.eventEmitter.emit(new UserCreatedEvent(uid));
 
     request.res?.set('Location', `/api/users/${uid}`);
   }

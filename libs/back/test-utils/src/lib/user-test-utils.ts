@@ -1,9 +1,7 @@
-import {
-  ApiResponse,
-  NestTestApplication,
-  RegisteredTestUser,
-} from '@owl/back/test-utils';
 import { Role, UserToCreateDto } from '@owl/shared/common/contracts';
+
+import { ApiResponse, RegisteredTestUser } from './model';
+import { NestTestApplication } from './nest-test-application';
 
 export class UserTestUtils {
   constructor(private readonly app: NestTestApplication) {}
