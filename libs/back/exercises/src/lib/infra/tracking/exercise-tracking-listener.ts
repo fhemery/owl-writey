@@ -4,6 +4,8 @@ import { TrackingService } from '@owl/back/tracking';
 
 import {
   ExerciseCreatedEvent,
+  ExerciseDeletedEvent,
+  ExerciseFinishedEvent,
   ExerciseUserJoinedEvent,
   ExerciseUserLeftEvent,
   ExerciseUserRemovedEvent,
@@ -11,6 +13,8 @@ import {
 import {
   ExerciseBaseTrackingEvent,
   ExerciseCreatedTrackingEvent,
+  ExerciseDeletedTrackingEvent,
+  ExerciseFinishedTrackingEvent,
   ExerciseUserJoinedTrackingEvent,
   ExerciseUserLeftTrackingEvent,
   ExerciseUserRemovedTrackingEvent,
@@ -66,6 +70,22 @@ export class ExerciseTrackingListener {
         event.payload.removedUserId
       )
     );
+  }
+
+  @OnEvent(ExerciseFinishedEvent.EventName)
+  async handleExerciseFinishedEvent(
+    event: ExerciseFinishedEvent
+  ): Promise<void> {
+    const { exercise, userId } = event.payload;
+    await this.sendEvent(
+      new ExerciseFinishedTrackingEvent(exercise.id, userId)
+    );
+  }
+
+  @OnEvent(ExerciseDeletedEvent.EventName)
+  async handleExerciseDeletedEvent(event: ExerciseDeletedEvent): Promise<void> {
+    const { exercise, userId } = event.payload;
+    await this.sendEvent(new ExerciseDeletedTrackingEvent(exercise.id, userId));
   }
 
   private async sendEvent(

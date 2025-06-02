@@ -1,7 +1,13 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseDto, ExerciseStatus } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from './module-test-init';
+import { ExerciseFinishedTrackingEvent } from '../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('POST /exercises/:id/finish', () => {
@@ -66,6 +72,26 @@ describe('POST /exercises/:id/finish', () => {
       const response = await exerciseUtils.getFromHateoas(exercise);
       expect(response.status).toBe(200);
       expect(response.body?._links.finish).toBeUndefined();
+    });
+
+    describe('tracking', () => {
+      it('should track the exercise finish', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+
+        await exerciseUtils.finishFromHateoas(exercise);
+
+        const trackingEvents = await fakeTrackingFacade.getByName(
+          ExerciseFinishedTrackingEvent.EventName
+        );
+        expect(trackingEvents).toHaveLength(1);
+        expect(trackingEvents[0]).toEqual({
+          ...new ExerciseFinishedTrackingEvent(
+            exercise.id,
+            TestUserBuilder.Alice().uid
+          ),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

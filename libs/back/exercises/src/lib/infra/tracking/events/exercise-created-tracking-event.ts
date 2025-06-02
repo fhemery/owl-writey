@@ -7,11 +7,13 @@ interface ExerciseCreatedTrackingEventData {
 }
 
 export class ExerciseCreatedTrackingEvent extends ExerciseBaseTrackingEvent<ExerciseCreatedTrackingEventData> {
+  static readonly EventName = 'exercise.created';
+
   constructor(
     exerciseId: string,
     data: ExerciseCreatedTrackingEventData,
     userId: string
   ) {
-    super('exercise.created', exerciseId, data, userId);
+    super(ExerciseCreatedTrackingEvent.EventName, exerciseId, data, userId);
   }
 }

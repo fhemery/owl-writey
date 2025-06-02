@@ -93,7 +93,7 @@ describe('POST /exercises', () => {
           TestUserBuilder.Alice().uid
         );
         const trackingEvents = await fakeTrackingFacade.getByName(
-          'exercise.created'
+          ExerciseCreatedTrackingEvent.EventName
         );
         expect(trackingEvents).toHaveLength(1);
         expect(trackingEvents[0]).toEqual({
