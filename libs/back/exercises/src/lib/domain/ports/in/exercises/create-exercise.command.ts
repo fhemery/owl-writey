@@ -1,4 +1,5 @@
 import { Inject } from '@nestjs/common';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 import {
   ExerciseParticipantRole,
   ExerciseStatus,
@@ -6,6 +7,7 @@ import {
 import { v4 as uuidV4 } from 'uuid';
 
 import {
+  ExerciseCreatedEvent,
   ExerciseFactory,
   ExerciseGeneralInfo,
   ExerciseParticipant,
@@ -17,7 +19,9 @@ export class CreateExerciseCommand {
   constructor(
     @Inject(ExerciseUserFacade) private readonly userFacade: ExerciseUserFacade,
     @Inject(ExerciseRepository)
-    private readonly exerciseRepository: ExerciseRepository
+    private readonly exerciseRepository: ExerciseRepository,
+    @Inject(EventEmitterFacade)
+    private readonly eventEmitterFacade: EventEmitterFacade
   ) {}
 
   async execute(
@@ -44,6 +48,7 @@ export class CreateExerciseCommand {
       exerciseToCreate.config
     );
     await this.exerciseRepository.save(exercise);
+    this.eventEmitterFacade.emit(new ExerciseCreatedEvent(userId, exercise));
     return id;
   }
 }
