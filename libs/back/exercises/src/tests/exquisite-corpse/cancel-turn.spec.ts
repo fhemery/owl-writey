@@ -13,7 +13,13 @@ import {
   ExquisiteCorpseLinksDto,
 } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { ExquisiteCorpseTurnCanceledTrackingEvent } from '../../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from '../module-test-init';
 import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
@@ -137,6 +143,23 @@ describe('Exquisite corpse: cancel turn action', () => {
         expect(cancelTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
       });
 
+      it('should return 204 if user is admin and someone has turn', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+
+        await exerciseUtils.takeTurnFromHateoas(exercise);
+
+        await app.logAs(TestUserBuilder.Alice());
+        const updated = await exerciseUtils.getFromHateoas(exercise);
+        if (!updated.body) {
+          fail('No exercise found');
+        }
+        const cancelTurn = await exerciseUtils.cancelTurnFromHateoas(
+          updated.body
+        );
+
+        expect(cancelTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
+      });
+
       it('should notify the users that turn is canceled', async () => {
         await app.logAs(TestUserBuilder.Bob());
         await exerciseUtils.participateFromHateoas(exercise);
@@ -185,6 +208,31 @@ describe('Exquisite corpse: cancel turn action', () => {
         expect(updatedExercise._links.takeTurn).toBeDefined();
         expect(updatedExercise._links.cancelTurn).toBeUndefined();
         expect(updatedExercise._links.submitTurn).toBeUndefined();
+      });
+
+      describe('about tracking events', () => {
+        it('should emit a turn canceled event', async () => {
+          await app.logAs(TestUserBuilder.Bob());
+          await exerciseUtils.participateFromHateoas(exercise);
+          await exerciseUtils.takeTurnFromHateoas(exercise);
+
+          await app.logAs(TestUserBuilder.Alice());
+          await exerciseUtils.cancelTurn(exercise.id);
+          await waitFor(100);
+
+          const event = fakeTrackingFacade.getLastByName(
+            ExquisiteCorpseTurnCanceledTrackingEvent.EventName
+          ) as ExquisiteCorpseTurnCanceledTrackingEvent;
+
+          expect(event).toEqual({
+            ...new ExquisiteCorpseTurnCanceledTrackingEvent(
+              exercise.id,
+              TestUserBuilder.Bob().uid,
+              TestUserBuilder.Alice().uid
+            ),
+            timestamp: expect.any(Date),
+          });
+        });
       });
     });
   });

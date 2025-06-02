@@ -70,7 +70,7 @@ export class ExquisiteCorpseExercise extends Exercise<
   }
 
   cancelTurn(userId: string): void {
-    if (this.content?.currentWriter?.author.uid !== userId) {
+    if (!this.content || !this.canCancelTurn(userId)) {
       throw new ExerciseException('It is not your turn, you cannot cancel');
     }
     this.content.currentWriter = undefined;

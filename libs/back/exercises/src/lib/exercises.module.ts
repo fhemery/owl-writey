@@ -31,6 +31,7 @@ import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.rep
 import { ExerciseEventHandlers } from './infra/event-handlers/exercise.event-handlers';
 import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
 import { ExerciseTrackingListener } from './infra/tracking/exercise-tracking-listener';
+import { ExquisiteCorpseTrackingListener } from './infra/tracking/exquisite-corpse-tracking-listener';
 import { UserFacadeImpl } from './infra/user/user.facade.impl';
 
 @Module({
@@ -66,6 +67,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     SubmitTurnCommand,
     CancelTurnCommand,
     ExerciseTrackingListener,
+    ExquisiteCorpseTrackingListener,
   ],
   exports: [],
 })

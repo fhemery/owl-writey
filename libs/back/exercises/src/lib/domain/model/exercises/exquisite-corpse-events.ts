@@ -6,8 +6,8 @@ import { ExquisiteCorpseExercise } from './exquisite-corpse';
 export class ExCorpseTakeTurnEvent
   implements EmittedEvent<{ exercise: ExquisiteCorpseExercise }>
 {
-  static eventName = 'exquisite-corpse.take-turn';
-  name = ExCorpseTakeTurnEvent.eventName;
+  static EventName = 'exquisite-corpse.take-turn';
+  name = ExCorpseTakeTurnEvent.EventName;
   payload: { exercise: ExquisiteCorpseExercise };
 
   constructor(exercise: ExquisiteCorpseExercise) {
@@ -20,22 +20,31 @@ export class ExCorpseCancelTurnEvent
     EmittedEvent<{
       exercise: ExquisiteCorpseExercise;
       lastAuthor: ExerciseUser;
+      cancelingUserId: string;
     }>
 {
-  static eventName = 'exquisite-corpse.cancel-turn';
-  name = ExCorpseCancelTurnEvent.eventName;
-  payload: { exercise: ExquisiteCorpseExercise; lastAuthor: ExerciseUser };
+  static EventName = 'exquisite-corpse.cancel-turn';
+  name = ExCorpseCancelTurnEvent.EventName;
+  payload: {
+    exercise: ExquisiteCorpseExercise;
+    lastAuthor: ExerciseUser;
+    cancelingUserId: string;
+  };
 
-  constructor(exercise: ExquisiteCorpseExercise, author: ExerciseUser) {
-    this.payload = { exercise, lastAuthor: author };
+  constructor(
+    exercise: ExquisiteCorpseExercise,
+    author: ExerciseUser,
+    cancelingUserId: string
+  ) {
+    this.payload = { exercise, lastAuthor: author, cancelingUserId };
   }
 }
 
 export class ExCorpseSubmitTurnEvent
   implements EmittedEvent<{ exercise: ExquisiteCorpseExercise }>
 {
-  static eventName = 'exquisite-corpse.submit-turn';
-  name = ExCorpseSubmitTurnEvent.eventName;
+  static EventName = 'exquisite-corpse.submit-turn';
+  name = ExCorpseSubmitTurnEvent.EventName;
   payload: { exercise: ExquisiteCorpseExercise; author: ExerciseUser };
 
   constructor(exercise: ExquisiteCorpseExercise, author: ExerciseUser) {
