@@ -23,6 +23,10 @@ export class FakeTrackingFacade implements TrackingFacade {
     return this.events.filter((event) => event.eventName === eventName);
   }
 
+  getLastByName(eventName: string): TrackingEvent | undefined {
+    return this.events.filter((event) => event.eventName === eventName).pop();
+  }
+
   reset(): Promise<void> {
     this.events = [];
     return Promise.resolve();

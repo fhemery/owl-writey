@@ -1,5 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 
+import { ExerciseDeletedEvent, ExerciseUserLeftEvent } from '../../../model';
 import { ExerciseRepository } from '../../out';
 
 // TODO: Write a test for this
@@ -7,7 +9,9 @@ import { ExerciseRepository } from '../../out';
 export class DeleteAllExercisesFromUserCommand {
   constructor(
     @Inject(ExerciseRepository)
-    private readonly exerciseRepository: ExerciseRepository
+    private readonly exerciseRepository: ExerciseRepository,
+    @Inject(EventEmitterFacade)
+    private readonly eventEmitterFacade: EventEmitterFacade
   ) {}
 
   async execute(uid: string): Promise<void> {
@@ -21,9 +25,15 @@ export class DeleteAllExercisesFromUserCommand {
       }
       if (exercise.isParticipantAdmin(uid)) {
         await this.exerciseRepository.delete(ex.id);
+        await this.eventEmitterFacade.emit(
+          new ExerciseDeletedEvent(uid, exercise)
+        );
       } else {
         exercise.removeParticipant(uid, uid);
         await this.exerciseRepository.save(exercise);
+        await this.eventEmitterFacade.emit(
+          new ExerciseUserLeftEvent(uid, exercise)
+        );
       }
     }
   }
