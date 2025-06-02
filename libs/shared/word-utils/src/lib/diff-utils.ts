@@ -1,4 +1,4 @@
-import { diffWords } from 'diff';
+import { diffChars } from 'diff';
 
 import { countWordsFromHtml } from './word-utils';
 
@@ -34,7 +34,7 @@ export function generateTextDiff(oldText: string, newText: string): TextDiff {
     };
   }
 
-  const changes = diffWords(oldText, newText);
+  const changes = diffChars(oldText, newText);
   const patches: Patch[] = [];
   let currentIndex = 0;
 

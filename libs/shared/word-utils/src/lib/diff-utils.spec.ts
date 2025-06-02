@@ -51,6 +51,12 @@ describe('diff-utils', () => {
         desc: 'Harder replace',
         wordsDiff: 0,
       },
+      {
+        old: 'Once upon a time, a dragon.',
+        new: 'Once upon a time, a <em>pink</em> dragon. One that loved eating <strong>knights</strong>.',
+        desc: 'Multiple modifications',
+        wordsDiff: 6,
+      },
     ])(
       'should generate and apply diffs and compute correctly word count $desc',
       ({ old, new: newText, wordsDiff }) => {

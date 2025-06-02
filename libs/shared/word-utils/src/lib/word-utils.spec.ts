@@ -90,4 +90,15 @@ describe('countWordsFromHtml', () => {
       expect(countWordsFromHtml(html)).toBe(3);
     });
   });
+
+  describe('Edge cases', () => {
+    it.each([
+      {
+        html: '<p>Once upon a time, a <em>pink</em> dragon. One that loved eating <strong>knights</strong>.</p>',
+        expected: 12,
+      },
+    ])('count words correctly for $html', ({ html, expected }) => {
+      expect(countWordsFromHtml(html)).toBe(expected);
+    });
+  });
 });
