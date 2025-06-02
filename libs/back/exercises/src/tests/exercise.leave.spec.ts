@@ -1,7 +1,16 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseDto } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from './module-test-init';
+import {
+  ExerciseUserLeftTrackingEvent,
+  ExerciseUserRemovedTrackingEvent,
+} from '../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('DELETE /exercises/:id/participants/:id', () => {
@@ -111,6 +120,57 @@ describe('DELETE /exercises/:id/participants/:id', () => {
         (p) => p.uid === TestUserBuilder.Bob().uid
       );
       expect(bob).toBeUndefined();
+    });
+
+    describe('tracking', () => {
+      it('should emit exercise.user-left event if user is removing himself', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+
+        await exerciseUtils.participateFromHateoas(exercise);
+
+        const getResponse = await exerciseUtils.getFromHateoas(exercise);
+        await exerciseUtils.leaveFromHateoas(getResponse.body as ExerciseDto);
+
+        const events = fakeTrackingFacade.getByName(
+          ExerciseUserLeftTrackingEvent.EventName
+        );
+
+        expect(events).toHaveLength(1);
+        expect(events[0]).toEqual({
+          ...new ExerciseUserLeftTrackingEvent(
+            exercise.id,
+            TestUserBuilder.Bob().uid
+          ),
+          timestamp: expect.any(Date),
+        });
+      });
+
+      it('should emit exercise.user-removed event if admin is removing participant', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+        await exerciseUtils.participateFromHateoas(exercise);
+
+        await app.logAs(TestUserBuilder.Alice());
+
+        const getResponse = await exerciseUtils.getFromHateoas(exercise);
+        await exerciseUtils.removeParticipantFromHateoas(
+          getResponse.body as ExerciseDto,
+          TestUserBuilder.Bob().uid
+        );
+
+        const events = fakeTrackingFacade.getByName(
+          ExerciseUserRemovedTrackingEvent.EventName
+        );
+
+        expect(events).toHaveLength(1);
+        expect(events[0]).toEqual({
+          ...new ExerciseUserRemovedTrackingEvent(
+            exercise.id,
+            TestUserBuilder.Alice().uid,
+            TestUserBuilder.Bob().uid
+          ),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

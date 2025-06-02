@@ -9,9 +9,15 @@ import {
   Req,
 } from '@nestjs/common';
 import { Auth, RequestWithUser } from '@owl/back/auth';
+import { EventEmitterFacade } from '@owl/back/infra/events';
 import { UsersService } from '@owl/back/user';
 import { ExerciseParticipantRole } from '@owl/shared/exercises/contracts';
 
+import {
+  ExerciseUserJoinedEvent,
+  ExerciseUserLeftEvent,
+  ExerciseUserRemovedEvent,
+} from '../../domain/model';
 import { ExerciseException } from '../../domain/model/exceptions/exercise-exception';
 import { ExerciseRepository } from '../../domain/ports';
 
@@ -20,7 +26,8 @@ export class ExerciseParticipantsController {
   constructor(
     @Inject(ExerciseRepository)
     private readonly exerciseRepository: ExerciseRepository,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly eventEmitterFacade: EventEmitterFacade
   ) {}
 
   @Post()
@@ -52,6 +59,9 @@ export class ExerciseParticipantsController {
     }
 
     await this.exerciseRepository.save(exercise);
+    this.eventEmitterFacade.emit(
+      new ExerciseUserJoinedEvent(request.user.uid, exercise)
+    );
     request.res?.status(204);
   }
 
@@ -68,10 +78,19 @@ export class ExerciseParticipantsController {
     }
 
     try {
-      exercise.removeParticipant(
-        request.user.uid,
-        participantId === 'me' ? request.user.uid : participantId
-      );
+      const targetUserId =
+        participantId === 'me' ? request.user.uid : participantId;
+      exercise.removeParticipant(request.user.uid, targetUserId);
+
+      if (targetUserId === request.user.uid) {
+        this.eventEmitterFacade.emit(
+          new ExerciseUserLeftEvent(request.user.uid, exercise)
+        );
+      } else {
+        this.eventEmitterFacade.emit(
+          new ExerciseUserRemovedEvent(request.user.uid, exercise, targetUserId)
+        );
+      }
     } catch (err) {
       if (err instanceof ExerciseException) {
         throw new BadRequestException(err.message);
