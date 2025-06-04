@@ -8,6 +8,7 @@ import {
   NovelFormData,
 } from '../../components/novel-form/novel-form.component';
 import { NovelStore } from '../../services/novel.store';
+import { NovelContextService } from '../../services/novel-context.service';
 import { NovelDeleteConfirmComponent } from './components/novel-delete-confirm/novel-delete-confirm.component';
 
 @Component({
@@ -22,6 +23,12 @@ export class NovelEditComponent {
   readonly notificationService = inject(NotificationService);
 
   novel = this.store.novel;
+
+  readonly #novelContext = inject(NovelContextService);
+
+  constructor() {
+    this.#novelContext.reset();
+  }
 
   async update($event: NovelFormData): Promise<void> {
     let result = true;

@@ -10,6 +10,7 @@ import {
 import { NovelChapter } from '@owl/shared/novels/model';
 
 import { NovelStore } from '../../services/novel.store';
+import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelOverviewChapterCardComponent } from './novel-overview-chapter-card/novel-overview-chapter-card.component';
 import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/novel-overview-no-chapter.component';
@@ -22,7 +23,7 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
-    MatIcon
+    MatIcon,
   ],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',
@@ -35,6 +36,12 @@ export class NovelOverviewPageComponent {
   readonly confirmDialogService = inject(ConfirmDialogService);
   readonly notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
+
+  readonly #novelContext = inject(NovelContextService);
+
+  constructor() {
+    this.#novelContext.reset();
+  }
 
   async addChapterAt(index?: number): Promise<void> {
     await this.#store.addChapterAt(index);
