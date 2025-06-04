@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -21,6 +22,7 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
+    MatIcon
   ],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',

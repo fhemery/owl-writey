@@ -32,6 +32,17 @@ export class Novel {
     return this._participants.participants;
   }
 
+  get nbScenes(): number {
+    return this.chapters.reduce(
+      (acc, chapter) => acc + chapter.scenes.length,
+      0
+    );
+  }
+
+  get nbWords(): number {
+    return this.chapters.reduce((acc, chapter) => acc + chapter.nbWords, 0);
+  }
+
   isAuthor(uid: string): boolean {
     return this._participants.isAuthor(uid);
   }

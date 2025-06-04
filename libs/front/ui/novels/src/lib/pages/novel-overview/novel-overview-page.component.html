@@ -1,8 +1,32 @@
 @if(novel(); as novel) {
 <div class="novel-overview">
-  <h2 class="novel-overview__title">
-    {{ novel.generalInfo.title }}
-  </h2>
+  <div class="novel-overview__header">
+    <h2 class="novel-overview__title">
+      {{ novel.generalInfo.title }}
+    </h2>
+    <div class="novel-overview__stats">
+      <div class="novel-overview__stats--chapters">
+        <mat-icon [title]="'novel.actions.chapterCount.label' | translate"
+          >folder</mat-icon
+        >
+        {{ novel.chapters.length }}
+      </div>
+      <div class="novel-overview__stats--scenes">
+        <mat-icon [title]="'novel.actions.sceneCount.label' | translate"
+          >description</mat-icon
+        >
+        {{ novel.nbScenes }}
+      </div>
+      <div class="novel-overview__stats--words">
+        <mat-icon
+          class="material-symbols-outlined"
+          [title]="'novel.actions.words.label' | translate"
+          >format_paragraph</mat-icon
+        >
+        {{ novel.nbWords }}
+      </div>
+    </div>
+  </div>
   @if(novel.chapters.length > 0) {
   <div class="novel-overview__chapter">
     <owl-novel-corkboard

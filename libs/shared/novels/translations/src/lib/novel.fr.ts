@@ -26,6 +26,9 @@ export const novelFr = {
       sceneCount: {
         label: 'Scènes',
       },
+      chapterCount: {
+        label: 'Chapitres',
+      },
     },
     defaults: {
       newChapter: {
