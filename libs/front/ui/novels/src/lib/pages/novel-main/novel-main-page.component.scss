@@ -18,6 +18,8 @@
     grid-row: 1 / span 1;
     padding: 0 0.5rem;
     transition: all 0.3s ease-in-out;
+    min-height: 0;
+    overflow-y: auto;
 
     &--collapsed {
       transform: translateX(-100%);
@@ -30,6 +32,8 @@
     grid-row: 1 / span 1;
     display: relative;
     padding: 0.675rem 1.25rem;
+    min-height: 0;
+    overflow-y: auto;
 
     .left-pane-toggle {
       position: absolute;
