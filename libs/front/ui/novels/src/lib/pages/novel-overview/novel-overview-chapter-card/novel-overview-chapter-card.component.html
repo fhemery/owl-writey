@@ -14,6 +14,22 @@
     (contentChange)="updateOutline($event)"
     [innerHTML]="chapter().generalInfo.outline"
   ></div>
+  <div class="chapter-card__details">
+    <div class="chapter-card__details--scenes">
+      <mat-icon [title]="'novel.actions.sceneCount.label' | translate"
+        >description</mat-icon
+      >
+      {{ chapter().scenes.length }}
+    </div>
+    <div class="chapter-card__details--words">
+      <mat-icon
+        class="material-symbols-outlined"
+        [title]="'novel.actions.words.label' | translate"
+        >format_paragraph</mat-icon
+      >
+      {{ chapter().nbWords }}
+    </div>
+  </div>
   <div class="chapter-card__footer">
     <a
       class="chapter-card__action"

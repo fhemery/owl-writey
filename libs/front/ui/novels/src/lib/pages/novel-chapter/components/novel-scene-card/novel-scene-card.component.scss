@@ -93,4 +93,12 @@
       background-color: var(--color-accent);
     }
   }
+
+  &__details {
+    &--words {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+  }
 }

@@ -20,6 +20,12 @@ export const novelFr = {
       go: {
         label: 'Voir',
       },
+      words: {
+        label: 'Mots',
+      },
+      sceneCount: {
+        label: 'Scènes',
+      },
     },
     defaults: {
       newChapter: {

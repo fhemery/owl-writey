@@ -6,6 +6,9 @@ import { NovelSceneGeneralInfo } from '../scene/novel-scene-general-info';
 import { NovelChapterGeneralInfo } from './novel-chapter-general-info';
 
 export class NovelChapter {
+  get nbWords(): number {
+    return this.scenes.reduce((acc, scene) => acc + scene.nbWords, 0);
+  }
   removePov(id: string): NovelChapter {
     return this.withScenes(this.scenes.map((s) => s.removePov(id)));
   }

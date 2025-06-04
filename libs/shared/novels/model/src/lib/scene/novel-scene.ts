@@ -1,11 +1,16 @@
+import { countWordsFromHtml } from '@owl/shared/word-utils';
+
 import { NovelSceneGeneralInfo } from './novel-scene-general-info';
 
 export class NovelScene {
+  readonly nbWords: number;
   constructor(
     readonly id: string,
     readonly generalInfo: NovelSceneGeneralInfo,
     readonly content: string
-  ) {}
+  ) {
+    this.nbWords = countWordsFromHtml(content);
+  }
 
   removePov(id: string): NovelScene {
     if (this.generalInfo.pov !== id) {

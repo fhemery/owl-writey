@@ -44,6 +44,15 @@
         (selectedCharacter)="updatePov($event)"
       ></owl-novel-select-pov>
     </mat-menu>
+    <div class="chapter-scene__details--placeholder"></div>
+    <div class="chapter-scene__details--words">
+      <mat-icon
+        class="material-symbols-outlined"
+        [title]="'novel.actions.words.label' | translate"
+        >format_paragraph</mat-icon
+      >
+      {{ scene.nbWords }}
+    </div>
   </div>
   <div class="chapter-scene__footer">
     <a
