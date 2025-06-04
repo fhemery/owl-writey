@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 .text-editor {
   width: 100%;
@@ -41,10 +42,14 @@
   & ngx-editor::ng-deep {
     display: block;
     flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
 
     .NgxEditor {
       height: 100%;
       background-color: #fdfdfd;
+
+      overflow: auto;
     }
 
     .item-link {
