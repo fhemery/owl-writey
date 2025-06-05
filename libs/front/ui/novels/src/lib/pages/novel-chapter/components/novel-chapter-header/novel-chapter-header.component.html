@@ -2,6 +2,7 @@
   @if(chapter.previousChapter) {
   <a
     class="chapter-page__header--link"
+    id="previousChapterLink"
     (click)="onChapterNavigate(chapter.previousChapter!.id)"
     (keyup.enter)="onChapterNavigate(chapter.previousChapter!.id)"
     tabindex="0"
@@ -15,7 +16,9 @@
   </a>
   }
   <div class="chapter-page__title">
-    <mat-icon [title]="'novel.chapter.title.label' | translate">folder</mat-icon>
+    <mat-icon [title]="'novel.chapter.title.label' | translate"
+      >folder</mat-icon
+    >
     <h2
       owlContentEditable
       (contentChange)="onTitleChange($event)"
@@ -29,6 +32,7 @@
     (keyup.enter)="onChapterNavigate(chapter.nextChapter!.id)"
     tabindex="0"
     role="button"
+    id="nextChapterLink"
     [title]="
       'novel.chapter.next.label'
         | translate : { title: chapter.nextChapter!.title }

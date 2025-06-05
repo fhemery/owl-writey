@@ -79,6 +79,12 @@ export class TestUtils {
     this.fixture.detectChanges();
   }
 
+  doubleClickElementAt(selector: string, index = 0): void {
+    const element = this.getElementAt(selector, index);
+    element.dispatchEvent(new Event('dblclick'));
+    this.fixture.detectChanges();
+  }
+
   getNbElements(selector: string): number {
     return this.fixture.nativeElement.querySelectorAll(selector).length;
   }
@@ -129,6 +135,19 @@ export class TestUtils {
         return;
       },
     });
+  }
+
+  updateEditableField(fieldSelector: string, value: string): void {
+    const input: HTMLInputElement | null =
+      this.fixture.nativeElement.querySelector(fieldSelector);
+    if (!input) {
+      throw new Error(`Element not found: ${fieldSelector}`);
+    }
+    input.innerHTML = value;
+    input.dispatchEvent(new Event('change'));
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('blur'));
+    this.fixture.detectChanges();
   }
 
   setInput<T>(

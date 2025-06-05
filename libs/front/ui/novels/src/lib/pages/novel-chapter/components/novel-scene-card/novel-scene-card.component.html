@@ -56,7 +56,7 @@
   </div>
   <div class="chapter-scene__footer">
     <a
-      class="chapter-scene__action"
+      class="chapter-scene__action chapter-scene__action--move-up"
       (click)="onMoveScene(-1)"
       (keyup.enter)="onMoveScene(-1)"
       tabindex="0"
@@ -67,7 +67,7 @@
     </a>
 
     <a
-      class="chapter-scene__action"
+      class="chapter-scene__action chapter-scene__action--move-down"
       (click)="onMoveScene(1)"
       (keyup.enter)="onMoveScene(1)"
       tabindex="0"
@@ -89,7 +89,7 @@
     </a>
     <div class="chapter-scene__action--separator"></div>
     <a
-      class="chapter-scene__action"
+      class="chapter-scene__action chapter-scene__action--go"
       (click)="goToScene()"
       (keyup.enter)="goToScene()"
       tabindex="0"
