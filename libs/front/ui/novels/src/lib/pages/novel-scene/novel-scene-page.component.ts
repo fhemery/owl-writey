@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   ContenteditableDirective,
   TextEditorComponent,
@@ -11,13 +14,20 @@ import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-mode
 
 @Component({
   selector: 'owl-novel-scene-page',
-  imports: [CommonModule, TextEditorComponent, ContenteditableDirective],
+  imports: [
+    CommonModule,
+    TextEditorComponent,
+    ContenteditableDirective,
+    MatIcon,
+    TranslateModule,
+  ],
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })
 export class NovelScenePageComponent {
   readonly #novelStore = inject(NovelStore);
   readonly #novelContext = inject(NovelContextService);
+  readonly #router = inject(Router);
   chapterId = input.required<string>();
   sceneId = input.required<string>();
 
@@ -54,5 +64,16 @@ export class NovelScenePageComponent {
       this.sceneId(),
       title
     );
+  }
+
+  async goToScene(chapterId: string, sceneId: string): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.#novelStore.novel()?.id,
+      'chapters',
+      chapterId,
+      'scenes',
+      sceneId,
+    ]);
   }
 }

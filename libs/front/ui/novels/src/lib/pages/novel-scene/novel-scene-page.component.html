@@ -1,12 +1,51 @@
 @if(scene(); as scene) {
 <div class="scene-page">
-  <h2
-    class="scene-page__title"
-    owlContentEditable
-    (contentChange)="updateTitle($event)"
-  >
-    {{ scene.title }}
-  </h2>
+  <div class="scene-page__header">
+    @if(scene.previousScene) {
+    <a
+      class="scene-page__header--link"
+      id="previousSceneLink"
+      (click)="
+        goToScene(scene.previousScene.chapterId, scene.previousScene.sceneId)
+      "
+      (keyup.enter)="
+        goToScene(scene.previousScene.chapterId, scene.previousScene.sceneId)
+      "
+      tabindex="0"
+      role="button"
+      [title]="
+        'novel.scene.previous.label'
+          | translate : { title: scene.previousScene.title }
+      "
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    }
+    <h2
+      class="scene-page__title"
+      owlContentEditable
+      (contentChange)="updateTitle($event)"
+    >
+      {{ scene.title }}
+    </h2>
+    @if(scene.nextScene) {
+    <a
+      class="scene-page__header--link"
+      id="nextSceneLink"
+      (click)="goToScene(scene.nextScene.chapterId, scene.nextScene.sceneId)"
+      (keyup.enter)="
+        goToScene(scene.nextScene.chapterId, scene.nextScene.sceneId)
+      "
+      tabindex="0"
+      role="button"
+      [title]="
+        'novel.scene.next.label' | translate : { title: scene.nextScene.title }
+      "
+    >
+      <mat-icon>arrow_forward</mat-icon>
+    </a>
+    }
+  </div>
   <div class="scene-page__text">
     <owl-text-editor
       [currentContent]="scene.content"

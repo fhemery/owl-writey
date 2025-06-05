@@ -96,6 +96,15 @@ export const novelFr = {
       },
     },
     scene: {
+      title: {
+        label: 'Scène',
+      },
+      previous: {
+        label: 'Scène précédente : {{title}}',
+      },
+      next: {
+        label: 'Scène suivante : {{title}}',
+      },
       deleteConfirm: {
         title: 'Supprimer la scène',
         text: "La suppression d'une scène est irréversible. Êtes vous sûr(e) de vouloir la supprimer ?",
