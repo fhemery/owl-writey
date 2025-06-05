@@ -7,6 +7,7 @@ import {
 
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
+import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-model';
 
 @Component({
   selector: 'owl-novel-scene-page',
@@ -21,7 +22,11 @@ export class NovelScenePageComponent {
   sceneId = input.required<string>();
 
   scene = computed(() =>
-    this.#novelStore.novel()?.findScene(this.chapterId(), this.sceneId())
+    NovelScenePageViewModel.From(
+      this.chapterId(),
+      this.sceneId(),
+      this.#novelStore.novel()
+    )
   );
 
   constructor() {
@@ -40,7 +45,7 @@ export class NovelScenePageComponent {
 
   async updateTitle(title: string): Promise<void> {
     const currentScene = this.scene();
-    if (!currentScene || currentScene.generalInfo.title === title) {
+    if (!currentScene || currentScene.title === title) {
       return;
     }
 
