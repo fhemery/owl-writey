@@ -1,26 +1,2 @@
 .chapter-page {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 1rem 2rem;
-
-    &--link {
-      color: var(--color-accent);
-      cursor: pointer;
-    }
-  }
-
-  &__title {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-
-    mat-icon {
-      color: var(--color-accent);
-    }
-  }
 }

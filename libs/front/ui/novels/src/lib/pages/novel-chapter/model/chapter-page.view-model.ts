@@ -5,14 +5,23 @@ import {
   NovelScene,
 } from '@owl/shared/novels/model';
 
+export interface ChapterNavigation {
+  id: string;
+  title: string;
+}
+
 export class ChapterPageViewModel {
+  readonly id: string;
   readonly title: string;
+  readonly chapter: NovelChapter; // Expose the full chapter reference
   readonly scenes: ChapterPageSceneViewModel[];
   readonly characters: ChapterPageCharacterViewModel[];
   readonly previousChapter?: ChapterPageOtherChapterViewModel;
   readonly nextChapter?: ChapterPageOtherChapterViewModel;
 
   constructor(chapter: NovelChapter, novel: Novel) {
+    this.id = chapter.id;
+    this.chapter = chapter;
     this.title = chapter.generalInfo.title;
     this.scenes = chapter.scenes.map(
       (scene) => new ChapterPageSceneViewModel(scene, novel)

@@ -1,45 +1,11 @@
 @if(chapter(); as chapter) {
 <div class="chapter-page">
-  <div class="chapter-page__header">
-    @if(chapter.previousChapter) {
-    <a
-      class="chapter-page__header--link"
-      (click)="goToChapter(chapter.previousChapter.id)"
-      (keyup.enter)="goToChapter(chapter.previousChapter.id)"
-      tabindex="0"
-      role="button"
-      [title]="
-        'novel.chapter.previous.label'
-          | translate : { title: chapter.previousChapter.title }
-      "
-    >
-      <mat-icon>arrow_back</mat-icon>
-    </a>
-    }
-    <div class="chapter-page__title">
-      <mat-icon [title]="'novel.chapter.title.label' | translate"
-        >folder</mat-icon
-      >
-      <h2 owlContentEditable (contentChange)="updateChapterTitle($event)">
-        {{ chapter?.title }}
-      </h2>
-    </div>
-    @if(chapter.nextChapter) {
-    <a
-      class="chapter-page__header--link"
-      (click)="goToChapter(chapter.nextChapter.id)"
-      (keyup.enter)="goToChapter(chapter.nextChapter.id)"
-      tabindex="0"
-      role="button"
-      [title]="
-        'novel.chapter.next.label'
-          | translate : { title: chapter.nextChapter.title }
-      "
-    >
-      <mat-icon>arrow_forward</mat-icon>
-    </a>
-    }
-  </div>
+  <owl-novel-chapter-header
+    [chapter]="chapter"
+    (chapterNavigate)="goToChapter($event)"
+    (titleChange)="updateChapterTitle($event)"
+  >
+  </owl-novel-chapter-header>
   <div class="chapter-page__scenes">
     <owl-novel-corkboard
       [items]="chapter.scenes"

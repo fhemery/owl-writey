@@ -1,0 +1,27 @@
+.chapter-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 1rem 2rem;
+
+  &--link {
+    color: var(--color-accent);
+    cursor: pointer;
+  }
+}
+
+.chapter-page__title {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  h2 {
+    padding: 0 2rem;
+  }
+
+  mat-icon {
+    color: var(--color-accent);
+  }
+}

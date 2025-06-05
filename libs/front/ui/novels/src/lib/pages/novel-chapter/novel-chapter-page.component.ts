@@ -9,12 +9,10 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
-  ContenteditableDirective,
   NotificationService,
 } from '@owl/front/ui/common';
 import { firstValueFrom } from 'rxjs';
@@ -22,6 +20,7 @@ import { firstValueFrom } from 'rxjs';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
+import { NovelChapterHeaderComponent } from './components/novel-chapter-header/novel-chapter-header.component';
 import { NovelSceneCardComponent } from './components/novel-scene-card/novel-scene-card.component';
 import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
 import {
@@ -36,8 +35,7 @@ import {
     NovelCorkboardComponent,
     TranslateModule,
     NovelSceneCardComponent,
-    ContenteditableDirective,
-    MatIcon,
+    NovelChapterHeaderComponent,
   ],
   templateUrl: './novel-chapter-page.component.html',
   styleUrl: './novel-chapter-page.component.scss',
