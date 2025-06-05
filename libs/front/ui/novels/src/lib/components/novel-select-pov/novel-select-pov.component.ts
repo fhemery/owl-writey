@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { NovelCharacter } from '@owl/shared/novels/model';
+
+export interface SelectPovModel {
+  readonly id: string;
+  readonly name: string;
+}
 
 @Component({
   selector: 'owl-novel-select-pov',
@@ -12,10 +16,10 @@ import { NovelCharacter } from '@owl/shared/novels/model';
 })
 export class NovelSelectPovComponent {
   currentlySelectedId = input<string | undefined>(undefined);
-  characters = input.required<NovelCharacter[]>();
-  selectedCharacter = output<NovelCharacter | undefined>();
+  characters = input.required<SelectPovModel[]>();
+  selectedCharacter = output<string | undefined>();
 
-  select(character: NovelCharacter | undefined): void {
-    this.selectedCharacter.emit(character);
+  select(character: SelectPovModel | undefined): void {
+    this.selectedCharacter.emit(character?.id);
   }
 }

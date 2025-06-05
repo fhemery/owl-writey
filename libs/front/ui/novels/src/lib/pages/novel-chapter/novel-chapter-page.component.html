@@ -1,11 +1,11 @@
-@if(novel(); as novel) { @if(chapter(); as chapter) {
+@if(chapter(); as chapter) {
 <div class="chapter-page">
   <h2
     class="chapter-page__title"
     owlContentEditable
     (contentChange)="updateChapterTitle($event)"
   >
-    {{ chapter.generalInfo.title }}
+    {{ chapter?.title }}
   </h2>
   <div class="chapter-page__scenes">
     <owl-novel-corkboard
@@ -18,15 +18,17 @@
 
     <ng-template #sceneTemplate let-item let-index="index">
       <owl-novel-scene-card
-        [novel]="novel"
         [scene]="convertToScene(item)"
-        (updateScene)="updateScene(item, $event)"
-        (deleteScene)="deleteScene(item)"
+        [characters]="chapter.characters"
+        (updateSceneTitle)="updateSceneTitle($event, item.id)"
+        (updateSceneOutline)="updateSceneOutline($event, item.id)"
+        (updateScenePov)="updateScenePov($event, item.id)"
+        (deleteScene)="deleteScene(item.id)"
         (moveScene)="moveScene({ from: index, to: index + $event })"
-        (transferScene)="transferScene(item)"
-        (goTo)="goToScene(item)"
+        (transferScene)="transferScene(item.id)"
+        (goTo)="goToScene(item.id)"
       ></owl-novel-scene-card>
     </ng-template>
   </div>
 </div>
-} }
+}

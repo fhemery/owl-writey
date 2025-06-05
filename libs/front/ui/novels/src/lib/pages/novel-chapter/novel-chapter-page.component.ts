@@ -16,7 +16,6 @@ import {
   ContenteditableDirective,
   NotificationService,
 } from '@owl/front/ui/common';
-import { NovelScene } from '@owl/shared/novels/model';
 import { firstValueFrom } from 'rxjs';
 
 import { NovelStore } from '../../services/novel.store';
@@ -24,6 +23,10 @@ import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelSceneCardComponent } from './components/novel-scene-card/novel-scene-card.component';
 import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
+import {
+  ChapterPageSceneViewModel,
+  ChapterPageViewModel,
+} from './model/chapter-page.view-model';
 
 @Component({
   selector: 'owl-novel-chapter-page',
@@ -47,7 +50,7 @@ export class NovelChapterPageComponent {
   readonly #notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
   readonly chapter = computed(() =>
-    this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
+    ChapterPageViewModel.From(this.novel(), this.chapterId())
   );
 
   @ViewChildren(NovelSceneCardComponent)
@@ -73,42 +76,31 @@ export class NovelChapterPageComponent {
     }
   }
 
-  convertToScene(item: unknown): NovelScene {
-    return item as NovelScene;
+  convertToScene(item: unknown): ChapterPageSceneViewModel {
+    return item as ChapterPageSceneViewModel;
   }
 
-  async updateScene(
-    initialScene: NovelScene,
-    newScene: NovelScene
+  async updateSceneTitle(title: string, sceneId: string): Promise<void> {
+    await this.#store.updateSceneTitle(this.chapterId(), sceneId, title);
+  }
+
+  async updateSceneOutline(outline: string, sceneId: string): Promise<void> {
+    await this.#store.updateSceneOutline(this.chapterId(), sceneId, outline);
+  }
+
+  async updateScenePov(
+    povId: string | undefined,
+    sceneId: string
   ): Promise<void> {
-    if (initialScene.generalInfo.title !== newScene.generalInfo.title) {
-      await this.#store.updateSceneTitle(
-        this.chapterId(),
-        initialScene.id,
-        newScene.generalInfo.title
-      );
-    }
-    if (initialScene.generalInfo.outline !== newScene.generalInfo.outline) {
-      await this.#store.updateSceneOutline(
-        this.chapterId(),
-        initialScene.id,
-        newScene.generalInfo.outline
-      );
-    }
-    if (initialScene.generalInfo.pov !== newScene.generalInfo.pov) {
-      await this.#store.updateScenePov(
-        this.chapterId(),
-        initialScene.id,
-        newScene.generalInfo.pov || undefined
-      );
-    }
+    await this.#store.updateScenePov(this.chapterId(), sceneId, povId);
   }
 
   async updateChapterTitle(title: string): Promise<void> {
     const currentChapter = this.chapter();
-    if (!currentChapter || currentChapter.generalInfo.title === title) {
+    if (!currentChapter || currentChapter.title === title) {
       return;
     }
+    await this.#store.updateChapterTitle(this.chapterId(), title);
   }
 
   async moveScene($event: { from: number; to: number }): Promise<void> {
@@ -119,7 +111,7 @@ export class NovelChapterPageComponent {
     await this.#store.moveScene(this.chapterId(), sceneId, $event.to);
   }
 
-  async deleteScene(scene: NovelScene): Promise<void> {
+  async deleteScene(sceneId: string): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(
       'novel.scene.deleteConfirm.title',
       'novel.scene.deleteConfirm.text'
@@ -127,7 +119,7 @@ export class NovelChapterPageComponent {
     if (confirmed) {
       const isSuccess = await this.#store.deleteScene(
         this.chapterId(),
-        scene.id
+        sceneId
       );
       if (!isSuccess) {
         this.#notificationService.showError(
@@ -141,13 +133,13 @@ export class NovelChapterPageComponent {
     }
   }
 
-  async transferScene(scene: NovelScene): Promise<void> {
+  async transferScene(sceneId: string): Promise<void> {
     const transferResult: { chapterId: string; sceneIndex: number } =
       await firstValueFrom(
         this.#dialog
           .open(TransferSceneDialogComponent, {
             data: {
-              scene,
+              scene: this.novel()?.findScene(this.chapterId(), sceneId),
             },
           })
           .afterClosed()
@@ -157,20 +149,20 @@ export class NovelChapterPageComponent {
     }
     await this.#store.transferScene(
       this.chapterId(),
-      scene.id,
+      sceneId,
       transferResult.chapterId,
       transferResult.sceneIndex
     );
   }
 
-  async goToScene(scene: NovelScene): Promise<void> {
+  async goToScene(sceneId: string): Promise<void> {
     await this.#router.navigate([
       'novels',
       this.novel()?.id || '',
       'chapters',
       this.chapterId(),
       'scenes',
-      scene.id,
+      sceneId,
     ]);
   }
 }
