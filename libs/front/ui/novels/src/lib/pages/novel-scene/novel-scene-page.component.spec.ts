@@ -34,7 +34,8 @@ describe('NovelScenePageComponent', () => {
       .addSceneAt('chapter-1', 'scene-2', 'Scene 2', 'Scene 2 content')
       .addSceneAt('chapter-1', 'scene-3', 'Scene 3', 'Scene 3 content')
       .addChapterAt('chapter-2', 'Chapter 2')
-      .addSceneAt('chapter-2', 'scene-4', 'Scene 4', 'Scene 4 content');
+      .addSceneAt('chapter-2', 'scene-4', 'Scene 4', 'Scene 4 content')
+      .addChapterAt('chapter-3', 'Chapter 3');
 
     novelSignal = signal(novel);
 
@@ -132,6 +133,16 @@ describe('NovelScenePageComponent', () => {
     });
 
     it('should not display the previous scene link if the scene has no previous scene', () => {
+      testUtils.setInput(() => component.chapterId, 'chapter-1');
+      testUtils.setInput(() => component.sceneId, 'scene-1', true);
+
+      expect(testUtils.hasElement('#previousSceneLink')).toBeFalsy();
+    });
+
+    it('should not display the previous scene link if the scene has no previous scene in the previous chapter', () => {
+      const newNovel = novel.addChapterAt('chapter-0', 'Chapter 0', '', 0);
+      novelSignal.set(newNovel);
+
       testUtils.setInput(() => component.chapterId, 'chapter-1');
       testUtils.setInput(() => component.sceneId, 'scene-1', true);
 

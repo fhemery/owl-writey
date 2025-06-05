@@ -7,78 +7,56 @@ export class NovelScenePageViewModel {
   readonly previousScene?: NovelScenePageNavigationViewModel;
   readonly nextScene?: NovelScenePageNavigationViewModel;
 
-  private constructor(scene: NovelScene, chapterId: string, novel: Novel) {
+  private constructor(scene: NovelScene, novel: Novel) {
     this.title = scene.generalInfo.title;
     this.content = scene.content;
 
-    this.previousScene = this.computePreviousScene(scene, chapterId, novel);
-    this.nextScene = this.computeNextScene(scene, chapterId, novel);
+    const { previousScene, nextScene } = this.computePreviousAndNextScene(
+      scene.id,
+      novel
+    );
+    this.previousScene = previousScene;
+    this.nextScene = nextScene;
   }
 
-  computePreviousScene(
-    scene: NovelScene,
-    chapterId: string,
+  computePreviousAndNextScene(
+    sceneId: string,
     novel: Novel
-  ): NovelScenePageNavigationViewModel | undefined {
-    const chapter = novel.findChapter(chapterId);
-    const chapterIndex = novel.chapters.findIndex((c) => c.id === chapterId);
-    if (!chapter) {
-      return undefined;
-    }
-    const sceneIndex = chapter.scenes.findIndex((s) => s.id === scene.id);
-    if (sceneIndex === 0 && chapterIndex > 0) {
-      const previousChapter = novel.chapters[chapterIndex - 1];
-      const previousScene =
-        previousChapter.scenes[previousChapter.scenes.length - 1];
-      return new NovelScenePageNavigationViewModel(
-        previousChapter.id,
-        previousScene.id,
-        previousScene.generalInfo.title
-      );
-    }
+  ): {
+    previousScene?: NovelScenePageNavigationViewModel;
+    nextScene?: NovelScenePageNavigationViewModel;
+  } {
+    const allScenes = novel.chapters.flatMap((c) =>
+      c.scenes.map((s) => ({
+        chapterId: c.id,
+        sceneId: s.id,
+        title: s.generalInfo.title,
+      }))
+    );
+    const sceneIndex = allScenes.findIndex((s) => s.sceneId === sceneId);
+
+    let previousScene: NovelScenePageNavigationViewModel | undefined;
+    let nextScene: NovelScenePageNavigationViewModel | undefined;
     if (sceneIndex > 0) {
-      const previousScene = chapter.scenes[sceneIndex - 1];
-      return new NovelScenePageNavigationViewModel(
-        chapterId,
-        previousScene.id,
-        previousScene.generalInfo.title
+      const prev = allScenes[sceneIndex - 1];
+      previousScene = new NovelScenePageNavigationViewModel(
+        prev.chapterId,
+        prev.sceneId,
+        prev.title
       );
     }
-    return undefined;
-  }
-
-  computeNextScene(
-    scene: NovelScene,
-    chapterId: string,
-    novel: Novel
-  ): NovelScenePageNavigationViewModel | undefined {
-    const chapter = novel.findChapter(chapterId);
-    const chapterIndex = novel.chapters.findIndex((c) => c.id === chapterId);
-    if (!chapter) {
-      return undefined;
-    }
-    const sceneIndex = chapter.scenes.findIndex((s) => s.id === scene.id);
-    if (
-      sceneIndex === chapter.scenes.length - 1 &&
-      chapterIndex < novel.chapters.length - 1
-    ) {
-      const nextChapter = novel.chapters[chapterIndex + 1];
-      const nextScene = nextChapter.scenes[0];
-      return new NovelScenePageNavigationViewModel(
-        nextChapter.id,
-        nextScene.id,
-        nextScene.generalInfo.title
+    if (sceneIndex < allScenes.length - 1) {
+      const next = allScenes[sceneIndex + 1];
+      nextScene = new NovelScenePageNavigationViewModel(
+        next.chapterId,
+        next.sceneId,
+        next.title
       );
     }
-    if (sceneIndex < chapter.scenes.length - 1) {
-      const nextScene = chapter.scenes[sceneIndex + 1];
-      return new NovelScenePageNavigationViewModel(
-        chapterId,
-        nextScene.id,
-        nextScene.generalInfo.title
-      );
-    }
-    return undefined;
+    return {
+      previousScene,
+      nextScene,
+    };
   }
 
   static From(
@@ -90,7 +68,7 @@ export class NovelScenePageViewModel {
     if (!novel || !scene) {
       return null;
     }
-    return new NovelScenePageViewModel(scene, chapterId, novel);
+    return new NovelScenePageViewModel(scene, novel);
   }
 }
 
