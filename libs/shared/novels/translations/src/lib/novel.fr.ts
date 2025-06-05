@@ -76,6 +76,15 @@ export const novelFr = {
       },
     },
     chapter: {
+      title: {
+        label: 'Chapitre',
+      },
+      previous: {
+        label: 'Chapitre précédent : {{title}}',
+      },
+      next: {
+        label: 'Chapitre suivant : {{title}}',
+      },
       deleteConfirm: {
         title: 'Supprimer le chapitre',
         text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes vous sûr(e) de vouloir le supprimer ?",

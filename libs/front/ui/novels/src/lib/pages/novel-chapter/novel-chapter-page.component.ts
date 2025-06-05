@@ -9,6 +9,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -36,6 +37,7 @@ import {
     TranslateModule,
     NovelSceneCardComponent,
     ContenteditableDirective,
+    MatIcon,
   ],
   templateUrl: './novel-chapter-page.component.html',
   styleUrl: './novel-chapter-page.component.scss',
@@ -163,6 +165,15 @@ export class NovelChapterPageComponent {
       this.chapterId(),
       'scenes',
       sceneId,
+    ]);
+  }
+
+  async goToChapter(chapterId: string): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.novel()?.id || '',
+      'chapters',
+      chapterId,
     ]);
   }
 }

@@ -9,6 +9,8 @@ export class ChapterPageViewModel {
   readonly title: string;
   readonly scenes: ChapterPageSceneViewModel[];
   readonly characters: ChapterPageCharacterViewModel[];
+  readonly previousChapter?: ChapterPageOtherChapterViewModel;
+  readonly nextChapter?: ChapterPageOtherChapterViewModel;
 
   constructor(chapter: NovelChapter, novel: Novel) {
     this.title = chapter.generalInfo.title;
@@ -18,6 +20,18 @@ export class ChapterPageViewModel {
     this.characters = novel.universe.characters.map(
       (character) => new ChapterPageCharacterViewModel(character)
     );
+
+    const chapterIndex = novel.chapters.findIndex((c) => c.id === chapter.id);
+    if (chapterIndex > 0) {
+      this.previousChapter = new ChapterPageOtherChapterViewModel(
+        novel.chapters[chapterIndex - 1]
+      );
+    }
+    if (chapterIndex < novel.chapters.length - 1) {
+      this.nextChapter = new ChapterPageOtherChapterViewModel(
+        novel.chapters[chapterIndex + 1]
+      );
+    }
   }
 
   static From(
@@ -73,5 +87,15 @@ export class ChapterPageCharacterViewModel {
   constructor(character: NovelCharacter) {
     this.id = character.id;
     this.name = character.name;
+  }
+}
+
+export class ChapterPageOtherChapterViewModel {
+  readonly id: string;
+  readonly title: string;
+
+  constructor(chapter: NovelChapter) {
+    this.id = chapter.id;
+    this.title = chapter.generalInfo.title;
   }
 }
