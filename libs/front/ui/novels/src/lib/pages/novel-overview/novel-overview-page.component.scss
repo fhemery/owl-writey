@@ -17,22 +17,6 @@
     justify-content: center;
     margin-top: 0.5rem;
     gap: 1rem;
-
-    mat-icon {
-      color: var(--color-accent);
-      cursor: pointer;
-      width: 1.2rem;
-      height: 1.2rem;
-      font-size: 1.2rem;
-      margin-right: 0.5rem;
-    }
-
-    &--chapters,
-    &--scenes,
-    &--words {
-      display: flex;
-      align-items: center;
-    }
   }
 
   &__no-chapters {

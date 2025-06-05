@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
   NotificationService,
+  StatsChipComponent,
 } from '@owl/front/ui/common';
 import { NovelChapter } from '@owl/shared/novels/model';
 
@@ -23,7 +23,7 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
-    MatIcon,
+    StatsChipComponent,
   ],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',

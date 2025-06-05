@@ -5,26 +5,21 @@
       {{ novel.generalInfo.title }}
     </h2>
     <div class="novel-overview__stats">
-      <div class="novel-overview__stats--chapters">
-        <mat-icon [title]="'novel.actions.chapterCount.label' | translate"
-          >folder</mat-icon
-        >
-        {{ novel.chapters.length }}
-      </div>
-      <div class="novel-overview__stats--scenes">
-        <mat-icon [title]="'novel.actions.sceneCount.label' | translate"
-          >description</mat-icon
-        >
-        {{ novel.nbScenes }}
-      </div>
-      <div class="novel-overview__stats--words">
-        <mat-icon
-          class="material-symbols-outlined"
-          [title]="'novel.actions.words.label' | translate"
-          >format_paragraph</mat-icon
-        >
-        {{ novel.nbWords }}
-      </div>
+      <owl-stats-chip
+        icon="folder"
+        [title]="'novel.actions.chapterCount.label' | translate"
+        [value]="novel.chapters.length"
+      />
+      <owl-stats-chip
+        icon="description"
+        [title]="'novel.actions.sceneCount.label' | translate"
+        [value]="novel.nbScenes"
+      />
+      <owl-stats-chip
+        icon="format_paragraph"
+        [title]="'novel.actions.words.label' | translate"
+        [value]="novel.nbWords"
+      />
     </div>
   </div>
   @if(novel.chapters.length > 0) {

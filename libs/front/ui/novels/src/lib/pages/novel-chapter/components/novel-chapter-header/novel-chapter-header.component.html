@@ -55,17 +55,15 @@
     }
   </div>
   <div class="chapter-page__header--stats">
-    <div>
-      <mat-icon [title]="'novel.chapter.scenes.label' | translate"
-        >description</mat-icon
-      >{{ chapter.scenes.length }}
-    </div>
-    <div>
-      <mat-icon
-        class="material-symbols-outlined"
-        [title]="'novel.chapter.words.label' | translate"
-        >format_paragraph</mat-icon
-      >{{ chapter.nbWords }}
-    </div>
+    <owl-stats-chip
+      icon="description"
+      [title]="'novel.chapter.scenes.label' | translate"
+      [value]="chapter.scenes.length"
+    />
+    <owl-stats-chip
+      icon="format_paragraph"
+      [title]="'novel.chapter.words.label' | translate"
+      [value]="chapter.nbWords"
+    />
   </div>
 </div>

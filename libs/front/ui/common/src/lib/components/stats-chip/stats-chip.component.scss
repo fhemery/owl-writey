@@ -1,0 +1,13 @@
+.stats-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+
+  mat-icon {
+    color: var(--color-accent);
+    font-size: 1.2rem;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+}

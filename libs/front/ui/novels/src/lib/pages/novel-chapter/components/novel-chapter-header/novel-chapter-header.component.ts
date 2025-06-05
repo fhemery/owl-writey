@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContenteditableDirective } from '@owl/front/ui/common';
+import {
+  ContenteditableDirective,
+  StatsChipComponent,
+} from '@owl/front/ui/common';
 
 import { ChapterPageViewModel } from '../../model/chapter-page.view-model';
 
@@ -14,6 +17,7 @@ import { ChapterPageViewModel } from '../../model/chapter-page.view-model';
     MatIconModule,
     TranslateModule,
     ContenteditableDirective,
+    StatsChipComponent,
   ],
   templateUrl: './novel-chapter-header.component.html',
   styleUrl: './novel-chapter-header.component.scss',
