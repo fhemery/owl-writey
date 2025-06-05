@@ -2,6 +2,7 @@ import { InputSignal } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TranslationKey } from '@owl/shared/common/translations';
+import { Editor } from 'ngx-editor';
 
 export class TestUtils {
   constructor(private readonly fixture: ComponentFixture<unknown>) {}
@@ -147,7 +148,13 @@ export class TestUtils {
     input.dispatchEvent(new Event('change'));
     input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('blur'));
+    input.dispatchEvent(new Event('keyup'));
     this.fixture.detectChanges();
+  }
+
+  updateTextEditorContent(newContent: string, selector = ''): void {
+    const editorUtils = new EditorUtils(this.fixture);
+    editorUtils.typeText(selector, newContent);
   }
 
   setInput<T>(
@@ -200,5 +207,30 @@ export class TestUtils {
 
   hasText(expectedText: TranslationKey, selector: string): boolean {
     return this.getTextForElementAt(selector).includes(expectedText);
+  }
+}
+
+class EditorUtils {
+  constructor(private readonly fixture: ComponentFixture<unknown>) {}
+
+  typeText(selector: string, text: string, clearCurrentContent = false): void {
+    const editorComponent = this.fixture.debugElement.query(
+      By.css(`${selector} ngx-editor`)
+    ).componentInstance['editor'] as Editor;
+    if (clearCurrentContent) {
+      editorComponent.setContent('');
+    }
+    editorComponent.commands.focus('end').exec();
+    let isFirstOperation = true;
+    text.split(`\n`).forEach((text) => {
+      if (isFirstOperation) {
+        isFirstOperation = false;
+      } else {
+        editorComponent.commands.insertNewLine().exec();
+      }
+      editorComponent.commands.insertText(text).exec();
+    });
+
+    this.fixture.detectChanges();
   }
 }

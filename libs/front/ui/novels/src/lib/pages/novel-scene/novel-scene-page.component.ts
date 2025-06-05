@@ -20,11 +20,9 @@ export class NovelScenePageComponent {
   chapterId = input.required<string>();
   sceneId = input.required<string>();
 
-  scene = computed(() => {
-    return this.#novelStore
-      .getNovel()
-      ?.findScene(this.chapterId(), this.sceneId());
-  });
+  scene = computed(() =>
+    this.#novelStore.novel()?.findScene(this.chapterId(), this.sceneId())
+  );
 
   constructor() {
     effect(() => {
