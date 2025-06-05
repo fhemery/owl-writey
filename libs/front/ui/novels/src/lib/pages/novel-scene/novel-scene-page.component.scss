@@ -47,6 +47,13 @@
 
       color: var(--color-accent);
     }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
   }
 
   &__text {

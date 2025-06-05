@@ -85,4 +85,8 @@ export class NovelScenePageComponent {
       this.chapterId(),
     ]);
   }
+
+  async goToNovel(): Promise<void> {
+    await this.#router.navigate(['novels', this.#novelStore.novel()?.id]);
+  }
 }

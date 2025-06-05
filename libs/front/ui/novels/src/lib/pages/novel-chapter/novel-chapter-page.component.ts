@@ -173,4 +173,8 @@ export class NovelChapterPageComponent {
       chapterId,
     ]);
   }
+
+  async goToNovel(): Promise<void> {
+    await this.#router.navigate(['novels', this.novel()?.id || '']);
+  }
 }

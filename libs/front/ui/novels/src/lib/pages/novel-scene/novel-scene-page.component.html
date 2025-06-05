@@ -23,6 +23,17 @@
     }
     <div class="scene-page__title">
       <a
+        id="homeLink"
+        (click)="goToNovel()"
+        (keyup.enter)="goToNovel()"
+        tabindex="0"
+        role="button"
+        [title]="'novel.scene.home.label' | translate"
+      >
+        <mat-icon>home</mat-icon>
+      </a>
+      <span>/</span>
+      <a
         class="scene-page__title--chapter"
         (click)="goToChapter()"
         (keyup.enter)="goToChapter()"

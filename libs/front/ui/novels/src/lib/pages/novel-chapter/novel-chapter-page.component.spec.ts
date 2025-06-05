@@ -114,6 +114,24 @@ describe('NovelChapterPageComponent', () => {
         expect(testUtils.getTextForElementAt('h2')).toBe('Chapter 1');
       });
 
+      it('should display a home icon to navigate to the novel', () => {
+        expect(testUtils.hasElement('#homeLink')).toBeTruthy();
+        testUtils.clickElementAt('#homeLink');
+        const router = TestBed.inject(Router);
+        expect(router.url).toBe(`/novels/${novel.id}`);
+      });
+
+      it('should display the number of scenes', () => {
+        expect(
+          testUtils.getTextForElementAt('.chapter-page__header--stats')
+        ).toContain('description2');
+      });
+      it('should display the number of words', () => {
+        expect(
+          testUtils.getTextForElementAt('.chapter-page__header--stats')
+        ).toContain('format_paragraph0');
+      });
+
       it('should emit an event to the store if chapter title changes', () => {
         const newChapterTitle = 'Chapter 1, revised';
         testUtils.updateEditableField('h2', newChapterTitle);

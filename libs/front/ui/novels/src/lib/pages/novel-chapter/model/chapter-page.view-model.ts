@@ -15,6 +15,7 @@ export class ChapterPageViewModel {
   readonly title: string;
   readonly chapter: NovelChapter; // Expose the full chapter reference
   readonly scenes: ChapterPageSceneViewModel[];
+  readonly nbWords: number;
   readonly characters: ChapterPageCharacterViewModel[];
   readonly previousChapter?: ChapterPageOtherChapterViewModel;
   readonly nextChapter?: ChapterPageOtherChapterViewModel;
@@ -28,6 +29,10 @@ export class ChapterPageViewModel {
     );
     this.characters = novel.universe.characters.map(
       (character) => new ChapterPageCharacterViewModel(character)
+    );
+    this.nbWords = chapter.scenes.reduce(
+      (acc, scene) => acc + scene.nbWords,
+      0
     );
 
     const chapterIndex = novel.chapters.findIndex((c) => c.id === chapter.id);

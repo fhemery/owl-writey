@@ -118,6 +118,17 @@ describe('NovelScenePageComponent', () => {
   });
 
   describe('Navigation', () => {
+    it('should display home icon and navigate to novel', () => {
+      testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+      testUtils.setInput(() => component.sceneId, 'scene-1', true);
+      fixture.detectChanges();
+
+      expect(testUtils.hasElement('#homeLink')).toBeTruthy();
+      testUtils.clickElementAt('#homeLink');
+      const router = TestBed.inject(Router);
+      expect(router.url).toBe(`/novels/${novel.id}`);
+    });
+
     it('should display chapter title', () => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
       testUtils.setInput(() => component.sceneId, 'scene-1', true);

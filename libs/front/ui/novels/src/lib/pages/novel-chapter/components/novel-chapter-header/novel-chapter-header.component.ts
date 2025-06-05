@@ -22,6 +22,7 @@ export class NovelChapterHeaderComponent {
   @Input() chapter!: ChapterPageViewModel;
   @Output() chapterNavigate = new EventEmitter<string>();
   @Output() titleChange = new EventEmitter<string>();
+  @Output() goToNovel = new EventEmitter<void>();
 
   onTitleChange(title: string): void {
     this.titleChange.emit(title);
@@ -29,5 +30,9 @@ export class NovelChapterHeaderComponent {
 
   onChapterNavigate(chapterId: string): void {
     this.chapterNavigate.emit(chapterId);
+  }
+
+  onGoToNovel(): void {
+    this.goToNovel.emit();
   }
 }

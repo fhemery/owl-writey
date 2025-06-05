@@ -76,8 +76,17 @@ export const novelFr = {
       },
     },
     chapter: {
+      home: {
+        label: 'Retour au roman',
+      },
       title: {
         label: 'Chapitre',
+      },
+      scenes: {
+        label: 'Scène(s)',
+      },
+      words: {
+        label: 'Mots',
       },
       previous: {
         label: 'Chapitre précédent : {{title}}',
@@ -99,6 +108,9 @@ export const novelFr = {
       title: {
         chapterLabel: 'Chapitre',
         label: 'Scène',
+      },
+      home: {
+        label: 'Retour au roman',
       },
       previous: {
         label: 'Scène précédente : {{title}}',
