@@ -76,4 +76,13 @@ export class NovelScenePageComponent {
       sceneId,
     ]);
   }
+
+  async goToChapter(): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.#novelStore.novel()?.id,
+      'chapters',
+      this.chapterId(),
+    ]);
+  }
 }

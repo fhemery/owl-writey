@@ -21,13 +21,31 @@
       <mat-icon>arrow_back</mat-icon>
     </a>
     }
-    <h2
-      class="scene-page__title"
-      owlContentEditable
-      (contentChange)="updateTitle($event)"
-    >
-      {{ scene.title }}
-    </h2>
+    <div class="scene-page__title">
+      <a
+        class="scene-page__title--chapter"
+        (click)="goToChapter()"
+        (keyup.enter)="goToChapter()"
+        tabindex="0"
+        role="button"
+        [title]="scene.chapterTitle"
+      >
+        <mat-icon [title]="'novel.scene.title.chapterLabel' | translate"
+          >folder</mat-icon
+        >
+        {{ scene.chapterTitle }} /
+      </a>
+      <mat-icon [title]="'novel.scene.title.label' | translate"
+        >description</mat-icon
+      >
+      <h2
+        class="scene-page__title--scene"
+        owlContentEditable
+        (contentChange)="updateTitle($event)"
+      >
+        {{ scene.title }}
+      </h2>
+    </div>
     @if(scene.nextScene) {
     <a
       class="scene-page__header--link"

@@ -96,7 +96,7 @@ describe('NovelScenePageComponent', () => {
 
     it('should update scene title', async () => {
       const newTitle = 'Updated Scene Title';
-      testUtils.updateEditableField('h2.scene-page__title', newTitle);
+      testUtils.updateEditableField('h2.scene-page__title--scene', newTitle);
       expect(mockNovelStore.updateSceneTitle).toHaveBeenCalledWith(
         'chapter-1',
         'scene-1',
@@ -118,6 +118,26 @@ describe('NovelScenePageComponent', () => {
   });
 
   describe('Navigation', () => {
+    it('should display chapter title', () => {
+      testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+      testUtils.setInput(() => component.sceneId, 'scene-1', true);
+      fixture.detectChanges();
+
+      expect(
+        testUtils.getTextForElementAt('.scene-page__title--chapter')
+      ).toContain('Chapter 1');
+    });
+
+    it('should redirect to chapter page when clicking on chapter title', () => {
+      testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+      testUtils.setInput(() => component.sceneId, 'scene-1', true);
+      fixture.detectChanges();
+
+      testUtils.clickElementAt('.scene-page__title--chapter');
+      const router = TestBed.inject(Router);
+      expect(router.url).toBe(`/novels/${novel.id}/chapters/chapter-1`);
+    });
+
     it('should display the previous scene link if the scene has a previous scene', () => {
       testUtils.setInput(() => component.chapterId, 'chapter-1');
       testUtils.setInput(() => component.sceneId, 'scene-2', true);

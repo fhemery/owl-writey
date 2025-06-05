@@ -1,13 +1,15 @@
-import { Novel, NovelScene } from '@owl/shared/novels/model';
+import { Novel, NovelChapter, NovelScene } from '@owl/shared/novels/model';
 
 export class NovelScenePageViewModel {
+  readonly chapterTitle: string;
   readonly title: string;
   readonly content: string;
 
   readonly previousScene?: NovelScenePageNavigationViewModel;
   readonly nextScene?: NovelScenePageNavigationViewModel;
 
-  private constructor(scene: NovelScene, novel: Novel) {
+  private constructor(scene: NovelScene, novel: Novel, chapter: NovelChapter) {
+    this.chapterTitle = chapter.generalInfo.title;
     this.title = scene.generalInfo.title;
     this.content = scene.content;
 
@@ -64,11 +66,12 @@ export class NovelScenePageViewModel {
     sceneId: string,
     novel: Novel | null
   ): NovelScenePageViewModel | null {
+    const chapter = novel?.findChapter(chapterId);
     const scene = novel?.findScene(chapterId, sceneId);
-    if (!novel || !scene) {
+    if (!novel || !scene || !chapter) {
       return null;
     }
-    return new NovelScenePageViewModel(scene, novel);
+    return new NovelScenePageViewModel(scene, novel, chapter);
   }
 }
 

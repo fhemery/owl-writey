@@ -97,6 +97,7 @@ export const novelFr = {
     },
     scene: {
       title: {
+        chapterLabel: 'Chapitre',
         label: 'Scène',
       },
       previous: {
