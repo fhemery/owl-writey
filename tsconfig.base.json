@@ -39,6 +39,7 @@
       "@owl/front/ui/exercises": ["libs/front/ui/exercises/src/index.ts"],
       "@owl/front/ui/login": ["libs/front/ui/login/src/index.ts"],
       "@owl/front/ui/novels": ["libs/front/ui/novels/src/index.ts"],
+      "@owl/front/ui/profile": ["libs/front/ui/profile/src/index.ts"],
       "@owl/front/ui/register": ["libs/front/ui/register/src/index.ts"],
       "@owl/shared/common/contracts": [
         "libs/shared/common/contracts/src/index.ts"
