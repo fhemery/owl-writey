@@ -8,6 +8,7 @@ import { provideRouter, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, UserProfile, UserService } from '@owl/front/auth';
 import { TestUtils } from '@owl/front/test-utils';
+import { Role } from '@owl/shared/common/contracts';
 
 import { HeaderComponent } from './header.component';
 
@@ -129,6 +130,36 @@ describe('HeaderComponent', () => {
       const elem = testUtils.getElementAt('.header__app-title');
 
       expect(elem.getAttribute('href')).toBe('/dashboard');
+    });
+  });
+
+  describe('when user is a Beta user', () => {
+    beforeEach(() => {
+      userSignal.set(
+        new UserProfile('alice-id', 'alice@test.com', 'Alice', [Role.Beta])
+      );
+      fixture.detectChanges();
+    });
+
+    it('should display the profile sub menu', async () => {
+      const [menu] = await loader.getAllHarnesses(MatMenuHarness);
+      await menu.open();
+
+      const items = await menu.getItems();
+      expect(items.length).toBe(3);
+      expect(await items[1].getText()).toContain('home.header.profileLink');
+    });
+
+    it('should redirect to profile when clicking on profile link', async () => {
+      const [menu] = await loader.getAllHarnesses(MatMenuHarness);
+      await menu.open();
+
+      const items = await menu.getItems();
+      await items[1].click();
+      await testUtils.waitStable();
+
+      const router = TestBed.inject(Router);
+      expect(router.url).toBe('/profile');
     });
   });
 });

@@ -8,6 +8,7 @@ export const homeFr = {
       loginLink: 'Connexion',
       registerLink: 'Inscription',
       logoutLink: 'Déconnexion',
+      profileLink: 'Profil',
     },
     footer: {
       text: "Owl-Writey, application d'écriture",

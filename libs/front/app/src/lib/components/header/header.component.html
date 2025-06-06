@@ -9,22 +9,11 @@
       'home.header.app.name' | translate
     }}</span>
   </a>
-  @if (!user()) {
-  <div class="header__login-button">
-    <button mat-raised-button color="accent" routerLink="/login">
-      {{ 'home.header.loginLink' | translate }}
-    </button>
-  </div>
-  <div class="header__register-button">
-    <button mat-raised-button color="primary" routerLink="/register">
-      {{ 'home.header.registerLink' | translate }}
-    </button>
-  </div>
-  } @else {
+  @if (user(); as user) {
   <div class="header__user-menu" [matMenuTriggerFor]="userMenu">
     <div class="header__user-info">
       <mat-icon class="header__user-icon">account_circle</mat-icon>
-      <span class="header__username">{{ user()?.name || user()?.email }}</span>
+      <span class="header__username">{{ user.name || user.email }}</span>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
   </div>
@@ -38,11 +27,29 @@
       <mat-icon>home</mat-icon>
       <span>{{ 'home.header.dashboardLink' | translate }}</span>
     </button>
+    @if(user.isBetaUser()) {
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="header__user-menu-item" routerLink="/profile">
+      <mat-icon>person</mat-icon>
+      <span>{{ 'home.header.profileLink' | translate }}</span>
+    </button>
+    }
     <mat-divider></mat-divider>
     <button mat-menu-item class="header__user-menu-item" (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>{{ 'home.header.logoutLink' | translate }}</span>
     </button>
   </mat-menu>
+  } @else {
+  <div class="header__login-button">
+    <button mat-raised-button color="accent" routerLink="/login">
+      {{ 'home.header.loginLink' | translate }}
+    </button>
+  </div>
+  <div class="header__register-button">
+    <button mat-raised-button color="primary" routerLink="/register">
+      {{ 'home.header.registerLink' | translate }}
+    </button>
+  </div>
   }
 </mat-toolbar>
