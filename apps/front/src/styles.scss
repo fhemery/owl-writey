@@ -27,6 +27,8 @@ html {
   }
 }
 
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+
 :root {
   --color-primary: #f7ecc6;
   --color-primary-light: #f0f0d3;
@@ -39,6 +41,15 @@ html {
   --color-error-background: #f8d7da;
   --color-success: #2b9f46;
   --color-success-background: #d4edda;
+}
+
+:root {
+  @include mat.menu-overrides(
+    (
+      container-color: var(--color-primary),
+      divider-color: var(--color-primary-light),
+    )
+  );
 }
 
 * {

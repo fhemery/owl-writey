@@ -1,9 +1,9 @@
 import { signal, WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { AUTH_SERVICE, AuthService, User } from '@owl/front/auth';
+import { AuthService, UserProfile, UserService } from '@owl/front/auth';
 import { TestUtils } from '@owl/front/test-utils';
 
 import { HeaderComponent } from './header.component';
@@ -11,13 +11,13 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let mockAuthService: Partial<AuthService>;
-  let userSignal: WritableSignal<User | null>;
+  let mockUserService: Partial<AuthService>;
+  let userSignal: WritableSignal<UserProfile | null>;
   let testUtils: TestUtils;
 
   beforeEach(async () => {
     userSignal = signal(null);
-    mockAuthService = {
+    mockUserService = {
       user: userSignal,
     };
 
@@ -28,7 +28,7 @@ describe('HeaderComponent', () => {
         TranslateModule.forRoot(),
       ],
       providers: [
-        { provide: AUTH_SERVICE, useValue: mockAuthService },
+        { provide: UserService, useValue: mockUserService },
         provideRouter([{ path: '**', component: HeaderComponent }]),
       ],
     }).compileComponents();
@@ -52,7 +52,10 @@ describe('HeaderComponent', () => {
     it('should show login and register buttons', () => {
       expect(testUtils.hasElement('.header__login-button')).toBeTruthy();
       expect(testUtils.hasElement('.header__register-button')).toBeTruthy();
-      expect(testUtils.hasElement('.header__logout-button')).toBeFalsy();
+    });
+
+    it('should not display the user menu', () => {
+      expect(testUtils.hasElement('.header__user-menu')).toBeFalsy();
     });
 
     it('should have logo redirecting to home page', async () => {
@@ -64,12 +67,17 @@ describe('HeaderComponent', () => {
 
   describe('when logged in', () => {
     beforeEach(() => {
-      userSignal.set(new User('alice-id', 'alice@test.com', []));
+      userSignal.set(
+        new UserProfile('alice-id', 'alice@test.com', 'Alice', [])
+      );
       fixture.detectChanges();
     });
 
-    it('should show logout button', () => {
-      expect(testUtils.hasElement('.header__logout-button')).toBeTruthy();
+    it('should display the user menu', () => {
+      expect(testUtils.hasElement('.header__user-menu')).toBeTruthy();
+    });
+
+    it('should not display login and register buttons', () => {
       expect(testUtils.hasElement('.header__login-button')).toBeFalsy();
       expect(testUtils.hasElement('.header__register-button')).toBeFalsy();
     });
@@ -78,13 +86,6 @@ describe('HeaderComponent', () => {
       const elem = testUtils.getElementAt('.header__app-title');
 
       expect(elem.getAttribute('href')).toBe('/dashboard');
-    });
-
-    it('should redirect to logout', async () => {
-      testUtils.clickElementAt('.header__logout-button button');
-
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe('/login/logout');
     });
   });
 });
