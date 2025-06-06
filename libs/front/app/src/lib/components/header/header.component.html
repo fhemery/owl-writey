@@ -30,6 +30,15 @@
   </div>
 
   <mat-menu #userMenu="matMenu">
+    <button
+      mat-menu-item
+      class="header__user-menu-item"
+      routerLink="/dashboard"
+    >
+      <mat-icon>home</mat-icon>
+      <span>{{ 'home.header.dashboardLink' | translate }}</span>
+    </button>
+    <mat-divider></mat-divider>
     <button mat-menu-item class="header__user-menu-item" (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>{{ 'home.header.logoutLink' | translate }}</span>

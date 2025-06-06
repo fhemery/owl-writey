@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -20,6 +21,7 @@ import { UserService } from '@owl/front/auth';
     MatButtonModule,
     MatIcon,
     MatMenuModule,
+    MatDivider,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
