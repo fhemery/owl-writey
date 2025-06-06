@@ -1,5 +1,5 @@
 <mat-toolbar class="header">
-  <a routerLink="/" class="header__app-title">
+  <a [routerLink]="user() ? '/dashboard' : '/'" class="header__app-title">
     <img
       src="logo.png"
       alt="Owl Writey logo"
@@ -21,14 +21,6 @@
     </button>
   </div>
   } @else {
-  <div class="header__dashboard-button">
-    <button mat-raised-button color="secondary" routerLink="/dashboard">
-      <mat-icon>home</mat-icon>
-      <span class="header__dashboard-button--text">{{
-        'home.header.dashboardLink' | translate
-      }}</span>
-    </button>
-  </div>
   <div class="header__logout-button">
     <button mat-raised-button color="secondary" (click)="logout()">
       <mat-icon>logout</mat-icon>

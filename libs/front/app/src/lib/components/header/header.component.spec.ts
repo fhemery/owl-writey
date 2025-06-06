@@ -53,7 +53,12 @@ describe('HeaderComponent', () => {
       expect(testUtils.hasElement('.header__login-button')).toBeTruthy();
       expect(testUtils.hasElement('.header__register-button')).toBeTruthy();
       expect(testUtils.hasElement('.header__logout-button')).toBeFalsy();
-      expect(testUtils.hasElement('.header__dashboard-button')).toBeFalsy();
+    });
+
+    it('should have logo redirecting to home page', async () => {
+      const elem = testUtils.getElementAt('.header__app-title');
+
+      expect(elem.getAttribute('href')).toBe('/');
     });
   });
 
@@ -63,11 +68,16 @@ describe('HeaderComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should show dashboard and logout buttons', () => {
-      expect(testUtils.hasElement('.header__dashboard-button')).toBeTruthy();
+    it('should show logout button', () => {
       expect(testUtils.hasElement('.header__logout-button')).toBeTruthy();
       expect(testUtils.hasElement('.header__login-button')).toBeFalsy();
       expect(testUtils.hasElement('.header__register-button')).toBeFalsy();
+    });
+
+    it('should have logo redirecting to dashboard page', async () => {
+      const elem = testUtils.getElementAt('.header__app-title');
+
+      expect(elem.getAttribute('href')).toBe('/dashboard');
     });
 
     it('should redirect to logout', async () => {

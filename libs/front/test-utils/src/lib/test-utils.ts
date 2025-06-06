@@ -208,6 +208,10 @@ export class TestUtils {
   hasText(expectedText: TranslationKey, selector: string): boolean {
     return this.getTextForElementAt(selector).includes(expectedText);
   }
+
+  printDebugInfo(): void {
+    console.log(this.fixture.debugElement.nativeElement.innerHTML);
+  }
 }
 
 class EditorUtils {
