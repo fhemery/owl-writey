@@ -23,7 +23,6 @@ export class UserService {
   user = computed(() => {
     const user = this.authService.user();
     const profile = this.userResource.value();
-    console.log(user, profile);
     if (!user || !profile) {
       return null;
     }

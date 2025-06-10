@@ -1,1 +1,23 @@
-<p>novel-settings-export-page works!</p>
+<div class="export-page">
+  <h2>{{ 'novel.settings.export.title' | translate }}</h2>
+  <form [formGroup]="exportForm" (ngSubmit)="onSubmit()">
+    <div class="export-page__content">
+      <mat-form-field>
+        <mat-label>{{
+          'novel.settings.export.separator.label' | translate
+        }}</mat-label>
+        <input matInput formControlName="separator" />
+      </mat-form-field>
+
+      <div class="checkbox-container">
+        <mat-checkbox formControlName="includeSceneTitle">
+          {{ 'novel.settings.export.includeSceneTitle.label' | translate }}
+        </mat-checkbox>
+      </div>
+
+      <button mat-raised-button type="submit" color="primary">
+        {{ 'novel.settings.export.button.label' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -146,6 +146,18 @@ export const novelFr = {
       },
     },
     settings: {
+      export: {
+        title: 'Exporter le roman',
+        separator: {
+          label: 'Séparateur entre les scènes',
+        },
+        includeSceneTitle: {
+          label: 'Inclure le titre de la scène',
+        },
+        button: {
+          label: 'Exporter',
+        },
+      },
       tab: {
         generalInfo: 'Informations générales',
         export: 'Export',
