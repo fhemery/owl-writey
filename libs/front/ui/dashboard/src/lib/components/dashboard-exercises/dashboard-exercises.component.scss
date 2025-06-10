@@ -1,14 +1,20 @@
+@use 'commonStyles' as styles;
+
 .dashboard-exercises {
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: repeat(5, 1fr);
 
-  @media screen and (max-width: 900px) {
+  @include styles.respond-to(desktop) {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  @media screen and (max-width: 600px) {
+  @include styles.respond-to(tablet) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include styles.respond-to(mobile) {
+    grid-template-columns: 1fr;
   }
 
   .dashboard-no-exercise {
