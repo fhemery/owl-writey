@@ -1,0 +1,18 @@
+@if (data(); as scene) {
+<div class="scene-right-panel">
+  <div class="scene-right-panel__outline">
+    <mat-form-field appearance="outline" class="outline-field">
+      <mat-label>{{ 'novel.scene.outline.label' | translate }}</mat-label>
+      <textarea
+        matInput
+        [value]="scene.outline"
+        (change)="updateOutline($event)"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="4"
+        cdkAutosizeMaxRows="10"
+      >
+      </textarea>
+    </mat-form-field>
+  </div>
+</div>
+}

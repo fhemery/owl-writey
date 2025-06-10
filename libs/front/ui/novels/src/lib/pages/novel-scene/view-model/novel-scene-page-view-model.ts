@@ -2,16 +2,23 @@ import { Novel, NovelChapter, NovelScene } from '@owl/shared/novels/model';
 
 export class NovelScenePageViewModel {
   readonly chapterTitle: string;
+  readonly chapterId: string;
+  readonly sceneId: string;
   readonly title: string;
   readonly content: string;
+
+  readonly outline: string;
 
   readonly previousScene?: NovelScenePageNavigationViewModel;
   readonly nextScene?: NovelScenePageNavigationViewModel;
 
   private constructor(scene: NovelScene, novel: Novel, chapter: NovelChapter) {
     this.chapterTitle = chapter.generalInfo.title;
+    this.chapterId = chapter.id;
+    this.sceneId = scene.id;
     this.title = scene.generalInfo.title;
     this.content = scene.content;
+    this.outline = scene.generalInfo.outline;
 
     const { previousScene, nextScene } = this.computePreviousAndNextScene(
       scene.id,

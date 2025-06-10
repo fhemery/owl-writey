@@ -10,10 +10,10 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { RightPanelComponent } from '@owl/front/ui/common';
 
 import { NovelStore } from '../../services/novel.store';
 import { NovelHeaderComponent } from './components/novel-header/novel-header.component';
-import { NovelRightPaneComponent } from './components/novel-right-pane/novel-right-pane.component';
 import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.component';
 
 @Component({
@@ -22,7 +22,7 @@ import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.
     CommonModule,
     NovelSidebarComponent,
     NovelHeaderComponent,
-    NovelRightPaneComponent,
+    RightPanelComponent,
     RouterOutlet,
     TranslateModule,
     MatIcon,
