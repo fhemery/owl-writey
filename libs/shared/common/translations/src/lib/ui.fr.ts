@@ -12,6 +12,10 @@ export const uiFr = {
     yes: 'Oui',
     no: 'Non',
     cancel: 'Annuler',
+    panel: {
+      open: 'Ouvrir',
+      close: 'Fermer',
+    },
     exercises: {
       type: {
         ExquisiteCorpse: 'Cadavre exquis',

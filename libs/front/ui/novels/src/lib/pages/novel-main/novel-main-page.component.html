@@ -4,48 +4,25 @@
     <div class="loading__spinner"></div>
   </div>
   } @else { @if (novel(); as novel) {
-  <div class="layout" [ngClass]="{ isMobile: isMobile() }">
-    <div
-      class="layout__sidebar"
-      [ngClass]="{ 'layout__sidebar--collapsed': !isLeftPaneOpen() }"
-    >
-      @if (isMobile() && isLeftPaneOpen()) {
-      <a
-        class="left-pane-toggle"
-        (click)="toggleLeftPane()"
-        tabindex="0"
-        (keyup.enter)="toggleLeftPane()"
-        [title]="'novel.main.toggleLeftPane' | translate"
-      >
-        <mat-icon>arrow_left</mat-icon>
-      </a>
-      }
-      <owl-novel-header [novel]="novel" />
-      <owl-novel-sidebar [novel]="novel"></owl-novel-sidebar>
+  <div class="layout">
+    <div class="layout__left-panel">
+      <owl-side-panel position="left">
+        <div class="layout__left-panel--inner">
+          <owl-novel-header [novel]="novel" />
+          <owl-novel-sidebar [novel]="novel"></owl-novel-sidebar>
+        </div>
+      </owl-side-panel>
     </div>
-    <div
-      class="layout__content"
-      [ngClass]="{ 'layout__content--full': !isLeftPaneOpen() }"
-    >
-      <a
-        class="left-pane-toggle"
-        (click)="toggleLeftPane()"
-        tabindex="0"
-        (keyup.enter)="toggleLeftPane()"
-        [title]="'novel.main.toggleLeftPane' | translate"
-      >
-        @if (!isLeftPaneOpen()) {
-        <mat-icon>arrow_right</mat-icon>
-        } @else {
-        <mat-icon>arrow_left</mat-icon>
-        }
-      </a>
-
+    <div class="layout__content">
       <router-outlet></router-outlet>
     </div>
+    @if (hasRightPanel()) {
     <div class="layout__right-panel">
-      <owl-right-pane></owl-right-pane>
+      <owl-side-panel position="right">
+        <owl-right-pane></owl-right-pane>
+      </owl-side-panel>
     </div>
+    }
   </div>
   } @else {
   <div class="alert">

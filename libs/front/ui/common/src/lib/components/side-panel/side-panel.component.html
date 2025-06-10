@@ -1,0 +1,21 @@
+<div
+  class="side-panel"
+  [ngClass]="[
+    `side-panel--${position()}`,
+    `side-panel--${isPanelOpen() ? 'open' : 'closed'}`,
+  ]"
+>
+  <button
+    class="side-panel__toggle"
+    (click)="onToggle()"
+    [title]="
+      (isPanelOpen() ? 'general.panel.close' : 'general.panel.open') | translate
+    "
+    type="button"
+  >
+    <mat-icon>{{ getToggleIcon() }}</mat-icon>
+  </button>
+  <div class="side-panel__content">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -4,6 +4,7 @@ export * from './lib/components/right-panel';
 export * from './lib/components/stats-chip/stats-chip.component';
 export * from './lib/components/text-editor/text-editor.component';
 export * from './lib/components/update-snackbar';
+export * from './lib/components/side-panel';
 export * from './lib/directives/content-editable.directive';
 export * from './lib/services/notification.service';
 export * from './lib/services/time.pipe';

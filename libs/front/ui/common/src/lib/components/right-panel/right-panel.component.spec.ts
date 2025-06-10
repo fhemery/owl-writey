@@ -71,40 +71,5 @@ describe('RightPaneComponent', () => {
         rightPanelData.theAnswer.toString()
       );
     });
-
-    it('should collapse the component and hide the content when toggling', () => {
-      const service = TestBed.inject(RightPanelService);
-      service.displayComponent(
-        new RightPanelComponentDisplayRequest<RightPanelData>(
-          RightPanelInnerTestComponent,
-          new RightPanelData()
-        )
-      );
-      fixture.detectChanges();
-
-      testUtils.clickElementAt('.right-panel-toggle');
-
-      expect(
-        testUtils.getElementAt('.right-panel__content').getAttribute('style')
-      ).toContain('visibility: hidden');
-    });
-
-    it('should reopen the component and show the content when toggling twice', () => {
-      const service = TestBed.inject(RightPanelService);
-      service.displayComponent(
-        new RightPanelComponentDisplayRequest<RightPanelData>(
-          RightPanelInnerTestComponent,
-          new RightPanelData()
-        )
-      );
-      fixture.detectChanges();
-
-      testUtils.clickElementAt('.right-panel-toggle');
-      testUtils.clickElementAt('.right-panel-toggle');
-
-      expect(
-        testUtils.getElementAt('.right-panel__content').getAttribute('style')
-      ).toContain('visibility: visible');
-    });
   });
 });

@@ -1,24 +1,5 @@
-@if (hasComponent()) {
-<a
-  class="right-panel-toggle"
-  (click)="toggleCollapse()"
-  tabindex="0"
-  (keyup.enter)="toggleCollapse()"
-  [title]="'novel.main.toggleLeftPane' | translate"
->
-  @if(isCollapsedByUser()) {
-  <mat-icon>arrow_left</mat-icon>
-  } @else {
-  <mat-icon>arrow_right</mat-icon>
-  }
-</a>
-}
-
-<div class="right-panel" [ngClass]="{ collapsed: !isOpen() }">
-  <div
-    class="right-panel__content"
-    [style.visibility]="isOpen() ? 'visible' : 'hidden'"
-  >
+<div class="right-panel">
+  <div class="right-panel__content">
     <div #container></div>
   </div>
 </div>

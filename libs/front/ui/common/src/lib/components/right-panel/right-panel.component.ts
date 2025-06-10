@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   inject,
   Signal,
@@ -25,9 +24,7 @@ import { RightPanelService } from './services/right-panel.service';
 export class RightPanelComponent {
   private readonly rightPaneService = inject(RightPanelService);
 
-  isCollapsedByUser = signal(false);
   hasComponent = signal(false);
-  isOpen = computed(() => this.hasComponent() && !this.isCollapsedByUser());
 
   container: Signal<ViewContainerRef> = viewChild.required('container', {
     read: ViewContainerRef,
@@ -55,9 +52,5 @@ export class RightPanelComponent {
   close(): void {
     this.rightPaneService.clearComponent();
     this.hasComponent.set(false);
-  }
-
-  toggleCollapse(): void {
-    this.isCollapsedByUser.set(!this.isCollapsedByUser());
   }
 }
