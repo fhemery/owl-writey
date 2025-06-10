@@ -145,6 +145,12 @@ export const novelFr = {
         },
       },
     },
+    settings: {
+      tab: {
+        generalInfo: 'Informations générales',
+        export: 'Export',
+      },
+    },
     overview: {
       newChapter: 'Ajouter un chapitre',
       noChapters: {

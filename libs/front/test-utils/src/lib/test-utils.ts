@@ -205,8 +205,8 @@ export class TestUtils {
     return document.querySelectorAll(selector).length;
   }
 
-  hasText(expectedText: TranslationKey, selector: string): boolean {
-    return this.getTextForElementAt(selector).includes(expectedText);
+  hasText(expectedText: TranslationKey, selector: string, index = 0): boolean {
+    return this.getTextForElementAt(selector, index).includes(expectedText);
   }
 
   printDebugInfo(): void {
