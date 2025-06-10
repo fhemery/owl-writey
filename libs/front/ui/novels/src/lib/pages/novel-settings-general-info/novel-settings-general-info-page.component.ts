@@ -12,12 +12,12 @@ import { NovelContextService } from '../../services/novel-context.service';
 import { NovelDeleteConfirmComponent } from './components/novel-delete-confirm/novel-delete-confirm.component';
 
 @Component({
-  selector: 'owl-novel-edit',
+  selector: 'owl-novel-settings-general-info-page',
   imports: [CommonModule, NovelFormComponent],
-  templateUrl: './novel-edit.component.html',
-  styleUrl: './novel-edit.component.scss',
+  templateUrl: './novel-settings-general-info-page.component.html',
+  styleUrl: './novel-settings-general-info-page.component.scss',
 })
-export class NovelEditComponent {
+export class NovelSettingsGeneralInfoPageComponent {
   readonly dialog = inject(MatDialog);
   readonly store = inject(NovelStore);
   readonly notificationService = inject(NotificationService);
