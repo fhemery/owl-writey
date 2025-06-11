@@ -14,6 +14,7 @@ export type PanelPosition = 'left' | 'right';
 })
 export class SidePanelComponent implements OnInit {
   position = input<PanelPosition>('left');
+  width = input<string>('20vw');
 
   readonly deviceType = signal<DeviceType>(getDeviceType());
   readonly isMobile = computed(() => this.deviceType() === DeviceType.Mobile);

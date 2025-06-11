@@ -9,14 +9,13 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RightPanelService } from './services/right-panel.service';
 
 @Component({
   selector: 'owl-right-pane',
-  imports: [CommonModule, MatIcon, TranslateModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './right-panel.component.html',
   styleUrl: './right-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

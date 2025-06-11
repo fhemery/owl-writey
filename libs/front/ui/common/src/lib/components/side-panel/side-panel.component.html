@@ -4,6 +4,7 @@
     `side-panel--${position()}`,
     `side-panel--${isPanelOpen() ? 'open' : 'closed'}`,
   ]"
+  [style.width]="isPanelOpen() ? width() : '0'"
 >
   <button
     class="side-panel__toggle"
