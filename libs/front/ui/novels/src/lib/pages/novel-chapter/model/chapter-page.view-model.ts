@@ -90,17 +90,19 @@ export class ChapterPagePovViewModel {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly color: string
+    readonly color?: string
   ) {}
 }
 
 export class ChapterPageCharacterViewModel {
   readonly id: string;
   readonly name: string;
+  readonly color?: string;
 
   constructor(character: NovelCharacter) {
     this.id = character.id;
     this.name = character.name;
+    this.color = character.properties.color;
   }
 }
 

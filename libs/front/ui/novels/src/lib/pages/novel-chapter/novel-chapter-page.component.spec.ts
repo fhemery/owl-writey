@@ -209,9 +209,7 @@ describe('NovelChapterPageComponent', () => {
         it('should display no POV if none is selected', () => {
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
           expect(
-            testUtils.hasElement(
-              'owl-novel-scene-card .chapter-scene__details--pov mat-icon.no-pov'
-            )
+            testUtils.hasElement('owl-novel-scene-card mat-icon.no-pov')
           ).toBeTruthy();
         });
 
@@ -231,22 +229,21 @@ describe('NovelChapterPageComponent', () => {
           novelSignal.set(newNovel);
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
           expect(
-            testUtils.getTextForElementAt(
-              'owl-novel-scene-card .chapter-scene__details--pov'
-            )
+            testUtils.getTextForElementAt('owl-novel-scene-card .novel-pov')
           ).toContain('Alice');
         });
 
-        it('should by default use black color', () => {
+        it('should by default use black color', async () => {
           const newNovel = novel
-            .addCharacterAt('alice', 'Alice', 'red')
+            .addCharacterAt('alice', 'Alice', '')
             .updateScenePov('chapter-1', 'scene-1', 'alice');
 
           novelSignal.set(newNovel);
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+
           expect(
             testUtils
-              .getElementAt('owl-novel-scene-card .chapter-scene__details--pov')
+              .getElementAt('owl-novel-scene-card .novel-pov a')
               .getAttribute('style')
           ).toContain('color: black');
           expect(
@@ -270,7 +267,7 @@ describe('NovelChapterPageComponent', () => {
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
           expect(
             testUtils
-              .getElementAt('owl-novel-scene-card .chapter-scene__details--pov')
+              .getElementAt('owl-novel-scene-card .novel-pov a')
               .getAttribute('style')
           ).toContain('color: red');
           expect(

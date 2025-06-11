@@ -24,26 +24,12 @@
     {{ scene.outline }}
   </div>
   <div class="chapter-scene__details">
-    <a
-      class="chapter-scene__details--pov"
-      [matMenuTriggerFor]="povMenu"
-      [ngStyle]="{ color: scene.pov?.color }"
-      [title]="'novel.scene.pov.label' | translate"
-    >
-      <mat-icon
-        [ngClass]="{ 'no-pov': !scene.pov }"
-        [ngStyle]="{ color: scene.pov?.color }"
-        >person</mat-icon
-      >
-      <span>{{ scene.pov?.name }}</span>
-    </a>
-    <mat-menu #povMenu="matMenu">
-      <owl-novel-select-pov
-        [currentlySelectedId]="scene.pov?.id"
-        [characters]="characters()"
-        (selectedCharacter)="updatePov($event)"
-      ></owl-novel-select-pov>
-    </mat-menu>
+    <owl-novel-pov
+      [povId]="scene.pov?.id"
+      [characters]="povCharacter()"
+      (updatePov)="updatePov($event)"
+    ></owl-novel-pov>
+
     <div class="chapter-scene__details--placeholder"></div>
     <div class="chapter-scene__details--words">
       <mat-icon

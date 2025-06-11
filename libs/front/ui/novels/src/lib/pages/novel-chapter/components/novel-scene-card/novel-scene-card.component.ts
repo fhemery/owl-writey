@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  output,
+  ViewChild,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenteditableDirective } from '@owl/front/ui/common';
 
-import { NovelSelectPovComponent } from '../../../../components/novel-select-pov/novel-select-pov.component';
+import { NovelPovCharacterViewModel } from '../../../../components/novel-pov/model/novel-pov-character.view-model';
+import { NovelPovComponent } from '../../../../components/novel-pov/novel-pov.component';
 import {
   ChapterPageCharacterViewModel,
   ChapterPageSceneViewModel,
@@ -19,7 +27,7 @@ import {
     MatIcon,
     TranslateModule,
     MatMenuModule,
-    NovelSelectPovComponent,
+    NovelPovComponent,
   ],
   templateUrl: './novel-scene-card.component.html',
   styleUrl: './novel-scene-card.component.scss',
@@ -27,6 +35,12 @@ import {
 export class NovelSceneCardComponent {
   readonly scene = input.required<ChapterPageSceneViewModel>();
   readonly characters = input<ChapterPageCharacterViewModel[]>([]);
+
+  povCharacter = computed(() => {
+    return this.characters().map(
+      (c) => new NovelPovCharacterViewModel(c.id, c.name, c.color)
+    );
+  });
 
   updateSceneTitle = output<string>();
   updateSceneOutline = output<string>();

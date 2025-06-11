@@ -1,0 +1,21 @@
+<div class="novel-pov">
+  <a
+    [matMenuTriggerFor]="povMenu"
+    [ngStyle]="{ color: selectedCharacter()?.color || 'black' }"
+    [title]="'novel.scene.pov.label' | translate"
+  >
+    <mat-icon
+      [ngClass]="{ 'no-pov': !selectedCharacter() }"
+      [ngStyle]="{ color: selectedCharacter()?.color || 'black' }"
+      >person</mat-icon
+    >
+    <span>{{ selectedCharacter()?.name }}</span>
+  </a>
+  <mat-menu #povMenu="matMenu">
+    <owl-novel-select-pov
+      [currentlySelectedId]="selectedCharacter()?.id"
+      [characters]="characters()"
+      (selectedCharacter)="doUpdate($event)"
+    ></owl-novel-select-pov>
+  </mat-menu>
+</div>
