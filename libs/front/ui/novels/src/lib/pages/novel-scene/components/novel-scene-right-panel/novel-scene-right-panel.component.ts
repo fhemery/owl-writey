@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseRightPaneComponent } from '@owl/front/ui/common';
 
+import { NovelPovComponent } from '../../../../components/novel-pov/novel-pov.component';
 import { NovelStore } from '../../../../services/novel.store';
 import { NovelScenePageViewModel } from '../../view-model/novel-scene-page-view-model';
 
@@ -21,6 +22,7 @@ import { NovelScenePageViewModel } from '../../view-model/novel-scene-page-view-
     TextFieldModule,
     TranslateModule,
     CdkTextareaAutosize,
+    NovelPovComponent,
   ],
   templateUrl: './novel-scene-right-panel.component.html',
   styleUrls: ['./novel-scene-right-panel.component.scss'],
@@ -42,6 +44,18 @@ export class NovelSceneRightPanelComponent extends BaseRightPaneComponent<NovelS
       scene.chapterId,
       scene.sceneId,
       outline
+    );
+  }
+
+  async updatePov(characterId: string | undefined): Promise<void> {
+    const scene = this.data();
+    if (!scene) {
+      return;
+    }
+    await this.novelStore.updateScenePov(
+      scene.chapterId,
+      scene.sceneId,
+      characterId
     );
   }
 }

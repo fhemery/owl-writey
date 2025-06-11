@@ -6,7 +6,6 @@ import {
   inject,
   input,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -35,7 +34,7 @@ import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-mode
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })
-export class NovelScenePageComponent implements OnInit, OnDestroy {
+export class NovelScenePageComponent implements OnDestroy {
   readonly #novelStore = inject(NovelStore);
   readonly #novelContext = inject(NovelContextService);
   readonly #router = inject(Router);
@@ -55,16 +54,13 @@ export class NovelScenePageComponent implements OnInit, OnDestroy {
   constructor() {
     effect(() => {
       this.#novelContext.setScene(this.chapterId(), this.sceneId());
+      this.rightPanelService.displayComponent(
+        new RightPanelComponentDisplayRequest<NovelScenePageViewModel | null>(
+          NovelSceneRightPanelComponent,
+          this.scene()
+        )
+      );
     });
-  }
-
-  ngOnInit(): void {
-    this.rightPanelService.displayComponent(
-      new RightPanelComponentDisplayRequest<NovelScenePageViewModel | null>(
-        NovelSceneRightPanelComponent,
-        this.scene()
-      )
-    );
   }
 
   ngOnDestroy(): void {

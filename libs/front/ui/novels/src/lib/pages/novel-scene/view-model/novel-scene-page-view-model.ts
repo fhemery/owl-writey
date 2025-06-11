@@ -1,11 +1,16 @@
 import { Novel, NovelChapter, NovelScene } from '@owl/shared/novels/model';
 
+import { NovelPovCharacterViewModel } from '../../../components/novel-pov/model/novel-pov-character.view-model';
+
 export class NovelScenePageViewModel {
   readonly chapterTitle: string;
   readonly chapterId: string;
   readonly sceneId: string;
   readonly title: string;
   readonly content: string;
+
+  readonly pov?: string;
+  readonly characters: NovelPovCharacterViewModel[];
 
   readonly outline: string;
 
@@ -19,6 +24,10 @@ export class NovelScenePageViewModel {
     this.title = scene.generalInfo.title;
     this.content = scene.content;
     this.outline = scene.generalInfo.outline;
+    this.characters = novel.universe.characters.map((c) =>
+      NovelPovCharacterViewModel.From(c)
+    );
+    this.pov = scene.generalInfo.pov;
 
     const { previousScene, nextScene } = this.computePreviousAndNextScene(
       scene.id,

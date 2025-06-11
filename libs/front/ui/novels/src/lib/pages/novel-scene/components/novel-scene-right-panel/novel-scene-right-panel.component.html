@@ -1,5 +1,12 @@
 @if (data(); as scene) {
 <div class="scene-right-panel">
+  <div class="scene-right-panel__pov">
+    <owl-novel-pov
+      [povId]="scene.pov"
+      [characters]="scene.characters"
+      (updatePov)="updatePov($event)"
+    ></owl-novel-pov>
+  </div>
   <div class="scene-right-panel__outline">
     <mat-form-field appearance="outline" class="outline-field">
       <mat-label>{{ 'novel.scene.outline.label' | translate }}</mat-label>
