@@ -1,7 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
+
+import {
+  Resolution,
+  ScreenResolutionService,
+} from '../../services/device-type.service';
 
 export type PanelPosition = 'left' | 'right';
 
@@ -12,12 +24,17 @@ export type PanelPosition = 'left' | 'right';
   templateUrl: './side-panel.component.html',
   styleUrls: ['./side-panel.component.scss'],
 })
-export class SidePanelComponent implements OnInit {
+export class SidePanelComponent {
+  readonly #screenResolutionService = inject(ScreenResolutionService);
+
   position = input<PanelPosition>('left');
   width = input<string>('20vw');
 
-  readonly deviceType = signal<DeviceType>(getDeviceType());
-  readonly isMobile = computed(() => this.deviceType() === DeviceType.Mobile);
+  open = model<boolean>();
+
+  readonly isMobile = computed(
+    () => this.#screenResolutionService.deviceType() === Resolution.Mobile
+  );
   readonly panelState = signal<ToggleState>(ToggleState.Unknown);
 
   readonly isPanelOpen = computed(() => {
@@ -27,15 +44,9 @@ export class SidePanelComponent implements OnInit {
       case ToggleState.Closed:
         return false;
       case ToggleState.Unknown:
-        return this.deviceType() !== DeviceType.Mobile;
+        return !this.isMobile();
     }
   });
-
-  ngOnInit(): void {
-    window.addEventListener('resize', () => {
-      this.deviceType.set(getDeviceType());
-    });
-  }
 
   onToggle(): void {
     this.panelState.set(
@@ -52,20 +63,6 @@ export class SidePanelComponent implements OnInit {
   }
 }
 
-function getDeviceType(): DeviceType {
-  const width = window.innerWidth;
-  return width < 480
-    ? DeviceType.Mobile
-    : width < 768
-    ? DeviceType.Tablet
-    : DeviceType.Desktop;
-}
-
-enum DeviceType {
-  Mobile,
-  Tablet,
-  Desktop,
-}
 enum ToggleState {
   Unknown = 'Unknown',
   Open = 'Open',
