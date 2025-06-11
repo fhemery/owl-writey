@@ -37,6 +37,7 @@ export class NovelContentEntity {
           outline: s.generalInfo.outline,
           content: s.content,
           pointOfView: s.generalInfo.pov,
+          notes: s.generalInfo.notes,
         })),
       })),
       universe: {
@@ -71,7 +72,8 @@ export class NovelContentEntity {
                     new NovelSceneGeneralInfo(
                       s.title,
                       s.outline,
-                      s.pointOfView
+                      s.pointOfView,
+                      s.notes
                     ),
                     s.content
                   )
@@ -116,6 +118,7 @@ interface SceneDao {
   title: string;
   outline: string;
   pointOfView?: string;
+  notes?: string;
   content: string;
 }
 

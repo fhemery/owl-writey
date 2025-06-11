@@ -2,22 +2,26 @@ export class NovelSceneGeneralInfo {
   constructor(
     readonly title: string,
     readonly outline: string,
-    public pov?: string
+    public pov?: string,
+    public notes?: string
   ) {}
 
-  deletePov(characterId: string): void {
-    if (this.pov === characterId) {
-      this.pov = undefined;
-    }
-  }
   withTitle(title: string): NovelSceneGeneralInfo {
-    return new NovelSceneGeneralInfo(title, this.outline, this.pov);
+    return new NovelSceneGeneralInfo(title, this.outline, this.pov, this.notes);
   }
 
   withOutline(outline: string): NovelSceneGeneralInfo {
-    return new NovelSceneGeneralInfo(this.title, outline, this.pov);
+    return new NovelSceneGeneralInfo(this.title, outline, this.pov, this.notes);
   }
   withPov(povId?: string): NovelSceneGeneralInfo {
-    return new NovelSceneGeneralInfo(this.title, this.outline, povId);
+    return new NovelSceneGeneralInfo(
+      this.title,
+      this.outline,
+      povId,
+      this.notes
+    );
+  }
+  withNotes(notes?: string): NovelSceneGeneralInfo {
+    return new NovelSceneGeneralInfo(this.title, this.outline, this.pov, notes);
   }
 }

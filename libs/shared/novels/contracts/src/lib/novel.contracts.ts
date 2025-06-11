@@ -71,6 +71,7 @@ export interface SceneGeneralInfoDto {
   title: string;
   outline: string;
   pointOfViewId?: string;
+  notes?: string;
 }
 
 export interface GetAllNovelsResponseDto {

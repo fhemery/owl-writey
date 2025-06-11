@@ -195,6 +195,7 @@ function createComplexNovelDto(): NovelDto {
     title: 'Scene 2',
     outline: 'Scene 2 outline',
     pointOfViewId: 'character-1',
+    notes: 'Scene 2 notes',
   };
 
   const scene3GeneralInfo: SceneGeneralInfoDto = {
