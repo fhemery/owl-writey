@@ -4,11 +4,11 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class ScreenResolutionService {
-  deviceType = signal<Resolution>(this.getResolution());
+  resolution = signal<Resolution>(this.getResolution());
 
   constructor() {
     window.addEventListener('resize', () => {
-      this.deviceType.set(this.getResolution());
+      this.resolution.set(this.getResolution());
     });
   }
 
@@ -23,6 +23,20 @@ export class ScreenResolutionService {
       : width < breakpoints[Resolution.Desktop]
       ? Resolution.Desktop
       : Resolution.WideScreen;
+  }
+
+  isBiggerThan(resolution: Resolution): boolean {
+    return (
+      Object.keys(Resolution).indexOf(this.resolution()) >
+      Object.keys(Resolution).indexOf(resolution)
+    );
+  }
+
+  isSmallerOrEqualTo(resolution: Resolution): boolean {
+    return (
+      Object.keys(Resolution).indexOf(this.resolution()) <=
+      Object.keys(Resolution).indexOf(resolution)
+    );
   }
 }
 

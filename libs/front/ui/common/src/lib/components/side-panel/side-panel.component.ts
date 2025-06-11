@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  model,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, input, model } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -29,42 +22,23 @@ export class SidePanelComponent {
 
   position = input<PanelPosition>('left');
   width = input<string>('20vw');
+  isFullWidth = computed(() => this.width() === '100vw');
 
   open = model<boolean>();
 
   readonly isMobile = computed(
-    () => this.#screenResolutionService.deviceType() === Resolution.Mobile
+    () => this.#screenResolutionService.resolution() === Resolution.Mobile
   );
-  readonly panelState = signal<ToggleState>(ToggleState.Unknown);
-
-  readonly isPanelOpen = computed(() => {
-    switch (this.panelState()) {
-      case ToggleState.Open:
-        return true;
-      case ToggleState.Closed:
-        return false;
-      case ToggleState.Unknown:
-        return !this.isMobile();
-    }
-  });
 
   onToggle(): void {
-    this.panelState.set(
-      this.isPanelOpen() ? ToggleState.Closed : ToggleState.Open
-    );
+    this.open.set(!this.open());
   }
 
   getToggleIcon(): string {
     if (this.position() === 'left') {
-      return this.isPanelOpen() ? 'chevron_left' : 'chevron_right';
+      return this.open() ? 'chevron_left' : 'chevron_right';
     } else {
-      return this.isPanelOpen() ? 'chevron_right' : 'chevron_left';
+      return this.open() ? 'chevron_right' : 'chevron_left';
     }
   }
-}
-
-enum ToggleState {
-  Unknown = 'Unknown',
-  Open = 'Open',
-  Closed = 'Closed',
 }

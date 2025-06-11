@@ -6,19 +6,30 @@
   } @else { @if (novel(); as novel) {
   <div class="layout">
     <div class="layout__left-panel">
-      <owl-side-panel position="left">
+      <owl-side-panel
+        position="left"
+        [(open)]="isLeftPanelOpen"
+        [width]="shouldPanelBeFullWidth() ? '100vw' : '20vw'"
+      >
         <div class="layout__left-panel--inner">
           <owl-novel-header [novel]="novel" />
           <owl-novel-sidebar [novel]="novel"></owl-novel-sidebar>
         </div>
       </owl-side-panel>
     </div>
-    <div class="layout__content">
+    <div
+      class="layout__content"
+      [ngClass]="{ 'layout__content--hidden': isOnePanelOpenedFullWidth() }"
+    >
       <router-outlet></router-outlet>
     </div>
     @if (hasRightPanel()) {
     <div class="layout__right-panel">
-      <owl-side-panel position="right">
+      <owl-side-panel
+        position="right"
+        [(open)]="isRightPanelOpen"
+        [width]="shouldPanelBeFullWidth() ? '100vw' : '20vw'"
+      >
         <owl-right-pane></owl-right-pane>
       </owl-side-panel>
     </div>

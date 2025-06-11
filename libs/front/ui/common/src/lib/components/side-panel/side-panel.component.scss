@@ -21,6 +21,7 @@
   }
 
   &__toggle {
+    z-index: 10;
     position: absolute;
     background-color: var(--color-primary);
     color: var(--color-accent);
@@ -44,12 +45,20 @@
   &--left {
     .side-panel__toggle {
       right: -1.5rem;
+
+      &--open-full-width {
+        right: 0;
+      }
     }
   }
 
   &--right {
     .side-panel__toggle {
       left: -1.5rem;
+
+      &--open-full-width {
+        left: 0;
+      }
     }
   }
 }
