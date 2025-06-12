@@ -1,11 +1,11 @@
-import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
-import { BaseRightPaneComponent } from '@owl/front/ui/common';
+import {
+  BaseRightPaneComponent,
+  ContentEditableDirective,
+} from '@owl/front/ui/common';
 
 import { NovelPovComponent } from '../../../../components/novel-pov/novel-pov.component';
 import { NovelStore } from '../../../../services/novel.store';
@@ -17,11 +17,8 @@ import { NovelScenePageViewModel } from '../../view-model/novel-scene-page-view-
   imports: [
     CommonModule,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    TextFieldModule,
     TranslateModule,
-    CdkTextareaAutosize,
+    ContentEditableDirective,
     NovelPovComponent,
   ],
   templateUrl: './novel-scene-right-panel.component.html',
@@ -34,29 +31,27 @@ export class NovelSceneRightPanelComponent extends BaseRightPaneComponent<NovelS
     return this.data()?.outline ?? '';
   }
 
-  async updateOutline(event: Event): Promise<void> {
-    const outline = (event.target as HTMLTextAreaElement).value;
+  async updateOutline(content: string): Promise<void> {
     const scene = this.data();
-    if (!scene) {
+    if (!scene || scene.outline === content) {
       return;
     }
     await this.novelStore.updateSceneOutline(
       scene.chapterId,
       scene.sceneId,
-      outline
+      content
     );
   }
 
-  async updateNotes(event: Event): Promise<void> {
-    const notes = (event.target as HTMLTextAreaElement).value;
+  async updateNotes(content: string): Promise<void> {
     const scene = this.data();
-    if (!scene || scene.notes === notes) {
+    if (!scene || scene.notes === content) {
       return;
     }
     await this.novelStore.updateSceneNotes(
       scene.chapterId,
       scene.sceneId,
-      notes
+      content
     );
   }
 

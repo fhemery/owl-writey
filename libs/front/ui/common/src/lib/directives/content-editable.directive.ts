@@ -14,13 +14,15 @@ import {
   selector: '[owlContentEditable]',
   standalone: true,
 })
-export class ContenteditableDirective implements OnInit {
+export class ContentEditableDirective implements OnInit {
   contentChange = output<string>();
   multiLine = input<boolean>(false);
   isEditing = signal<boolean>(false);
 
   focusOnEnter = input<boolean | undefined>(undefined);
-  private shouldFocusOnEnter = computed(() => this.focusOnEnter() ?? !this.multiLine());
+  private shouldFocusOnEnter = computed(
+    () => this.focusOnEnter() ?? !this.multiLine()
+  );
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -45,7 +47,7 @@ export class ContenteditableDirective implements OnInit {
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
     event.preventDefault();
-    
+
     if (this.shouldFocusOnEnter() && !this.isEditing()) {
       this.selectContent();
       this.isEditing.set(true);

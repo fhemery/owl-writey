@@ -103,6 +103,10 @@ export class TestUtils {
     return this.getDocumentElementAt(selector, index).textContent?.trim() || '';
   }
 
+  getEditableFieldContent(selector: string, index = 0): string {
+    return this.getDocumentElementAt(selector, index).innerHTML?.trim() || '';
+  }
+
   getValue(selector: string): string {
     const input: HTMLInputElement | null =
       this.fixture.nativeElement.querySelector(selector);

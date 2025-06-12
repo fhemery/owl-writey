@@ -15,7 +15,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContenteditableDirective } from '@owl/front/ui/common';
+import { ContentEditableDirective } from '@owl/front/ui/common';
 import { NovelCharacter } from '@owl/shared/novels/model';
 
 @Component({
@@ -23,7 +23,7 @@ import { NovelCharacter } from '@owl/shared/novels/model';
   imports: [
     CommonModule,
     TranslateModule,
-    ContenteditableDirective,
+    ContentEditableDirective,
     MatIcon,
     MatAutocompleteModule,
     FormsModule,

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  ContenteditableDirective,
+  ContentEditableDirective,
   StatsChipComponent,
 } from '@owl/front/ui/common';
 
@@ -16,7 +16,7 @@ import { ChapterPageViewModel } from '../../model/chapter-page.view-model';
     CommonModule,
     MatIconModule,
     TranslateModule,
-    ContenteditableDirective,
+    ContentEditableDirective,
     StatsChipComponent,
   ],
   templateUrl: './novel-chapter-header.component.html',

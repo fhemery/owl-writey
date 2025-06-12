@@ -67,13 +67,13 @@ describe('NovelSceneRightPanelComponent', () => {
     it('should display the outline', () => {
       expect(testUtils.hasElement('.scene-right-panel__outline')).toBe(true);
       expect(
-        testUtils.getTextareaValueAt('.scene-right-panel__outline textarea')
-      ).toBe('Scene 1 outline');
+        testUtils.getEditableFieldContent('.scene-right-panel__outline')
+      ).toContain('Scene 1 outline');
     });
 
     it('should update the outline when the user changes it', () => {
-      testUtils.updateTextArea(
-        '.scene-right-panel__outline textarea',
+      testUtils.updateEditableField(
+        '.scene-right-panel__outline .scene-right-panel__editable',
         'New outline'
       );
 
@@ -104,13 +104,13 @@ describe('NovelSceneRightPanelComponent', () => {
 
       expect(testUtils.hasElement('.scene-right-panel__notes')).toBe(true);
       expect(
-        testUtils.getTextareaValueAt('.scene-right-panel__notes textarea')
-      ).toBe('Initial notes');
+        testUtils.getEditableFieldContent('.scene-right-panel__notes')
+      ).toContain('Initial notes');
     });
 
     it('should update the notes when the user changes it', () => {
-      testUtils.updateTextArea(
-        '.scene-right-panel__notes textarea',
+      testUtils.updateEditableField(
+        '.scene-right-panel__notes .scene-right-panel__editable',
         'New notes'
       );
 

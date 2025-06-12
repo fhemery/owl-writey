@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  ContenteditableDirective,
+  ContentEditableDirective,
   RightPanelComponentDisplayRequest,
   RightPanelService,
   TextEditorComponent,
@@ -27,7 +27,7 @@ import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-mode
   imports: [
     CommonModule,
     TextEditorComponent,
-    ContenteditableDirective,
+    ContentEditableDirective,
     MatIcon,
     TranslateModule,
   ],
