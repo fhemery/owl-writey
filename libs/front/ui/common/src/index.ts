@@ -11,4 +11,4 @@ export * from './lib/services/time.pipe';
 export * from './lib/services/confirm-dialog.service';
 export * from './lib/services/local.config.service';
 export * from './lib/services/logs';
-export * from './lib/services/device-type.service';
+export * from './lib/services/resolution.service';

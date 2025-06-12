@@ -14,15 +14,17 @@ export class ScreenResolutionService {
 
   getResolution(): Resolution {
     const width = window.innerWidth;
-    return width < breakpoints[Resolution.Mobile]
-      ? Resolution.Mobile
-      : width < breakpoints[Resolution.Tablet]
-      ? Resolution.Tablet
-      : width < breakpoints[Resolution.Medium]
-      ? Resolution.Medium
-      : width < breakpoints[Resolution.Desktop]
-      ? Resolution.Desktop
-      : Resolution.WideScreen;
+    const resolution =
+      width < breakpoints[Resolution.Mobile]
+        ? Resolution.Mobile
+        : width < breakpoints[Resolution.Tablet]
+        ? Resolution.Tablet
+        : width < breakpoints[Resolution.Medium]
+        ? Resolution.Medium
+        : width < breakpoints[Resolution.Desktop]
+        ? Resolution.Desktop
+        : Resolution.WideScreen;
+    return resolution;
   }
 
   isBiggerThan(resolution: Resolution): boolean {
@@ -45,7 +47,7 @@ export enum Resolution {
   Tablet = 'Tablet',
   Medium = 'Medium',
   Desktop = 'Desktop',
-  WideScreen = 'Widescreen',
+  WideScreen = 'WideScreen',
 }
 
 const breakpoints = {

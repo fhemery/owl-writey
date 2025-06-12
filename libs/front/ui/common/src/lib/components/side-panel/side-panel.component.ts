@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   Resolution,
   ScreenResolutionService,
-} from '../../services/device-type.service';
+} from '../../services/resolution.service';
 
 export type PanelPosition = 'left' | 'right';
 
