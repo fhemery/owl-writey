@@ -29,6 +29,15 @@ export class TestUtils {
     return input.value;
   }
 
+  getTextareaValueAt(selector: string, index = 0): string {
+    const textarea: HTMLTextAreaElement | null =
+      this.fixture.nativeElement.querySelectorAll(selector)[index];
+    if (!textarea) {
+      throw new Error(`Element not found: ${selector}`);
+    }
+    return textarea.value;
+  }
+
   hasElement(selector: string): boolean {
     return !!this.fixture.nativeElement.querySelector(selector);
   }
@@ -149,6 +158,19 @@ export class TestUtils {
     input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('blur'));
     input.dispatchEvent(new Event('keyup'));
+    this.fixture.detectChanges();
+  }
+
+  updateTextArea(fieldSelector: string, value: string): void {
+    const textarea: HTMLTextAreaElement | null =
+      this.fixture.nativeElement.querySelector(fieldSelector);
+    if (!textarea) {
+      throw new Error(`Element not found: ${fieldSelector}`);
+    }
+    textarea.value = value;
+    textarea.dispatchEvent(new Event('change'));
+    textarea.dispatchEvent(new Event('input'));
+    textarea.dispatchEvent(new Event('blur'));
     this.fixture.detectChanges();
   }
 
