@@ -15,10 +15,19 @@ export class LocalConfigService {
     return this.config.get(key) as Signal<T>;
   }
 
+  get<T>(key: string): T {
+    return JSON.parse(localStorage.getItem(key) || '{}') as T;
+  }
+
   update<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
     if (this.config.has(key)) {
       this.config.get(key)?.set(value);
     }
+  }
+
+  patch<T>(key: string, value: Partial<T>): void {
+    const config = this.get<T>(key);
+    this.update(key, { ...config, ...value });
   }
 }

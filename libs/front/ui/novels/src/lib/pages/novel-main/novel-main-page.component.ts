@@ -11,6 +11,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
+  LocalConfigService,
   Resolution,
   RightPanelComponent,
   RightPanelService,
@@ -21,6 +22,12 @@ import {
 import { NovelStore } from '../../services/novel.store';
 import { NovelHeaderComponent } from './components/novel-header/novel-header.component';
 import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.component';
+
+export const NOVEL_CONFIG_KEY = 'novel.config';
+interface NovelConfig {
+  isLeftPanelClosed?: boolean;
+  isRightPanelClosed?: boolean;
+}
 
 @Component({
   selector: 'owl-novel-page',
@@ -41,8 +48,11 @@ export class NovelMainPageComponent implements OnInit {
   readonly #rightPanelService = inject(RightPanelService);
   readonly #screenResolutionService = inject(ScreenResolutionService);
 
-  isLeftPanelOpen = signal<boolean>(true);
-  isRightPanelOpen = signal<boolean>(true);
+  readonly localConfigService = inject(LocalConfigService);
+  readonly config = this.localConfigService.get<NovelConfig>(NOVEL_CONFIG_KEY);
+
+  isLeftPanelOpen = signal<boolean>(!this.config.isLeftPanelClosed);
+  isRightPanelOpen = signal<boolean>(!this.config.isRightPanelClosed);
 
   shouldPanelBeFullWidth = computed(() =>
     this.#screenResolutionService.isSmallerOrEqualTo(Resolution.Tablet)
@@ -54,12 +64,7 @@ export class NovelMainPageComponent implements OnInit {
   );
 
   constructor() {
-    this.isLeftPanelOpen.set(
-      this.#screenResolutionService.isBiggerThan(Resolution.Tablet)
-    );
-    this.isRightPanelOpen.set(
-      this.#screenResolutionService.isBiggerThan(Resolution.Medium)
-    );
+    this.ensureConsistencyOfPanelsAndResolutions();
     effect(() => {
       this.toggleLeftPanel(this.isLeftPanelOpen());
     });
@@ -76,6 +81,21 @@ export class NovelMainPageComponent implements OnInit {
     () => !!this.#rightPanelService.currentComponent()
   );
 
+  private ensureConsistencyOfPanelsAndResolutions(): void {
+    if (
+      this.#screenResolutionService.isBiggerThan(Resolution.Tablet) &&
+      !this.config.isLeftPanelClosed
+    ) {
+      this.isLeftPanelOpen.set(true);
+    }
+    if (
+      this.#screenResolutionService.isBiggerThan(Resolution.Medium) &&
+      !this.config.isRightPanelClosed
+    ) {
+      this.isRightPanelOpen.set(true);
+    }
+  }
+
   toggleLeftPanel(open?: boolean): void {
     if (
       open &&
@@ -83,6 +103,10 @@ export class NovelMainPageComponent implements OnInit {
     ) {
       this.isRightPanelOpen.set(false);
     }
+
+    this.localConfigService.patch(NOVEL_CONFIG_KEY, {
+      isLeftPanelClosed: !open,
+    });
   }
 
   toggleRightPanel(open?: boolean): void {
@@ -92,6 +116,9 @@ export class NovelMainPageComponent implements OnInit {
     ) {
       this.isLeftPanelOpen.set(false);
     }
+    this.localConfigService.patch(NOVEL_CONFIG_KEY, {
+      isRightPanelClosed: !open,
+    });
   }
 
   ngOnInit(): void {
