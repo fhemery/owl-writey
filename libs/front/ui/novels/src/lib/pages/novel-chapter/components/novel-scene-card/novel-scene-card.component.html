@@ -31,6 +31,13 @@
     ></owl-novel-pov>
 
     <div class="chapter-scene__details--placeholder"></div>
+    @if(scene.notes){
+    <div class="chapter-scene__details--notes">
+      <mat-icon class="material-symbols-outlined" [matTooltip]="scene.notes"
+        >edit_note</mat-icon
+      >
+    </div>
+    }
     <div class="chapter-scene__details--words">
       <mat-icon
         class="material-symbols-outlined"

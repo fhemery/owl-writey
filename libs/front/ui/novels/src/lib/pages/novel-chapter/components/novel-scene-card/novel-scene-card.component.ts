@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenteditableDirective } from '@owl/front/ui/common';
 
@@ -27,6 +28,7 @@ import {
     MatIcon,
     TranslateModule,
     MatMenuModule,
+    MatTooltip,
     NovelPovComponent,
   ],
   templateUrl: './novel-scene-card.component.html',

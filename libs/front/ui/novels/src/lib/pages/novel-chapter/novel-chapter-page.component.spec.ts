@@ -302,6 +302,36 @@ describe('NovelChapterPageComponent', () => {
         });
       });
 
+      describe('Regarding scene notes', () => {
+        it('should not display an icon if scene has no note', () => {
+          testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+          expect(
+            testUtils.hasElement('owl-novel-scene-card .chapter-scene__notes')
+          ).toBeFalsy();
+        });
+
+        it('should display an icon with content of the note as a tooltip if scene has a note', async () => {
+          const scene = novel.findScene('chapter-1', 'scene-1');
+          if (!scene) {
+            expect.fail('scene not found');
+          }
+          const newNovel = novel.updateScene(
+            'chapter-1',
+            scene.withNotes('hello')
+          );
+          novelSignal.set(newNovel);
+
+          testUtils.setInput(() => component.chapterId, 'chapter-1', true);
+
+          expect(
+            testUtils.hasTooltip(
+              'hello',
+              'owl-novel-scene-card .chapter-scene__details--notes mat-icon'
+            )
+          ).toBeTruthy();
+        });
+      });
+
       describe('Regarding number of words', () => {
         it('should display the number of words', () => {
           const scene = novel.findScene('chapter-1', 'scene-1');

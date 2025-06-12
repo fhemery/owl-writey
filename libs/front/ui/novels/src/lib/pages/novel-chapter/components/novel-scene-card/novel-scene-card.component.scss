@@ -90,7 +90,8 @@
   }
 
   &__details {
-    &--words {
+    &--words,
+    &--notes {
       display: flex;
       align-items: center;
       gap: 0.25rem;

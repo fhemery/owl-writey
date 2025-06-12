@@ -231,8 +231,18 @@ export class TestUtils {
     return this.getTextForElementAt(selector, index).includes(expectedText);
   }
 
-  printDebugInfo(): void {
-    console.log(this.fixture.debugElement.nativeElement.innerHTML);
+  hasTooltip(text: string, selector: string): boolean {
+    return (
+      this.getElementAt(selector).getAttribute('ng-reflect-message') === text
+    );
+  }
+
+  printDebugInfo(selector = ''): void {
+    if (selector) {
+      console.log(this.getElementAt(selector).innerHTML);
+    } else {
+      console.log(this.fixture.debugElement.nativeElement.innerHTML);
+    }
   }
 }
 

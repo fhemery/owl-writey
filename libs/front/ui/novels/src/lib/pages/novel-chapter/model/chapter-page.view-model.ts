@@ -67,11 +67,13 @@ export class ChapterPageSceneViewModel {
   readonly outline: string;
   readonly nbWords: number;
   readonly pov?: ChapterPagePovViewModel;
+  readonly notes?: string;
 
   constructor(scene: NovelScene, novel: Novel) {
     this.id = scene.id;
     this.title = scene.generalInfo.title;
     this.outline = scene.generalInfo.outline;
+    this.notes = scene.generalInfo.notes;
     this.nbWords = scene.nbWords;
     if (scene.generalInfo.pov) {
       const character = novel.findCharacter(scene.generalInfo.pov);
