@@ -29,6 +29,7 @@ import {
   NovelSceneContentUpdatedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
+  NovelSceneNotesUpdatedEvent,
   NovelSceneOutlineUpdatedEvent,
   NovelScenePovUpdatedEvent,
   NovelSceneTitleUpdatedEvent,
@@ -164,6 +165,18 @@ export class NovelStore extends signalStore(
         return await this._applyEvent(
           new NovelSceneOutlineUpdatedEvent(
             { chapterId, sceneId, outline },
+            store.userId()
+          )
+        );
+      },
+      async updateSceneNotes(
+        chapterId: string,
+        sceneId: string,
+        notes: string
+      ): Promise<boolean> {
+        return await this._applyEvent(
+          new NovelSceneNotesUpdatedEvent(
+            { chapterId, sceneId, notes },
             store.userId()
           )
         );

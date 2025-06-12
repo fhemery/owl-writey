@@ -8,12 +8,35 @@
     ></owl-novel-pov>
   </div>
   <div class="scene-right-panel__outline">
-    <mat-form-field appearance="outline" class="outline-field">
+    <mat-form-field
+      appearance="outline"
+      class="outline-field"
+      floatLabel="always"
+    >
       <mat-label>{{ 'novel.scene.outline.label' | translate }}</mat-label>
       <textarea
         matInput
         [value]="scene.outline"
         (change)="updateOutline($event)"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="4"
+        cdkAutosizeMaxRows="10"
+      >
+      </textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="scene-right-panel__notes">
+    <mat-form-field
+      appearance="outline"
+      class="outline-field"
+      floatLabel="always"
+    >
+      <mat-label>{{ 'novel.scene.notes.label' | translate }}</mat-label>
+      <textarea
+        matInput
+        [value]="scene.notes"
+        (change)="updateNotes($event)"
         cdkTextareaAutosize
         cdkAutosizeMinRows="4"
         cdkAutosizeMaxRows="10"

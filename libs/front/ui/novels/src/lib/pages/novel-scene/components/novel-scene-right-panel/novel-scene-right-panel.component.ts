@@ -47,6 +47,19 @@ export class NovelSceneRightPanelComponent extends BaseRightPaneComponent<NovelS
     );
   }
 
+  async updateNotes(event: Event): Promise<void> {
+    const notes = (event.target as HTMLTextAreaElement).value;
+    const scene = this.data();
+    if (!scene || scene.notes === notes) {
+      return;
+    }
+    await this.novelStore.updateSceneNotes(
+      scene.chapterId,
+      scene.sceneId,
+      notes
+    );
+  }
+
   async updatePov(characterId: string | undefined): Promise<void> {
     const scene = this.data();
     if (!scene) {

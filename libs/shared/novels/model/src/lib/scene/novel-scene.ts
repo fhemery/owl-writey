@@ -35,6 +35,10 @@ export class NovelScene {
     return new NovelScene(this.id, this.generalInfo, content);
   }
 
+  withNotes(notes?: string): NovelScene {
+    return this.withGeneralInfo(this.generalInfo.withNotes(notes));
+  }
+
   private withGeneralInfo(generalInfo: NovelSceneGeneralInfo): NovelScene {
     return new NovelScene(this.id, generalInfo, this.content);
   }

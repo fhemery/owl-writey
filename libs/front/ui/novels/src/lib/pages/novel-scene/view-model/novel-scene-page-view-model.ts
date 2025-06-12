@@ -13,6 +13,7 @@ export class NovelScenePageViewModel {
   readonly characters: NovelPovCharacterViewModel[];
 
   readonly outline: string;
+  readonly notes: string;
 
   readonly previousScene?: NovelScenePageNavigationViewModel;
   readonly nextScene?: NovelScenePageNavigationViewModel;
@@ -24,6 +25,7 @@ export class NovelScenePageViewModel {
     this.title = scene.generalInfo.title;
     this.content = scene.content;
     this.outline = scene.generalInfo.outline;
+    this.notes = scene.generalInfo.notes || '';
     this.characters = novel.universe.characters.map((c) =>
       NovelPovCharacterViewModel.From(c)
     );

@@ -121,6 +121,9 @@ export const novelFr = {
       outline: {
         label: 'Résumé :',
       },
+      notes: {
+        label: 'Notes :',
+      },
       deleteConfirm: {
         title: 'Supprimer la scène',
         text: "La suppression d'une scène est irréversible. Êtes vous sûr(e) de vouloir la supprimer ?",

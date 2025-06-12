@@ -19,6 +19,7 @@ import {
   NovelSceneContentUpdatedEvent,
   NovelSceneDeletedEvent,
   NovelSceneMovedEvent,
+  NovelSceneNotesUpdatedEvent,
   NovelSceneOutlineUpdatedEvent,
   NovelScenePovUpdatedEvent,
   NovelSceneTitleUpdatedEvent,
@@ -109,6 +110,12 @@ describe('NovelDomainEventFactory', () => {
       name: 'Novel:SceneOutlineUpdated',
       data: { chapterId: '1', sceneId: 's1', outline: 'Updated Outline' },
       expectedType: NovelSceneOutlineUpdatedEvent,
+      version: '1',
+    },
+    {
+      name: 'Novel:SceneNotesUpdated',
+      data: { chapterId: '1', sceneId: 's1', notes: 'Updated Notes' },
+      expectedType: NovelSceneNotesUpdatedEvent,
       version: '1',
     },
     {

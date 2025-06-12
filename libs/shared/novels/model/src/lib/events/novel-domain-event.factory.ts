@@ -42,6 +42,8 @@ import {
   NovelSceneDeletedEventData,
   NovelSceneMovedEvent,
   NovelSceneMovedEventData,
+  NovelSceneNotesUpdatedEvent,
+  NovelSceneNotesUpdatedEventData,
   NovelSceneOutlineUpdatedEvent,
   NovelSceneOutlineUpdatedEventData,
   NovelScenePovUpdatedEvent,
@@ -149,6 +151,13 @@ export class NovelDomainEventFactory {
       case NovelSceneOutlineUpdatedEvent.eventName:
         return new NovelSceneOutlineUpdatedEvent(
           data as NovelSceneOutlineUpdatedEventData,
+          userId,
+          eventId,
+          eventSequentialId
+        );
+      case NovelSceneNotesUpdatedEvent.eventName:
+        return new NovelSceneNotesUpdatedEvent(
+          data as NovelSceneNotesUpdatedEventData,
           userId,
           eventId,
           eventSequentialId
