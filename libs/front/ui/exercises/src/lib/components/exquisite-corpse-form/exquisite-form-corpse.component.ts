@@ -51,7 +51,7 @@ export class ExquisiteFormCorpseComponent implements OnInit {
 
     this.form.addControl(
       'nbIterations',
-      new FormControl<number | null>(null, [Validators.min(0)])
+      new FormControl<number | null>(null, [Validators.min(1)])
     );
     this.form.addControl(
       'initialText',
@@ -59,7 +59,7 @@ export class ExquisiteFormCorpseComponent implements OnInit {
     );
     this.form.addControl(
       'iterationDuration',
-      new FormControl<number | null>(900, [Validators.min(0)])
+      new FormControl<number | null>(900, [Validators.min(1)])
     );
     const textSize = new FormGroup(
       {

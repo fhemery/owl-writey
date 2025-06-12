@@ -69,7 +69,7 @@
           type="number"
         />
         <mat-error>
-          @if(form.get('minWords')?.hasError('min')) {
+          @if(form.get('textSize.minWords')?.hasError('min')) {
           {{
             'exercise.form.exquisiteCorpse.words.minWords.error.min' | translate
           }}
@@ -89,7 +89,7 @@
           type="number"
         />
         <mat-error>
-          @if(form.get('maxWords')?.hasError('min')) {
+          @if(form.get('textSize.maxWords')?.hasError('min')) {
           {{
             'exercise.form.exquisiteCorpse.words.maxWords.error.min' | translate
           }}

@@ -84,6 +84,10 @@ describe('ExerciseNewPageComponent', () => {
           )
         ).toBeTruthy();
       });
+      it('should not show an error if the nbIterations is 0', () => {
+        testUtils.updateInputField('input[name="nbIterations"]', '0');
+        expect(testUtils.hasElement('mat-error')).toBe(true);
+      });
 
       it('should show an error if the initial text is empty', () => {
         testUtils.updateInputField('textarea[name="initialText"]', '');
@@ -96,9 +100,11 @@ describe('ExerciseNewPageComponent', () => {
       });
 
       it('should display an error if max words is less than min words', () => {
-        testUtils.updateInputField('input[name="minWords"]', '1');
-        testUtils.updateInputField('input[name="maxWords"]', '0');
-        expect(testUtils.hasElement('mat-error')).toBeTruthy();
+        testUtils.updateInputField('input[name="minWords"]', '2');
+        testUtils.updateInputField('input[name="maxWords"]', '1');
+        expect(
+          testUtils.hasElement('.exquisite-corpse-form__words-error')
+        ).toBeTruthy();
       });
 
       it('should display an error if min words is negative', () => {
@@ -106,18 +112,23 @@ describe('ExerciseNewPageComponent', () => {
         expect(testUtils.hasElement('mat-error')).toBeTruthy();
       });
 
+      it('should display an error if min words is 0', () => {
+        testUtils.updateInputField('input[name="minWords"]', '0');
+        expect(testUtils.hasElement('mat-error')).toBeTruthy();
+      });
+
       it('should display an error if max words is negative', () => {
         testUtils.updateInputField('input[name="maxWords"]', '-1');
+        expect(testUtils.hasElement('mat-error')).toBeTruthy();
+      });
+
+      it('should display an error if max words is 0', () => {
+        testUtils.updateInputField('input[name="maxWords"]', '0');
         expect(testUtils.hasElement('mat-error')).toBeTruthy();
       });
     });
 
     describe('valid values', () => {
-      it('should not show an error if the nbIterations is 0', () => {
-        testUtils.updateInputField('input[name="nbIterations"]', '0');
-        expect(testUtils.hasElement('mat-error')).toBeFalsy();
-      });
-
       it('should not show an error if the nbIterations is empty', () => {
         testUtils.updateInputField('input[name="nbIterations"]', '');
         expect(testUtils.hasElement('mat-error')).toBeFalsy();
