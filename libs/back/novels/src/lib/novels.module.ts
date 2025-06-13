@@ -48,7 +48,7 @@ export class NovelsModule {
     readonly getNovelQuery: GetNovelQuery
   ) {
     this.settingsService.registerSettingScope(
-      'novels',
+      'novel',
       new NovelSettingsHandler(getNovelQuery)
     );
   }

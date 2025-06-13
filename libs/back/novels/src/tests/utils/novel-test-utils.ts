@@ -114,7 +114,7 @@ export class NovelTestUtils {
     return await this.app.patch<SetSettingsRequestDto>(`/api/settings`, {
       settings: [
         {
-          scope: 'novels',
+          scope: 'novel',
           scopeId: novelId,
 
           key: settingsName,
@@ -125,6 +125,6 @@ export class NovelTestUtils {
   }
 
   async getSettings(id: string): Promise<ApiResponse<GetSettingsResponseDto>> {
-    return await this.app.get(`/api/settings?scope=novels&scopeId=${id}`);
+    return await this.app.get(`/api/settings?scope=novel&scopeId=${id}`);
   }
 }
