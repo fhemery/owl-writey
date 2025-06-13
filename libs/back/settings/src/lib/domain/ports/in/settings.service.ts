@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UserDetails } from '@owl/back/auth';
 import { Role, SettingScope } from '@owl/shared/common/contracts';
 
+import { BadSettingRequestException } from '../../model/exceptions/bad-setting-request.exception';
 import { SettingsAccessDeniedException } from '../../model/exceptions/settings-access.exception';
 import { Setting } from '../../model/setting';
 import { SettingsRepositoryPort } from '../out/settings-repository.port';
@@ -14,14 +15,32 @@ export class SettingsService {
   ) {}
 
   async getSettings(
-    scope: SettingScope,
+    scope: SettingScope = 'default',
     scopeId?: string | null,
     user?: UserDetails
   ): Promise<Setting[]> {
+    this.checkRequest(scope, scopeId, user);
+    return this.repository.findByScope(scope, scopeId);
+  }
+
+  private checkRequest(
+    scope: SettingScope,
+    scopeId?: string | null,
+    user?: UserDetails
+  ): void {
     if (!user && scope === 'user') {
       throw new SettingsAccessDeniedException();
     }
-    return this.repository.findByScope(scope, scopeId);
+    if (scope !== 'default' && !scopeId) {
+      throw new BadSettingRequestException(
+        'scopeId is required for non default scope'
+      );
+    }
+    if (scope === 'default' && scopeId) {
+      throw new BadSettingRequestException(
+        'scopeId is not allowed for default scope'
+      );
+    }
   }
 
   async setSettings(settings: Setting[], user: UserDetails): Promise<void> {

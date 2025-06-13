@@ -19,9 +19,17 @@ export class SettingsUtils {
   }
 
   getSettings(
-    scope: string,
+    scope?: string,
     scopeId?: string
   ): Promise<ApiResponse<GetSettingsResponseDto>> {
+    if (!scope) {
+      return this.app.get<GetSettingsResponseDto>(`/api/settings`);
+    }
+    if (!scopeId) {
+      return this.app.get<GetSettingsResponseDto>(
+        `/api/settings?scope=${scope}`
+      );
+    }
     return this.app.get<GetSettingsResponseDto>(
       `/api/settings?scope=${scope}&scopeId=${scopeId}`
     );

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   ForbiddenException,
@@ -16,6 +17,8 @@ import {
   SettingToCreateDto,
 } from '@owl/shared/common/contracts';
 
+import { BadSettingException } from './domain/model/exceptions/bad-setting.exception';
+import { BadSettingRequestException } from './domain/model/exceptions/bad-setting-request.exception';
 import { SettingsAccessDeniedException } from './domain/model/exceptions/settings-access.exception';
 import { Setting } from './domain/model/setting';
 import { SettingsService } from './domain/ports';
@@ -40,6 +43,9 @@ export class SettingsController {
       if (error instanceof SettingsAccessDeniedException) {
         throw new ForbiddenException('Settings access denied');
       }
+      if (error instanceof BadSettingException) {
+        throw new BadRequestException(error.message);
+      }
       throw error;
     }
   }
@@ -62,6 +68,12 @@ export class SettingsController {
     } catch (error) {
       if (error instanceof SettingsAccessDeniedException) {
         throw new ForbiddenException('Settings access denied');
+      }
+      if (
+        error instanceof BadSettingException ||
+        error instanceof BadSettingRequestException
+      ) {
+        throw new BadRequestException(error.message);
       }
       throw error;
     }
