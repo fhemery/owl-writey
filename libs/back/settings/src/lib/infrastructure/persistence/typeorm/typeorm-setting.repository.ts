@@ -18,14 +18,12 @@ export class TypeORMSettingRepository implements SettingsRepositoryPort {
     scope: SettingScope,
     scopeId?: string | null
   ): Promise<Setting[]> {
-    console.log('Want to fetch', scope, scopeId);
     let entities: SettingsEntity[];
     if (scopeId) {
       entities = await this.repository.find({ where: { scope, scopeId } });
     } else {
       entities = await this.repository.find({ where: { scope } });
     }
-    console.log('Fetched', entities.length);
     return entities.map((entity) => entity.toSetting());
   }
 
@@ -45,6 +43,5 @@ export class TypeORMSettingRepository implements SettingsRepositoryPort {
       settingEntity = SettingsEntity.From(setting, userId);
     }
     await this.repository.save(settingEntity);
-    console.log('Saved', JSON.stringify(settingEntity));
   }
 }
