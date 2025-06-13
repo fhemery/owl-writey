@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { EventsModule } from '@owl/back/infra/events';
+import { SettingsModule, SettingsService } from '@owl/back/settings';
 import { TrackingModule } from '@owl/back/tracking';
 
+import { NovelSettingsHandler } from './domain/model/novel-settings-handler';
 import {
   CreateNovelCommand,
   DeleteAllNovelsCommand,
@@ -19,7 +21,13 @@ import { NovelTypeormModule } from './infra/typeorm-repository/novel-typeorm.mod
 import { NovelUserModule } from './infra/user-facade/novel-user.module';
 
 @Module({
-  imports: [NovelTypeormModule, NovelUserModule, TrackingModule, EventsModule],
+  imports: [
+    NovelTypeormModule,
+    NovelUserModule,
+    TrackingModule,
+    EventsModule,
+    SettingsModule,
+  ],
   controllers: [NovelsController, NovelEventsController],
   providers: [
     CreateNovelCommand,
@@ -34,4 +42,14 @@ import { NovelUserModule } from './infra/user-facade/novel-user.module';
   ],
   exports: [],
 })
-export class NovelsModule {}
+export class NovelsModule {
+  constructor(
+    readonly settingsService: SettingsService,
+    readonly getNovelQuery: GetNovelQuery
+  ) {
+    this.settingsService.registerSettingScope(
+      'novels',
+      new NovelSettingsHandler(getNovelQuery)
+    );
+  }
+}

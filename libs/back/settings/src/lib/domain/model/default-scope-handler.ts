@@ -10,7 +10,10 @@ import {
 export class DefaultScopeHandler implements SettingScopeHandler {
   static ScopeName = 'default';
 
-  checkSettingUpdate(setting: Setting, user?: UserDetails): SettingScopeErrors {
+  checkSettingUpdate(
+    setting: Setting,
+    user?: UserDetails
+  ): Promise<SettingScopeErrors> {
     const errors: SettingScopeErrors = [];
     if (setting.scopeId) {
       errors.push('Scope id is not allowed for default scope');
@@ -18,13 +21,13 @@ export class DefaultScopeHandler implements SettingScopeHandler {
     if (!user?.roles.includes(Role.Admin)) {
       errors.push('User is not admin');
     }
-    return errors;
+    return Promise.resolve(errors);
   }
-  checkSettingAccess(scopeId?: string): SettingScopeErrors {
+  checkSettingAccess(scopeId?: string): Promise<SettingScopeErrors> {
     const errors: SettingScopeErrors = [];
     if (scopeId) {
       errors.push('Scope id is not allowed for default scope');
     }
-    return errors;
+    return Promise.resolve(errors);
   }
 }

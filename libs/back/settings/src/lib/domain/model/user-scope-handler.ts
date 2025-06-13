@@ -9,7 +9,10 @@ import {
 export class UserScopeHandler implements SettingScopeHandler {
   static ScopeName = 'user';
 
-  checkSettingUpdate(setting: Setting, user?: UserDetails): SettingScopeErrors {
+  checkSettingUpdate(
+    setting: Setting,
+    user?: UserDetails
+  ): Promise<SettingScopeErrors> {
     const errors: SettingScopeErrors = [];
     if (!user) {
       errors.push('User is not logged');
@@ -17,9 +20,12 @@ export class UserScopeHandler implements SettingScopeHandler {
     if (setting.scopeId !== user?.uid) {
       errors.push('Invalid user id');
     }
-    return errors;
+    return Promise.resolve(errors);
   }
-  checkSettingAccess(scopeId?: string, user?: UserDetails): SettingScopeErrors {
+  checkSettingAccess(
+    scopeId?: string,
+    user?: UserDetails
+  ): Promise<SettingScopeErrors> {
     const errors: SettingScopeErrors = [];
     if (!user) {
       errors.push('User is not logged');
@@ -27,6 +33,6 @@ export class UserScopeHandler implements SettingScopeHandler {
     if (scopeId !== user?.uid) {
       errors.push('Invalid user id');
     }
-    return errors;
+    return Promise.resolve(errors);
   }
 }

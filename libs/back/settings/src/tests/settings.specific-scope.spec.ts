@@ -6,11 +6,11 @@ import { app, moduleTestInit, settingsUtils } from './module-test-init';
 
 class TestScopeHandler implements SettingScopeHandler {
   errorsToReturn: SettingScopeErrors = [];
-  checkSettingUpdate(): SettingScopeErrors {
-    return this.errorsToReturn;
+  checkSettingUpdate(): Promise<SettingScopeErrors> {
+    return Promise.resolve(this.errorsToReturn);
   }
-  checkSettingAccess(): SettingScopeErrors {
-    return this.errorsToReturn;
+  checkSettingAccess(): Promise<SettingScopeErrors> {
+    return Promise.resolve(this.errorsToReturn);
   }
 }
 

@@ -47,6 +47,10 @@ export class Novel {
     return this._participants.isAuthor(uid);
   }
 
+  hasParticipant(uid: string): boolean {
+    return this._participants.hasParticipant(uid);
+  }
+
   addChapterAt(id: string, name: string, outline = '', index?: number): Novel {
     return this.withChapters(this._chapters.addAt(id, name, outline, index));
   }

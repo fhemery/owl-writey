@@ -5,6 +5,12 @@ import { Setting } from '../model';
 export type SettingScopeErrors = string[];
 
 export interface SettingScopeHandler {
-  checkSettingUpdate(setting: Setting, user?: UserDetails): SettingScopeErrors;
-  checkSettingAccess(scopeId?: string, user?: UserDetails): SettingScopeErrors;
+  checkSettingUpdate(
+    setting: Setting,
+    user?: UserDetails
+  ): Promise<SettingScopeErrors>;
+  checkSettingAccess(
+    scopeId?: string,
+    user?: UserDetails
+  ): Promise<SettingScopeErrors>;
 }

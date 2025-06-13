@@ -6,6 +6,10 @@ import {
   waitFor,
 } from '@owl/back/test-utils';
 import {
+  GetSettingsResponseDto,
+  SetSettingsRequestDto,
+} from '@owl/shared/common/contracts';
+import {
   GetAllNovelsResponseDto,
   NovelDto,
   NovelEventDto,
@@ -100,5 +104,27 @@ export class NovelTestUtils {
   async reset(): Promise<void> {
     this.#sseUtils.disconnectAll();
     return Promise.resolve();
+  }
+
+  async addSettings(
+    novelId: string,
+    settingsName: string,
+    settingsValue: string
+  ): Promise<ApiResponse<void>> {
+    return await this.app.patch<SetSettingsRequestDto>(`/api/settings`, {
+      settings: [
+        {
+          scope: 'novels',
+          scopeId: novelId,
+
+          key: settingsName,
+          value: settingsValue,
+        },
+      ],
+    });
+  }
+
+  async getSettings(id: string): Promise<ApiResponse<GetSettingsResponseDto>> {
+    return await this.app.get(`/api/settings?scope=novels&scopeId=${id}`);
   }
 }
