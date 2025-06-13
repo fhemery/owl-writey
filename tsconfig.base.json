@@ -26,6 +26,7 @@
       ],
       "@owl/back/novels": ["libs/back/novels/src/index.ts"],
       "@owl/back/ping": ["libs/back/ping/src/index.ts"],
+      "@owl/back/settings": ["libs/back/settings/src/index.ts"],
       "@owl/back/test-utils": ["libs/back/test-utils/src/index.ts"],
       "@owl/back/tracking": ["libs/back/tracking/src/index.ts"],
       "@owl/back/user": ["libs/back/user/src/index.ts"],

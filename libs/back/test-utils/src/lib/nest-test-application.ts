@@ -66,6 +66,22 @@ export abstract class NestTestApplication {
     );
   }
 
+  async patch<TInput extends object>(
+    url: string,
+    payload: TInput
+  ): Promise<ApiResponse<void>> {
+    const req = request(this.getRequestTarget()).patch(
+      this.stripLocalhost(url)
+    );
+
+    const response = await req.send(payload);
+    return new ApiResponse<void>(
+      response.status as ApiResponseStatus,
+      undefined,
+      response.headers
+    );
+  }
+
   private stripLocalhost(url: string): string {
     return url.replace(/http:\/\/localhost(:\d+)?/, '');
   }
