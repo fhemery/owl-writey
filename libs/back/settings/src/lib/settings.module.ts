@@ -24,5 +24,6 @@ import { SettingsController } from './settings.controller';
     },
     SettingsService,
   ],
+  exports: [SettingsService],
 })
 export class SettingsModule {}

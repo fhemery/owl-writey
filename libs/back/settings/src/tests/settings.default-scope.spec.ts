@@ -8,7 +8,7 @@ describe('Settings default scope', () => {
   describe('PATCH /api/settings', () => {
     describe('when posting generic settings', () => {
       describe('error cases', () => {
-        it('should return 403 if user is not admin', async () => {
+        it('should return 400 if user is not admin', async () => {
           await app.logAs(TestUserBuilder.Alice());
 
           const response = await settingsUtils.addSetting(
@@ -18,7 +18,7 @@ describe('Settings default scope', () => {
             undefined
           );
 
-          expect(response.status).toBe(403);
+          expect(response.status).toBe(400);
         });
 
         it('should return 400 if scopeId is provided', async () => {

@@ -1,72 +1,76 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserDetails } from '@owl/back/auth';
-import { Role, SettingScope } from '@owl/shared/common/contracts';
+import { SettingScope } from '@owl/shared/common/contracts';
 
+import { UserScopeHandler } from '../../model';
+import { DefaultScopeHandler } from '../../model/default-scope-handler';
 import { BadSettingRequestException } from '../../model/exceptions/bad-setting-request.exception';
-import { SettingsAccessDeniedException } from '../../model/exceptions/settings-access.exception';
 import { Setting } from '../../model/setting';
+import {
+  SettingScopeErrors,
+  SettingScopeHandler,
+} from '../../model/setting-scope-handler';
 import { SettingsRepositoryPort } from '../out/settings-repository.port';
 
 @Injectable()
 export class SettingsService {
+  private readonly scopes: Map<SettingScope, SettingScopeHandler> = new Map();
+
   constructor(
     @Inject(SettingsRepositoryPort)
     private readonly repository: SettingsRepositoryPort
-  ) {}
+  ) {
+    this.registerSettingScope(
+      DefaultScopeHandler.ScopeName,
+      new DefaultScopeHandler()
+    );
+    this.registerSettingScope(
+      UserScopeHandler.ScopeName,
+      new UserScopeHandler()
+    );
+  }
+
+  registerSettingScope(
+    scope: SettingScope,
+    validator: SettingScopeHandler
+  ): void {
+    this.scopes.set(scope, validator);
+  }
+
+  private getScope(scope: SettingScope): SettingScopeHandler {
+    const validator = this.scopes.get(scope);
+    if (!validator) {
+      throw new BadSettingRequestException(`Scope ${scope} is not allowed`);
+    }
+    return validator;
+  }
 
   async getSettings(
     scope: SettingScope = 'default',
-    scopeId?: string | null,
+    scopeId?: string,
     user?: UserDetails
   ): Promise<Setting[]> {
-    this.checkRequest(scope, scopeId, user);
+    const errors = this.getScope(scope).checkSettingAccess(scopeId, user);
+    if (errors.length > 0) {
+      throw new BadSettingRequestException(errors.join(', '));
+    }
     return this.repository.findByScope(scope, scopeId);
   }
 
-  private checkRequest(
-    scope: SettingScope,
-    scopeId?: string | null,
-    user?: UserDetails
-  ): void {
-    if (!user && scope === 'user') {
-      throw new SettingsAccessDeniedException();
-    }
-    if (scope !== 'default' && !scopeId) {
-      throw new BadSettingRequestException(
-        'scopeId is required for non default scope'
-      );
-    }
-    if (scope === 'default' && scopeId) {
-      throw new BadSettingRequestException(
-        'scopeId is not allowed for default scope'
-      );
-    }
-  }
-
   async setSettings(settings: Setting[], user: UserDetails): Promise<void> {
-    this.validateSettings(settings, user);
+    let errors: SettingScopeErrors = [];
+    for (const setting of settings) {
+      errors = errors.concat(
+        this.getScope(setting.scope).checkSettingUpdate(setting, user)
+      );
+    }
+    if (errors.length > 0) {
+      throw new BadSettingRequestException(errors.join(', '));
+    }
+
     for (const setting of settings) {
       await this.repository.save(setting, user.uid);
     }
     return Promise.resolve();
-  }
-
-  private validateSettings(settings: Setting[], user: UserDetails): void {
-    settings.forEach((setting) => {
-      switch (setting.scope) {
-        case 'default':
-          if (!user.roles.includes(Role.Admin)) {
-            throw new SettingsAccessDeniedException();
-          }
-          break;
-        case 'user':
-          if (setting.scopeId !== user.uid) {
-            throw new SettingsAccessDeniedException();
-          }
-          break;
-        default:
-          break;
-      }
-    });
   }
 }

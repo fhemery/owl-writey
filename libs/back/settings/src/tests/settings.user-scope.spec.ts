@@ -34,7 +34,7 @@ describe('Settings user scope', () => {
           expect(response.status).toBe(401);
         });
 
-        it('should return 403 if user is not the provided scope user', async () => {
+        it('should return 400 if user is not the provided scope user', async () => {
           await app.logAs(TestUserBuilder.Alice());
 
           const response = await settingsUtils.addSetting(
@@ -44,7 +44,7 @@ describe('Settings user scope', () => {
             TestUserBuilder.Bob().uid
           );
 
-          expect(response.status).toBe(403);
+          expect(response.status).toBe(400);
         });
       });
 
@@ -68,7 +68,7 @@ describe('Settings user scope', () => {
   describe('GET /api/settings', () => {
     describe('when getting user settings', () => {
       describe('error cases', () => {
-        it('should return 403 if user is not logged', async () => {
+        it('should return 400 if user is not logged', async () => {
           await app.logAs(null);
 
           const response = await settingsUtils.getSettings(
@@ -76,7 +76,7 @@ describe('Settings user scope', () => {
             TestUserBuilder.Alice().uid
           );
 
-          expect(response.status).toBe(403);
+          expect(response.status).toBe(400);
         });
 
         it('should return 400 if scopeId is not provided', async () => {

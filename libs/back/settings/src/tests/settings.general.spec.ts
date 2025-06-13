@@ -23,28 +23,26 @@ describe('Settings general behaviour', () => {
   });
 
   describe('GET /api/settings', () => {
-    describe('by default', () => {
-      it('should assume scope is default if not provided', async () => {
-        await app.logAs(TestUserBuilder.Admin());
-        await settingsUtils.addSetting(
-          'front.theme',
-          'light',
-          'default',
-          undefined
-        );
-        await settingsUtils.addSetting(
-          'front.theme',
-          'dark',
-          'user',
-          TestUserBuilder.Admin().uid
-        );
+    it('should assume scope is default if not provided', async () => {
+      await app.logAs(TestUserBuilder.Admin());
+      await settingsUtils.addSetting(
+        'front.theme',
+        'light',
+        'default',
+        undefined
+      );
+      await settingsUtils.addSetting(
+        'front.theme',
+        'dark',
+        'user',
+        TestUserBuilder.Admin().uid
+      );
 
-        const response = await settingsUtils.getSettings();
-        expect(response.status).toBe(200);
-        const settings = response.body?.settings;
-        const themeSetting = settings?.find((s) => s.key === 'front.theme');
-        expect(themeSetting?.value).toBe('light');
-      });
+      const response = await settingsUtils.getSettings();
+      expect(response.status).toBe(200);
+      const settings = response.body?.settings;
+      const themeSetting = settings?.find((s) => s.key === 'front.theme');
+      expect(themeSetting?.value).toBe('light');
     });
   });
 });
