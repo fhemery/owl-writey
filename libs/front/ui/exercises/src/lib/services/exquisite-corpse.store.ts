@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   patchState,
@@ -31,7 +31,8 @@ const initialState: ExquisiteCorpseState = {
   error: undefined,
 };
 
-export const ExquisiteCorpseStore = signalStore(
+@Injectable()
+export class ExquisiteCorpseStore extends signalStore(
   withState(initialState),
   withMethods(
     (
@@ -91,4 +92,4 @@ export const ExquisiteCorpseStore = signalStore(
         .subscribe(() => store.checkTurn());
     },
   })
-);
+) {}
