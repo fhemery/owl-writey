@@ -39,14 +39,11 @@
       >
     </div>
     }
-    <div class="chapter-scene__details--words">
-      <mat-icon
-        class="material-symbols-outlined"
-        [matTooltip]="'novel.actions.words.label' | translate"
-        >format_paragraph</mat-icon
-      >
-      {{ scene.nbWords }}
-    </div>
+    <owl-stats-chip
+      icon="format_paragraph"
+      [title]="'novel.actions.words.label' | translate"
+      [value]="scene.nbWords"
+    ></owl-stats-chip>
   </div>
   <div class="chapter-scene__footer">
     <a

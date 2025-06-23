@@ -347,7 +347,9 @@ describe('NovelChapterPageComponent', () => {
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
 
           expect(
-            testUtils.getTextForElementAt('.chapter-scene__details--words')
+            testUtils.getTextForElementAt(
+              'owl-stats-chip[icon="format_paragraph"]'
+            )
           ).toContain(1);
         });
       });

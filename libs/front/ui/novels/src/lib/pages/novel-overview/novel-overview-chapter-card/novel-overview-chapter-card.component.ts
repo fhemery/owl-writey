@@ -3,6 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentEditableDirective } from '@owl/front/ui/common';
+import { StatsChipComponent } from '@owl/front/ui/common';
 import {
   NovelChapter,
   NovelChapterGeneralInfo,
@@ -10,7 +11,13 @@ import {
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
-  imports: [ContentEditableDirective, MatIcon, MatTooltip, TranslateModule],
+  imports: [
+    ContentEditableDirective,
+    MatIcon,
+    MatTooltip,
+    TranslateModule,
+    StatsChipComponent,
+  ],
   templateUrl: './novel-overview-chapter-card.component.html',
   styleUrl: './novel-overview-chapter-card.component.scss',
 })

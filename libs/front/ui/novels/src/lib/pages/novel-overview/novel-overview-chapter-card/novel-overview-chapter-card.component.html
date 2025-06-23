@@ -16,20 +16,16 @@
     [attr.data-placeholder]="'novel.chapter.outline.placeholder' | translate"
   ></div>
   <div class="chapter-card__details">
-    <div class="chapter-card__details--scenes">
-      <mat-icon [matTooltip]="'novel.actions.sceneCount.label' | translate"
-        >description</mat-icon
-      >
-      {{ chapter().scenes.length }}
-    </div>
-    <div class="chapter-card__details--words">
-      <mat-icon
-        class="material-symbols-outlined"
-        [matTooltip]="'novel.actions.words.label' | translate"
-        >format_paragraph</mat-icon
-      >
-      {{ chapter().nbWords }}
-    </div>
+    <owl-stats-chip
+      icon="description"
+      [title]="'novel.actions.sceneCount.label' | translate"
+      [value]="chapter().scenes.length"
+    ></owl-stats-chip>
+    <owl-stats-chip
+      icon="format_paragraph"
+      [title]="'novel.actions.words.label' | translate"
+      [value]="chapter().nbWords"
+    ></owl-stats-chip>
   </div>
   <div class="chapter-card__footer">
     <a

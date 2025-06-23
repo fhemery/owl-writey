@@ -11,7 +11,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContentEditableDirective } from '@owl/front/ui/common';
+import {
+  ContentEditableDirective,
+  StatsChipComponent,
+} from '@owl/front/ui/common';
 
 import { NovelPovCharacterViewModel } from '../../../../components/novel-pov/model/novel-pov-character.view-model';
 import { NovelPovComponent } from '../../../../components/novel-pov/novel-pov.component';
@@ -26,6 +29,7 @@ import {
     CommonModule,
     ContentEditableDirective,
     MatIcon,
+    StatsChipComponent,
     TranslateModule,
     MatMenuModule,
     MatTooltip,
