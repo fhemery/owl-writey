@@ -2,7 +2,9 @@
   @let ex = exercise();
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ ex.name }}</mat-card-title>
+      <mat-card-title routerLink="/exercises/{{ ex.id }}">{{
+        ex.name
+      }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <p>{{ 'general.exercises.type.' + ex.type | translate }}</p>
