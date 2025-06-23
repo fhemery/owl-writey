@@ -46,6 +46,13 @@
         display: none;
       }
     }
+
+    &[data-placeholder]:empty:not(:focus)::before {
+      content: attr(data-placeholder);
+      color: #999;
+      pointer-events: none;
+      display: block;
+    }
   }
 
   &__details {

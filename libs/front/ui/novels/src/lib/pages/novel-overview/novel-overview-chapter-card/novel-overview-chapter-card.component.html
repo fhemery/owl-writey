@@ -13,6 +13,7 @@
     [multiLine]="true"
     (contentChange)="updateOutline($event)"
     [innerHTML]="chapter().generalInfo.outline"
+    [attr.data-placeholder]="'novel.chapter.outline.placeholder' | translate"
   ></div>
   <div class="chapter-card__details">
     <div class="chapter-card__details--scenes">

@@ -20,6 +20,7 @@
     [multiLine]="true"
     (contentChange)="updateOutline($event)"
     [innerHTML]="scene.outline"
+    [attr.data-placeholder]="'novel.scene.outline.placeholder' | translate"
   >
     {{ scene.outline }}
   </div>

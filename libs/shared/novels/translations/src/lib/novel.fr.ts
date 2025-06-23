@@ -85,6 +85,10 @@ export const novelFr = {
       scenes: {
         label: 'Scène(s)',
       },
+      newScene: 'Nouvelle scène',
+      outline: {
+        placeholder: 'Entrez ici un résumé du chapitre',
+      },
       words: {
         label: 'Mots',
       },
@@ -120,6 +124,7 @@ export const novelFr = {
       },
       outline: {
         label: 'Résumé :',
+        placeholder: 'Entrez ici un résumé de la scène',
       },
       notes: {
         label: 'Notes :',
