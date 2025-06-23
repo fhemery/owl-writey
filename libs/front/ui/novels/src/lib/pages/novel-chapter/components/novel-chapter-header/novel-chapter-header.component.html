@@ -8,7 +8,7 @@
       (keyup.enter)="onChapterNavigate(chapter.previousChapter!.id)"
       tabindex="0"
       role="button"
-      [title]="
+      [matTooltip]="
         'novel.chapter.previous.label'
           | translate : { title: chapter.previousChapter!.title }
       "
@@ -23,12 +23,12 @@
         (keyup.enter)="onGoToNovel()"
         tabindex="0"
         role="button"
-        [title]="'novel.chapter.home.label' | translate"
+        [matTooltip]="'novel.chapter.home.label' | translate"
       >
         <mat-icon>home</mat-icon>
       </a>
       <span>/</span>
-      <mat-icon [title]="'novel.chapter.title.label' | translate"
+      <mat-icon [matTooltip]="'novel.chapter.title.label' | translate"
         >folder</mat-icon
       >
       <h2
@@ -45,7 +45,7 @@
       tabindex="0"
       role="button"
       id="nextChapterLink"
-      [title]="
+      [matTooltip]="
         'novel.chapter.next.label'
           | translate : { title: chapter.nextChapter!.title }
       "

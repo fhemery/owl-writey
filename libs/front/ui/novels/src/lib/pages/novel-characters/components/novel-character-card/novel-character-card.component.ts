@@ -13,6 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentEditableDirective } from '@owl/front/ui/common';
 import { NovelCharacter } from '@owl/shared/novels/model';
@@ -27,6 +28,7 @@ import { NovelCharacter } from '@owl/shared/novels/model';
     FormsModule,
     MatChipsModule,
     MatFormField,
+    MatTooltip,
   ],
   templateUrl: './novel-character-card.component.html',
   styleUrl: './novel-character-card.component.scss',

@@ -17,7 +17,7 @@
   ></div>
   <div class="chapter-card__details">
     <div class="chapter-card__details--scenes">
-      <mat-icon [title]="'novel.actions.sceneCount.label' | translate"
+      <mat-icon [matTooltip]="'novel.actions.sceneCount.label' | translate"
         >description</mat-icon
       >
       {{ chapter().scenes.length }}
@@ -25,7 +25,7 @@
     <div class="chapter-card__details--words">
       <mat-icon
         class="material-symbols-outlined"
-        [title]="'novel.actions.words.label' | translate"
+        [matTooltip]="'novel.actions.words.label' | translate"
         >format_paragraph</mat-icon
       >
       {{ chapter().nbWords }}
@@ -38,7 +38,7 @@
       (keyup.enter)="onMoveChapter(-1)"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.moveLeft.label' | translate"
+      [matTooltip]="'novel.actions.moveLeft.label' | translate"
     >
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
@@ -48,7 +48,7 @@
       (keyup.enter)="onMoveChapter(2)"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.moveRight.label' | translate"
+      [matTooltip]="'novel.actions.moveRight.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
     </a>
@@ -59,7 +59,7 @@
       (keyup.enter)="goToChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.go.label' | translate"
+      [matTooltip]="'novel.actions.go.label' | translate"
     >
       <mat-icon class="action--move">play_circle</mat-icon>
     </a>
@@ -70,7 +70,7 @@
       (keyup.enter)="onDeleteChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.delete.label' | translate"
+      [matTooltip]="'novel.actions.delete.label' | translate"
     >
       <mat-icon class="action--delete">delete</mat-icon>
     </a>

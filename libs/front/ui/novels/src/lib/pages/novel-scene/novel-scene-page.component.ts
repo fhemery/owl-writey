@@ -1,4 +1,3 @@
-
 import {
   Component,
   computed,
@@ -8,6 +7,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -28,8 +28,9 @@ import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-mode
     TextEditorComponent,
     ContentEditableDirective,
     MatIcon,
-    TranslateModule
-],
+    MatTooltip,
+    TranslateModule,
+  ],
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })

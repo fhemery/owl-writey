@@ -1,7 +1,7 @@
-
 import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -15,7 +15,7 @@ import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-
 
 @Component({
   selector: 'owl-exercise-header-toolbar',
-  imports: [MatIcon, TranslateModule],
+  imports: [MatIcon, MatTooltip, TranslateModule],
   templateUrl: './exercise-header-toolbar.component.html',
   styleUrl: './exercise-header-toolbar.component.scss',
 })

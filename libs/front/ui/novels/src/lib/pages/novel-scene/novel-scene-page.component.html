@@ -13,7 +13,7 @@
       "
       tabindex="0"
       role="button"
-      [title]="
+      [matTooltip]="
         'novel.scene.previous.label'
           | translate : { title: scene.previousScene.title }
       "
@@ -28,7 +28,7 @@
         (keyup.enter)="goToNovel()"
         tabindex="0"
         role="button"
-        [title]="'novel.scene.home.label' | translate"
+        [matTooltip]="'novel.scene.home.label' | translate"
       >
         <mat-icon>home</mat-icon>
       </a>
@@ -39,14 +39,14 @@
         (keyup.enter)="goToChapter()"
         tabindex="0"
         role="button"
-        [title]="scene.chapterTitle"
+        [matTooltip]="scene.chapterTitle"
       >
-        <mat-icon [title]="'novel.scene.title.chapterLabel' | translate"
+        <mat-icon [matTooltip]="'novel.scene.title.chapterLabel' | translate"
           >folder</mat-icon
         >
         {{ scene.chapterTitle }} /
       </a>
-      <mat-icon [title]="'novel.scene.title.label' | translate"
+      <mat-icon [matTooltip]="'novel.scene.title.label' | translate"
         >description</mat-icon
       >
       <h2
@@ -67,7 +67,7 @@
       "
       tabindex="0"
       role="button"
-      [title]="
+      [matTooltip]="
         'novel.scene.next.label' | translate : { title: scene.nextScene.title }
       "
     >

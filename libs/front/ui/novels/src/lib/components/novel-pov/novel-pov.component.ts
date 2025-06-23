@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NovelPovCharacterViewModel } from './model/novel-pov-character.view-model';
@@ -13,6 +14,7 @@ import { NovelSelectPovComponent } from './novel-select-pov/novel-select-pov.com
     CommonModule,
     NovelSelectPovComponent,
     MatMenuModule,
+    MatTooltip,
     TranslateModule,
     MatIcon,
   ],

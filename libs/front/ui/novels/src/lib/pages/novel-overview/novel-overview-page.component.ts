@@ -1,5 +1,5 @@
-
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -22,8 +22,9 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
-    StatsChipComponent
-],
+    StatsChipComponent,
+    MatTooltip,
+  ],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',
 })

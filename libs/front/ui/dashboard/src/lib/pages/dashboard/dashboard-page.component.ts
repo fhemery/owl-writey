@@ -1,7 +1,7 @@
-
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AUTH_SERVICE } from '@owl/front/auth';
@@ -28,10 +28,11 @@ interface DashboardConfig {
     DashboardExercisesComponent,
     MatIcon,
     MatSlideToggle,
+    MatTooltip,
     TranslateModule,
     RouterLink,
-    DashboardNovelsComponent
-],
+    DashboardNovelsComponent,
+  ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
 })

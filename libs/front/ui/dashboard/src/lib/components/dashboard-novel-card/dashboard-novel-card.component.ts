@@ -1,4 +1,3 @@
-
 import { Component, input } from '@angular/core';
 import {
   MatCard,
@@ -8,6 +7,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
@@ -21,9 +21,10 @@ import { NovelSummaryDto } from '@owl/shared/novels/contracts';
     MatCardTitle,
     MatCardContent,
     MatIcon,
+    MatTooltip,
     RouterLink,
-    TranslateModule
-],
+    TranslateModule,
+  ],
   templateUrl: './dashboard-novel-card.component.html',
   styleUrl: './dashboard-novel-card.component.scss',
 })

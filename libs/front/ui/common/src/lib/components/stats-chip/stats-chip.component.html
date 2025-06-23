@@ -1,6 +1,6 @@
 <div class="stats-chip">
   <mat-icon
-    [title]="title() || ''"
+    [matTooltip]="title() || ''"
     [ngClass]="isOutlined() ? 'material-symbols-outlined' : ''"
     >{{ icon() }}</mat-icon
   >{{ value() }}

@@ -11,7 +11,7 @@
         (keyup.enter)="select(character)"
         tabindex="0"
         role="button"
-        [title]="
+        [matTooltip]="
           'novel.scene.pov.select.label' | translate : { name: character.name }
         "
       >
@@ -23,7 +23,7 @@
           tabindex="0"
           role="button"
           class="select-pov__unselect"
-          [title]="'novel.scene.pov.unselect.label' | translate"
+          [matTooltip]="'novel.scene.pov.unselect.label' | translate"
         >
           <mat-icon class="select-pov__unselect-icon">cancel</mat-icon>
         </a>

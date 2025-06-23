@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, model } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -13,7 +14,7 @@ export type PanelPosition = 'left' | 'right';
 @Component({
   selector: 'owl-side-panel',
   standalone: true,
-  imports: [CommonModule, MatIconModule, TranslateModule],
+  imports: [CommonModule, MatIconModule, MatTooltip, TranslateModule],
   templateUrl: './side-panel.component.html',
   styleUrls: ['./side-panel.component.scss'],
 })

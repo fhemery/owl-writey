@@ -2,7 +2,7 @@
   <a
     [matMenuTriggerFor]="povMenu"
     [ngStyle]="{ color: selectedCharacter()?.color || 'black' }"
-    [title]="'novel.scene.pov.label' | translate"
+    [matTooltip]="'novel.scene.pov.label' | translate"
   >
     <mat-icon
       [ngClass]="{ 'no-pov': !selectedCharacter() }"

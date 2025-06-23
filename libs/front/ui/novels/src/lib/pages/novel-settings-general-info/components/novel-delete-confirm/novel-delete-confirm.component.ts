@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -22,6 +23,7 @@ import { NovelStore } from '../../../../services/novel.store';
     MatLabel,
     MatFormField,
     MatInput,
+    MatTooltip,
     ConfirmDialogComponent,
   ],
   templateUrl: './novel-delete-confirm.component.html',

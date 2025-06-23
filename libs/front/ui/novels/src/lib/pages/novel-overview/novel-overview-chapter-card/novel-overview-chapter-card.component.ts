@@ -1,5 +1,6 @@
 import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContentEditableDirective } from '@owl/front/ui/common';
 import {
@@ -9,7 +10,7 @@ import {
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
-  imports: [ContentEditableDirective, MatIcon, TranslateModule],
+  imports: [ContentEditableDirective, MatIcon, MatTooltip, TranslateModule],
   templateUrl: './novel-overview-chapter-card.component.html',
   styleUrl: './novel-overview-chapter-card.component.scss',
 })

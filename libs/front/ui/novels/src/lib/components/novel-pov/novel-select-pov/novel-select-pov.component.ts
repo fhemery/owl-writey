@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 export interface SelectPovModel {
@@ -10,7 +11,7 @@ export interface SelectPovModel {
 
 @Component({
   selector: 'owl-novel-select-pov',
-  imports: [CommonModule, MatIcon, TranslateModule],
+  imports: [CommonModule, MatIcon, MatTooltip, TranslateModule],
   templateUrl: './novel-select-pov.component.html',
   styleUrl: './novel-select-pov.component.scss',
 })
