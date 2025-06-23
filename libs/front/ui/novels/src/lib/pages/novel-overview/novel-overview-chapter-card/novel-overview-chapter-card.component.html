@@ -33,7 +33,7 @@
   </div>
   <div class="chapter-card__footer">
     <a
-      class="chapter-card__action"
+      class="chapter-card__action chapter-card__action--move-up"
       (click)="onMoveChapter(-1)"
       (keyup.enter)="onMoveChapter(-1)"
       tabindex="0"
@@ -43,9 +43,9 @@
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
     <a
-      class="chapter-card__action"
-      (click)="onMoveChapter(1)"
-      (keyup.enter)="onMoveChapter(1)"
+      class="chapter-card__action chapter-card__action--move-down"
+      (click)="onMoveChapter(2)"
+      (keyup.enter)="onMoveChapter(2)"
       tabindex="0"
       role="button"
       [title]="'novel.actions.moveRight.label' | translate"

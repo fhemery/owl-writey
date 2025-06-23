@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';

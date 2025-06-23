@@ -376,7 +376,7 @@ describe('NovelChapterPageComponent', () => {
           expect(mockNovelStore.moveScene).toHaveBeenCalledWith(
             'chapter-1',
             'scene-1',
-            1
+            2
           );
         });
       });
