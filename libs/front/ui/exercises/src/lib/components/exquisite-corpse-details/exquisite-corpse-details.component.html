@@ -12,7 +12,7 @@
       [config]="exercise.config"
       [sceneIndex]="i"
     ></owl-exquisite-corpse-scene-header>
-    <p [innerHTML]="scene.text"></p>
+    <p [innerHTML]="scene.text | safeHtml"></p>
   </div>
   } @if(exercise.status === ExerciseStatus.Finished) {
   <div class="exCo-details__finished">

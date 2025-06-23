@@ -3,7 +3,7 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { TextEditorComponent, TimeDiffPipe } from '@owl/front/ui/common';
+import { SafeHtmlPipe, TextEditorComponent, TimeDiffPipe } from '@owl/front/ui/common';
 import {
   ExerciseDto,
   ExerciseStatus,
@@ -24,6 +24,7 @@ import { ExquisiteCorpseSceneHeaderComponent } from '../exquisite-corpse-scene-h
     MatButton,
     MatIcon,
     TimeDiffPipe,
+    SafeHtmlPipe,
     TextEditorComponent,
     ExquisiteCorpseSceneHeaderComponent,
   ],
