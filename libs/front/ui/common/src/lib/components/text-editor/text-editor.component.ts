@@ -14,7 +14,13 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
-import { Editor, NgxEditorModule, NgxEditorService, Toolbar } from 'ngx-editor';
+import {
+  Editor,
+  NgxEditorModule,
+  NgxEditorService,
+  schema,
+  Toolbar,
+} from 'ngx-editor';
 import { inputRules } from 'prosemirror-inputrules';
 import { debounceTime, Subject, tap } from 'rxjs';
 
@@ -99,8 +105,12 @@ export class TextEditorComponent implements OnInit {
       }
     });
 
+    const currentSchema = schema;
+    delete (currentSchema as { nodes: { image: unknown } }).nodes.image;
+    delete (currentSchema as { nodes: { heading: unknown } }).nodes.heading;
     this.editor = new Editor({
       plugins: [inputRules({ rules: syntaxInputRules })],
+      schema: currentSchema,
     });
   }
 
