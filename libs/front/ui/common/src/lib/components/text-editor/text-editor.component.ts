@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   OnInit,
   output,
@@ -11,12 +12,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
-import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { Editor, NgxEditorModule, NgxEditorService, Toolbar } from 'ngx-editor';
 import { inputRules } from 'prosemirror-inputrules';
 import { debounceTime, Subject, tap } from 'rxjs';
 
 import { FullscreenMenuComponent } from './fullscreen-menu/fullscreen-menu.component';
+import { generateEditorLocaleButtons } from './locals/editor-locale-buttons';
 import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
@@ -26,6 +29,18 @@ import { syntaxInputRules } from './syntax-input-rules';
     NgxEditorModule,
     FormsModule,
     FullscreenMenuComponent,
+  ],
+  providers: [
+    {
+      provide: NgxEditorService,
+      useFactory: (): NgxEditorService => {
+        const translate = inject(TranslateService);
+        return new NgxEditorService({
+          locals: generateEditorLocaleButtons(translate),
+          icons: {},
+        });
+      },
+    },
   ],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
