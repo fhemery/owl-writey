@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, CUSTOM_ELEMENTS_SCHEMA,EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,12 +11,11 @@ import { NovelSceneCardComponent } from '../novel-scene-card/novel-scene-card.co
   selector: 'owl-novel-chapter-scenes',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     TranslateModule,
     NovelCorkboardComponent,
     NovelSceneCardComponent
-  ],
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './novel-chapter-scenes.component.html',
   styleUrls: ['./novel-chapter-scenes.component.scss'],

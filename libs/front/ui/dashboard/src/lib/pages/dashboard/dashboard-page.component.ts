@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
@@ -25,14 +25,13 @@ interface DashboardConfig {
 @Component({
   selector: 'owl-dashboard-page',
   imports: [
-    CommonModule,
     DashboardExercisesComponent,
     MatIcon,
     MatSlideToggle,
     TranslateModule,
     RouterLink,
-    DashboardNovelsComponent,
-  ],
+    DashboardNovelsComponent
+],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
 })

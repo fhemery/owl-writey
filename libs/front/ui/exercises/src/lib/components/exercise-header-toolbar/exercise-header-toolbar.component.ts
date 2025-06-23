@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
@@ -15,7 +15,7 @@ import { ExerciseShareDialogComponent } from '../exercise-share-dialog/exercise-
 
 @Component({
   selector: 'owl-exercise-header-toolbar',
-  imports: [CommonModule, MatIcon, TranslateModule],
+  imports: [MatIcon, TranslateModule],
   templateUrl: './exercise-header-toolbar.component.html',
   styleUrl: './exercise-header-toolbar.component.scss',
 })

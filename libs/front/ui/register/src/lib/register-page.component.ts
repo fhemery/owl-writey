@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { UserService } from './services/user.service';
 
 @Component({
   selector: 'owl-register-page',
-  imports: [CommonModule, RegisterComponent, TranslateModule, RouterLink],
+  imports: [RegisterComponent, TranslateModule, RouterLink],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.scss',
 })

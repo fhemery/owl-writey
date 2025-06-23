@@ -3,6 +3,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  inject,
   input,
   OnInit,
   output,
@@ -15,6 +16,9 @@ import {
   standalone: true,
 })
 export class ContentEditableDirective implements OnInit {
+  private readonly elementRef = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
   contentChange = output<string>();
   multiLine = input<boolean>(false);
   isEditing = signal<boolean>(false);
@@ -23,8 +27,6 @@ export class ContentEditableDirective implements OnInit {
   private shouldFocusOnEnter = computed(
     () => this.focusOnEnter() ?? !this.multiLine()
   );
-
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     // Set the element as contenteditable

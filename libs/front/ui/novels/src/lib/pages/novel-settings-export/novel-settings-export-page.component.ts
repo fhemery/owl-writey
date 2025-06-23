@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -16,15 +16,14 @@ import { NovelStore } from '../../services/novel.store';
 @Component({
   selector: 'owl-novel-settings-export-page',
   imports: [
-    CommonModule,
     TranslateModule,
     MatButton,
     ReactiveFormsModule,
     MatFormField,
     MatLabel,
     MatCheckbox,
-    MatInput,
-  ],
+    MatInput
+],
   templateUrl: './novel-settings-export-page.component.html',
   styleUrl: './novel-settings-export-page.component.scss',
 })

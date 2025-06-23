@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
@@ -13,7 +13,6 @@ import { UserService } from '@owl/front/auth';
   selector: 'owl-header',
   standalone: true,
   imports: [
-    CommonModule,
     TranslateModule,
     RouterLink,
     MatToolbar,
@@ -21,8 +20,8 @@ import { UserService } from '@owl/front/auth';
     MatButtonModule,
     MatIcon,
     MatMenuModule,
-    MatDivider,
-  ],
+    MatDivider
+],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

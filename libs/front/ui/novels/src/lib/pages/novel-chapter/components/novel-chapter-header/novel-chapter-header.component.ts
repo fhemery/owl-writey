@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,12 +13,11 @@ import { ChapterPageViewModel } from '../../model/chapter-page.view-model';
   selector: 'owl-novel-chapter-header',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     TranslateModule,
     ContentEditableDirective,
-    StatsChipComponent,
-  ],
+    StatsChipComponent
+],
   templateUrl: './novel-chapter-header.component.html',
   styleUrl: './novel-chapter-header.component.scss',
 })

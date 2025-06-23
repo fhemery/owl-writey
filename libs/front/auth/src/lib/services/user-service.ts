@@ -14,10 +14,10 @@ export class UserService {
   private httpClient = inject(HttpClient);
 
   private userResource = resource({
-    request: (): string | undefined => this.authService.user()?.uid,
-    loader: ({ request }) =>
-      request
-        ? firstValueFrom(this.httpClient.get<UserDto>(`/api/users/${request}`))
+    params: (): string | undefined => this.authService.user()?.uid,
+    loader: ({ params }) =>
+      params
+        ? firstValueFrom(this.httpClient.get<UserDto>(`/api/users/${params}`))
         : Promise.resolve(undefined),
   });
   user = computed(() => {

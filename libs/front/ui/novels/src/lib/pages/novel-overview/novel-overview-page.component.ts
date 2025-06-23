@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,13 +18,12 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
 @Component({
   selector: 'owl-novel-overview-page',
   imports: [
-    CommonModule,
     NovelOverviewNoChapterComponent,
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
-    StatsChipComponent,
-  ],
+    StatsChipComponent
+],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   Component,
   computed,
@@ -31,11 +31,10 @@ import {
 @Component({
   selector: 'owl-novel-chapter-page',
   imports: [
-    CommonModule,
     TranslateModule,
     NovelChapterHeaderComponent,
-    NovelChapterScenesComponent,
-  ],
+    NovelChapterScenesComponent
+],
   templateUrl: './novel-chapter-page.component.html',
   styleUrl: './novel-chapter-page.component.scss',
 })

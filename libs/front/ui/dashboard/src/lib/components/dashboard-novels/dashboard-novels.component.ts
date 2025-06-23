@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
@@ -7,7 +7,7 @@ import { DashboardNovelCardComponent } from '../dashboard-novel-card/dashboard-n
 
 @Component({
   selector: 'owl-dashboard-novels',
-  imports: [CommonModule, TranslatePipe, DashboardNovelCardComponent],
+  imports: [TranslatePipe, DashboardNovelCardComponent],
   templateUrl: './dashboard-novels.component.html',
   styleUrl: './dashboard-novels.component.scss',
 })

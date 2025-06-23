@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, output } from '@angular/core';
 import {
   AbstractControl,
@@ -19,7 +19,6 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'owl-register',
   imports: [
-    CommonModule,
     MatButton,
     MatCard,
     MatInput,
@@ -29,8 +28,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     MatFormField,
-    MatLabel,
-  ],
+    MatLabel
+],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Novel } from '@owl/shared/novels/model';
@@ -10,11 +10,10 @@ import { NovelSidebarUniverseComponent } from './components/novel-sidebar-univer
 @Component({
   selector: 'owl-novel-sidebar',
   imports: [
-    CommonModule,
     TranslateModule,
     NovelSidebarChapterListComponent,
-    NovelSidebarUniverseComponent,
-  ],
+    NovelSidebarUniverseComponent
+],
   templateUrl: './novel-sidebar.component.html',
   styleUrl: './novel-sidebar.component.scss',
 })

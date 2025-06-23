@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'owl-exercise-new-page',
-  imports: [CommonModule, TranslateModule, ExerciseFormComponent],
+  imports: [TranslateModule, ExerciseFormComponent],
   templateUrl: './exercise-new-page.component.html',
   styleUrl: './exercise-new-page.component.scss',
 })

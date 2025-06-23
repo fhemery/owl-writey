@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ElementRef, input, output, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import {
 
 @Component({
   selector: 'owl-novel-overview-chapter-card',
-  imports: [CommonModule, ContentEditableDirective, MatIcon, TranslateModule],
+  imports: [ContentEditableDirective, MatIcon, TranslateModule],
   templateUrl: './novel-overview-chapter-card.component.html',
   styleUrl: './novel-overview-chapter-card.component.scss',
 })

@@ -1,5 +1,4 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -21,7 +20,6 @@ import { NovelCharacter } from '@owl/shared/novels/model';
 @Component({
   selector: 'owl-novel-character-card',
   imports: [
-    CommonModule,
     TranslateModule,
     ContentEditableDirective,
     MatIcon,

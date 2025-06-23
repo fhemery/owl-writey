@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   catchError,
@@ -15,10 +15,11 @@ import {
   providedIn: 'root',
 })
 export class UpdateService {
+  private readonly updates = inject(SwUpdate);
   updateReady$: Observable<boolean>;
 
-  constructor(appRef: ApplicationRef, updates: SwUpdate) {
-    if (!updates.isEnabled) {
+  constructor() {
+    if (!this.updates.isEnabled) {
       this.updateReady$ = of(false);
       return;
     }
@@ -31,7 +32,7 @@ export class UpdateService {
     );
 
     this.updateReady$ = everyTenMinutesAfterFirstCheck$.pipe(
-      switchMap(() => from(updates.checkForUpdate())),
+      switchMap(() => from(this.updates.checkForUpdate())),
       catchError((err: unknown) => {
         console.error(err);
         return of(false);

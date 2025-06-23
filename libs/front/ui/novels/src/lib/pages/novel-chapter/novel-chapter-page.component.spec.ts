@@ -328,7 +328,7 @@ describe('NovelChapterPageComponent', () => {
               'hello',
               'owl-novel-scene-card .chapter-scene__details--notes mat-icon'
             )
-          ).toBeTruthy();
+          ).toBe(true);
         });
       });
 

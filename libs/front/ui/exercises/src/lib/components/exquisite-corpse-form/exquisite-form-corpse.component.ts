@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -23,7 +23,6 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'owl-exquisite-form-corpse',
   imports: [
-    CommonModule,
     MatFormField,
     MatInput,
     MatLabel,
@@ -32,8 +31,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatOption,
     TranslateModule,
     ReactiveFormsModule,
-    MatHint,
-  ],
+    MatHint
+],
   templateUrl: './exquisite-form-corpse.component.html',
   styleUrl: './exquisite-form-corpse.component.scss',
 })

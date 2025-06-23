@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +13,7 @@ import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 @Component({
   selector: 'owl-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatButton, BaseDialogComponent],
+  imports: [TranslateModule, MatButton, BaseDialogComponent],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

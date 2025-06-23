@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   Component,
   computed,
@@ -29,7 +29,6 @@ import { Novel } from '@owl/shared/novels/model';
 @Component({
   selector: 'owl-novel-form',
   imports: [
-    CommonModule,
     MatCard,
     MatCardContent,
     MatError,
@@ -39,8 +38,8 @@ import { Novel } from '@owl/shared/novels/model';
     ReactiveFormsModule,
     TranslateModule,
     MatInput,
-    TextEditorComponent,
-  ],
+    TextEditorComponent
+],
   templateUrl: './novel-form.component.html',
   styleUrl: './novel-form.component.scss',
 })

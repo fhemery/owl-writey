@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   Component,
   computed,
@@ -25,12 +25,11 @@ import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-mode
 @Component({
   selector: 'owl-novel-scene-page',
   imports: [
-    CommonModule,
     TextEditorComponent,
     ContentEditableDirective,
     MatIcon,
-    TranslateModule,
-  ],
+    TranslateModule
+],
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '@owl/front/ui/common';
@@ -7,7 +7,7 @@ import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'owl-exercise-participate-page',
-  imports: [CommonModule],
+  imports: [],
   template: '',
   styles: '',
 })

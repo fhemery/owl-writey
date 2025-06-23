@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { NovelService } from '../../services/novel.service';
 
 @Component({
   selector: 'owl-novel-create-page',
-  imports: [CommonModule, NovelFormComponent, TranslateModule],
+  imports: [NovelFormComponent, TranslateModule],
   templateUrl: './novel-create-page.component.html',
   styleUrl: './novel-create-page.component.scss',
 })

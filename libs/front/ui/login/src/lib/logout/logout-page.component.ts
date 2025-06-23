@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +10,7 @@ import { AUTH_SERVICE } from '@owl/front/auth';
 @Component({
   selector: 'owl-logout-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './logout-page.component.html',
   styleUrl: './logout-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

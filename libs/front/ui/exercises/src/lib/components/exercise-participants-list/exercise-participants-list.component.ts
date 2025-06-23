@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -9,12 +9,11 @@ import { ExerciseDto } from '@owl/shared/exercises/contracts';
 @Component({
   selector: 'owl-exercise-participants-list',
   imports: [
-    CommonModule,
     TranslateModule,
     MatButton,
     MatIcon,
-    MatTooltipModule,
-  ],
+    MatTooltipModule
+],
   templateUrl: './exercise-participants-list.component.html',
   styleUrl: './exercise-participants-list.component.scss',
 })

@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
   input,
   OnInit,
   output,
@@ -78,7 +77,7 @@ export class TextEditorComponent implements OnInit {
     );
   });
 
-  constructor(private elementRef: ElementRef) {
+  constructor() {
     effect(() => {
       if (this.currentContent() !== this.initialText) {
         this.initialText = this.currentContent();

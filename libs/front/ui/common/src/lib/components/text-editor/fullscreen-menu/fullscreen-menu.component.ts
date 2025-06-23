@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import { Editor } from 'ngx-editor';
   templateUrl: './fullscreen-menu.component.html',
   styleUrls: ['./fullscreen-menu.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatIcon, TranslateModule],
+  imports: [MatIcon, TranslateModule],
 })
 export class FullscreenMenuComponent implements OnInit, OnDestroy {
   @Input() editor!: Editor;

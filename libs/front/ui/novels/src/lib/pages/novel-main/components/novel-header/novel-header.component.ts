@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -8,7 +8,7 @@ import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-header',
-  imports: [CommonModule, MatIcon, MatTooltip, RouterLink, TranslateModule],
+  imports: [MatIcon, MatTooltip, RouterLink, TranslateModule],
   templateUrl: './novel-header.component.html',
   styleUrl: './novel-header.component.scss',
 })

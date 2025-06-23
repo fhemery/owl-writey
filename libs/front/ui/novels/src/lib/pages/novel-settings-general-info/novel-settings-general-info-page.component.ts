@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@owl/front/ui/common';
@@ -13,7 +13,7 @@ import { NovelDeleteConfirmComponent } from './components/novel-delete-confirm/n
 
 @Component({
   selector: 'owl-novel-settings-general-info-page',
-  imports: [CommonModule, NovelFormComponent],
+  imports: [NovelFormComponent],
   templateUrl: './novel-settings-general-info-page.component.html',
   styleUrl: './novel-settings-general-info-page.component.scss',
 })

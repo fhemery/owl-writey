@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,12 +15,11 @@ import { NovelScenePageViewModel } from '../../view-model/novel-scene-page-view-
   selector: 'owl-novel-scene-right-panel',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     TranslateModule,
     ContentEditableDirective,
-    NovelPovComponent,
-  ],
+    NovelPovComponent
+],
   templateUrl: './novel-scene-right-panel.component.html',
   styleUrls: ['./novel-scene-right-panel.component.scss'],
 })

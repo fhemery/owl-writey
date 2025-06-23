@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +15,7 @@ import { RightPanelService } from './services/right-panel.service';
 
 @Component({
   selector: 'owl-right-pane',
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './right-panel.component.html',
   styleUrl: './right-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

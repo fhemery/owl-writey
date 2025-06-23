@@ -236,9 +236,16 @@ export class TestUtils {
   }
 
   hasTooltip(text: string, selector: string): boolean {
-    return (
-      this.getElementAt(selector).getAttribute('ng-reflect-message') === text
-    );
+    const describedBy =
+      this.getElementAt(selector).getAttribute('aria-describedby');
+    if (!describedBy) {
+      return false;
+    }
+    const tooltip = this.getDocumentElementAt(`#${describedBy}`);
+    if (!tooltip) {
+      return false;
+    }
+    return tooltip.textContent?.trim() === text;
   }
 
   printDebugInfo(selector = ''): void {
