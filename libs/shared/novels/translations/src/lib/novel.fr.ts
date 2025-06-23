@@ -100,7 +100,7 @@ export const novelFr = {
       },
       deleteConfirm: {
         title: 'Supprimer le chapitre',
-        text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes vous sûr(e) de vouloir le supprimer ?",
+        text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes-vous sûr(e) de vouloir le supprimer ?",
 
         result: {
           ok: 'Le chapitre a bien été supprimé',
@@ -131,7 +131,7 @@ export const novelFr = {
       },
       deleteConfirm: {
         title: 'Supprimer la scène',
-        text: "La suppression d'une scène est irréversible. Êtes vous sûr(e) de vouloir la supprimer ?",
+        text: "La suppression d'une scène est irréversible. Êtes-vous sûr(e) de vouloir la supprimer ?",
 
         result: {
           ok: 'La scène a bien été supprimée',
