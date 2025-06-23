@@ -52,6 +52,9 @@ export class ExquisiteCorpseDetailsComponent {
 
   async takeTurn(): Promise<void> {
     await this.store.takeTurn();
+    setTimeout(() => {
+      this.focusEditor();
+    }, 500);
   }
 
   updateContent($event: string): void {
@@ -68,5 +71,20 @@ export class ExquisiteCorpseDetailsComponent {
 
   updateValidity($event: boolean): void {
     this.isValid.set($event);
+  }
+
+  private focusEditor(): void {
+    const editor = document.querySelector('.NgxEditor__Content');
+    if (!editor) return;
+
+    // Smooth scroll to the editor
+    editor.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    });
+
+    // Ensure the editor gets focus
+    (editor as HTMLElement).focus();
   }
 }
