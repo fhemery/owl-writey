@@ -51,7 +51,6 @@ export class TextEditorComponent implements OnInit {
     ['bold', 'italic', 'strike', 'underline'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
     ['blockquote', 'horizontal_rule'],
-    ['bullet_list', 'ordered_list'],
     ['text_color'],
   ];
 
