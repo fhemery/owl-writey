@@ -77,7 +77,7 @@
   ></div>
   <div class="character-card__footer">
     <a
-      class="character-card__action"
+      class="character-card__action character-card__action--move-up"
       (click)="onMoveCharacter(-1)"
       (keyup.enter)="onMoveCharacter(-1)"
       tabindex="0"
@@ -87,9 +87,9 @@
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
     <a
-      class="character-card__action"
-      (click)="onMoveCharacter(1)"
-      (keyup.enter)="onMoveCharacter(1)"
+      class="character-card__action character-card__action--move-down"
+      (click)="onMoveCharacter(2)"
+      (keyup.enter)="onMoveCharacter(2)"
       tabindex="0"
       role="button"
       [title]="'novel.actions.moveRight.label' | translate"
