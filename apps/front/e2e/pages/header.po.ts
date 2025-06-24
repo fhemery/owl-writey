@@ -44,8 +44,4 @@ export class HeaderPo extends BasePo {
         await this.logoutBtn.click();
     }
 
-    async redirectHomepage(): Promise<void> {
-        await this.headerTitle.click();
-    }
-
 }

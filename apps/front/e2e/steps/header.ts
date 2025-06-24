@@ -31,9 +31,14 @@ Then('Display the register page from the header', async({ registerPo }: AllFixtu
     await registerPo.shouldBeDisplayed();
 });
 
-Given('The user is connected', async ({ loginPo }: AllFixtures) => {
+Given('The user is connected', async ({ loginPo, dashboardPo, headerPo }: AllFixtures) => {
     await loginPo.goTo();
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
+    await dashboardPo.shouldBeDisplayed();
+    // await expect(headerPo.dashboardBtn).toBeVisible();
+    // await expect(headerPo.logoutBtn).toBeVisible();
+    // await expect(headerPo.loginBtn).toBeHidden();
+    // await expect(headerPo.registerBtn).toBeHidden();
 });
 
 When('I click on the Dashboard button', async ({ headerPo }: AllFixtures) => {
@@ -55,15 +60,3 @@ Then('User is logged out', async({ headerPo }: AllFixtures) => {
 Then('Display the home page from the header', async({ homePo }: AllFixtures) => {
     await homePo.shouldBeDisplayed();
 });
-
-Given('The user is on the dashboard page', async ({ headerPo, dashboardPo }: AllFixtures) => {
-    await headerPo.redirectDashboard();
-    await dashboardPo.shouldBeDisplayed();
-});
-
-When('I click on the Title button', async ({ headerPo }: AllFixtures) => {
-    await headerPo.redirectHomepage();
-})
-Then('Display the home page from the headers title', async ({ homePo }: AllFixtures) => {
-    await homePo.shouldBeDisplayed();
-})

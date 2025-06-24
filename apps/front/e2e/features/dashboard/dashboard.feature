@@ -24,7 +24,7 @@ Feature: Dashboard Feature
             |                 Test le cadavre exquis                 |
             |Lorem ipsum dolor sit amet, consectetur adipiscing elit.|
     
-    @Automated
+    
     Scenario: Display new novel form
         When I click to Create a new novel
         Then Display the new novel form

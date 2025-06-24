@@ -32,7 +32,7 @@ export class DashboardPo extends BasePo {
   }
   
   async shouldBeDisplayed(): Promise<void> {
-    console.log('URL:', this.page.url());
+    // console.log('URL:', this.page.url());
     await expect(this.pageLocator).toBeVisible();
   }
 
