@@ -34,7 +34,10 @@
     <div class="chapter-scene__details--placeholder"></div>
     @if(scene.notes){
     <div class="chapter-scene__details--notes">
-      <mat-icon class="material-symbols-outlined" [matTooltip]="scene.notes"
+      <mat-icon
+        class="material-symbols-outlined"
+        [matTooltip]="scene.notes | stripHtml"
+        matTooltipClass="mat-tooltip"
         >edit_note</mat-icon
       >
     </div>

@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   ContentEditableDirective,
   StatsChipComponent,
+  StripHtmlPipe,
 } from '@owl/front/ui/common';
 
 import { NovelPovCharacterViewModel } from '../../../../components/novel-pov/model/novel-pov-character.view-model';
@@ -34,6 +35,7 @@ import {
     MatMenuModule,
     MatTooltip,
     NovelPovComponent,
+    StripHtmlPipe,
   ],
   templateUrl: './novel-scene-card.component.html',
   styleUrl: './novel-scene-card.component.scss',

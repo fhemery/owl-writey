@@ -164,3 +164,11 @@ mat-hint {
   @include mat.form-field-density(-5);
   @include mat.chips-density(-5);
 }
+
+.mat-tooltip {
+  white-space: pre-line;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line;
+}
