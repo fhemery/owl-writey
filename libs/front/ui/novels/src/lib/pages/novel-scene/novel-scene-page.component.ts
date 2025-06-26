@@ -4,11 +4,8 @@ import {
   ContenteditableDirective,
   TextEditorComponent,
 } from '@owl/front/ui/common';
+import { NovelScene, NovelSceneGeneralInfo } from '@owl/shared/novels/model';
 
-import {
-  NovelSceneGeneralInfoViewModel,
-  NovelSceneViewModel,
-} from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 
@@ -42,7 +39,7 @@ export class NovelScenePageComponent {
     if (!currentScene) {
       return;
     }
-    const scene = new NovelSceneViewModel(
+    const scene = new NovelScene(
       currentScene.id,
       currentScene.generalInfo,
       newText
@@ -58,13 +55,10 @@ export class NovelScenePageComponent {
 
     await this.#novelStore.updateScene(
       this.chapterId(),
-      new NovelSceneViewModel(
+      new NovelScene(
         currentScene.id,
-        new NovelSceneGeneralInfoViewModel(
-          title,
-          currentScene.generalInfo.outline
-        ),
-        currentScene.text
+        new NovelSceneGeneralInfo(title, currentScene.generalInfo.outline),
+        currentScene.content
       )
     );
   }

@@ -4,8 +4,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NovelViewModel } from '../../../../model';
+import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-header',
@@ -14,5 +13,5 @@ import { NovelViewModel } from '../../../../model';
   styleUrl: './novel-header.component.scss',
 })
 export class NovelHeaderComponent {
-  novel = input.required<NovelViewModel>();
+  novel = input.required<Novel>();
 }

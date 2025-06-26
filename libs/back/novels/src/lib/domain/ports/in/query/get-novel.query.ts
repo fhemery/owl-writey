@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Novel } from '@owl/shared/novels/model';
 
-import { Novel } from '../../../model';
 import { NovelRepository } from '../../out';
 
 @Injectable()

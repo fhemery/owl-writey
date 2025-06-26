@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use './breakpoints' as breakpoints;
+
+// Pointer device detection mixins
+
+/**
+ * Mixin for targeting touch devices (coarse pointer)
+ * Applies styles specifically for touch interfaces like tablets and smartphones
+ * Example usage:
+ * @include coarse-pointer {
+ *   button {
+ *     padding: 12px; // Larger touch targets
+ *   }
+ * }
+ */
+@mixin coarse-pointer {
+  @media (pointer: coarse) {
+    @content;
+  }
+}
+
+/**
+ * Mixin for targeting mouse/trackpad devices (fine pointer)
+ * Applies styles specifically for precise pointing devices like mice
+ * Example usage:
+ * @include fine-pointer {
+ *   .hover-element {
+ *     &:hover {
+ *       // Hover effects that only make sense with a mouse
+ *     }
+ *   }
+ * }
+ */
+@mixin fine-pointer {
+  @media (pointer: fine) {
+    @content;
+  }
+}
+
+/**
+ * Mixin for targeting devices that support hover
+ * This is useful for effects that only make sense when hovering is possible
+ */
+@mixin hover-capable {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
+/**
+ * Mixin for targeting devices that don't support hover
+ * Useful for providing alternative interactions for touch-only devices
+ */
+@mixin no-hover {
+  @media (hover: none) {
+    @content;
+  }
+}

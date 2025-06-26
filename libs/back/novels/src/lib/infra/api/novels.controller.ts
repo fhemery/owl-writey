@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, RequestWithUser } from '@owl/back/auth';
+import { toNovel, toNovelDto } from '@owl/shared/novel/utils';
 import {
   GetAllNovelsResponseDto,
   NovelDto,
@@ -32,11 +33,7 @@ import {
   GetNovelQuery,
   UpdateNovelCommand,
 } from '../../domain/ports';
-import { novelMapper } from './converter/novel-mapper';
-import { 
-  NovelDtoImpl, 
-  NovelToCreateDtoImpl 
-} from './dtos';
+import { NovelDtoImpl, NovelToCreateDtoImpl } from './dtos';
 
 @Controller('novels')
 @ApiBearerAuth()
@@ -95,7 +92,7 @@ export class NovelsController {
       throw new NotFoundException();
     }
 
-    return novelMapper.toNovelDto(novel);
+    return toNovelDto(novel);
   }
 
   @Delete()
@@ -136,7 +133,7 @@ export class NovelsController {
       throw new BadRequestException('ID mismatch');
     }
     try {
-      const novel = novelMapper.toNovel(novelDto);
+      const novel = toNovel(novelDto);
       await this.updateNovelCommand.execute(request.user.uid, novel);
     } catch (error) {
       if (error instanceof NovelNotFoundException) {

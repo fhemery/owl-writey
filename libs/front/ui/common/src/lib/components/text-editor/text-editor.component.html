@@ -1,23 +1,33 @@
 <div class="text-editor" [style.max-width]="width()" [style.height]="height()">
-  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-  <ngx-editor
-    [editor]="editor"
-    [ngModel]="currentContent()"
-    (focusIn)="focusIn()"
-    (focusOut)="focusOut()"
-    (ngModelChange)="updateText($event)"
-    [disabled]="false"
-    [placeholder]="'Type here...'"
-  ></ngx-editor>
-  @if (showWords()) {
-  <div
-    class="text-editor__words"
-    [ngClass]="{ 'text-editor__words--error': !isWordLimitCorrect() }"
-  >
-    {{ nbWords() }}
-    @if (minWords() || maxWords()) { / {{ minWords() ? minWords() : 0 }} -
-    {{ maxWords() ? maxWords() : '&infin;' }}
+  <div class="text-editor--wrapper">
+    <ngx-editor-menu
+      [editor]="editor"
+      [toolbar]="toolbar"
+      [customMenuRef]="customMenu"
+    ></ngx-editor-menu>
+
+    <ng-template #customMenu>
+      <owl-fullscreen-menu [editor]="editor"></owl-fullscreen-menu>
+    </ng-template>
+    <ngx-editor
+      [editor]="editor"
+      [ngModel]="currentContent()"
+      (focusIn)="focusIn()"
+      (focusOut)="focusOut()"
+      (ngModelChange)="updateText($event)"
+      [disabled]="false"
+      [placeholder]="'Type here...'"
+    ></ngx-editor>
+    @if (showWords()) {
+    <div
+      class="text-editor__words"
+      [ngClass]="{ 'text-editor__words--error': !isWordLimitCorrect() }"
+    >
+      {{ nbWords() }}
+      @if (minWords() || maxWords()) { / {{ minWords() ? minWords() : 0 }} -
+      {{ maxWords() ? maxWords() : '&infin;' }}
+      }
+    </div>
     }
   </div>
-  }
 </div>

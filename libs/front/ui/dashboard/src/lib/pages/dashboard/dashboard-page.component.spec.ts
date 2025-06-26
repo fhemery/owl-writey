@@ -5,11 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AUTH_SERVICE, User } from '@owl/front/auth';
 import { TestUtils } from '@owl/front/test-utils';
 import { LocalConfigService } from '@owl/front/ui/common';
-import { Role } from '@owl/shared/common/contracts';
 import {
-    ExerciseStatus,
-    ExerciseSummaryDto,
-    ExerciseType,
+  ExerciseStatus,
+  ExerciseSummaryDto,
+  ExerciseType,
 } from '@owl/shared/exercises/contracts';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 
@@ -117,8 +116,9 @@ describe('DashboardPageComponent', () => {
     });
 
     it('should display add button for exercises', () => {
-      const exerciseButtons =
-        fixture.nativeElement.querySelectorAll('button[mat-fab]');
+      const exerciseButtons = fixture.nativeElement.querySelectorAll(
+        '#dashboardExercisesHeader button[mat-fab]'
+      );
       expect(exerciseButtons.length).toBe(1);
     });
 
@@ -141,7 +141,11 @@ describe('DashboardPageComponent', () => {
         await testUtils.waitStable();
 
         expect(testUtils.getNbElements('owl-dashboard-exercise-card')).toBe(4);
-        expect(testUtils.hasActiveToggle('#dashboardExercisesHeader mat-slide-toggle')).toBe(true);
+        expect(
+          testUtils.hasActiveToggle(
+            '#dashboardExercisesHeader mat-slide-toggle'
+          )
+        ).toBe(true);
       });
     });
 
@@ -164,30 +168,12 @@ describe('DashboardPageComponent', () => {
       expect(dashboardService.getNovels).toHaveBeenCalled();
     });
 
-    describe('when user is a beta user', () => {
-      beforeEach(async () => {
-        user.set(new User('1', 'test', [Role.Beta]));
-        await testUtils.waitStable();
-      });
-
-      it('should display novels section when user is beta user', () => {
-        expect(testUtils.hasElement('owl-dashboard-novels')).toBe(true);
-      });
-
-      it('should display add button for novels when user is beta user', () => {
-        expect(testUtils.hasElement('#dashboardNovelsAddButton')).toBe(true);
-      });
+    it('should display novels section', () => {
+      expect(testUtils.hasElement('owl-dashboard-novels')).toBe(true);
     });
 
-    describe('when user is not a beta user', () => {
-      beforeEach(async () => {
-        user.set(new User('1', 'test', []));
-        await testUtils.waitStable();
-      });
-
-      it('should not display novels section when user is not beta user', () => {
-        expect(testUtils.hasElement('owl-dashboard-novels')).toBe(false);
-      });
+    it('should display add button for novels', () => {
+      expect(testUtils.hasElement('#dashboardNovelsAddButton')).toBe(true);
     });
   });
 });

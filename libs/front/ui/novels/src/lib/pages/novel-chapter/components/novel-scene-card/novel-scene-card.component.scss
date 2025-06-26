@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.chapter-scene {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-primary-light);
+
+  border: 1px solid var(--color-primary);
+  border-radius: 0.5rem;
+
+  &__title {
+    margin-right: 1.5rem;
+    color: var(--color-accent);
+    font-weight: bold;
+    border-bottom: 1px solid var(--color-primary);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.25rem 0.5rem;
+
+    &:focus {
+      text-overflow: clip;
+    }
+  }
+
+  &__outline {
+    flex: 1;
+    font-size: 0.8rem;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0.25rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+
+    &:focus {
+      text-overflow: clip;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  &__footer,
+  &__details {
+    line-height: 1.5rem;
+    padding: 0.25rem;
+    display: flex;
+    gap: 0.25rem;
+    border-top: 1px dotted var(--color-accent);
+
+    &--pov {
+      display: flex;
+      align-items: center;
+    }
+
+    &--placeholder {
+      flex: 1;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    mat-icon {
+      color: var(--color-accent);
+      cursor: pointer;
+      width: 1.2rem;
+      height: 1.2rem;
+      font-size: 1.2rem;
+
+      &.action--delete {
+        color: var(--color-error);
+      }
+
+      &.no-pov {
+        color: var(--color-inactive) !important;
+      }
+    }
+
+    .chapter-scene__action--separator {
+      width: 1px;
+      height: 1.2rem;
+      background-color: var(--color-accent);
+    }
+  }
+}

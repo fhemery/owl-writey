@@ -16,17 +16,17 @@ import {
   ContenteditableDirective,
   NotificationService,
 } from '@owl/front/ui/common';
+import {
+  NovelChapter,
+  NovelChapterGeneralInfo,
+  NovelScene,
+} from '@owl/shared/novels/model';
 import { firstValueFrom } from 'rxjs';
 
-import {
-  NovelChapterGeneralInfoViewModel,
-  NovelChapterViewModel,
-  NovelSceneViewModel,
-} from '../../model';
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
-import { NovelChapterSceneComponent } from './components/novel-chapter-scene/novel-chapter-scene.component';
+import { NovelSceneCardComponent } from './components/novel-scene-card/novel-scene-card.component';
 import { TransferSceneDialogComponent } from './components/transfer-scene-dialog/transfer-scene-dialog.component';
 
 @Component({
@@ -35,7 +35,7 @@ import { TransferSceneDialogComponent } from './components/transfer-scene-dialog
     CommonModule,
     NovelCorkboardComponent,
     TranslateModule,
-    NovelChapterSceneComponent,
+    NovelSceneCardComponent,
     ContenteditableDirective,
   ],
   templateUrl: './novel-chapter-page.component.html',
@@ -54,8 +54,8 @@ export class NovelChapterPageComponent {
     this.novel()?.chapters.find((chapter) => chapter.id === this.chapterId())
   );
 
-  @ViewChildren(NovelChapterSceneComponent)
-  sceneCards!: QueryList<NovelChapterSceneComponent>;
+  @ViewChildren(NovelSceneCardComponent)
+  sceneCards!: QueryList<NovelSceneCardComponent>;
 
   constructor() {
     effect(() => {
@@ -77,11 +77,11 @@ export class NovelChapterPageComponent {
     }
   }
 
-  convertToScene(item: unknown): NovelSceneViewModel {
-    return item as NovelSceneViewModel;
+  convertToScene(item: unknown): NovelScene {
+    return item as NovelScene;
   }
 
-  async updateScene($event: NovelSceneViewModel): Promise<void> {
+  async updateScene($event: NovelScene): Promise<void> {
     await this.#store.updateScene(this.chapterId(), $event);
   }
 
@@ -92,12 +92,9 @@ export class NovelChapterPageComponent {
     }
 
     await this.#store.updateChapter(
-      new NovelChapterViewModel(
+      new NovelChapter(
         currentChapter.id,
-        new NovelChapterGeneralInfoViewModel(
-          title,
-          currentChapter.generalInfo.outline
-        ),
+        new NovelChapterGeneralInfo(title, currentChapter.generalInfo.outline),
         currentChapter.scenes
       )
     );
@@ -107,7 +104,7 @@ export class NovelChapterPageComponent {
     await this.#store.moveScene(this.chapterId(), $event.from, $event.to);
   }
 
-  async deleteScene(scene: NovelSceneViewModel): Promise<void> {
+  async deleteScene(scene: NovelScene): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(
       'novel.scene.deleteConfirm.title',
       'novel.scene.deleteConfirm.text'
@@ -129,7 +126,7 @@ export class NovelChapterPageComponent {
     }
   }
 
-  async transferScene(scene: NovelSceneViewModel): Promise<void> {
+  async transferScene(scene: NovelScene): Promise<void> {
     const transferResult: { chapterId: string; sceneIndex: number } =
       await firstValueFrom(
         this.#dialog
@@ -151,7 +148,7 @@ export class NovelChapterPageComponent {
     );
   }
 
-  async goToScene(scene: NovelSceneViewModel): Promise<void> {
+  async goToScene(scene: NovelScene): Promise<void> {
     await this.#router.navigate([
       'novels',
       this.novel()?.id || '',

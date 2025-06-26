@@ -1,5 +1,4 @@
 <div class="dashboard-page">
-  @if(user()?.isBetaUser()) {
   <div class="dashboard-page__header" id="dashboardNovelsHeader">
     <h1>{{ 'dashboard.novels.title' | translate }}</h1>
     <button
@@ -15,7 +14,6 @@
   <div class="dashboard-page__panel">
     <owl-dashboard-novels [novels]="novels()"></owl-dashboard-novels>
   </div>
-  }
   <div class="dashboard-page__header" id="dashboardExercisesHeader">
     <h1>{{ 'dashboard.exercises.title' | translate }}</h1>
     <button

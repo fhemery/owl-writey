@@ -1,7 +1,7 @@
 import { NovelRole } from '@owl/shared/novels/contracts';
+import { NovelParticipant } from '@owl/shared/novels/model';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
-import { NovelParticipant } from '../../../domain/model';
 import { NovelEntity } from './novel.entity';
 
 @Entity({ name: 'novel_participants' })

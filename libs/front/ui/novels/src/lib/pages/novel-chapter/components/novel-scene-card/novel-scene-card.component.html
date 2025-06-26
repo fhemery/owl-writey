@@ -1,0 +1,105 @@
+@if(scene(); as scene){
+<div
+  class="chapter-scene"
+  (dblclick)="goToScene()"
+  [ngStyle]="{
+    border: pov() ? '1px solid ' + pov()?.properties?.color : 'none'
+  }"
+>
+  <div
+    class="chapter-scene__title"
+    #titleElement
+    owlContentEditable
+    (contentChange)="updateTitle($event)"
+  >
+    {{ scene.generalInfo.title }}
+  </div>
+  <div
+    class="chapter-scene__outline"
+    owlContentEditable
+    [multiLine]="true"
+    (contentChange)="updateOutline($event)"
+    [innerHTML]="scene.generalInfo.outline"
+  >
+    {{ scene.generalInfo.outline }}
+  </div>
+  <div class="chapter-scene__details">
+    <a
+      class="chapter-scene__details--pov"
+      [matMenuTriggerFor]="povMenu"
+      [ngStyle]="{ color: pov()?.properties?.color || 'black' }"
+      [title]="'novel.scene.pov.label' | translate"
+    >
+      <mat-icon
+        [ngClass]="{ 'no-pov': !pov() }"
+        [ngStyle]="{ color: pov()?.properties?.color || 'black' }"
+        >person</mat-icon
+      >
+      <span>{{ pov()?.name }}</span>
+    </a>
+    <mat-menu #povMenu="matMenu">
+      <owl-novel-select-pov
+        [currentlySelectedId]="pov()?.id"
+        [characters]="novel().universe.characters"
+        (selectedCharacter)="updatePov($event)"
+      ></owl-novel-select-pov>
+    </mat-menu>
+  </div>
+  <div class="chapter-scene__footer">
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(-1)"
+      (keyup.enter)="onMoveScene(-1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.actions.moveLeft.label' | translate"
+    >
+      <mat-icon class="action--move">move_up</mat-icon>
+    </a>
+
+    <a
+      class="chapter-scene__action"
+      (click)="onMoveScene(1)"
+      (keyup.enter)="onMoveScene(1)"
+      tabindex="0"
+      role="button"
+      [title]="'novel.actions.moveRight.label' | translate"
+    >
+      <mat-icon class="action--move">move_down</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="onTransferScene()"
+      (keyup.enter)="onTransferScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.scene.transfer.label' | translate"
+    >
+      <mat-icon class="action--move">north_east</mat-icon>
+    </a>
+    <div class="chapter-scene__action--separator"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="goToScene()"
+      (keyup.enter)="goToScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.actions.go.label' | translate"
+    >
+      <mat-icon class="action--move">play_circle</mat-icon>
+    </a>
+    <div class="chapter-scene__footer--placeholder"></div>
+    <a
+      class="chapter-scene__action"
+      (click)="onDeleteScene()"
+      (keyup.enter)="onDeleteScene()"
+      tabindex="0"
+      role="button"
+      [title]="'novel.actions.delete.label' | translate"
+    >
+      <mat-icon class="action--delete">delete</mat-icon>
+    </a>
+  </div>
+</div>
+}

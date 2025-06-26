@@ -1,11 +1,22 @@
 <div class="character-card">
-  <div
-    class="character-card__title"
-    #titleElement
-    owlContentEditable
-    (contentChange)="updateCharacterName($event)"
-  >
-    {{ character().name }}
+  <div class="character-card__header">
+    <div class="character-card__color-picker">
+      <input
+        type="color"
+        [value]="character().properties.color"
+        (change)="updateCharacterColor($event)"
+        [title]="'novel.character.color.tooltip' | translate"
+      />
+    </div>
+    <div
+      class="character-card__title"
+      #titleElement
+      owlContentEditable
+      (contentChange)="updateCharacterName($event)"
+    >
+      {{ character().name }}
+    </div>
+    <div class="character-card__header-placeholder">&nbsp;</div>
   </div>
   <div class="character-card__tags">
     <mat-form-field class="example-chip-list form-field-density-5">
@@ -28,7 +39,11 @@
         </mat-chip>
         }
         <input
-          [placeholder]="'novel.character.tags.add.placeholder' | translate"
+          [placeholder]="
+            character().tags.length > 0
+              ? ''
+              : ('novel.character.tags.add.placeholder' | translate)
+          "
           autocomplete="off"
           [(ngModel)]="currentTag"
           #tagInput
@@ -36,6 +51,8 @@
           [matAutocomplete]="auto"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           (matChipInputTokenEnd)="addTag($event.value); tagInput.value = ''"
+          (keyup.escape)="tagInput.value = ''"
+          (blur)="addTag(tagInput.value); tagInput.value = ''"
         />
         <mat-autocomplete
           #auto="matAutocomplete"
@@ -54,6 +71,9 @@
     [multiLine]="true"
     (contentChange)="updateCharacterDescription($event)"
     [innerHTML]="character().description"
+    [attr.data-placeholder]="
+      'novel.character.description.placeholder' | translate
+    "
   ></div>
   <div class="character-card__footer">
     <a
@@ -62,7 +82,7 @@
       (keyup.enter)="onMoveCharacter(-1)"
       tabindex="0"
       role="button"
-      [title]="'novel.character.move.left.label' | translate"
+      [title]="'novel.actions.moveLeft.label' | translate"
     >
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
@@ -72,7 +92,7 @@
       (keyup.enter)="onMoveCharacter(1)"
       tabindex="0"
       role="button"
-      [title]="'novel.character.move.right.label' | translate"
+      [title]="'novel.actions.moveRight.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
     </a>
@@ -84,7 +104,7 @@
       (keyup.enter)="onDeleteCharacter()"
       tabindex="0"
       role="button"
-      [title]="'novel.character.delete.label' | translate"
+      [title]="'novel.actions.delete.label' | translate"
     >
       <mat-icon class="action--delete">delete</mat-icon>
     </a>

@@ -23,6 +23,11 @@
           }
         ],
         "styles": ["apps/front/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/front/ui/common/src/lib/styles"
+          ]
+        },
         "scripts": []
       },
       "configurations": {
@@ -39,7 +44,8 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "serviceWorker": "apps/front/ngsw-config.json"
         },
         "development": {
           "optimization": false,

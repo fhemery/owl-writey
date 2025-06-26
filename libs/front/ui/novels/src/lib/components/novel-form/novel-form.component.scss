@@ -1,5 +1,11 @@
+@use 'commonStyles' as styles;
+
 .novel-form {
   padding: 1rem 10%;
+
+  @include styles.respond-to(mobile) {
+    padding: 2rem 1rem;
+  }
 
   mat-form-field {
     width: 100%;

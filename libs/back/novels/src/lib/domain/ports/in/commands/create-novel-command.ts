@@ -1,14 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { NovelRole } from '@owl/shared/novels/contracts';
-import { v4 as uuidV4 } from 'uuid';
+import { NovelBuilder } from '@owl/shared/novels/model';
 
-import {
-  Novel,
-  NovelGeneralInfo,
-  NovelParticipant,
-  NovelToCreate,
-  NovelUniverse,
-} from '../../../model';
+import { NovelToCreate } from '../../../model';
 import { NovelRepository, NovelUserFacade } from '../../out';
 
 @Injectable()
@@ -19,23 +12,19 @@ export class CreateNovelCommand {
   ) {}
 
   async execute(novelToCreate: NovelToCreate): Promise<string> {
-    const id = uuidV4();
     const user = await this.novelUserFacade.getOne(novelToCreate.authorUid);
 
     if (!user) {
       throw new Error('User not found');
     }
 
-    const novel = new Novel(
-      id,
-      new NovelGeneralInfo(novelToCreate.title, novelToCreate.description, [
-        new NovelParticipant(user.uid, user.name, NovelRole.Author),
-      ]),
-      [],
-      new NovelUniverse()
-    );
-
+    const novel = NovelBuilder.New(
+      novelToCreate.title,
+      novelToCreate.description,
+      user.uid,
+      user.name
+    ).build();
     await this.novelRepository.save(novel);
-    return id;
+    return novel.id;
   }
 }

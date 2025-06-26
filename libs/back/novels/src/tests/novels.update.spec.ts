@@ -1,5 +1,5 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
-import { NovelDto } from '@owl/shared/novels/contracts';
+import { NovelDto, NovelRole } from '@owl/shared/novels/contracts';
 
 import { app, moduleTestInit } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
@@ -38,7 +38,9 @@ describe('PUT /api/novels/:id', () => {
       await app.logAs(TestUserBuilder.Alice());
       const response = await novelUtils.update({
         ...existingNovel,
-        participants: [],
+        participants: [
+          { uid: 'other-id', name: 'Other Name', role: NovelRole.Author },
+        ],
       });
       expect(response.status).toBe(204);
 
@@ -166,6 +168,7 @@ describe('PUT /api/novels/:id', () => {
               name: 'New character name',
               description: 'New character description',
               tags: ['New tag 1', 'New tag 2'],
+              properties: {},
             },
           ],
         },

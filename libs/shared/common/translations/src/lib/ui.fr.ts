@@ -123,6 +123,17 @@ export const uiFr = {
       },
     },
   },
+  updateBanner: {
+    text: 'Une mise à jour est disponible !',
+    acceptLabel: 'Mettre à jour',
+    declineLabel: 'Plus tard',
+  },
+  textEditor: {
+    fullscreen: {
+      enter: 'Entrer en mode plein écran',
+      exit: 'Sortir du mode plein écran',
+    },
+  },
   ...dashboardFr,
   ...notFoundFr,
   ...eventsFr,

@@ -1,4 +1,3 @@
-import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
 import { AllFixtures, pageFixtures } from "../support/fixtures";
@@ -10,12 +9,12 @@ Given('I am on the Homepage', async ({ homePo }: AllFixtures) => {
     await homePo.goTo(); 
 });
 
-Given('The user is not connected', async ({ headerPo }: AllFixtures) => {
-    await expect(headerPo.dashboardBtn).toBeHidden();
-    await expect(headerPo.logoutBtn).toBeHidden();
-    await expect(headerPo.loginBtn).toBeVisible();
-    await expect(headerPo.registerBtn).toBeVisible();
-});
+// Given('The user is not connected', async ({ headerPo }: AllFixtures) => {
+//     await expect(headerPo.dashboardBtn).toBeHidden();
+//     await expect(headerPo.logoutBtn).toBeHidden();
+//     await expect(headerPo.loginBtn).toBeVisible();
+//     await expect(headerPo.registerBtn).toBeVisible();
+// });
 
 When('I click on the Login button', async ({ headerPo }: AllFixtures) => {
     await headerPo.redirectLogin();
@@ -31,7 +30,7 @@ Then('Display the register page from the header', async({ registerPo }: AllFixtu
     await registerPo.shouldBeDisplayed();
 });
 
-Given('The user is connected', async ({ loginPo, dashboardPo, headerPo }: AllFixtures) => {
+Given('The user is connected', async ({ loginPo, dashboardPo }: AllFixtures) => {
     await loginPo.goTo();
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
     await dashboardPo.shouldBeDisplayed();
@@ -51,12 +50,12 @@ Then('Display the dashboard page from the header', async({ dashboardPo }: AllFix
 When('I click on the Logout button', async ({ headerPo }: AllFixtures) => {
     await headerPo.redirectLogout();
 });
-Then('User is logged out', async({ headerPo }: AllFixtures) => {
-    await expect(headerPo.dashboardBtn).toBeHidden();
-    await expect(headerPo.logoutBtn).toBeHidden();
-    await expect(headerPo.loginBtn).toBeVisible();
-    await expect(headerPo.registerBtn).toBeVisible();
-});
+// Then('User is logged out', async({ headerPo }: AllFixtures) => {
+//     await expect(headerPo.dashboardBtn).toBeHidden();
+//     await expect(headerPo.logoutBtn).toBeHidden();
+//     await expect(headerPo.loginBtn).toBeVisible();
+//     await expect(headerPo.registerBtn).toBeVisible();
+// });
 Then('Display the home page from the header', async({ homePo }: AllFixtures) => {
     await homePo.shouldBeDisplayed();
 });

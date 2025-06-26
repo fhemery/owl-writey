@@ -3,6 +3,24 @@ export const novelFr = {
     createPage: {
       title: 'Nouveau roman',
     },
+
+    actions: {
+      move: {
+        label: 'Déplacer',
+      },
+      moveLeft: {
+        label: 'Déplacer avant',
+      },
+      moveRight: {
+        label: 'Déplacer après',
+      },
+      delete: {
+        label: 'Supprimer',
+      },
+      go: {
+        label: 'Voir',
+      },
+    },
     defaults: {
       newChapter: {
         label: 'Nouveau chapitre',
@@ -23,9 +41,15 @@ export const novelFr = {
     },
     character: {
       title: 'Personnages',
+      description: {
+        placeholder: 'Détails du personnage',
+      },
+      color: {
+        tooltip: 'Couleur du personnage',
+      },
       deleteConfirm: {
         title: 'Supprimer le personnage',
-        text: "La suppression d'un personnage est irréversible. Êtes vous sûr(e) ?",
+        text: "La suppression d'un personnage est irréversible. Êtes-vous sûr(e) ?",
         result: {
           ok: 'Le personnage a bien été supprimé',
           error: 'Une erreur est survenue lors de la suppression du personnage',
@@ -40,17 +64,6 @@ export const novelFr = {
         remove: {
           ariaLabel: 'Supprimer le tag {{tag}}',
         },
-      },
-      move: {
-        left: {
-          label: 'Remonter',
-        },
-        right: {
-          label: 'Descendre',
-        },
-      },
-      delete: {
-        label: 'Supprimer',
       },
     },
     chapter: {
@@ -74,15 +87,8 @@ export const novelFr = {
           error: 'Une erreur est survenue lors de la suppression de la scène',
         },
       },
-      move: {
-        up: {
-          label: 'Déplacer en haut',
-        },
-        down: {
-          label: 'Déplacer en bas',
-        },
-      },
       pov: {
+        label: 'Point de vue',
         select: {
           label: 'Sélectionner {{name}}',
         },
@@ -98,28 +104,9 @@ export const novelFr = {
           label: 'Ajouter au début',
         },
       },
-      goto: {
-        label: 'Accéder à la scène',
-      },
     },
     overview: {
       newChapter: 'Ajouter un chapitre',
-      chapter: {
-        move: {
-          left: {
-            label: 'Déplacer avant',
-          },
-          right: {
-            label: 'Déplacer après',
-          },
-        },
-        delete: {
-          label: 'Supprimer',
-        },
-        go: {
-          label: 'Voir',
-        },
-      },
       noChapters: {
         label: "Aucun chapitre pour le moment. L'histoire commence ici :",
         button: 'Ajouter un chapitre',
@@ -151,6 +138,7 @@ export const novelFr = {
       header: {
         edit: 'Modifier les informations générales',
       },
+      toggleLeftPane: 'Afficher/Masquer le panneau de gauche',
     },
     delete: {
       header: 'Supprimer {{name}}',

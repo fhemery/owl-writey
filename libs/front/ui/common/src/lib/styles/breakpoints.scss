@@ -1,0 +1,33 @@
+@use 'sass:map';
+
+// Breakpoint variables for desktop-first approach
+$breakpoints: (
+  desktop: 1920px,  // Base desktop size (no media query needed)
+  medium: 1200px,   // Half desktop / smaller monitors
+  tablet: 768px,    // Tablets and small desktop views
+  mobile: 480px     // Smartphones
+);
+
+// Desktop-first media query mixin (max-width)
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (max-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint: #{$breakpoint}. Available breakpoints are: #{map.keys($breakpoints)}";
+  }
+}
+
+// Orientation mixins
+@mixin orientation-portrait {
+  @media (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin orientation-landscape {
+  @media (orientation: landscape) {
+    @content;
+  }
+}

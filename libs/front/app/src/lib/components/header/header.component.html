@@ -5,24 +5,36 @@
       alt="Owl Writey logo"
       class="header__app-title--image"
     />
-    <span>{{ 'home.header.app.name' | translate }}</span>
+    <span class="header__app-title--text">{{
+      'home.header.app.name' | translate
+    }}</span>
   </a>
   @if (!user()) {
   <div class="header__login-button">
     <button mat-raised-button color="accent" routerLink="/login">
       {{ 'home.header.loginLink' | translate }}
     </button>
+  </div>
+  <div class="header__register-button">
     <button mat-raised-button color="primary" routerLink="/register">
       {{ 'home.header.registerLink' | translate }}
     </button>
   </div>
   } @else {
-  <div class="header__logout-button">
+  <div class="header__dashboard-button">
     <button mat-raised-button color="secondary" routerLink="/dashboard">
-      <mat-icon>home</mat-icon> {{ 'home.header.dashboardLink' | translate }}
+      <mat-icon>home</mat-icon>
+      <span class="header__dashboard-button--text">{{
+        'home.header.dashboardLink' | translate
+      }}</span>
     </button>
+  </div>
+  <div class="header__logout-button">
     <button mat-raised-button color="secondary" (click)="logout()">
-      {{ 'home.header.logoutLink' | translate }}
+      <mat-icon>logout</mat-icon>
+      <span class="header__logout-button--text">{{
+        'home.header.logoutLink' | translate
+      }}</span>
     </button>
   </div>
   }

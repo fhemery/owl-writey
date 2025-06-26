@@ -1,16 +1,16 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-
 import {
-  Chapter,
-  ChapterGeneralInfo,
   Novel,
+  NovelBuilder,
+  NovelChapter,
+  NovelChapterGeneralInfo,
   NovelCharacter,
   NovelGeneralInfo,
-  NovelParticipant,
+  NovelScene,
+  NovelSceneGeneralInfo,
   NovelUniverse,
-  Scene,
-  SceneGeneralInfo,
-} from '../../../domain/model';
+} from '@owl/shared/novels/model';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
 import { NovelParticipantEntity } from './novel-participant.entity';
 
 @Entity({ name: 'novel_contents' })
@@ -35,8 +35,8 @@ export class NovelContentEntity {
           id: s.id,
           title: s.generalInfo.title,
           outline: s.generalInfo.outline,
-          content: s.text,
-          pointOfView: s.generalInfo.pointOfViewId,
+          content: s.content,
+          pointOfView: s.generalInfo.pov,
         })),
       })),
       universe: {
@@ -45,6 +45,7 @@ export class NovelContentEntity {
           name: c.name,
           description: c.description,
           tags: c.tags,
+          properties: c.properties,
         })),
       },
     };
@@ -52,36 +53,47 @@ export class NovelContentEntity {
   }
 
   toNovel(participants: NovelParticipantEntity[]): Novel {
-    return new Novel(
+    return NovelBuilder.Existing(
       this.novelId,
-      new NovelGeneralInfo(
-        this.content.title,
-        this.content.description,
-        participants.map(
-          (p) => new NovelParticipant(p.participantUid, p.name, p.role)
-        )
-      ),
-      this.content.chapters.map(
-        (c) =>
-          new Chapter(
-            c.id,
-            new ChapterGeneralInfo(c.title, c.outline),
-            c.scenes.map(
-              (s) =>
-                new Scene(
-                  s.id,
-                  new SceneGeneralInfo(s.title, s.outline, s.pointOfView),
-                  s.content
-                )
+      new NovelGeneralInfo(this.content.title, this.content.description)
+    )
+      .withParticipants(participants.map((p) => p.toNovelParticipant()))
+      .withChapters(
+        this.content.chapters.map(
+          (c) =>
+            new NovelChapter(
+              c.id,
+              new NovelChapterGeneralInfo(c.title, c.outline),
+              c.scenes.map(
+                (s) =>
+                  new NovelScene(
+                    s.id,
+                    new NovelSceneGeneralInfo(
+                      s.title,
+                      s.outline,
+                      s.pointOfView
+                    ),
+                    s.content
+                  )
+              )
             )
-          )
-      ),
-      new NovelUniverse(
-        this.content.universe?.characters.map(
-          (c) => new NovelCharacter(c.id, c.name, c.description, c.tags)
-        ) || []
+        )
       )
-    );
+      .withUniverse(
+        new NovelUniverse(
+          this.content.universe?.characters.map(
+            (c) =>
+              new NovelCharacter(
+                c.id,
+                c.name,
+                c.description,
+                c.tags,
+                c.properties || {}
+              )
+          ) || []
+        )
+      )
+      .build();
   }
 }
 
@@ -116,4 +128,9 @@ interface CharacterDao {
   name: string;
   description: string;
   tags: string[];
+  properties: CharacterPropertiesDao;
+}
+
+interface CharacterPropertiesDao {
+  color?: string;
 }

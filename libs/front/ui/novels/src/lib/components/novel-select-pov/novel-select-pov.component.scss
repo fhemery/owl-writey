@@ -8,6 +8,7 @@
 
   &__character {
     padding: 0.25rem;
+    cursor: pointer;
 
     mat-icon {
       width: 1rem;
@@ -22,7 +23,6 @@
 
     &__action,
     &__unselect {
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;

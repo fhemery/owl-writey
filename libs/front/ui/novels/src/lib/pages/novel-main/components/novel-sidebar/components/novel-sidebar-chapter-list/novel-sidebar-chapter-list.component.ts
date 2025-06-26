@@ -3,8 +3,7 @@ import { Component, computed, input, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NovelViewModel } from '../../../../../../model';
+import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-sidebar-chapter-list',
@@ -13,7 +12,7 @@ import { NovelViewModel } from '../../../../../../model';
   styleUrl: './novel-sidebar-chapter-list.component.scss',
 })
 export class NovelSidebarChapterListComponent {
-  novel = input.required<NovelViewModel>();
+  novel = input.required<Novel>();
   selectedChapterId = input.required<string | undefined>();
   selectedSceneId = input.required<string | undefined>();
 

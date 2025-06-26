@@ -5,8 +5,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseDialogComponent } from '@owl/front/ui/common';
+import { NovelScene } from '@owl/shared/novels/model';
 
-import { NovelSceneViewModel } from '../../../../model';
 import { NovelStore } from '../../../../services/novel.store';
 
 @Component({
@@ -24,7 +24,7 @@ import { NovelStore } from '../../../../services/novel.store';
 export class TransferSceneDialogComponent {
   readonly #store = inject(NovelStore);
   readonly #dialog = inject(MatDialogRef);
-  readonly data: { scene: NovelSceneViewModel } = inject(MAT_DIALOG_DATA);
+  readonly data: { scene: NovelScene } = inject(MAT_DIALOG_DATA);
 
   readonly novel = this.#store.novel;
   readonly target = signal<{ chapterId: string; sceneIndex: number } | null>(

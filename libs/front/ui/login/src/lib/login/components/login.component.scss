@@ -1,4 +1,4 @@
-.login-page {
+.login-page__form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,8 +13,7 @@
   }
 
   .login-form {
-    width: 80%;
-
+    width: 100%;
     text-align: center;
     align-self: center;
 
@@ -23,11 +22,11 @@
     }
   }
 
-  mat-form-field {
-    width: 100%;
-  }
-
   .login-card {
-    padding: 50px;
+    padding: 1rem;
   }
+}
+
+mat-form-field {
+  width: 100%;
 }

@@ -1,3 +1,5 @@
+@use 'commonStyles' as styles;
+
 .header {
   background-color: var(--color-primary);
 
@@ -16,12 +18,26 @@
       height: 4rem;
       margin-right: 1rem;
     }
+
+    &--text {
+      @include styles.respond-to(mobile) {
+        font-size: 1.6rem;
+      }
+    }
   }
 
   &__login-button,
+  &__register-button,
+  &__dashboard-button,
   &__logout-button {
     & > * {
-      margin-right: 1rem;
+      margin: 0 0.25rem;
+    }
+  }
+
+  @include styles.respond-to(mobile) {
+    &__register-button {
+      display: none;
     }
   }
 
@@ -34,5 +50,21 @@
 
   &__social-icons--image {
     width: 1.5rem;
+  }
+
+  @include styles.respond-to(mobile) {
+    &__dashboard-button,
+    &__logout-button {
+      button {
+        padding: 0;
+        min-width: 48px;
+      }
+      mat-icon {
+        margin: 0;
+      }
+      &--text {
+        display: none;
+      }
+    }
   }
 }

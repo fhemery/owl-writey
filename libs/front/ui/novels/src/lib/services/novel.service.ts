@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { toNovel, toNovelDto } from '@owl/shared/novel/utils';
 import { NovelDto, NovelToCreateDto } from '@owl/shared/novels/contracts';
+import { Novel } from '@owl/shared/novels/model';
 import { debounceTime, firstValueFrom, Subject } from 'rxjs';
-
-import { NovelViewModel } from '../model';
-import { novelMappers } from './mappers/novel.mappers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NovelService {
   readonly #httpClient = inject(HttpClient);
-  readonly novelToUpdate = new Subject<NovelViewModel>();
+  readonly novelToUpdate = new Subject<Novel>();
 
   constructor() {
     this.novelToUpdate.pipe(debounceTime(2000)).subscribe(async (novel) => {
@@ -28,24 +27,24 @@ export class NovelService {
     return response.headers.get('Location')?.split('/').pop() || '';
   }
 
-  async getNovel(id: string): Promise<NovelViewModel> {
+  async getNovel(id: string): Promise<Novel> {
     const response = await firstValueFrom(
       this.#httpClient.get<NovelDto>(`/api/novels/${id}`)
     );
-    return novelMappers.novelDtoToViewModel(response);
+    return toNovel(response);
   }
 
-  async update(novel: NovelViewModel): Promise<boolean> {
+  async update(novel: Novel): Promise<boolean> {
     this.novelToUpdate.next(novel);
     return true;
   }
 
-  private async doUpdateNovel(novel: NovelViewModel): Promise<boolean> {
+  private async doUpdateNovel(novel: Novel): Promise<boolean> {
     try {
       const response = await firstValueFrom(
         this.#httpClient.put<NovelDto>(
           `/api/novels/${novel.id}`,
-          novelMappers.novelViewModelToDto(novel),
+          toNovelDto(novel),
           {
             observe: 'response',
           }

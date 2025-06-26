@@ -31,7 +31,9 @@
       (dndEnd)="dragEnd()"
     >
       <div class="corkboard__item--handle" dndHandle>
-        <mat-icon>drag_handle</mat-icon>
+        <mat-icon [matTooltip]="'novel.actions.move.label' | translate"
+          >drag_handle</mat-icon
+        >
       </div>
       <ng-container
         *ngTemplateOutlet="

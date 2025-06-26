@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  padding: 0.5rem 0;
 
   h1 {
     flex: 1 1 auto;
@@ -15,8 +16,8 @@
   }
 
   mat-icon {
+    padding-top: 0.2rem;
     flex: 0 0 auto;
-
     &.accent {
       color: var(--color-accent);
       cursor: pointer;

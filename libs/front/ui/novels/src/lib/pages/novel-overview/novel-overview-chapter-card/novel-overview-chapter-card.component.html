@@ -21,7 +21,7 @@
       (keyup.enter)="onMoveChapter(-1)"
       tabindex="0"
       role="button"
-      [title]="'novel.overview.chapter.move.left.label' | translate"
+      [title]="'novel.actions.moveLeft.label' | translate"
     >
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
@@ -31,7 +31,7 @@
       (keyup.enter)="onMoveChapter(1)"
       tabindex="0"
       role="button"
-      [title]="'novel.overview.chapter.move.right.label' | translate"
+      [title]="'novel.actions.moveRight.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
     </a>
@@ -42,7 +42,7 @@
       (keyup.enter)="goToChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.overview.chapter.go.label' | translate"
+      [title]="'novel.actions.go.label' | translate"
     >
       <mat-icon class="action--move">play_circle</mat-icon>
     </a>
@@ -53,7 +53,7 @@
       (keyup.enter)="onDeleteChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.overview.chapter.delete.label' | translate"
+      [title]="'novel.actions.delete.label' | translate"
     >
       <mat-icon class="action--delete">delete</mat-icon>
     </a>

@@ -1,3 +1,5 @@
+@use 'commonStyles' as styles;
+
 .register-page {
   display: flex;
   flex-direction: column;
@@ -5,5 +7,11 @@
 
   owl-register {
     width: 80%;
+  }
+
+  @include styles.respond-to(mobile) {
+    owl-register {
+      width: 95%;
+    }
   }
 }

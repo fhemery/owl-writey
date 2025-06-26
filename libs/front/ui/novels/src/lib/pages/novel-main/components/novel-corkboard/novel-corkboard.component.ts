@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output, signal, TemplateRef } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { DndDropEvent, DndDropzoneDirective, DndModule } from 'ngx-drag-drop';
 
@@ -12,6 +13,7 @@ import { DndDropEvent, DndDropzoneDirective, DndModule } from 'ngx-drag-drop';
     TranslateModule,
     DndModule,
     DndDropzoneDirective,
+    MatTooltipModule,
   ],
   templateUrl: './novel-corkboard.component.html',
   styleUrl: './novel-corkboard.component.scss',

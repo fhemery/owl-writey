@@ -40,6 +40,7 @@ describe('GET /novels', () => {
       const createResponse = await novelUtils.create(
         NovelTestBuilder.Default()
       );
+      expect(createResponse.status).toBe(201);
 
       const response = await novelUtils.getAll();
       expect(response.status).toBe(200);

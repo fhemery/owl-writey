@@ -1,0 +1,13 @@
+<div class="NgxEditor__Seperator"></div>
+<a
+  class="NgxEditor__MenuItem NgxEditor__MenuItem--Icon"
+  (mousedown)="toggleFullscreen($event)"
+  [attr.title]="
+    isFullscreen()
+      ? ('textEditor.fullscreen.exit' | translate)
+      : ('textEditor.fullscreen.enter' | translate)
+  "
+>
+  <mat-icon *ngIf="!isFullscreen()">fullscreen</mat-icon>
+  <mat-icon *ngIf="isFullscreen()">fullscreen_exit</mat-icon>
+</a>

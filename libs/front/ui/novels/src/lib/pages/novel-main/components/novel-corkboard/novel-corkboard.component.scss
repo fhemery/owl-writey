@@ -1,3 +1,5 @@
+@use 'commonStyles' as styles;
+
 .corkboard {
   display: grid;
   grid-template-columns: repeat(4, 2rem 1fr);
@@ -8,7 +10,7 @@
     grid-template-columns: repeat(2, 2rem 1fr);
   }
 
-  @media screen and (max-width: 1200px) {
+  @include styles.respond-to(medium) {
     grid-template-columns: repeat(3, 2rem 1fr);
 
     &.corkboard--2-items {
@@ -16,7 +18,7 @@
     }
   }
 
-  @media screen and (max-width: 900px) {
+  @include styles.respond-to(tablet) {
     grid-template-columns: repeat(2, 2rem 1fr);
 
     &.corkboard--2-items {
@@ -56,6 +58,10 @@
     a:focus {
       color: var(--color-accent);
       border: 1px dashed var(--color-accent);
+    }
+
+    @include styles.no-hover() {
+      color: var(--color-accent-light);
     }
   }
 

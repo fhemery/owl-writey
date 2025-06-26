@@ -17,7 +17,7 @@
     ></owl-novel-corkboard>
 
     <ng-template #sceneTemplate let-item let-index="index">
-      <owl-novel-chapter-scene
+      <owl-novel-scene-card
         [novel]="novel"
         [scene]="convertToScene(item)"
         (updateScene)="updateScene($event)"
@@ -25,7 +25,7 @@
         (moveScene)="moveScene({ from: index, to: index + $event })"
         (transferScene)="transferScene(item)"
         (goTo)="goToScene(item)"
-      ></owl-novel-chapter-scene>
+      ></owl-novel-scene-card>
     </ng-template>
   </div>
 </div>
