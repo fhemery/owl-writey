@@ -1,7 +1,13 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseDto } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from './module-test-init';
+import { ExerciseDeletedTrackingEvent } from '../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('DELETE /exercises/:id', () => {
@@ -57,6 +63,26 @@ describe('DELETE /exercises/:id', () => {
 
       const response = await exerciseUtils.getFromHateoas(exercise);
       expect(response.status).toBe(404);
+    });
+
+    describe('tracking', () => {
+      it('should track the exercise delete', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+
+        await exerciseUtils.deleteFromHateoas(exercise);
+
+        const trackingEvents = await fakeTrackingFacade.getByName(
+          ExerciseDeletedTrackingEvent.EventName
+        );
+        expect(trackingEvents).toHaveLength(1);
+        expect(trackingEvents[0]).toEqual({
+          ...new ExerciseDeletedTrackingEvent(
+            exercise.id,
+            TestUserBuilder.Alice().uid
+          ),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

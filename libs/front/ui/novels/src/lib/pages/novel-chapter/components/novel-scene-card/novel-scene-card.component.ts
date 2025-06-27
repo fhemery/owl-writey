@@ -9,37 +9,50 @@ import {
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContenteditableDirective } from '@owl/front/ui/common';
-import { Novel, NovelScene } from '@owl/shared/novels/model';
 import {
-  NovelCharacter,
-  NovelSceneGeneralInfo,
-} from '@owl/shared/novels/model';
+  ContentEditableDirective,
+  StatsChipComponent,
+  StripHtmlPipe,
+} from '@owl/front/ui/common';
 
-import { NovelSelectPovComponent } from '../../../../components/novel-select-pov/novel-select-pov.component';
+import { NovelPovCharacterViewModel } from '../../../../components/novel-pov/model/novel-pov-character.view-model';
+import { NovelPovComponent } from '../../../../components/novel-pov/novel-pov.component';
+import {
+  ChapterPageCharacterViewModel,
+  ChapterPageSceneViewModel,
+} from '../../model/chapter-page.view-model';
 
 @Component({
   selector: 'owl-novel-scene-card',
   imports: [
     CommonModule,
-    ContenteditableDirective,
+    ContentEditableDirective,
     MatIcon,
+    StatsChipComponent,
     TranslateModule,
     MatMenuModule,
-    NovelSelectPovComponent,
+    MatTooltip,
+    NovelPovComponent,
+    StripHtmlPipe,
   ],
   templateUrl: './novel-scene-card.component.html',
   styleUrl: './novel-scene-card.component.scss',
 })
 export class NovelSceneCardComponent {
-  readonly scene = input.required<NovelScene>();
-  readonly novel = input.required<Novel>();
-  readonly pov = computed(() => {
-    const povId = this.scene()?.generalInfo.pov;
-    return povId ? this.novel().findCharacter(povId) : null;
+  readonly scene = input.required<ChapterPageSceneViewModel>();
+  readonly characters = input<ChapterPageCharacterViewModel[]>([]);
+
+  povCharacter = computed(() => {
+    return this.characters().map(
+      (c) => new NovelPovCharacterViewModel(c.id, c.name, c.color)
+    );
   });
-  updateScene = output<NovelScene>();
+
+  updateSceneTitle = output<string>();
+  updateSceneOutline = output<string>();
+  updateScenePov = output<string | undefined>();
   deleteScene = output<void>();
   moveScene = output<number>();
   transferScene = output<void>();
@@ -48,49 +61,22 @@ export class NovelSceneCardComponent {
   @ViewChild('titleElement') titleElement?: ElementRef;
 
   async updateTitle(title: string): Promise<void> {
-    const newScene = new NovelScene(
-      this.scene().id,
-      new NovelSceneGeneralInfo(
-        title,
-        this.scene().generalInfo.outline,
-        this.scene().generalInfo.pov
-      ),
-      this.scene().content
-    );
-    if (title !== this.scene().generalInfo.title) {
-      this.updateScene.emit(newScene);
+    if (title !== this.scene().title) {
+      this.updateSceneTitle.emit(title);
     }
   }
 
   updateOutline(outline: string): void {
-    const newScene = new NovelScene(
-      this.scene().id,
-      new NovelSceneGeneralInfo(
-        this.scene().generalInfo.title,
-        outline,
-        this.scene().generalInfo.pov
-      ),
-      this.scene().content
-    );
-    if (outline !== this.scene().generalInfo.outline) {
-      this.updateScene.emit(newScene);
+    if (outline !== this.scene().outline) {
+      this.updateSceneOutline.emit(outline);
     }
   }
-  updatePov(character: NovelCharacter | undefined): void {
-    const id = character?.id;
-    if (this.scene().generalInfo.pov === id) {
+
+  updatePov(characterId: string | undefined): void {
+    if (this.scene().pov?.id === characterId) {
       return;
     }
-    const newScene = new NovelScene(
-      this.scene().id,
-      new NovelSceneGeneralInfo(
-        this.scene().generalInfo.title,
-        this.scene().generalInfo.outline,
-        id
-      ),
-      this.scene().content
-    );
-    this.updateScene.emit(newScene);
+    this.updateScenePov.emit(characterId);
   }
 
   onDeleteScene(): void {

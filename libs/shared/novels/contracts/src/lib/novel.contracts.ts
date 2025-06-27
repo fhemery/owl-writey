@@ -1,3 +1,5 @@
+import { SseEvent } from '@owl/shared/common/contracts';
+
 export interface NovelToCreateDto {
   title: string;
   description: string;
@@ -69,8 +71,32 @@ export interface SceneGeneralInfoDto {
   title: string;
   outline: string;
   pointOfViewId?: string;
+  notes?: string;
 }
 
 export interface GetAllNovelsResponseDto {
   data: NovelSummaryDto[];
+}
+
+export interface NovelEventToPushDto {
+  eventId: string;
+  eventName: string;
+  eventVersion: string;
+  data: unknown;
+}
+
+export interface NovelEventDto {
+  eventId: string;
+  eventName: string;
+  eventVersion: string;
+  userId: string;
+  eventSequentialId?: number;
+  data: unknown;
+}
+
+export class NovelSseEvent extends SseEvent<NovelEventDto[]> {
+  static readonly eventName = 'novelEvent';
+  constructor(events: NovelEventDto[]) {
+    super(NovelSseEvent.eventName, events);
+  }
 }

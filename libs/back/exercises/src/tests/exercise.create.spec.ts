@@ -2,9 +2,16 @@ import { TestUserBuilder } from '@owl/back/test-utils';
 import {
   ExerciseDto,
   ExerciseToCreateDto,
+  ExerciseType,
 } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from './module-test-init';
+import { ExerciseCreatedTrackingEvent } from '../lib/infra/tracking/events/exercise-created-tracking-event';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('POST /exercises', () => {
@@ -70,6 +77,30 @@ describe('POST /exercises', () => {
 
       expect(getResponse.status).toBe(200);
       expect(getResponse.body?._links.self).toBe(response.headers?.location);
+    });
+
+    describe('tracking', () => {
+      it('should track the exercise creation', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+
+        const exerciseId = await exerciseUtils.createAndGetId(
+          ExerciseTestBuilder.ExquisiteCorpse()
+        );
+
+        const expectedEvent = new ExerciseCreatedTrackingEvent(
+          exerciseId,
+          { type: ExerciseType.ExquisiteCorpse },
+          TestUserBuilder.Alice().uid
+        );
+        const trackingEvents = await fakeTrackingFacade.getByName(
+          ExerciseCreatedTrackingEvent.EventName
+        );
+        expect(trackingEvents).toHaveLength(1);
+        expect(trackingEvents[0]).toEqual({
+          ...expectedEvent,
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

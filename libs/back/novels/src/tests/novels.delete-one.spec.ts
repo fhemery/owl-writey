@@ -1,18 +1,17 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelDto } from '@owl/shared/novels/contracts';
 
-import { app, moduleTestInit } from './module-test-init';
+import { NovelDeletedTrackingEvent } from '../lib/infra/tracking/events/novel-deleted-tracking-event';
+import {
+  app,
+  fakeTrackingFacade,
+  moduleTestInit,
+  novelUtils,
+} from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
-import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('DELETE /novels/:id', () => {
   void moduleTestInit();
-
-  let novelUtils: NovelTestUtils;
-
-  beforeEach(() => {
-    novelUtils = new NovelTestUtils(app);
-  });
 
   let existingNovel: NovelDto;
   beforeEach(async () => {
@@ -67,6 +66,23 @@ describe('DELETE /novels/:id', () => {
       expect(
         getAllResponse.body?.data.find((n) => n.id === existingNovel.id)
       ).toBeUndefined();
+    });
+
+    describe('tracking', () => {
+      it('should track novel deletion', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+
+        const deleteResponse = await novelUtils.deleteOne(existingNovel.id);
+        expect(deleteResponse.status).toBe(204);
+
+        const event = fakeTrackingFacade.getByName('novel.deleted');
+        expect(event).toHaveLength(1);
+
+        expect(event[0]).toEqual({
+          ...new NovelDeletedTrackingEvent(existingNovel.id, TestUserBuilder.Alice().uid),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

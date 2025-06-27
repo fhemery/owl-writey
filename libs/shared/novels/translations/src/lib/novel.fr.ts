@@ -20,6 +20,15 @@ export const novelFr = {
       go: {
         label: 'Voir',
       },
+      words: {
+        label: 'Mots',
+      },
+      sceneCount: {
+        label: 'Scènes',
+      },
+      chapterCount: {
+        label: 'Chapitres',
+      },
     },
     defaults: {
       newChapter: {
@@ -67,9 +76,31 @@ export const novelFr = {
       },
     },
     chapter: {
+      home: {
+        label: 'Retour au roman',
+      },
+      title: {
+        label: 'Chapitre',
+      },
+      scenes: {
+        label: 'Scène(s)',
+      },
+      newScene: 'Nouvelle scène',
+      outline: {
+        placeholder: 'Entrez ici un résumé du chapitre',
+      },
+      words: {
+        label: 'Mots',
+      },
+      previous: {
+        label: 'Chapitre précédent : {{title}}',
+      },
+      next: {
+        label: 'Chapitre suivant : {{title}}',
+      },
       deleteConfirm: {
         title: 'Supprimer le chapitre',
-        text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes vous sûr(e) de vouloir le supprimer ?",
+        text: "La suppression d'un chapitre est irréversible et entraîne la suppression de toutes ses scènes. Êtes-vous sûr(e) de vouloir le supprimer ?",
 
         result: {
           ok: 'Le chapitre a bien été supprimé',
@@ -78,9 +109,29 @@ export const novelFr = {
       },
     },
     scene: {
+      title: {
+        chapterLabel: 'Chapitre',
+        label: 'Scène',
+      },
+      home: {
+        label: 'Retour au roman',
+      },
+      previous: {
+        label: 'Scène précédente : {{title}}',
+      },
+      next: {
+        label: 'Scène suivante : {{title}}',
+      },
+      outline: {
+        label: 'Résumé :',
+        placeholder: 'Entrez ici un résumé de la scène',
+      },
+      notes: {
+        label: 'Notes :',
+      },
       deleteConfirm: {
         title: 'Supprimer la scène',
-        text: "La suppression d'une scène est irréversible. Êtes vous sûr(e) de vouloir la supprimer ?",
+        text: "La suppression d'une scène est irréversible. Êtes-vous sûr(e) de vouloir la supprimer ?",
 
         result: {
           ok: 'La scène a bien été supprimée',
@@ -103,6 +154,24 @@ export const novelFr = {
         firstPosition: {
           label: 'Ajouter au début',
         },
+      },
+    },
+    settings: {
+      export: {
+        title: 'Exporter le roman',
+        separator: {
+          label: 'Séparateur entre les scènes',
+        },
+        includeSceneTitle: {
+          label: 'Inclure le titre de la scène',
+        },
+        button: {
+          label: 'Exporter',
+        },
+      },
+      tab: {
+        generalInfo: 'Informations générales',
+        export: 'Export',
       },
     },
     overview: {

@@ -2,6 +2,7 @@ import { InputSignal } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TranslationKey } from '@owl/shared/common/translations';
+import { Editor } from 'ngx-editor';
 
 export class TestUtils {
   constructor(private readonly fixture: ComponentFixture<unknown>) {}
@@ -26,6 +27,15 @@ export class TestUtils {
       throw new Error(`Element not found: ${selector}`);
     }
     return input.value;
+  }
+
+  getTextareaValueAt(selector: string, index = 0): string {
+    const textarea: HTMLTextAreaElement | null =
+      this.fixture.nativeElement.querySelectorAll(selector)[index];
+    if (!textarea) {
+      throw new Error(`Element not found: ${selector}`);
+    }
+    return textarea.value;
   }
 
   hasElement(selector: string): boolean {
@@ -79,12 +89,22 @@ export class TestUtils {
     this.fixture.detectChanges();
   }
 
+  doubleClickElementAt(selector: string, index = 0): void {
+    const element = this.getElementAt(selector, index);
+    element.dispatchEvent(new Event('dblclick'));
+    this.fixture.detectChanges();
+  }
+
   getNbElements(selector: string): number {
     return this.fixture.nativeElement.querySelectorAll(selector).length;
   }
 
   getTextForDocumentElementAt(selector: string, index = 0): string {
     return this.getDocumentElementAt(selector, index).textContent?.trim() || '';
+  }
+
+  getEditableFieldContent(selector: string, index = 0): string {
+    return this.getDocumentElementAt(selector, index).innerHTML?.trim() || '';
   }
 
   getValue(selector: string): string {
@@ -129,6 +149,38 @@ export class TestUtils {
         return;
       },
     });
+  }
+
+  updateEditableField(fieldSelector: string, value: string): void {
+    const input: HTMLInputElement | null =
+      this.fixture.nativeElement.querySelector(fieldSelector);
+    if (!input) {
+      throw new Error(`Element not found: ${fieldSelector}`);
+    }
+    input.innerHTML = value;
+    input.dispatchEvent(new Event('change'));
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('blur'));
+    input.dispatchEvent(new Event('keyup'));
+    this.fixture.detectChanges();
+  }
+
+  updateTextArea(fieldSelector: string, value: string): void {
+    const textarea: HTMLTextAreaElement | null =
+      this.fixture.nativeElement.querySelector(fieldSelector);
+    if (!textarea) {
+      throw new Error(`Element not found: ${fieldSelector}`);
+    }
+    textarea.value = value;
+    textarea.dispatchEvent(new Event('change'));
+    textarea.dispatchEvent(new Event('input'));
+    textarea.dispatchEvent(new Event('blur'));
+    this.fixture.detectChanges();
+  }
+
+  updateTextEditorContent(newContent: string, selector = ''): void {
+    const editorUtils = new EditorUtils(this.fixture);
+    editorUtils.typeText(selector, newContent);
   }
 
   setInput<T>(
@@ -179,7 +231,53 @@ export class TestUtils {
     return document.querySelectorAll(selector).length;
   }
 
-  hasText(expectedText: TranslationKey, selector: string): boolean {
-    return this.getTextForElementAt(selector).includes(expectedText);
+  hasText(expectedText: TranslationKey, selector: string, index = 0): boolean {
+    return this.getTextForElementAt(selector, index).includes(expectedText);
+  }
+
+  hasTooltip(text: string, selector: string): boolean {
+    const describedBy =
+      this.getElementAt(selector).getAttribute('aria-describedby');
+    if (!describedBy) {
+      return false;
+    }
+    const tooltip = this.getDocumentElementAt(`#${describedBy}`);
+    if (!tooltip) {
+      return false;
+    }
+    return tooltip.textContent?.trim() === text;
+  }
+
+  printDebugInfo(selector = ''): void {
+    if (selector) {
+      console.log(this.getElementAt(selector).innerHTML);
+    } else {
+      console.log(this.fixture.debugElement.nativeElement.innerHTML);
+    }
+  }
+}
+
+class EditorUtils {
+  constructor(private readonly fixture: ComponentFixture<unknown>) {}
+
+  typeText(selector: string, text: string, clearCurrentContent = false): void {
+    const editorComponent = this.fixture.debugElement.query(
+      By.css(`${selector} ngx-editor`)
+    ).componentInstance['editor'] as Editor;
+    if (clearCurrentContent) {
+      editorComponent.setContent('');
+    }
+    editorComponent.commands.focus('end').exec();
+    let isFirstOperation = true;
+    text.split(`\n`).forEach((text) => {
+      if (isFirstOperation) {
+        isFirstOperation = false;
+      } else {
+        editorComponent.commands.insertNewLine().exec();
+      }
+      editorComponent.commands.insertText(text).exec();
+    });
+
+    this.fixture.detectChanges();
   }
 }

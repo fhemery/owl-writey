@@ -1,0 +1,37 @@
+@if (data(); as scene) {
+<div class="scene-right-panel">
+  <div class="scene-right-panel__pov">
+    <owl-novel-pov
+      [povId]="scene.pov"
+      [characters]="scene.characters"
+      (updatePov)="updatePov($event)"
+    ></owl-novel-pov>
+  </div>
+
+  <div class="scene-right-panel__outline">
+    <div class="scene-right-panel__label">
+      {{ 'novel.scene.outline.label' | translate }}
+    </div>
+    <div
+      class="scene-right-panel__editable"
+      owlContentEditable
+      [multiLine]="true"
+      (contentChange)="updateOutline($event)"
+      [innerHTML]="scene.outline"
+    ></div>
+  </div>
+
+  <div class="scene-right-panel__notes">
+    <div class="scene-right-panel__label">
+      {{ 'novel.scene.notes.label' | translate }}
+    </div>
+    <div
+      class="scene-right-panel__editable"
+      owlContentEditable
+      (contentChange)="updateNotes($event)"
+      [multiLine]="true"
+      [innerHTML]="scene.notes"
+    ></div>
+  </div>
+</div>
+}

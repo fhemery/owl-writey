@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   NotFoundException,
   Param,
   Post,
@@ -39,6 +40,7 @@ import { exerciseConstants } from '../../domain/model/exercise-constants';
 import { GetExerciseQuery, ListExercisesQuery } from '../../domain/ports';
 import {
   CreateExerciseCommand,
+  DeleteAllExercisesFromUserCommand,
   DeleteExerciseCommand,
   FinishExerciseCommand,
 } from '../../domain/ports/in/exercises';
@@ -57,6 +59,7 @@ export class ExercisesController {
     private readonly getExerciseQuery: GetExerciseQuery,
     private readonly deleteExerciseCommand: DeleteExerciseCommand,
     private readonly finishExerciseCommand: FinishExerciseCommand,
+    private readonly deleteAllExercisesFromUserCommand: DeleteAllExercisesFromUserCommand,
     private readonly notificationService: SseNotificationService
   ) {}
 
@@ -116,6 +119,20 @@ export class ExercisesController {
       process.env['BASE_API_URL'] || '',
       request.user.uid
     );
+  }
+
+  @Delete('')
+  @Auth()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteAll(@Req() request: RequestWithUser): Promise<void> {
+    try {
+      await this.deleteAllExercisesFromUserCommand.execute(request.user.uid);
+    } catch (err) {
+      if (err instanceof ExerciseException) {
+        throw new BadRequestException(err.message);
+      }
+      throw err;
+    }
   }
 
   @Delete(':id')

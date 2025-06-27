@@ -24,9 +24,7 @@
         ],
         "styles": ["apps/front/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "libs/front/ui/common/src/lib/styles"
-          ]
+          "includePaths": ["libs/front/ui/common/src/lib/styles"]
         },
         "scripts": []
       },
@@ -68,7 +66,8 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/front/proxy.conf.json"
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

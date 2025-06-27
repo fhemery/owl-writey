@@ -12,7 +12,7 @@
     >
       <a
         tabindex="0"
-        [title]="addNewLabel() | translate"
+        [matTooltip]="addNewLabel() | translate"
         (click)="onAddNew(i)"
         (keydown.enter)="onAddNew(i)"
         (keydown.space)="onAddNew(i)"
@@ -54,7 +54,7 @@
   >
     <a
       tabindex="0"
-      [title]="addNewLabel() | translate"
+      [matTooltip]="addNewLabel() | translate"
       (click)="onAddNew(i)"
       (keydown.enter)="onAddNew(i)"
       (keydown.space)="onAddNew(i)"
@@ -67,7 +67,7 @@
   <div class="corkboard__new">
     <a
       tabindex="0"
-      [title]="addNewLabel() | translate"
+      [matTooltip]="addNewLabel() | translate"
       (click)="onAddNew(items.length)"
       (keydown.enter)="onAddNew(items.length)"
       (keydown.space)="onAddNew(items.length)"

@@ -14,7 +14,13 @@ import {
   ExquisiteCorpseLinksDto,
 } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { ExquisiteCorpseContentSubmittedTrackingEvent } from '../../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from '../module-test-init';
 import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
@@ -263,6 +269,31 @@ describe('Exquisite corpse: submit turn action', () => {
           'a text of 15 words, more or less, I think. Not sure, actually... nevermind'
         );
         expect(submitTurn.status).toBe(ApiResponseStatus.NO_CONTENT);
+      });
+    });
+
+    describe('about tracking events', () => {
+      it('should emit a turn taken event', async () => {
+        await app.logAs(TestUserBuilder.Alice());
+        const newExercise = await exerciseUtils.createAndRetrieve(
+          ExerciseTestBuilder.FromExquisiteCorpse().build()
+        );
+        await exerciseUtils.takeTurnFromHateoas(newExercise);
+        await waitFor(100);
+        await exerciseUtils.submitTurn(newExercise.id, 'some text');
+        await waitFor(100);
+
+        const event = fakeTrackingFacade.getLastByName(
+          ExquisiteCorpseContentSubmittedTrackingEvent.EventName
+        );
+        expect(event).toEqual({
+          ...new ExquisiteCorpseContentSubmittedTrackingEvent(
+            newExercise.id,
+            TestUserBuilder.Alice().uid,
+            2
+          ),
+          timestamp: expect.any(Date),
+        });
       });
     });
   });

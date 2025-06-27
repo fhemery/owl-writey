@@ -1,5 +1,6 @@
-import { v4 as uuidV4 } from 'uuid';
+import { arrayUtils } from '@owl/shared/common/utils';
 
+import { NovelException } from '../exceptions/novel.exception';
 import { NovelCharacter } from './novel-character';
 
 export class NovelCharacters {
@@ -14,35 +15,39 @@ export class NovelCharacters {
   copy(): NovelCharacters {
     return new NovelCharacters([...this._characters]);
   }
-  addCharacterAt(name: string, description: string, index?: number): void {
-    if (index !== undefined) {
-      this._characters.splice(
-        index,
-        0,
-        new NovelCharacter(uuidV4(), name, description)
-      );
-    } else {
-      this._characters.push(new NovelCharacter(uuidV4(), name, description));
+  addCharacterAt(
+    id: string,
+    name: string,
+    description: string,
+    index?: number
+  ): NovelCharacters {
+    if (this.findCharacter(id)) {
+      throw new NovelException('Character already exists');
     }
+    return new NovelCharacters(
+      arrayUtils.insertAt(
+        this._characters,
+        new NovelCharacter(id, name, description),
+        index
+      )
+    );
   }
   findCharacter(characterId: string): NovelCharacter | null {
     return this._characters.find((c) => c.id === characterId) || null;
   }
-  updateCharacter(character: NovelCharacter): void {
-    const index = this._characters.findIndex((c) => c.id === character.id);
-    if (index !== -1) {
-      this._characters.splice(index, 1, character);
-    }
+  updateCharacter(character: NovelCharacter): NovelCharacters {
+    return new NovelCharacters(
+      arrayUtils.replaceItem(this._characters, character)
+    );
   }
-  moveCharacter(from: number, to: number): void {
-    const character = this._characters[from];
-    this._characters.splice(from, 1);
-    this._characters.splice(to, 0, character);
+  moveCharacter(characterId: string, toIndex: number): NovelCharacters {
+    return new NovelCharacters(
+      arrayUtils.moveItem(this._characters, characterId, toIndex)
+    );
   }
-  deleteCharacter(characterId: string): void {
-    const index = this._characters.findIndex((c) => c.id === characterId);
-    if (index !== -1) {
-      this._characters.splice(index, 1);
-    }
+  deleteCharacter(characterId: string): NovelCharacters {
+    return new NovelCharacters(
+      arrayUtils.removeItem(this._characters, characterId)
+    );
   }
 }

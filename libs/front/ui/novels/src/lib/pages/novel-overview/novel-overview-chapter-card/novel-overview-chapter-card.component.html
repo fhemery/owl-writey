@@ -13,25 +13,38 @@
     [multiLine]="true"
     (contentChange)="updateOutline($event)"
     [innerHTML]="chapter().generalInfo.outline"
+    [attr.data-placeholder]="'novel.chapter.outline.placeholder' | translate"
   ></div>
+  <div class="chapter-card__details">
+    <owl-stats-chip
+      icon="description"
+      [title]="'novel.actions.sceneCount.label' | translate"
+      [value]="chapter().scenes.length"
+    ></owl-stats-chip>
+    <owl-stats-chip
+      icon="format_paragraph"
+      [title]="'novel.actions.words.label' | translate"
+      [value]="chapter().nbWords"
+    ></owl-stats-chip>
+  </div>
   <div class="chapter-card__footer">
     <a
-      class="chapter-card__action"
+      class="chapter-card__action chapter-card__action--move-up"
       (click)="onMoveChapter(-1)"
       (keyup.enter)="onMoveChapter(-1)"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.moveLeft.label' | translate"
+      [matTooltip]="'novel.actions.moveLeft.label' | translate"
     >
       <mat-icon class="action--move">move_up</mat-icon>
     </a>
     <a
-      class="chapter-card__action"
-      (click)="onMoveChapter(1)"
-      (keyup.enter)="onMoveChapter(1)"
+      class="chapter-card__action chapter-card__action--move-down"
+      (click)="onMoveChapter(2)"
+      (keyup.enter)="onMoveChapter(2)"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.moveRight.label' | translate"
+      [matTooltip]="'novel.actions.moveRight.label' | translate"
     >
       <mat-icon class="action--move">move_down</mat-icon>
     </a>
@@ -42,7 +55,7 @@
       (keyup.enter)="goToChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.go.label' | translate"
+      [matTooltip]="'novel.actions.go.label' | translate"
     >
       <mat-icon class="action--move">play_circle</mat-icon>
     </a>
@@ -53,7 +66,7 @@
       (keyup.enter)="onDeleteChapter()"
       tabindex="0"
       role="button"
-      [title]="'novel.actions.delete.label' | translate"
+      [matTooltip]="'novel.actions.delete.label' | translate"
     >
       <mat-icon class="action--delete">delete</mat-icon>
     </a>

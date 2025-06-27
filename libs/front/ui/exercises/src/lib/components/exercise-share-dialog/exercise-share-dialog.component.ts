@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -10,13 +10,12 @@ import { BaseDialogComponent, NotificationService } from '@owl/front/ui/common';
 @Component({
   selector: 'owl-exercise-share-dialog',
   imports: [
-    CommonModule,
     BaseDialogComponent,
     MatButton,
     MatFormField,
     MatInput,
-    TranslateModule,
-  ],
+    TranslateModule
+],
   templateUrl: './exercise-share-dialog.component.html',
   styleUrl: './exercise-share-dialog.component.scss',
 })

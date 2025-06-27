@@ -1,6 +1,7 @@
 .dashboard-page {
   height: 100%;
   padding: 1rem 0.5rem;
+  overflow-y: auto;
 
   &__panel {
     min-height: 20%;

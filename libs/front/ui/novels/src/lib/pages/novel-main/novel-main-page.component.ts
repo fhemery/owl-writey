@@ -2,19 +2,32 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   inject,
   input,
   OnInit,
   signal,
 } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import {
+  LocalConfigService,
+  Resolution,
+  RightPanelComponent,
+  RightPanelService,
+  ScreenResolutionService,
+  SidePanelComponent,
+} from '@owl/front/ui/common';
 
 import { NovelStore } from '../../services/novel.store';
 import { NovelHeaderComponent } from './components/novel-header/novel-header.component';
-import { NovelRightPaneComponent } from './components/novel-right-pane/novel-right-pane.component';
 import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.component';
+
+export const NOVEL_CONFIG_KEY = 'novel.config';
+interface NovelConfig {
+  isLeftPanelClosed?: boolean;
+  isRightPanelClosed?: boolean;
+}
 
 @Component({
   selector: 'owl-novel-page',
@@ -22,69 +35,94 @@ import { NovelSidebarComponent } from './components/novel-sidebar/novel-sidebar.
     CommonModule,
     NovelSidebarComponent,
     NovelHeaderComponent,
-    NovelRightPaneComponent,
+    RightPanelComponent,
     RouterOutlet,
     TranslateModule,
-    MatIcon,
+    SidePanelComponent,
   ],
   templateUrl: './novel-main-page.component.html',
   styleUrls: ['./novel-main-page.component.scss'],
 })
 export class NovelMainPageComponent implements OnInit {
   readonly #novelStore = inject(NovelStore);
+  readonly #rightPanelService = inject(RightPanelService);
+  readonly #screenResolutionService = inject(ScreenResolutionService);
+
+  readonly localConfigService = inject(LocalConfigService);
+  readonly config = this.localConfigService.get<NovelConfig>(NOVEL_CONFIG_KEY);
+
+  isLeftPanelOpen = signal<boolean>(!this.config.isLeftPanelClosed);
+  isRightPanelOpen = signal<boolean>(!this.config.isRightPanelClosed);
+
+  shouldPanelBeFullWidth = computed(() =>
+    this.#screenResolutionService.isSmallerOrEqualTo(Resolution.Tablet)
+  );
+  isOnePanelOpenedFullWidth = computed(
+    () =>
+      (this.isLeftPanelOpen() || this.isRightPanelOpen()) &&
+      this.shouldPanelBeFullWidth()
+  );
+
+  constructor() {
+    this.ensureConsistencyOfPanelsAndResolutions();
+    effect(() => {
+      this.toggleLeftPanel(this.isLeftPanelOpen());
+    });
+    effect(() => {
+      this.toggleRightPanel(this.isRightPanelOpen());
+    });
+  }
 
   id = input.required<string>();
 
-  // Expose the signals directly from the store
   readonly isLoading = this.#novelStore.isLoading;
   readonly novel = this.#novelStore.novel;
+  readonly hasRightPanel = computed(
+    () => !!this.#rightPanelService.currentComponent()
+  );
 
-  readonly deviceType = signal<DeviceType>(getDeviceType());
-  readonly isMobile = computed(() => this.deviceType() === DeviceType.Mobile);
-  readonly leftPaneState = signal<ToggleState>(ToggleState.Unknown);
-
-  readonly isLeftPaneOpen = computed(() => {
-    switch (this.leftPaneState()) {
-      case ToggleState.Open:
-        return true;
-      case ToggleState.Closed:
-        return false;
-      case ToggleState.Unknown:
-        return this.deviceType() !== DeviceType.Mobile;
+  private ensureConsistencyOfPanelsAndResolutions(): void {
+    if (
+      this.#screenResolutionService.isBiggerThan(Resolution.Tablet) &&
+      !this.config.isLeftPanelClosed
+    ) {
+      this.isLeftPanelOpen.set(true);
     }
-  });
+    if (
+      this.#screenResolutionService.isBiggerThan(Resolution.Medium) &&
+      !this.config.isRightPanelClosed
+    ) {
+      this.isRightPanelOpen.set(true);
+    }
+  }
+
+  toggleLeftPanel(open?: boolean): void {
+    if (
+      open &&
+      !this.#screenResolutionService.isBiggerThan(Resolution.Medium)
+    ) {
+      this.isRightPanelOpen.set(false);
+    }
+
+    this.localConfigService.patch(NOVEL_CONFIG_KEY, {
+      isLeftPanelClosed: !open,
+    });
+  }
+
+  toggleRightPanel(open?: boolean): void {
+    if (
+      open &&
+      !this.#screenResolutionService.isBiggerThan(Resolution.Medium)
+    ) {
+      this.isLeftPanelOpen.set(false);
+    }
+    this.localConfigService.patch(NOVEL_CONFIG_KEY, {
+      isRightPanelClosed: !open,
+    });
+  }
 
   ngOnInit(): void {
     // Load the novel when the component initializes
     void this.#novelStore.loadNovel(this.id());
-    window.addEventListener('resize', () => {
-      this.deviceType.set(getDeviceType());
-    });
   }
-
-  toggleLeftPane(): void {
-    this.leftPaneState.set(
-      this.isLeftPaneOpen() ? ToggleState.Closed : ToggleState.Open
-    );
-  }
-}
-
-function getDeviceType(): DeviceType {
-  const width = window.innerWidth;
-  return width < 480
-    ? DeviceType.Mobile
-    : width < 768
-    ? DeviceType.Tablet
-    : DeviceType.Desktop;
-}
-
-enum DeviceType {
-  Mobile,
-  Tablet,
-  Desktop,
-}
-enum ToggleState {
-  Unknown = 'Unknown',
-  Open = 'Open',
-  Closed = 'Closed',
 }

@@ -22,5 +22,10 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../../coverage/libs/front/ui/novels',
       provider: 'v8' as const,
     },
+    server: {
+      deps: {
+        inline: ['@angular/fire'],
+      },
+    },
   },
 }));

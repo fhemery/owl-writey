@@ -29,7 +29,7 @@ export class DirectDatadogTransport extends TransportStream {
     }
   }
 
-  log(info: Record<string, any>, callback: () => void): void {
+  log(info: Record<string, unknown>, callback: () => void): void {
     // Emit logged event for Winston
     setImmediate(() => {
       this.emit('logged', info);

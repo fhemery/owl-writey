@@ -2,7 +2,9 @@
   @let nov = novel();
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ nov.title }}</mat-card-title>
+      <mat-card-title routerLink="/novels/{{ nov.id }}">{{
+        nov.title
+      }}</mat-card-title>
     </mat-card-header>
     <mat-card-content> &nbsp; </mat-card-content>
     <mat-card-footer>
@@ -10,7 +12,7 @@
         <a
           routerLink="/novels/{{ nov.id }}"
           class="link"
-          [title]="'dashboard.novels.playAlt' | translate"
+          [matTooltip]="'dashboard.novels.playAlt' | translate"
         >
           <mat-icon class="accent">play_arrow</mat-icon>
         </a>

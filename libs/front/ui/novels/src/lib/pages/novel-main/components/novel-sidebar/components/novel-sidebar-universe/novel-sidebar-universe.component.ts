@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -7,7 +7,7 @@ import { Novel } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-sidebar-universe',
-  imports: [CommonModule, MatIcon, TranslateModule, RouterLink],
+  imports: [MatIcon, TranslateModule, RouterLink],
   templateUrl: './novel-sidebar-universe.component.html',
   styleUrl: './novel-sidebar-universe.component.scss',
 })

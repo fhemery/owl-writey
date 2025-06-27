@@ -22,6 +22,11 @@ export class IntegrationTestApplicationBuilder {
   private _useInMemoryDb = false;
   private _portNumber?: number;
 
+  constructor() {
+    this.withEnvVariable('POSTHOG_ENABLED', '0');
+    this.withEnvVariable('DATADOG_ENABLED', '0');
+  }
+
   async build(module: Type): Promise<NestIntegrationTestApplication> {
     let builder = Test.createTestingModule({
       imports: this._useInMemoryDb

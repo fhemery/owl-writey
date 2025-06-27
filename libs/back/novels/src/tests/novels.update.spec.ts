@@ -1,19 +1,14 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { NovelDto, NovelRole } from '@owl/shared/novels/contracts';
 
-import { app, moduleTestInit } from './module-test-init';
+import { app, moduleTestInit, novelUtils } from './module-test-init';
 import { NovelTestBuilder } from './utils/novel-test-builder';
-import { NovelTestUtils } from './utils/novel-test-utils';
 
 describe('PUT /api/novels/:id', () => {
   void moduleTestInit();
-  let novelUtils: NovelTestUtils;
-
   let existingNovel: NovelDto;
 
   beforeEach(async () => {
-    novelUtils = new NovelTestUtils(app);
-
     await app.logAs(TestUserBuilder.Alice());
     existingNovel = await novelUtils.createAndRetrieve(
       NovelTestBuilder.Default()

@@ -43,6 +43,12 @@ export const appRoutes: Route[] = [
     canActivate: [authGuard],
   },
   {
+    path: 'profile',
+    loadChildren: () =>
+      import('@owl/front/ui/profile').then((m) => m.profileRoutes),
+    canActivate: [authGuard],
+  },
+  {
     path: '**',
     component: NotFoundPageComponent,
     pathMatch: 'full',

@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
+  inject,
   input,
   OnInit,
   output,
@@ -12,17 +12,42 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { countWordsFromHtml } from '@owl/shared/word-utils';
-import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import {
+  Editor,
+  NgxEditorModule,
+  NgxEditorService,
+  schema,
+  Toolbar,
+} from 'ngx-editor';
 import { inputRules } from 'prosemirror-inputrules';
 import { debounceTime, Subject, tap } from 'rxjs';
 
 import { FullscreenMenuComponent } from './fullscreen-menu/fullscreen-menu.component';
+import { generateEditorLocaleButtons } from './locals/editor-locale-buttons';
 import { syntaxInputRules } from './syntax-input-rules';
 
 @Component({
   selector: 'owl-text-editor',
-  imports: [CommonModule, NgxEditorModule, FormsModule, FullscreenMenuComponent],
+  imports: [
+    CommonModule,
+    NgxEditorModule,
+    FormsModule,
+    FullscreenMenuComponent,
+  ],
+  providers: [
+    {
+      provide: NgxEditorService,
+      useFactory: (): NgxEditorService => {
+        const translate = inject(TranslateService);
+        return new NgxEditorService({
+          locals: generateEditorLocaleButtons(translate),
+          icons: {},
+        });
+      },
+    },
+  ],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -47,11 +72,10 @@ export class TextEditorComponent implements OnInit {
     ['bold', 'italic', 'strike', 'underline'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
     ['blockquote', 'horizontal_rule'],
-    ['bullet_list', 'ordered_list'],
     ['text_color'],
   ];
-  
-  @ViewChild('customMenu') customMenu!: TemplateRef<any>;
+
+  @ViewChild('customMenu') customMenu!: TemplateRef<unknown>;
 
   private initialText = this.currentContent();
   currentText = signal(this.currentContent());
@@ -73,7 +97,7 @@ export class TextEditorComponent implements OnInit {
     );
   });
 
-  constructor(private elementRef: ElementRef) {
+  constructor() {
     effect(() => {
       if (this.currentContent() !== this.initialText) {
         this.initialText = this.currentContent();
@@ -81,8 +105,12 @@ export class TextEditorComponent implements OnInit {
       }
     });
 
+    const currentSchema = schema;
+    delete (currentSchema as { nodes: { image: unknown } }).nodes.image;
+    delete (currentSchema as { nodes: { heading: unknown } }).nodes.heading;
     this.editor = new Editor({
       plugins: [inputRules({ rules: syntaxInputRules })],
+      schema: currentSchema,
     });
   }
 
@@ -107,8 +135,6 @@ export class TextEditorComponent implements OnInit {
     this.isFocused = false;
     this.sendTextUpdate();
   }
-
-
 
   updateText($event: string): void {
     this.updateTextWatcher$.next($event);

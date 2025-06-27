@@ -1,65 +1,114 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
 import {
-  ContenteditableDirective,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+} from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import {
+  ContentEditableDirective,
+  RightPanelComponentDisplayRequest,
+  RightPanelService,
   TextEditorComponent,
 } from '@owl/front/ui/common';
-import { NovelScene, NovelSceneGeneralInfo } from '@owl/shared/novels/model';
 
 import { NovelStore } from '../../services/novel.store';
 import { NovelContextService } from '../../services/novel-context.service';
+import { NovelSceneRightPanelComponent } from './components/novel-scene-right-panel/novel-scene-right-panel.component';
+import { NovelScenePageViewModel } from './view-model/novel-scene-page-view-model';
 
 @Component({
   selector: 'owl-novel-scene-page',
-  imports: [CommonModule, TextEditorComponent, ContenteditableDirective],
+  imports: [
+    TextEditorComponent,
+    ContentEditableDirective,
+    MatIcon,
+    MatTooltip,
+    TranslateModule,
+  ],
   templateUrl: './novel-scene-page.component.html',
   styleUrl: './novel-scene-page.component.scss',
 })
-export class NovelScenePageComponent {
+export class NovelScenePageComponent implements OnDestroy {
   readonly #novelStore = inject(NovelStore);
   readonly #novelContext = inject(NovelContextService);
+  readonly #router = inject(Router);
+  readonly rightPanelService = inject(RightPanelService);
+
   chapterId = input.required<string>();
   sceneId = input.required<string>();
 
-  scene = computed(() => {
-    return this.#novelStore
-      .getNovel()
-      .chapters.find((c) => c.id === this.chapterId())
-      ?.scenes.find((s) => s.id === this.sceneId());
-  });
+  scene = computed(() =>
+    NovelScenePageViewModel.From(
+      this.chapterId(),
+      this.sceneId(),
+      this.#novelStore.novel()
+    )
+  );
 
   constructor() {
     effect(() => {
       this.#novelContext.setScene(this.chapterId(), this.sceneId());
+      this.rightPanelService.displayComponent(
+        new RightPanelComponentDisplayRequest<NovelScenePageViewModel | null>(
+          NovelSceneRightPanelComponent,
+          this.scene()
+        )
+      );
     });
   }
 
+  ngOnDestroy(): void {
+    this.rightPanelService.clearComponent();
+  }
+
   async updateContent(newText: string): Promise<void> {
-    const currentScene = this.scene();
-    if (!currentScene) {
-      return;
-    }
-    const scene = new NovelScene(
-      currentScene.id,
-      currentScene.generalInfo,
+    await this.#novelStore.updateSceneContent(
+      this.chapterId(),
+      this.sceneId(),
       newText
     );
-    await this.#novelStore.updateScene(this.chapterId(), scene);
   }
 
   async updateTitle(title: string): Promise<void> {
     const currentScene = this.scene();
-    if (!currentScene || currentScene.generalInfo.title === title) {
+    if (!currentScene || currentScene.title === title) {
       return;
     }
 
-    await this.#novelStore.updateScene(
+    await this.#novelStore.updateSceneTitle(
       this.chapterId(),
-      new NovelScene(
-        currentScene.id,
-        new NovelSceneGeneralInfo(title, currentScene.generalInfo.outline),
-        currentScene.content
-      )
+      this.sceneId(),
+      title
     );
+  }
+
+  async goToScene(chapterId: string, sceneId: string): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.#novelStore.novel()?.id,
+      'chapters',
+      chapterId,
+      'scenes',
+      sceneId,
+    ]);
+  }
+
+  async goToChapter(): Promise<void> {
+    await this.#router.navigate([
+      'novels',
+      this.#novelStore.novel()?.id,
+      'chapters',
+      this.chapterId(),
+    ]);
+  }
+
+  async goToNovel(): Promise<void> {
+    await this.#router.navigate(['novels', this.#novelStore.novel()?.id]);
   }
 }

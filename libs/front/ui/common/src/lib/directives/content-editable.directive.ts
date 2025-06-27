@@ -3,6 +3,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  inject,
   input,
   OnInit,
   output,
@@ -14,15 +15,18 @@ import {
   selector: '[owlContentEditable]',
   standalone: true,
 })
-export class ContenteditableDirective implements OnInit {
+export class ContentEditableDirective implements OnInit {
+  private readonly elementRef = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
   contentChange = output<string>();
   multiLine = input<boolean>(false);
   isEditing = signal<boolean>(false);
 
   focusOnEnter = input<boolean | undefined>(undefined);
-  private shouldFocusOnEnter = computed(() => this.focusOnEnter() ?? !this.multiLine());
-
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  private shouldFocusOnEnter = computed(
+    () => this.focusOnEnter() ?? !this.multiLine()
+  );
 
   ngOnInit(): void {
     // Set the element as contenteditable
@@ -45,7 +49,7 @@ export class ContenteditableDirective implements OnInit {
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
     event.preventDefault();
-    
+
     if (this.shouldFocusOnEnter() && !this.isEditing()) {
       this.selectContent();
       this.isEditing.set(true);

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import { Editor } from 'ngx-editor';
   templateUrl: './fullscreen-menu.component.html',
   styleUrls: ['./fullscreen-menu.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatIcon, TranslateModule],
+  imports: [MatIcon, TranslateModule],
 })
 export class FullscreenMenuComponent implements OnInit, OnDestroy {
   @Input() editor!: Editor;
@@ -161,7 +161,6 @@ export class FullscreenMenuComponent implements OnInit, OnDestroy {
     // If browser is not in fullscreen mode but our component thinks it is,
     // update our state and remove the fullscreen class
     if (!document.fullscreenElement && this.isFullscreen()) {
-      console.log('Fullscreen exited via Escape key');
       this.isFullscreen.set(false);
       this.getEditorElement()?.classList.remove('text-editor--fullscreen');
     }

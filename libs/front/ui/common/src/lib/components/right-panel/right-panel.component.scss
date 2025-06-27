@@ -1,0 +1,28 @@
+:host {
+  display: contents;
+  position: relative;
+}
+
+.right-panel {
+  position: relative;
+  width: 100%;
+  transition: all 1s;
+
+  &__content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &.collapsed {
+    width: 0;
+    overflow: hidden;
+  }
+}
+
+.right-panel-toggle {
+  position: absolute;
+  margin-left: -1.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-accent);
+  cursor: pointer;
+}

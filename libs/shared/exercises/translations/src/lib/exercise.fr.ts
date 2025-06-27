@@ -28,9 +28,9 @@ export const exerciseFr = {
         nbIterations: {
           label: 'Nombre de tours',
           error: {
-            min: 'Le nombre de tours doit être positif. Laisser vide ou saisir "0" pour continuer indéfiniment.',
+            min: 'Le nombre de tours doit être plus grand ou égal à 1. Laisser vide pour continuer indéfiniment.',
           },
-          help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laisser vide ou saisir \"0\" pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
+          help: "Le nombre de contributions des auteurices avant que l'exercice ne s'arrête. Laisser vide pour continuer indéfiniment ou jusqu'à ce que vous l'arrêtiez.",
         },
         iterationDuration: {
           label: "Durée d'un tour",

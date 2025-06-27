@@ -1,10 +1,10 @@
 import { describe } from 'node:test';
 
-import { TestUserBuilder } from '@owl/back/test-utils';
+import { TestUserBuilder, UserTestUtils } from '@owl/back/test-utils';
 import { UserDto, UserToCreateDto } from '@owl/shared/common/contracts';
 
-import { app, moduleTestInit } from './module-test-init';
-import { UserTestUtils } from './utils/user-test-utils';
+import { UserCreatedTrackingEvent } from '../lib/tracking/events';
+import { app, fakeTrackingFacade, moduleTestInit } from './module-test-init';
 
 describe('/api/users', async () => {
   moduleTestInit();
@@ -108,6 +108,23 @@ describe('/api/users', async () => {
 
         expect(response.status).toBe(201);
         expect(response.headers?.location).toContain('/api/users/alice');
+      });
+
+      describe('tracking', () => {
+        it('should emit a UserCreatedTrackingEvent', async () => {
+          await app.logAs(TestUserBuilder.Alice());
+
+          const user: UserToCreateDto = { name: 'Alice' };
+          await app.post<UserToCreateDto, void>('/api/users', user);
+
+          const event = fakeTrackingFacade.getLastByName(
+            UserCreatedTrackingEvent.EventName
+          );
+          expect(event).toEqual({
+            ...new UserCreatedTrackingEvent(TestUserBuilder.Alice().uid),
+            timestamp: expect.any(Date),
+          });
+        });
       });
     });
   });

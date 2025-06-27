@@ -1,7 +1,13 @@
 import { TestUserBuilder } from '@owl/back/test-utils';
 import { ExerciseDto } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from './module-test-init';
+import { ExerciseUserJoinedTrackingEvent } from '../lib/infra/tracking/events/exercise-user-joined-tracking-event';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from './module-test-init';
 import { ExerciseTestBuilder } from './utils/exercise-test-builder';
 
 describe('POST /exercises/:id/participants', () => {
@@ -64,6 +70,26 @@ describe('POST /exercises/:id/participants', () => {
       expect(bob).toBeDefined();
       expect(bob?.isAdmin).toBe(false);
       expect(bob?.name).toBe(TestUserBuilder.Bob().name);
+    });
+
+    describe('tracking', () => {
+      it('should emit exercise-user-joined event', async () => {
+        await app.logAs(TestUserBuilder.Bob());
+
+        await exerciseUtils.participateFromHateoas(exercise);
+        const events = fakeTrackingFacade.getByName(
+          ExerciseUserJoinedTrackingEvent.EventName
+        );
+
+        expect(events).toHaveLength(1);
+        expect(events[0]).toEqual({
+          ...new ExerciseUserJoinedTrackingEvent(
+            exercise.id,
+            TestUserBuilder.Bob().uid
+          ),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

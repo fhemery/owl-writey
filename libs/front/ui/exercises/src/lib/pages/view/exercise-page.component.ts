@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +12,6 @@ import { ExerciseStore } from '../../services/exercise.store';
 @Component({
   selector: 'owl-exercise-page',
   imports: [
-    CommonModule,
     TranslateModule,
     ExquisiteCorpseDetailsComponent,
     ExerciseHeaderToolbarComponent,

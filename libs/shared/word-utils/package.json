@@ -7,6 +7,9 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "tslib": "^2.3.0",
-    "cheerio": "^1.0.0"
+    "cheerio": "^1.0.0",
+    "diff": "^8.0.2",
+    "@nx/vite": "^21.2.1",
+    "vite": "^6.0.0"
   }
 }

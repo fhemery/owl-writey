@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Novel } from '@owl/shared/novels/model';
+import { Novel, NovelBaseDomainEvent } from '@owl/shared/novels/model';
 import { Repository } from 'typeorm';
 
 import { NovelRepository } from '../../domain/ports';
 import { NovelEntity } from './entities/novel.entity';
 import { NovelContentEntity } from './entities/novel-content.entity';
+import { NovelEventEntity } from './entities/novel-event.entity';
 import { NovelParticipantEntity } from './entities/novel-participant.entity';
 
 @Injectable()
@@ -16,7 +17,9 @@ export class NovelTypeormRepository implements NovelRepository {
     @InjectRepository(NovelParticipantEntity)
     private readonly participantRepo: Repository<NovelParticipantEntity>,
     @InjectRepository(NovelContentEntity)
-    private readonly contentRepo: Repository<NovelContentEntity>
+    private readonly contentRepo: Repository<NovelContentEntity>,
+    @InjectRepository(NovelEventEntity)
+    private readonly eventRepo: Repository<NovelEventEntity>
   ) {}
 
   async save(novel: Novel): Promise<void> {
@@ -37,15 +40,8 @@ export class NovelTypeormRepository implements NovelRepository {
   }
 
   async getOne(novelId: string, userId: string): Promise<Novel | null> {
-    const entity = await this.repo.findOne({
-      where: { id: novelId },
-      relations: ['participants'],
-    });
-
-    if (
-      !entity ||
-      !entity.participants.some((p) => p.participantUid === userId)
-    ) {
+    const entity = await this.findNovelForParticipant(novelId, userId);
+    if (!entity) {
       return null;
     }
 
@@ -60,8 +56,44 @@ export class NovelTypeormRepository implements NovelRepository {
     return content.toNovel(entity.participants);
   }
 
+  async findNovelForParticipant(
+    novelId: string,
+    userId: string
+  ): Promise<NovelEntity | null> {
+    const entity = await this.repo.findOne({
+      where: { id: novelId },
+      relations: ['participants'],
+    });
+
+    if (
+      !entity ||
+      !entity.participants.some((p) => p.participantUid === userId)
+    ) {
+      return null;
+    }
+    return entity;
+  }
+
   async delete(novelId: string): Promise<void> {
     await this.participantRepo.delete({ novelId });
     await this.repo.delete({ id: novelId });
+  }
+
+  async exists(novelId: string, userId: string): Promise<boolean> {
+    return (await this.findNovelForParticipant(novelId, userId)) !== null;
+  }
+
+  async pushEvents(
+    novelId: string,
+    events: NovelBaseDomainEvent[]
+  ): Promise<void> {
+    await this.eventRepo.save(
+      events.map((e) => NovelEventEntity.From(novelId, e))
+    );
+  }
+
+  async getEvents(novelId: string): Promise<NovelBaseDomainEvent[]> {
+    const entities = await this.eventRepo.find({ where: { novelId } });
+    return entities.map((e) => e.toNovelEvent());
   }
 }

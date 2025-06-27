@@ -23,7 +23,7 @@ function countWords(text: string): number {
   // Normalize spaces around French punctuation
   const normalizedText = text
     // Remove punctuation (: ; ! ? » « etc.)
-    .replace(/[«;:!?»,]/g, '')
+    .replace(/[«;:!?»,.]/g, ' ')
     .replace(/'/g, ' ')
     // Replace multiple spaces with a single space
     .replace(/\s+/g, ' ')

@@ -1,9 +1,9 @@
 import { describe } from 'node:test';
 
-import { TestUserBuilder } from '@owl/back/test-utils';
+import { TestUserBuilder, UserTestUtils } from '@owl/back/test-utils';
 
-import { app, moduleTestInit } from './module-test-init';
-import { UserTestUtils } from './utils/user-test-utils';
+import { UserDeletedTrackingEvent } from '../lib/tracking/events';
+import { app, fakeTrackingFacade, moduleTestInit } from './module-test-init';
 
 describe('DELETE /api/users/:id', async () => {
   moduleTestInit();
@@ -53,6 +53,23 @@ describe('DELETE /api/users/:id', async () => {
 
       const userResponse = await userUtils.getUser(TestUserBuilder.Alice().uid);
       expect(userResponse.status).toBe(404);
+    });
+
+    describe('tracking', () => {
+      it('should emit a UserDeletedTrackingEvent', async () => {
+        await app.logAs(TestUserBuilder.Admin());
+
+        const response = await userUtils.delete(TestUserBuilder.Alice().uid);
+        expect(response.status).toBe(204);
+
+        const event = fakeTrackingFacade.getLastByName(
+          UserDeletedTrackingEvent.EventName
+        );
+        expect(event).toEqual({
+          ...new UserDeletedTrackingEvent(TestUserBuilder.Alice().uid),
+          timestamp: expect.any(Date),
+        });
+      });
     });
   });
 });

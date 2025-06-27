@@ -64,14 +64,45 @@ export class NovelCharactersPageComponent {
     await this.#novelStore.addCharacterAt(index);
     setTimeout(() => this.focusCharacterAt(index), 50);
   }
-  async updateCharacter(character: NovelCharacter): Promise<void> {
-    await this.#novelStore.updateCharacter(character);
+
+  async updateCharacter(
+    previousCharacter: NovelCharacter,
+    newCharacter: NovelCharacter
+  ): Promise<void> {
+    if (previousCharacter.name !== newCharacter.name) {
+      await this.#novelStore.updateCharacterName(
+        previousCharacter.id,
+        newCharacter.name
+      );
+    }
+    if (previousCharacter.description !== newCharacter.description) {
+      await this.#novelStore.updateCharacterDescription(
+        previousCharacter.id,
+        newCharacter.description
+      );
+    }
+    if (previousCharacter.tags !== newCharacter.tags) {
+      await this.#novelStore.updateCharacterTags(
+        previousCharacter.id,
+        newCharacter.tags
+      );
+    }
+    if (previousCharacter.properties.color !== newCharacter.properties.color) {
+      await this.#novelStore.updateCharacterColor(
+        previousCharacter.id,
+        newCharacter.properties.color
+      );
+    }
   }
   convertToCharacter(item: unknown): NovelCharacter {
     return item as NovelCharacter;
   }
   async moveCharacter($event: { from: number; to: number }): Promise<void> {
-    await this.#novelStore.moveCharacter($event.from, $event.to);
+    const character = this.novel()?.universe?.characters[$event.from];
+    if (!character) {
+      return;
+    }
+    await this.#novelStore.moveCharacter(character.id, $event.to);
   }
   async deleteCharacter(character: NovelCharacter): Promise<void> {
     const confirmed = await this.#confirmDialogService.openConfirmDialog(

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { ConfigurationDto } from '@owl/shared/common/contracts';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,7 +11,7 @@ export class ConfigService {
   #environment = signal<ApplicationConfiguration | null>(null);
   private initialized = false;
 
-  constructor(private httpClient: HttpClient) {}
+  private readonly httpClient = inject(HttpClient);
 
   async init(environment: ApplicationEnvironment): Promise<void> {
     if (this.initialized) {

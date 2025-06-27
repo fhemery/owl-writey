@@ -1,0 +1,25 @@
+<div
+  class="side-panel"
+  [ngClass]="[
+    `side-panel--${position()}`,
+    `side-panel--${open() ? 'open' : 'closed'}`,
+  ]"
+  [style.width]="open() ? width() : '0'"
+>
+  <button
+    class="side-panel__toggle"
+    (click)="onToggle()"
+    [ngClass]="{
+      'side-panel__toggle--open-full-width': isFullWidth() && open(),
+    }"
+    [matTooltip]="
+      (open() ? 'general.panel.close' : 'general.panel.open') | translate
+    "
+    type="button"
+  >
+    <mat-icon>{{ getToggleIcon() }}</mat-icon>
+  </button>
+  <div class="side-panel__content">
+    <ng-content></ng-content>
+  </div>
+</div>

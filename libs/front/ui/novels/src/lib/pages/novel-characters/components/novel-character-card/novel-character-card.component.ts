@@ -1,5 +1,4 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -14,21 +13,22 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContenteditableDirective } from '@owl/front/ui/common';
+import { ContentEditableDirective } from '@owl/front/ui/common';
 import { NovelCharacter } from '@owl/shared/novels/model';
 
 @Component({
   selector: 'owl-novel-character-card',
   imports: [
-    CommonModule,
     TranslateModule,
-    ContenteditableDirective,
+    ContentEditableDirective,
     MatIcon,
     MatAutocompleteModule,
     FormsModule,
     MatChipsModule,
     MatFormField,
+    MatTooltip,
   ],
   templateUrl: './novel-character-card.component.html',
   styleUrl: './novel-character-card.component.scss',
@@ -129,7 +129,6 @@ export class NovelCharacterCardComponent {
   }
 
   focus(): void {
-    console.log('focus');
     this.titleElement?.nativeElement?.click();
   }
 }

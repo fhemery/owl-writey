@@ -1,48 +1,45 @@
 <div class="exercise-toolbar">
   @if(exercise()._links.invite) {
-    <div class="exercise-toolbar__link">
-      <a
-        (click)="generateLink()"
-        (keyup.enter)="generateLink()"
-        tabindex="0"
-        [title]="'exercise.toolbar.link.label' | translate"
-      >
-        <mat-icon>link</mat-icon>
-      </a>
-    </div>
-  }
-  @if (exercise()._links.finish){
+  <div class="exercise-toolbar__link">
+    <a
+      (click)="generateLink()"
+      (keyup.enter)="generateLink()"
+      tabindex="0"
+      [matTooltip]="'exercise.toolbar.link.label' | translate"
+    >
+      <mat-icon>link</mat-icon>
+    </a>
+  </div>
+  } @if (exercise()._links.finish){
   <div class="exercise-toolbar__finish">
     <a
       (click)="finish()"
       (keyup.enter)="finish()"
       tabindex="0"
-      [title]="'exercise.toolbar.finish.label' | translate"
+      [matTooltip]="'exercise.toolbar.finish.label' | translate"
     >
       <mat-icon class="success">check_box</mat-icon>
     </a>
   </div>
-  }
-  @if (exercise()._links.delete){
+  } @if (exercise()._links.delete){
   <div class="exercise-toolbar__delete">
     <a
       (click)="delete()"
       (keyup.enter)="delete()"
       tabindex="0"
-      [title]="'exercise.toolbar.delete.label' | translate"
+      [matTooltip]="'exercise.toolbar.delete.label' | translate"
     >
       <mat-icon>delete</mat-icon>
     </a>
   </div>
 
-  }
-  @if (exercise()._links.leave) {
+  } @if (exercise()._links.leave) {
   <div class="exercise-toolbar__leave">
     <a
       (click)="leave()"
       (keyup.enter)="leave()"
       tabindex="0"
-      [title]="'exercise.toolbar.leave.label' | translate"
+      [matTooltip]="'exercise.toolbar.leave.label' | translate"
     >
       <mat-icon>logout</mat-icon>
     </a>

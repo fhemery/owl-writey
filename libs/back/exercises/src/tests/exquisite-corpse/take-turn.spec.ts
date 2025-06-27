@@ -11,7 +11,13 @@ import {
   exquisiteCorpseTurnTakenEvent,
 } from '@owl/shared/exercises/contracts';
 
-import { app, exerciseUtils, moduleTestInit } from '../module-test-init';
+import { ExquisiteCorpseTurnTakenTrackingEvent } from '../../lib/infra/tracking/events';
+import {
+  app,
+  exerciseUtils,
+  fakeTrackingFacade,
+  moduleTestInit,
+} from '../module-test-init';
 import { expectNotificationReceived } from '../utils/exercise-events.utils';
 import { ExerciseTestBuilder } from '../utils/exercise-test-builder';
 
@@ -259,6 +265,27 @@ describe('Exquisite corpse: take turn action', () => {
           const updatedExerciseBody =
             updatedExercise.body as ExquisiteCorpseExerciseDto;
           expect(updatedExerciseBody.content?.currentWriter?.until).toBeNull();
+        });
+      });
+
+      describe('about tracking events', () => {
+        it('should emit a turn taken event', async () => {
+          await app.logAs(TestUserBuilder.Alice());
+          const exercise = await exerciseUtils.createAndRetrieve(
+            ExerciseTestBuilder.ExquisiteCorpse()
+          );
+          await exerciseUtils.takeTurnFromHateoas(exercise);
+
+          const event = fakeTrackingFacade.getLastByName(
+            ExquisiteCorpseTurnTakenTrackingEvent.EventName
+          );
+          expect(event).toEqual({
+            ...new ExquisiteCorpseTurnTakenTrackingEvent(
+              exercise.id,
+              TestUserBuilder.Alice().uid
+            ),
+            timestamp: expect.any(Date),
+          });
         });
       });
     });

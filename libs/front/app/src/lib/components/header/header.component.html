@@ -1,5 +1,5 @@
 <mat-toolbar class="header">
-  <a routerLink="/" class="header__app-title">
+  <a [routerLink]="user() ? '/dashboard' : '/'" class="header__app-title">
     <img
       src="logo.png"
       alt="Owl Writey logo"
@@ -9,7 +9,38 @@
       'home.header.app.name' | translate
     }}</span>
   </a>
-  @if (!user()) {
+  @if (user(); as user) {
+  <div class="header__user-menu" [matMenuTriggerFor]="userMenu">
+    <div class="header__user-info">
+      <mat-icon class="header__user-icon">account_circle</mat-icon>
+      <span class="header__username">{{ user.name || user.email }}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+  </div>
+
+  <mat-menu #userMenu="matMenu">
+    <button
+      mat-menu-item
+      class="header__user-menu-item"
+      routerLink="/dashboard"
+    >
+      <mat-icon>home</mat-icon>
+      <span>{{ 'home.header.dashboardLink' | translate }}</span>
+    </button>
+    @if(user.isBetaUser()) {
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="header__user-menu-item" routerLink="/profile">
+      <mat-icon>person</mat-icon>
+      <span>{{ 'home.header.profileLink' | translate }}</span>
+    </button>
+    }
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="header__user-menu-item" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>{{ 'home.header.logoutLink' | translate }}</span>
+    </button>
+  </mat-menu>
+  } @else {
   <div class="header__login-button">
     <button mat-raised-button color="accent" routerLink="/login">
       {{ 'home.header.loginLink' | translate }}
@@ -18,23 +49,6 @@
   <div class="header__register-button">
     <button mat-raised-button color="primary" routerLink="/register">
       {{ 'home.header.registerLink' | translate }}
-    </button>
-  </div>
-  } @else {
-  <div class="header__dashboard-button">
-    <button mat-raised-button color="secondary" routerLink="/dashboard">
-      <mat-icon>home</mat-icon>
-      <span class="header__dashboard-button--text">{{
-        'home.header.dashboardLink' | translate
-      }}</span>
-    </button>
-  </div>
-  <div class="header__logout-button">
-    <button mat-raised-button color="secondary" (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span class="header__logout-button--text">{{
-        'home.header.logoutLink' | translate
-      }}</span>
     </button>
   </div>
   }

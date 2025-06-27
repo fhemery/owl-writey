@@ -1,0 +1,48 @@
+.chapter-page__header {
+  margin: 0 0 1rem 2rem;
+
+  &--title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--link {
+      color: var(--color-accent);
+      cursor: pointer;
+    }
+  }
+
+  &--stats {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  mat-icon {
+    color: var(--color-accent);
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 0.5rem;
+  }
+}
+
+.chapter-page__title {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  h2 {
+    padding: 0 2rem;
+  }
+}

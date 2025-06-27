@@ -28,20 +28,13 @@ import {
   Role,
   SseEvent,
   UserDto,
-  UserToCreateDto,
 } from '@owl/shared/common/contracts';
-import { IsNotEmpty, IsString } from 'class-validator';
 import { Observable } from 'rxjs';
 
-import { UserDeletedEvent } from './model';
+import { UserToCreateDtoImpl } from './dtos/user-to-create.dto.impl';
+import { UserCreatedEvent, UserDeletedEvent } from './model';
 import { User } from './model/user';
 import { UsersService } from './users.service';
-
-class UserToCreateDtoImpl implements UserToCreateDto {
-  @IsString()
-  @IsNotEmpty()
-  name!: string;
-}
 
 @Controller('users')
 @ApiBearerAuth()
@@ -101,6 +94,7 @@ export class UsersController {
       throw new InternalServerErrorException('User has not been authenticated');
     }
     await this.userService.create(new User(uid, email, user.name));
+    this.eventEmitter.emit(new UserCreatedEvent(uid));
 
     request.res?.set('Location', `/api/users/${uid}`);
   }

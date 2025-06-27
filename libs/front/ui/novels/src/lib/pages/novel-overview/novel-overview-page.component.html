@@ -1,8 +1,27 @@
 @if(novel(); as novel) {
 <div class="novel-overview">
-  <h2 class="novel-overview__title">
-    {{ novel.generalInfo.title }}
-  </h2>
+  <div class="novel-overview__header">
+    <h2 class="novel-overview__title">
+      {{ novel.generalInfo.title }}
+    </h2>
+    <div class="novel-overview__stats">
+      <owl-stats-chip
+        icon="folder"
+        [title]="'novel.actions.chapterCount.label' | translate"
+        [value]="novel.chapters.length"
+      />
+      <owl-stats-chip
+        icon="description"
+        [title]="'novel.actions.sceneCount.label' | translate"
+        [value]="novel.nbScenes"
+      />
+      <owl-stats-chip
+        icon="format_paragraph"
+        [title]="'novel.actions.words.label' | translate"
+        [value]="novel.nbWords"
+      />
+    </div>
+  </div>
   @if(novel.chapters.length > 0) {
   <div class="novel-overview__chapter">
     <owl-novel-corkboard
@@ -16,7 +35,7 @@
     <ng-template #chapterTemplate let-item let-index="index">
       <owl-novel-overview-chapter-card
         [chapter]="convertToChapter(item)"
-        (updateChapter)="updateChapter($event)"
+        (updateChapter)="updateChapter(item, $event)"
         (deleteChapter)="deleteChapter(item)"
         (moveChapter)="
           moveChapter({

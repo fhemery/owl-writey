@@ -8,6 +8,17 @@
     text-align: center;
   }
 
+  &__header {
+    margin-bottom: 0.5rem;
+  }
+
+  &__stats {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+    gap: 1rem;
+  }
+
   &__no-chapters {
     height: 100%;
     display: flex;

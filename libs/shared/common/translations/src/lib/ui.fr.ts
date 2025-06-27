@@ -12,6 +12,10 @@ export const uiFr = {
     yes: 'Oui',
     no: 'Non',
     cancel: 'Annuler',
+    panel: {
+      open: 'Ouvrir',
+      close: 'Fermer',
+    },
     exercises: {
       type: {
         ExquisiteCorpse: 'Cadavre exquis',
@@ -132,6 +136,19 @@ export const uiFr = {
     fullscreen: {
       enter: 'Entrer en mode plein écran',
       exit: 'Sortir du mode plein écran',
+    },
+    buttons: {
+      bold: 'Gras',
+      italic: 'Italique',
+      strike: 'Barré',
+      underline: 'Souligné',
+      blockquote: 'Citation',
+      alignLeft: 'Aligner à gauche',
+      alignCenter: 'Aligner au centre',
+      alignRight: 'Aligner à droite',
+      alignJustify: 'Justifier',
+      textColor: 'Couleur du texte',
+      horizontalRule: 'Ligne horizontale',
     },
   },
   ...dashboardFr,

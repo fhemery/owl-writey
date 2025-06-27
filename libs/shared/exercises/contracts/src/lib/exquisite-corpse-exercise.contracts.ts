@@ -17,7 +17,7 @@ export interface ExquisiteCorpseExerciseDto extends ExerciseDto {
 
 export interface ExquisiteCorpseConfigDto {
   nbIterations?: number;
-  initialContent?: string;
+  initialText?: string;
   iterationDuration?: number;
   textSize?: { minWords: number | null; maxWords: number | null };
 }

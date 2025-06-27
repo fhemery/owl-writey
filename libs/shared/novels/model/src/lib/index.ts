@@ -12,3 +12,8 @@ export { NovelParticipant } from './participants/novel-participant';
 export { NovelException } from './exceptions/novel.exception';
 export { ChapterNotFoundException } from './exceptions/chapter-not-found.exception';
 export { NovelBuilder } from './novel.builder';
+export {
+  NovelHtmlExporter,
+  NovelHtmlExportOptions,
+} from './novel-html-exporter';
+export * from './events';

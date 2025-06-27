@@ -1,6 +1,7 @@
 <div class="exCo-details">
   @if(store.exercise(); as exercise) { @let content = exercise.content;
-  @if(exercise.participants.length === 1) {
+  @if(exercise.participants.length === 1 && exercise.status ===
+  ExerciseStatus.Ongoing) {
   <div class="exCo-details__share">
     <p>{{ 'exercise.exquisiteCorpse.invite.label' | translate }}</p>
     <mat-icon>link</mat-icon>
@@ -12,7 +13,7 @@
       [config]="exercise.config"
       [sceneIndex]="i"
     ></owl-exquisite-corpse-scene-header>
-    <p [innerHTML]="scene.text"></p>
+    <p [innerHTML]="scene.text | safeHtml"></p>
   </div>
   } @if(exercise.status === ExerciseStatus.Finished) {
   <div class="exCo-details__finished">

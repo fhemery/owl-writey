@@ -22,7 +22,7 @@ import { toExerciseDto } from '../api/mappers/exercise-dto.mappers';
 export class ExquisiteCorpseEventHandlers {
   constructor(private readonly notificationService: SseNotificationService) {}
 
-  @OnEvent(ExCorpseTakeTurnEvent.eventName)
+  @OnEvent(ExCorpseTakeTurnEvent.EventName)
   async handleExquisiteCorpseTakeTurnEvent(
     event: ExCorpseTakeTurnEvent
   ): Promise<void> {
@@ -45,7 +45,7 @@ export class ExquisiteCorpseEventHandlers {
     );
   }
 
-  @OnEvent(ExCorpseSubmitTurnEvent.eventName)
+  @OnEvent(ExCorpseSubmitTurnEvent.EventName)
   async handleExquisiteCorpseSubmitTurnEvent(
     event: ExCorpseSubmitTurnEvent
   ): Promise<void> {
@@ -64,7 +64,7 @@ export class ExquisiteCorpseEventHandlers {
     );
   }
 
-  @OnEvent(ExCorpseCancelTurnEvent.eventName)
+  @OnEvent(ExCorpseCancelTurnEvent.EventName)
   async handleExquisiteCorpseCancelTurnEvent(
     event: ExCorpseCancelTurnEvent
   ): Promise<void> {

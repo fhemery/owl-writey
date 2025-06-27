@@ -4,13 +4,15 @@ import {
   IntegrationTestApplicationBuilder,
   NestIntegrationTestApplication,
   TestUserBuilder,
+  UserTestUtils,
 } from '@owl/back/test-utils';
+import { FakeTrackingFacade, TrackingFacade } from '@owl/back/tracking';
 
-import { UserTestUtils } from '../../../user/src/tests/utils/user-test-utils';
 import { ExercisesModule } from '../lib/exercises.module';
 import { ExerciseTestUtils } from './utils/exercise-test-utils';
 
 export let app: NestIntegrationTestApplication;
+export let fakeTrackingFacade: FakeTrackingFacade;
 export let exerciseUtils: ExerciseTestUtils;
 
 export const moduleTestInit = async (port?: number): Promise<void> => {
@@ -21,6 +23,7 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
       .withMock(WsAuthService, new FakeWsAuthService())
       .withEnvVariable('BASE_API_URL', port ? `http://localhost:${port}` : '')
       .build(ExercisesModule);
+    fakeTrackingFacade = app.getInstance<FakeTrackingFacade>(TrackingFacade);
     exerciseUtils = new ExerciseTestUtils(app);
   });
 
@@ -34,6 +37,7 @@ export const moduleTestInit = async (port?: number): Promise<void> => {
   afterEach(async () => {
     await app.reset();
     await exerciseUtils.reset();
+    await fakeTrackingFacade.reset();
   });
 
   afterAll(async () => {

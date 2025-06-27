@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import {
   ExquisiteCorpseConfigDto,
@@ -7,7 +7,7 @@ import {
 
 @Component({
   selector: 'owl-exquisite-corpse-scene-header',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './exquisite-corpse-scene-header.component.html',
   styleUrl: './exquisite-corpse-scene-header.component.scss',
 })

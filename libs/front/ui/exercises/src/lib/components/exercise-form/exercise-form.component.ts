@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, input, output } from '@angular/core';
 import {
   FormBuilder,
@@ -28,7 +28,6 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
 @Component({
   selector: 'owl-exercise-form',
   imports: [
-    CommonModule,
     MatCard,
     TranslateModule,
     MatFormField,
@@ -40,8 +39,8 @@ import { ExquisiteFormCorpseComponent } from '../exquisite-corpse-form/exquisite
     MatButton,
     ExquisiteFormCorpseComponent,
     MatCardHeader,
-    MatCardTitle,
-  ],
+    MatCardTitle
+],
   templateUrl: './exercise-form.component.html',
   styleUrl: './exercise-form.component.scss',
 })

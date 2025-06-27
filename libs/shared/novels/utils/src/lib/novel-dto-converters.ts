@@ -90,7 +90,8 @@ function toNovelSceneGeneralInfo(
   return new NovelSceneGeneralInfo(
     generalInfoDto.title,
     generalInfoDto.outline,
-    generalInfoDto.pointOfViewId
+    generalInfoDto.pointOfViewId,
+    generalInfoDto.notes
   );
 }
 
@@ -160,6 +161,7 @@ function toNovelSceneGeneralInfoDto(
     title: generalInfo.title,
     outline: generalInfo.outline,
     pointOfViewId: generalInfo.pov,
+    notes: generalInfo.notes,
   };
 }
 

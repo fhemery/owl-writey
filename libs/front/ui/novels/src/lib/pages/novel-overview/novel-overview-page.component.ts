@@ -1,14 +1,15 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ConfirmDialogService,
   NotificationService,
+  StatsChipComponent,
 } from '@owl/front/ui/common';
 import { NovelChapter } from '@owl/shared/novels/model';
 
 import { NovelStore } from '../../services/novel.store';
+import { NovelContextService } from '../../services/novel-context.service';
 import { NovelCorkboardComponent } from '../novel-main/components/novel-corkboard/novel-corkboard.component';
 import { NovelOverviewChapterCardComponent } from './novel-overview-chapter-card/novel-overview-chapter-card.component';
 import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/novel-overview-no-chapter.component';
@@ -16,11 +17,11 @@ import { NovelOverviewNoChapterComponent } from './novel-overview-no-chapter/nov
 @Component({
   selector: 'owl-novel-overview-page',
   imports: [
-    CommonModule,
     NovelOverviewNoChapterComponent,
     NovelOverviewChapterCardComponent,
     TranslateModule,
     NovelCorkboardComponent,
+    StatsChipComponent,
   ],
   templateUrl: './novel-overview-page.component.html',
   styleUrl: './novel-overview-page.component.scss',
@@ -34,6 +35,12 @@ export class NovelOverviewPageComponent {
   readonly notificationService = inject(NotificationService);
   readonly novel = this.#store.novel;
 
+  readonly #novelContext = inject(NovelContextService);
+
+  constructor() {
+    this.#novelContext.reset();
+  }
+
   async addChapterAt(index?: number): Promise<void> {
     await this.#store.addChapterAt(index);
     setTimeout(() => this.focusChapterAt(index), 50);
@@ -46,8 +53,19 @@ export class NovelOverviewPageComponent {
     this.chapterCards.get(index)?.focus();
   }
 
-  async updateChapter(chapter: NovelChapter): Promise<void> {
-    await this.#store.updateChapter(chapter);
+  async updateChapter(
+    currentChapter: NovelChapter,
+    newChapter: NovelChapter
+  ): Promise<void> {
+    if (currentChapter.generalInfo.title !== newChapter.generalInfo.title) {
+      await this.#store.updateChapterTitle(
+        currentChapter.id,
+        newChapter.generalInfo.title
+      );
+    }
+    if (currentChapter.generalInfo.outline !== newChapter.generalInfo.outline) {
+      await this.#store.updateChapterOutline(newChapter);
+    }
   }
 
   convertToChapter(chapter: NovelChapter): NovelChapter {

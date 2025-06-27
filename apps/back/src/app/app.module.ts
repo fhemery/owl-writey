@@ -8,6 +8,8 @@ import { ExercisesModule } from '@owl/back/exercises';
 import { LogsModule } from '@owl/back/infra/logs';
 import { NovelsModule } from '@owl/back/novels';
 import { PingModule } from '@owl/back/ping';
+import { SettingsModule } from '@owl/back/settings';
+import { TrackingModule } from '@owl/back/tracking';
 import { UsersModule } from '@owl/back/user';
 import * as admin from 'firebase-admin';
 import { join } from 'path';
@@ -26,9 +28,11 @@ import { ConnectionData } from './utils/datasource';
     PingModule,
     ConfigModule,
     UsersModule,
+    SettingsModule,
     ExercisesModule,
     NovelsModule,
     LogsModule,
+    TrackingModule,
   ],
 })
 export class AppModule {

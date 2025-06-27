@@ -1,10 +1,9 @@
 import { describe } from 'node:test';
 
-import { TestUserBuilder } from '@owl/back/test-utils';
+import { TestUserBuilder, UserTestUtils } from '@owl/back/test-utils';
 import { Role } from '@owl/shared/common/contracts';
 
 import { app, authServiceMock, moduleTestInit } from './module-test-init';
-import { UserTestUtils } from './utils/user-test-utils';
 
 describe('POST /api/users/:id/roles', async () => {
   moduleTestInit();

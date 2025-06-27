@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import {
   MatCard,
@@ -19,7 +19,6 @@ import {
 @Component({
   selector: 'owl-dashboard-exercise-card',
   imports: [
-    CommonModule,
     MatCard,
     MatCardHeader,
     MatCardTitle,
@@ -28,8 +27,8 @@ import {
     MatIcon,
     MatTooltip,
     RouterLink,
-    TranslateModule,
-  ],
+    TranslateModule
+],
   templateUrl: './dashboard-exercise-card.component.html',
   styleUrl: './dashboard-exercise-card.component.scss',
 })

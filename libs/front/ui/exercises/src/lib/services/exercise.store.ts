@@ -1,4 +1,4 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import {
   patchState,
   signalStore,
@@ -33,7 +33,8 @@ const initialState: ExerciseState = {
   connectionToExerciseUpdates: undefined,
 };
 
-export const ExerciseStore = signalStore(
+@Injectable()
+export class ExerciseStore extends signalStore(
   withState(initialState),
   withMethods(
     (
@@ -98,4 +99,4 @@ export const ExerciseStore = signalStore(
       store.connectionToExerciseUpdates?.()?.unsubscribe();
     },
   })
-);
+) {}

@@ -1,3 +1,5 @@
+export * from './events';
+
 export * from './exceptions/exercice-not-found.exception';
 export * from './exceptions/exercise-exception';
 export * from './exercise';

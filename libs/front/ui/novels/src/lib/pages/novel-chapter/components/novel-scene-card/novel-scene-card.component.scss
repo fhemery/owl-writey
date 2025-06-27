@@ -47,6 +47,13 @@
         display: none;
       }
     }
+
+    &[data-placeholder]:empty:not(:focus)::before {
+      content: attr(data-placeholder);
+      color: #999;
+      pointer-events: none;
+      display: block;
+    }
   }
 
   &__footer,
@@ -56,11 +63,6 @@
     display: flex;
     gap: 0.25rem;
     border-top: 1px dotted var(--color-accent);
-
-    &--pov {
-      display: flex;
-      align-items: center;
-    }
 
     &--placeholder {
       flex: 1;
@@ -91,6 +93,15 @@
       width: 1px;
       height: 1.2rem;
       background-color: var(--color-accent);
+    }
+  }
+
+  &__details {
+    &--words,
+    &--notes {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
   }
 }

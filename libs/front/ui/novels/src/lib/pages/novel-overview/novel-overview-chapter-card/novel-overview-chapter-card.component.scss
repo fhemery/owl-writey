@@ -46,6 +46,35 @@
         display: none;
       }
     }
+
+    &[data-placeholder]:empty:not(:focus)::before {
+      content: attr(data-placeholder);
+      color: #999;
+      pointer-events: none;
+      display: block;
+    }
+  }
+
+  &__details {
+    padding: 0.25rem;
+    display: flex;
+    gap: 0.25rem;
+    border-top: 1px dotted var(--color-accent);
+
+    &--scenes,
+    &--words {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    mat-icon {
+      color: var(--color-accent);
+      cursor: pointer;
+      width: 1.2rem;
+      height: 1.2rem;
+      font-size: 1.2rem;
+    }
   }
 
   &__footer {

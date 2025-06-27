@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,12 +25,11 @@ import { HeaderComponent } from './components/header/header.component';
 @Component({
   selector: 'owl-writey-ui',
   imports: [
-    CommonModule,
     HeaderComponent,
     RouterOutlet,
     FooterComponent,
-    UpdateSnackbarComponent,
-  ],
+    UpdateSnackbarComponent
+],
   providers: [UserNotificationsService],
   templateUrl: './owl-writey-ui.component.html',
   styleUrl: './owl-writey-ui.component.scss',

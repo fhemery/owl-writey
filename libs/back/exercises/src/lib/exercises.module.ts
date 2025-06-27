@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '@owl/back/auth';
 import { EventsModule } from '@owl/back/infra/events';
 import { ServerSentEventsModule } from '@owl/back/infra/sse';
+import { TrackingModule } from '@owl/back/tracking';
 import { UsersModule } from '@owl/back/user';
 
 import {
@@ -29,6 +30,8 @@ import { ExquisiteCorpseController } from './infra/api/exquisite-corpse.controll
 import { ExerciseTypeOrmRepository } from './infra/database/exercise-typeorm.repository';
 import { ExerciseEventHandlers } from './infra/event-handlers/exercise.event-handlers';
 import { ExquisiteCorpseEventHandlers } from './infra/event-handlers/exquisite-corpse.event-handlers';
+import { ExerciseTrackingListener } from './infra/tracking/exercise-tracking-listener';
+import { ExquisiteCorpseTrackingListener } from './infra/tracking/exquisite-corpse-tracking-listener';
 import { UserFacadeImpl } from './infra/user/user.facade.impl';
 
 @Module({
@@ -42,6 +45,7 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     UsersModule,
     EventsModule,
     ServerSentEventsModule,
+    TrackingModule,
   ],
   controllers: [
     ExercisesController,
@@ -62,6 +66,8 @@ import { UserFacadeImpl } from './infra/user/user.facade.impl';
     TakeTurnCommand,
     SubmitTurnCommand,
     CancelTurnCommand,
+    ExerciseTrackingListener,
+    ExquisiteCorpseTrackingListener,
   ],
   exports: [],
 })

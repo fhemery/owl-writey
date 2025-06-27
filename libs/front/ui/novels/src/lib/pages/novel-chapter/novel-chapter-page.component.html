@@ -1,32 +1,22 @@
-@if(novel(); as novel) { @if(chapter(); as chapter) {
+@if(chapter(); as chapter) {
 <div class="chapter-page">
-  <h2
-    class="chapter-page__title"
-    owlContentEditable
-    (contentChange)="updateChapterTitle($event)"
+  <owl-novel-chapter-header
+    [chapter]="chapter"
+    (chapterNavigate)="goToChapter($event)"
+    (titleChange)="updateChapterTitle($event)"
+    (goToNovel)="goToNovel()"
   >
-    {{ chapter.generalInfo.title }}
-  </h2>
-  <div class="chapter-page__scenes">
-    <owl-novel-corkboard
-      [items]="chapter.scenes"
-      [addNewLabel]="'novel.chapter.newScene' | translate"
-      [itemTemplate]="sceneTemplate"
-      (addNew)="addSceneAt($event)"
-      (moveItem)="moveScene($event)"
-    ></owl-novel-corkboard>
-
-    <ng-template #sceneTemplate let-item let-index="index">
-      <owl-novel-scene-card
-        [novel]="novel"
-        [scene]="convertToScene(item)"
-        (updateScene)="updateScene($event)"
-        (deleteScene)="deleteScene(item)"
-        (moveScene)="moveScene({ from: index, to: index + $event })"
-        (transferScene)="transferScene(item)"
-        (goTo)="goToScene(item)"
-      ></owl-novel-scene-card>
-    </ng-template>
-  </div>
+  </owl-novel-chapter-header>
+  <owl-novel-chapter-scenes
+    [chapter]="chapter"
+    (sceneAdded)="addSceneAt($event)"
+    (sceneMoved)="moveScene($event)"
+    (sceneTitleUpdated)="updateSceneTitle($event.title, $event.sceneId)"
+    (sceneOutlineUpdated)="updateSceneOutline($event.outline, $event.sceneId)"
+    (scenePovUpdated)="updateScenePov($event.povId, $event.sceneId)"
+    (sceneDeleted)="deleteScene($event)"
+    (sceneTransferred)="transferScene($event)"
+    (navigateToScene)="goToScene($event)"
+  ></owl-novel-chapter-scenes>
 </div>
-} }
+}

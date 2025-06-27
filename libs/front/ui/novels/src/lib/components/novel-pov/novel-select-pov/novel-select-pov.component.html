@@ -1,0 +1,35 @@
+<div class="select-pov">
+  <div class="select-pov__characters">
+    @for(character of characters(); track character.id) {
+    <div
+      class="select-pov__character"
+      [ngClass]="{ selected: character.id === currentlySelectedId() }"
+    >
+      <a
+        class="select-pov__action"
+        (click)="select(character)"
+        (keyup.enter)="select(character)"
+        tabindex="0"
+        role="button"
+        [matTooltip]="
+          'novel.scene.pov.select.label' | translate : { name: character.name }
+        "
+      >
+        <span>{{ character.name }}</span>
+        @if(character.id === currentlySelectedId()) {
+        <a
+          (click)="select(undefined)"
+          (keyup.enter)="select(undefined)"
+          tabindex="0"
+          role="button"
+          class="select-pov__unselect"
+          [matTooltip]="'novel.scene.pov.unselect.label' | translate"
+        >
+          <mat-icon class="select-pov__unselect-icon">cancel</mat-icon>
+        </a>
+        }
+      </a>
+    </div>
+    }
+  </div>
+</div>

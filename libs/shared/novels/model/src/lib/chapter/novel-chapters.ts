@@ -1,6 +1,6 @@
-import { v4 as uuidV4 } from 'uuid';
+import { arrayUtils } from '@owl/shared/common/utils';
 
-import { ChapterNotFoundException } from '../exceptions/chapter-not-found.exception';
+import { NovelException } from '../exceptions/novel.exception';
 import { NovelScene } from '../scene/novel-scene';
 import { NovelChapter } from './novel-chapter';
 import { NovelChapterGeneralInfo } from './novel-chapter-general-info';
@@ -15,56 +15,56 @@ export class NovelChapters {
     return [...this._chapters];
   }
 
-  addAt(name: string, outline = '', index?: number): void {
-    if (index !== undefined) {
-      this._chapters.splice(
-        index,
-        0,
-        new NovelChapter(
-          uuidV4(),
-          new NovelChapterGeneralInfo(name, outline),
-          []
-        )
-      );
-    } else {
-      this._chapters.push(
-        new NovelChapter(
-          uuidV4(),
-          new NovelChapterGeneralInfo(name, outline),
-          []
-        )
-      );
+  addAt(id: string, name: string, outline = '', index?: number): NovelChapters {
+    if (this.findChapter(id)) {
+      throw new NovelException('Chapter already exists');
     }
+    return new NovelChapters(
+      arrayUtils.insertAt(
+        this._chapters,
+        new NovelChapter(id, new NovelChapterGeneralInfo(name, outline), []),
+        index
+      )
+    );
   }
-  update(chapter: NovelChapter): void {
-    const index = this._chapters.findIndex((c) => c.id === chapter.id);
-    if (index !== -1) {
-      this._chapters.splice(index, 1, chapter);
-    }
+
+  update(chapter: NovelChapter): NovelChapters {
+    return new NovelChapters(arrayUtils.replaceItem(this._chapters, chapter));
   }
-  move(chapterIndex: number, toIndex: number): void {
-    const chapter = this._chapters[chapterIndex];
-    this._chapters.splice(chapterIndex, 1);
-    this._chapters.splice(toIndex, 0, chapter);
+
+  move(chapterId: string, atIndex: number): NovelChapters {
+    return new NovelChapters(
+      arrayUtils.moveItem(this._chapters, chapterId, atIndex)
+    );
   }
-  delete(chapterId: string): void {
-    const index = this._chapters.findIndex((c) => c.id === chapterId);
-    if (index !== -1) {
-      this._chapters.splice(index, 1);
-    }
+
+  delete(chapterId: string): NovelChapters {
+    return new NovelChapters(arrayUtils.removeItem(this._chapters, chapterId));
   }
+  alreadyHasScene(sceneId: string): boolean {
+    return this._chapters.some((c) => c.containsScene(sceneId));
+  }
+
   addSceneAt(
     chapterId: string,
+    sceneId: string,
     title: string,
     outline = '',
     index?: number
-  ): void {
-    const chapter = this.findChapter(chapterId);
-    chapter.addNewSceneAt(title, outline, index);
+  ): NovelChapters {
+    if (this.alreadyHasScene(sceneId)) {
+      throw new NovelException('Scene already exists');
+    }
+    return new NovelChapters(
+      this._chapters.map((c) =>
+        c.id === chapterId ? c.addNewSceneAt(sceneId, title, outline, index) : c
+      )
+    );
   }
-  updateScene(chapterId: string, scene: NovelScene): void {
-    const chapter = this.findChapter(chapterId);
-    chapter.updateScene(scene);
+  updateScene(chapterId: string, scene: NovelScene): NovelChapters {
+    return new NovelChapters(
+      this._chapters.map((c) => (c.id === chapterId ? c.updateScene(scene) : c))
+    );
   }
 
   transferScene(
@@ -72,37 +72,57 @@ export class NovelChapters {
     sceneId: string,
     targetChapterId: string,
     sceneIndex: number
-  ): void {
+  ): NovelChapters {
     const initialChapter = this.findChapter(initialChapterId);
     const targetChapter = this.findChapter(targetChapterId);
-    const scene = initialChapter.scenes.find((s) => s.id === sceneId);
-    if (!scene) {
-      return;
+    const scene = initialChapter?.scenes.find((s) => s.id === sceneId);
+    if (!initialChapter || !targetChapter || !scene) {
+      return this;
     }
-    initialChapter.deleteScene(sceneId);
-    targetChapter.addExistingSceneAt(scene, sceneIndex);
+    const newInitialChapter = initialChapter.deleteScene(sceneId);
+    const newTargetChapter = targetChapter.addExistingSceneAt(
+      scene,
+      sceneIndex
+    );
+    return new NovelChapters(
+      this._chapters.map((c) =>
+        c.id === initialChapterId
+          ? newInitialChapter
+          : c.id === targetChapterId
+          ? newTargetChapter
+          : c
+      )
+    );
   }
-  moveScene(chapterId: string, sceneIndex: number, toIndex: number): void {
-    const chapter = this.findChapter(chapterId);
-    chapter.moveScene(sceneIndex, toIndex);
-  }
-  deleteScene(chapterId: string, sceneId: string): void {
-    const chapter = this.findChapter(chapterId);
-    chapter.deleteScene(sceneId);
-  }
-  deletePov(id: string): void {
-    this._chapters.forEach((c) => c.deletePov(id));
+  moveScene(chapterId: string, sceneId: string, at: number): NovelChapters {
+    return new NovelChapters(
+      this._chapters.map((c) =>
+        c.id === chapterId ? c.moveScene(sceneId, at) : c
+      )
+    );
   }
 
+  deleteScene(chapterId: string, sceneId: string): NovelChapters {
+    return new NovelChapters(
+      this._chapters.map((c) =>
+        c.id === chapterId ? c.deleteScene(sceneId) : c
+      )
+    );
+  }
+  removePov(id: string): NovelChapters {
+    return new NovelChapters(this._chapters.map((c) => c.removePov(id)));
+  }
   copy(): NovelChapters {
     return new NovelChapters([...this._chapters]);
   }
 
-  private findChapter(chapterId: string): NovelChapter {
-    const chapter = this._chapters.find((c) => c.id === chapterId);
-    if (!chapter) {
-      throw new ChapterNotFoundException(chapterId);
-    }
-    return chapter;
+  findChapter(chapterId: string): NovelChapter | null {
+    return this._chapters.find((c) => c.id === chapterId) || null;
+  }
+
+  findScene(chapterId: string, sceneId: string): NovelScene | null {
+    return (
+      this.findChapter(chapterId)?.scenes.find((s) => s.id === sceneId) || null
+    );
   }
 }

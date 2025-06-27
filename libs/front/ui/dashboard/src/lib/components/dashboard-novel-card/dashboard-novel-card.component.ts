@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import {
   MatCard,
@@ -8,6 +7,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NovelSummaryDto } from '@owl/shared/novels/contracts';
@@ -15,13 +15,13 @@ import { NovelSummaryDto } from '@owl/shared/novels/contracts';
 @Component({
   selector: 'owl-dashboard-novel-card',
   imports: [
-    CommonModule,
     MatCard,
     MatCardHeader,
     MatCardFooter,
     MatCardTitle,
     MatCardContent,
     MatIcon,
+    MatTooltip,
     RouterLink,
     TranslateModule,
   ],
