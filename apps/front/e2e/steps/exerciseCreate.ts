@@ -21,7 +21,7 @@ When('I change the duration of the exercise to {string}', async ({exerciseCreate
 });
 
 Then('{string} should be the selected duration', async ({exerciseCreatePo} : AllFixtures, durationValue: string) => {
-  await exerciseCreatePo.shouldDisplayDuration(durationValue)
+  await exerciseCreatePo.shouldDisplayDuration(durationValue);
 });
 
 When('I fill a new exercise form with valid data', async ({ exerciseCreatePo } : AllFixtures) => {

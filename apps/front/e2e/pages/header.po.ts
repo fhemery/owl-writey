@@ -15,6 +15,9 @@ export class HeaderPo extends BasePo {
     get registerBtn(): Locator {
         return this.pageLocator.locator('button[routerlink="/register"]');
     }
+    get menuTrigger(): Locator{
+        return this.pageLocator.locator('.header__user-menu');
+    }
     get dashboardBtn(): Locator {
         return this.pageLocator.locator('button[routerlink="/dashboard"]');
     }
@@ -36,12 +39,12 @@ export class HeaderPo extends BasePo {
         await this.registerBtn.click();
     }
 
-    async redirectDashboard(): Promise<void> {
-        await this.dashboardBtn.click();
+    async openUserMenu(): Promise<void> {
+        await this.menuTrigger.click();
     }
 
-    async redirectLogout(): Promise<void> {
-        await this.logoutBtn.click();
+    async selectMenuItem(itemName: 'Dashboard' | 'Déconnexion'): Promise<void> {
+        await this.page.getByRole('menuitem', { name: itemName, exact: true }).click();
     }
 
 }
