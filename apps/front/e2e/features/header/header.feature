@@ -22,9 +22,8 @@ Scenario: Logout redirection is correct from the header
     And I select "Déconnexion" from the menu
     Then Display the home page from the header
 
-
-Scenario: Logout action is correct from the header
+@Automated
+Scenario: The dashboard redirection is correct from the header title
     Given The user is connected
-    When The user menu is opened
-    And I select "Logout" from the menu
-    Then Display the home page from the header
+    When I click on the title header
+    Then Display the dashboard page from the header

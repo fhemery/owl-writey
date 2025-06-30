@@ -32,7 +32,6 @@ Given('The user is connected', async ({ loginPo, dashboardPo }: AllFixtures) => 
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
     await dashboardPo.shouldBeDisplayed();
 });
-
 When('I open the user menu', async ({ headerPo }: AllFixtures) => {
     await headerPo.openUserMenu();
 });
@@ -41,4 +40,11 @@ When('I select {string} from the menu', async ({ headerPo }: AllFixtures, menuIt
 });
 Then('Display the home page from the header', async({ homePo }: AllFixtures) => {
     await homePo.shouldBeDisplayed();
+});
+
+When ('I click on the title header', async ({ headerPo }: AllFixtures) => {
+    await headerPo.redirectTitle();
+});
+Then ('Display the dashboard page from the header', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.shouldBeDisplayed();
 });
