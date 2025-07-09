@@ -3,6 +3,7 @@ import { test as base } from 'playwright-bdd';
 
 import { CommonPo } from '../pages/common.po';
 import { DashboardPo } from '../pages/dashboard.po';
+import { ExerciseCardPo } from '../pages/exerciseCard.po';
 import { ExerciseCreatePo } from '../pages/exerciseCreate.po';
 import { ExerciseCurrentPo } from '../pages/exerciseCurrent.po';
 import { HeaderPo } from '../pages/header.po';
@@ -13,6 +14,7 @@ import { RegisterPo } from '../pages/register.po';
 interface Pages {
   commonPo: CommonPo;
   dashboardPo: DashboardPo;
+  exerciseCardPo: ExerciseCardPo;
   exerciseCreatePo: ExerciseCreatePo;
   exerciseCurrentPo: ExerciseCurrentPo;
   headerPo: HeaderPo;
@@ -31,6 +33,9 @@ export const pageFixtures = base.extend<Pages>({
   },
   dashboardPo: async ({ page }, use) => {
     await use(new DashboardPo(page));
+  },
+  exerciseCardPo: async ({ page }, use) => {
+    await use(new ExerciseCardPo(page));
   },
   exerciseCreatePo: async ({ page }, use) => {
     await use(new ExerciseCreatePo(page));

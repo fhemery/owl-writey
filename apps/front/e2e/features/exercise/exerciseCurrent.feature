@@ -5,4 +5,5 @@ Background:
 
     @Automated
     Scenario: Display a current exercise
-      Then Display the current exercise
+      When I click on an exercise card 
+      Then Display the current corresponding exercise

@@ -28,8 +28,11 @@ export class ExerciseCardPo extends BasePo {
         await expect(this.pageLocator).toBeVisible();
     }
 
-    async displayExerciseCard(): Promise<void> {
-        await this.exerciseCard.click();
+    getExerciseCardTitle(exerciseName: string): Locator {
+        return this.pageLocator.locator('mat-card-title', { hasText: exerciseName });
+    } 
+    async displayExerciseCard(exerciseName: string): Promise<void> {
+        await this.getExerciseCardTitle(exerciseName).click();
     }
 
 }
