@@ -42,16 +42,6 @@ export class DashboardPo extends BasePo {
 
   async displayEndedExercises(): Promise<void> {
     return await this.toggleBtn.click();
-    
-    // try {
-    //   await this.page.waitForSelector('exercise-card__finished', {
-    //     state: 'visible',
-    //     timeout: 2000
-    //   });
-    //   return true;
-    // } catch (error){
-    //   return false;
-    // }
   }
   
   async checkFinishedExercisesIncluded(): Promise<boolean> {
@@ -61,10 +51,6 @@ export class DashboardPo extends BasePo {
   async displayCurrentExercise(): Promise<void> {
     return await this.currentExercise.click();
   }
-  
-  // getExerciseByTitle(title: string): Locator {
-    
-  // }
 
 }
 
