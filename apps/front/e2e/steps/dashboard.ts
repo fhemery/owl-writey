@@ -38,3 +38,11 @@ When('I click the Jouer button for exercise {string}', async ({ dashboardPo }: A
 Then('Display the current exercise clicked on', async ({ exerciseCurrentPo }: AllFixtures) => {
     await exerciseCurrentPo.shouldBeDisplayed();
 });
+
+When('I click to Create a new novel', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.createNewNovel();
+});
+
+Then('Display the new novel form', async ({ novelCreatePo }: AllFixtures) => {
+    await novelCreatePo.shouldDisplayForm();
+});

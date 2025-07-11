@@ -7,19 +7,16 @@ export class HomePo extends BasePo {
     return this.page.locator('.home-page');
   }
   get loginButton(): Locator {
-    // return this.pageLocator.locator('a[routerlink="/login"]');
     return this.pageLocator.getByRole('button', {
       name: 'Connexion',
     });
   }
   get registerButton(): Locator {
-    // return this.pageLocator.locator('a[routerlink="/register"]');
     return this.pageLocator.getByRole('button', {
       name: 'Inscription',
     });
   }
   get dashboardButton(): Locator {
-    // return this.pageLocator.locator('a[routerlink="/dashboard"]');
     return this.pageLocator.getByRole('button', {
       name: 'Dashboard',
     });

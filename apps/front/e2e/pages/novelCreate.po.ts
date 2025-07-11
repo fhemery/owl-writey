@@ -7,9 +7,16 @@ export class NovelCreatePo extends BasePo {
     return this.page.locator('.novel-form');
   }
   get nameInput(): Locator {
-    return this.pageLocator.locator('input[name="name"]');
+    return this.pageLocator.locator('input[name="title"]');
   }
-
+  get descriptionArea(): Locator {
+    return this.pageLocator.locator('.novel-form__description');
+  }
+  get submitButton(): Locator {
+    return this.pageLocator.getByRole('button', {
+      name: this.translator.get('novel.form.createButton.label'),
+    });
+  }
   getPage(): Page {
     return this.page;
   }
@@ -24,5 +31,11 @@ export class NovelCreatePo extends BasePo {
 
   async shouldBeDisplayed(): Promise<void> {
     await expect(this.pageLocator).toBeVisible();
+  }
+
+  async shouldDisplayForm(): Promise<void> {
+    await expect(this.nameInput).toBeVisible();
+    await expect(this.descriptionArea).toBeVisible();
+    await expect(this.submitButton).toBeVisible();
   }
 }

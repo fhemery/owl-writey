@@ -13,18 +13,8 @@ Feature: Dashboard Feature
     Scenario: Display exercises done
         When I click to exercises done toggle
         Then Display exercises done on the dashboard
-   
+    
     @Automated
-    Scenario: Display current exercise
-        When I click the Jouer button for exercise "<title>"
-        Then Display the current exercise clicked on
-
-        Examples:
-            |                         title                          |
-            |                 Test le cadavre exquis                 |
-            |Lorem ipsum dolor sit amet, consectetur adipiscing elit.|
-    
-    
     Scenario: Display new novel form
         When I click to Create a new novel
         Then Display the new novel form

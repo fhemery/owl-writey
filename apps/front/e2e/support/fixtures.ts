@@ -9,6 +9,9 @@ import { ExerciseCurrentPo } from '../pages/exerciseCurrent.po';
 import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
+import { NovelCardPo } from '../pages/novelCard.po';
+import { NovelCreatePo } from '../pages/novelCreate.po';
+import { NovelCurrentPo } from '../pages/novelCurrent.po';
 import { RegisterPo } from '../pages/register.po';
 
 interface Pages {
@@ -20,6 +23,9 @@ interface Pages {
   headerPo: HeaderPo;
   homePo: HomePo;
   loginPo: LoginPo;
+  novelCardPo: NovelCardPo;
+  novelCreatePo: NovelCreatePo;
+  novelCurrentPo: NovelCurrentPo;
   registerPo: RegisterPo;
 }
 
@@ -51,6 +57,15 @@ export const pageFixtures = base.extend<Pages>({
   },
   loginPo: async ({ page }, use) => {
     await use(new LoginPo(page));
+  },
+  novelCardPo: async ({ page }, use) => {
+    await use(new NovelCardPo(page));
+  },
+  novelCreatePo: async ({ page }, use) => {
+    await use(new NovelCreatePo(page));
+  },
+  novelCurrentPo: async ({ page }, use) => {
+    await use(new NovelCurrentPo(page));
   },
   registerPo: async ({ page }, use) => {
     await use(new RegisterPo(page));

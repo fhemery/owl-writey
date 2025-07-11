@@ -52,5 +52,8 @@ export class DashboardPo extends BasePo {
     return await this.currentExercise.click();
   }
 
+  async createNewNovel(): Promise<void> {
+    await this.newNovels.click();
+  }
 }
 
