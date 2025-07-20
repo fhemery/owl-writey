@@ -46,3 +46,15 @@ When('I click to Create a new novel', async ({ dashboardPo }: AllFixtures) => {
 Then('Display the new novel form', async ({ novelCreatePo }: AllFixtures) => {
     await novelCreatePo.shouldDisplayForm();
 });
+Given('As a connected user I click to display finished exercises', async ({ dashboardPo } : AllFixtures) => {
+    await dashboardPo.displayEndedExercises();
+    await dashboardPo.checkFinishedExercisesIncluded();
+});
+When('I click on a finished exercise card', async ({ exerciseCardPo } : AllFixtures) => {
+    await exerciseCardPo.getExerciseCardTitle('Test le cadavre exquis');
+    await exerciseCardPo.displayExerciseCard('Test le cadavre exquis');
+});
+
+Then('Display the finisehd corresponding exercise', async ({ exerciseCurrentPo }: AllFixtures) => {
+    await exerciseCurrentPo.shouldBeDisplayed();
+})
