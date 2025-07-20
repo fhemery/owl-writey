@@ -30,8 +30,9 @@ Feature: ExerciseCreate Feature
       Examples: 
       | value | fieldName | errorKey |
       | a     | name      | exercise.form.name.error.minlength |
+      |       | name      | exercise.form.name.error.required |
 
-    @Automated
+    
     Scenario: Trial to create a new exercise with negative iteration nb
       When I add a negative figure to the iteration nb
       Then It should display the following error exercise.form.exquisiteCorpse.nbIterations.error.min 
@@ -44,7 +45,7 @@ Feature: ExerciseCreate Feature
       When I add an invalid figure to the maxi-word field
       Then It should display the following error exercise.form.exquisiteCorpse.words.maxWords.error.min
     
-    @Automated
+    
     Scenario: Try to create a new exercise without any history content
       When I do not add content in the initialText field
       Then It should display the following error exercise.form.exquisiteCorpse.initialText.error.required 

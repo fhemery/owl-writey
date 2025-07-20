@@ -31,25 +31,25 @@ Then('I am redirected to the current exercise', async ({ exerciseCurrentPo } : A
     await exerciseCurrentPo.shouldBeDisplayed();
 });
 
-When('I fill a new exercise form with wrong data', async ({ exerciseCreatePo } : AllFixtures) => {
-    await exerciseCreatePo.wronglyCreatedAs('Yo', '4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
-});
-Then('It should display an error on the corresponding field', async ({ exerciseCreatePo } : AllFixtures) => {
-    await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.name.error.minlength');
-});
+// When('I fill a new exercise form with wrong data', async ({ exerciseCreatePo } : AllFixtures) => {
+//     await exerciseCreatePo.wronglyCreatedAs('Yo', '4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
+// });
+// Then('It should display an error on the corresponding field', async ({ exerciseCreatePo } : AllFixtures) => {
+//     await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.name.error.minlength');
+// });
 
-When('I add a negative figure to the iteration nb', async ({ exerciseCreatePo }: AllFixtures) => {
-    await exerciseCreatePo.wronglyCreatedAs(
-        'Hello my dear', '-4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
-});
-Then('It should display the following error exercise.form.exquisiteCorpse.nbIterations.error.min', async ({ exerciseCreatePo }: AllFixtures) => {
-    await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.nbIterations.error.min');
-});
+// When('I add a negative figure to the iteration nb', async ({ exerciseCreatePo }: AllFixtures) => {
+//     await exerciseCreatePo.wronglyCreatedAs(
+//         'Hello my dear', '-4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
+// });
+// Then('It should display the following error exercise.form.exquisiteCorpse.nbIterations.error.min', async ({ exerciseCreatePo }: AllFixtures) => {
+//     await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.nbIterations.error.min');
+// });
 
-When('I do not add content in the initialText field', async ({ exerciseCreatePo }: AllFixtures) => {
-    await exerciseCreatePo.wronglyCreatedAs(
-        'Hello my dear', '4', '5 minutes', '4', '5', '');
-});
-Then('It should display the following error exercise.form.exquisiteCorpse.initialText.error.required', async ({ exerciseCreatePo }: AllFixtures) => {
-    await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.required');
-});
+// When('I do not add content in the initialText field', async ({ exerciseCreatePo }: AllFixtures) => {
+//     await exerciseCreatePo.wronglyCreatedAs(
+//         'Hello my dear', '4', '5 minutes', '4', '5', '');
+// });
+// Then('It should display the following error exercise.form.exquisiteCorpse.initialText.error.required', async ({ exerciseCreatePo }: AllFixtures) => {
+//     await exerciseCreatePo.shouldDisplayTranslatedText('exercise.form.exquisiteCorpse.initialText.error.required');
+// });

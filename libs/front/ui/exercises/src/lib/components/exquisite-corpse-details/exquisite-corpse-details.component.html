@@ -33,6 +33,7 @@
       <h2>{{ 'exercise.exquisiteCorpse.yourTurn.label' | translate }}</h2>
       {{ content?.currentWriter?.until | timeDiff | async }}
       <owl-text-editor
+        data-testid="exercise-text-editor"
         placeholder=""
         (update)="updateContent($event)"
         (isValid)="updateValidity($event)"
