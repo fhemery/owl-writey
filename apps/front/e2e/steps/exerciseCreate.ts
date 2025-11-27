@@ -24,8 +24,20 @@ Then('{string} should be the selected duration', async ({exerciseCreatePo} : All
   await exerciseCreatePo.shouldDisplayDuration(durationValue);
 });
 
-When('I fill a new exercise form with valid data', async ({ exerciseCreatePo } : AllFixtures) => {
+When('I fill a new exercise form with valid data', async ({ page, exerciseCreatePo } : AllFixtures) => {
+    const apiResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises') && 
+        response.request().method() === 'POST' && 
+        response.status() === 201
+    );
+
     await exerciseCreatePo.createdAs('Test d\'exercice owl-writey', '4', '5 minutes', '4', '5', 'Ceci est un test pour valider ou non le bon fonctionnement du formulaire');
+
+    const response = await apiResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('I am redirected to the current exercise', async ({ exerciseCurrentPo } : AllFixtures) => {
     await exerciseCurrentPo.shouldBeDisplayed();

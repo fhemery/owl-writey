@@ -9,7 +9,7 @@ Background:
       Then Display the current corresponding exercise
 
     @Automated
-    Scenario: Particpate to an exercise
+    Scenario: Participate to an exercise
       Given I display the corresponding exercise
       When I click to take my turn
       Then I can fill with content and submit it

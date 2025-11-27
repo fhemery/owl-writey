@@ -23,8 +23,31 @@ Then('Display registration page', async({ registerPo }: AllFixtures) => {
 When('I fill the login form with valid data', async ({ loginPo }: AllFixtures) => {
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
 });
-Then('I am redirected to the dashboard page from the login page', async ({ dashboardPo }: AllFixtures) => {
-     await dashboardPo.shouldBeDisplayed();
+Then('I am redirected to the dashboard page from the login page', async ({ page, dashboardPo }: AllFixtures) => {
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises') && 
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
+    const getResponseNovel = page.waitForResponse(response => 
+        response.url().includes('/api/novels') && 
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
+    await dashboardPo.shouldBeDisplayed();
+
+    const response = await getResponsePromise;
+    const res = await getResponseNovel;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
+
+    console.log(`URL de la requête API: ${res.url()}`);
+    console.log(`Méthode de la requête: ${res.request().method()}`);
+    console.log(`Statut de la réponse: ${res.status()}`);
 });
 
 When('I fill the login form with wrong data', async ({ loginPo }: AllFixtures) => {

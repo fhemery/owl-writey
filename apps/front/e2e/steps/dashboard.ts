@@ -11,7 +11,7 @@ Given('I am connected', async ({ loginPo }: AllFixtures) => {
 });
 
 Given('Dashboard page should be displayed', async ({ dashboardPo }: AllFixtures) => {
-    console.log('✅ Dashboard is displayed');
+    // console.log('✅ Dashboard is displayed');
     await dashboardPo.shouldBeDisplayed();
 });
 

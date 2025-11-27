@@ -14,8 +14,20 @@ When('I click on an exercise card', async ({ exerciseCardPo } : AllFixtures) => 
     await exerciseCardPo.getExerciseCardTitle('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
     await exerciseCardPo.displayExerciseCard('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 });
-Then('Display the current corresponding exercise', async ({ exerciseCurrentPo }: AllFixtures) => {
+Then('Display the current corresponding exercise', async ({ page, exerciseCurrentPo }: AllFixtures) => {
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/425f499a-b82f-4781-a183-5cab2099c4d7') && 
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
     await exerciseCurrentPo.shouldBeDisplayed();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Given('I display the corresponding exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
     await exerciseCardPo.getExerciseCardTitle('Ceci est un test');
