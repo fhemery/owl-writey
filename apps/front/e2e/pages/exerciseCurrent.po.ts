@@ -29,9 +29,9 @@ export class ExerciseCurrentPo extends BasePo {
     get deleteButton(): Locator {
         return this.pageLocator.locator('.exercise-toolbar__delete');
     }
-    get confirmDeleteExerciseButton(): Locator {
-        return this.pageLocator.locator('.confirm-dialog__confirm-btn');
-    }
+    // get confirmDeleteExerciseButton(): Locator {
+    //     return this.pageLocator.locator('.confirm-dialog__confirm-btn');
+    // }
 
     getPage(): Page {
         return this.page;
@@ -61,6 +61,6 @@ export class ExerciseCurrentPo extends BasePo {
     
     async deleteExerciseAction(): Promise<void> {
         await this.deleteButton.click();
-        await this.confirmDeleteExerciseButton.click();
+        // await this.confirmDeleteExerciseButton.click();
     }
 }

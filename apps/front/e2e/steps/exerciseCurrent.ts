@@ -45,8 +45,22 @@ Given('I display the corresponding current exercise', async ({ exerciseCardPo, e
     await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
     await exerciseCurrentPo.shouldBeDisplayed();
 });
-When('I click to delete an exercise', async ({ exerciseCurrentPo } : AllFixtures) => {
+When('I click to delete an exercise', async ({  page, exerciseCurrentPo, confirmDialogPo } : AllFixtures) => {
     await exerciseCurrentPo.deleteExerciseAction();
+    
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/') && 
+        response.request().method() === 'DELETE' && 
+        response.status() === 204 
+    );
+
+    await confirmDialogPo.confirmDeleteExercise();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Display the dashboard page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();

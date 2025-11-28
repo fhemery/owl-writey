@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { test as base } from 'playwright-bdd';
 
 import { CommonPo } from '../pages/common.po';
+import { ConfirmDialogPo } from '../pages/confirmDialog.po';
 import { DashboardPo } from '../pages/dashboard.po';
 import { ExerciseCardPo } from '../pages/exerciseCard.po';
 import { ExerciseCreatePo } from '../pages/exerciseCreate.po';
@@ -16,6 +17,7 @@ import { RegisterPo } from '../pages/register.po';
 
 interface Pages {
   commonPo: CommonPo;
+  confirmDialogPo: ConfirmDialogPo;
   dashboardPo: DashboardPo;
   exerciseCardPo: ExerciseCardPo;
   exerciseCreatePo: ExerciseCreatePo;
@@ -36,6 +38,9 @@ export interface AllFixtures extends Pages {
 export const pageFixtures = base.extend<Pages>({
   commonPo: async ({ page }, use) => {
     await use(new CommonPo(page));
+  },
+  confirmDialogPo: async ({ page }, use) => {
+    await use(new ConfirmDialogPo(page));
   },
   dashboardPo: async ({ page }, use) => {
     await use(new DashboardPo(page));
