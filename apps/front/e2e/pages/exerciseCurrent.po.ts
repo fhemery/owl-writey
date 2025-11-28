@@ -26,6 +26,13 @@ export class ExerciseCurrentPo extends BasePo {
         return this.pageLocator.locator('[data-testid="exercise-text-editor"]');
     }
 
+    get deleteButton(): Locator {
+        return this.pageLocator.locator('.exercise-toolbar__delete');
+    }
+    get confirmDeleteExerciseButton(): Locator {
+        return this.pageLocator.locator('.confirm-dialog__confirm-btn');
+    }
+
     getPage(): Page {
         return this.page;
     }
@@ -52,5 +59,8 @@ export class ExerciseCurrentPo extends BasePo {
         await this.submitTurnButton.click();
     }
     
-
+    async deleteExerciseAction(): Promise<void> {
+        await this.deleteButton.click();
+        await this.confirmDeleteExerciseButton.click();
+    }
 }

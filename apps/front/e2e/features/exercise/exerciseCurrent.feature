@@ -13,3 +13,9 @@ Background:
       Given I display the corresponding exercise
       When I click to take my turn
       Then I can fill with content and submit it
+
+    @Automated
+    Scenario: Delete an exercise
+      Given I display the corresponding current exercise
+      When I click to delete an exercise
+      Then Display the dashboard page
