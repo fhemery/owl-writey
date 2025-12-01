@@ -10,6 +10,13 @@ Given('I am logged as a user', async ({ loginPo, dashboardPo } : AllFixtures) =>
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
     await dashboardPo.shouldBeDisplayed();
 });
+Given('I display the corresponding current exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
+    await exerciseCardPo.getExerciseCardTitle('Test d\'exercice owl-writey');
+    await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
+    await exerciseCurrentPo.shouldBeDisplayed();
+});
+
+
 When('I click on an exercise card', async ({ exerciseCardPo } : AllFixtures) => {
     await exerciseCardPo.getExerciseCardTitle('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
     await exerciseCardPo.displayExerciseCard('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
@@ -29,22 +36,20 @@ Then('Display the current corresponding exercise', async ({ page, exerciseCurren
     console.log(`Méthode de la requête: ${response.request().method()}`);
     console.log(`Statut de la réponse: ${response.status()}`);
 });
-Given('I display the corresponding exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
-    await exerciseCardPo.getExerciseCardTitle('Ceci est un test');
-    await exerciseCardPo.displayExerciseCard('Ceci est un test');
-    await exerciseCurrentPo.shouldBeDisplayed();
+// Given('I display the corresponding exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
+//     await exerciseCardPo.getExerciseCardTitle('Ceci est un test');
+//     await exerciseCardPo.displayExerciseCard('Ceci est un test');
+//     await exerciseCurrentPo.shouldBeDisplayed();
+// });
+When('I click to take my turn', async ({ exquisiteCorpsePo } : AllFixtures) => {
+    // await exerciseCurrentPo.shouldTakeTurn
+    await exquisiteCorpsePo.shouldDisplayTextEditor();
 });
-When('I click to take my turn', async ({ exerciseCurrentPo } : AllFixtures) => {
-    await exerciseCurrentPo.shouldDisplayTextEditor();
+Then('I can fill with content and submit it', async ({ exquisiteCorpsePo }: AllFixtures) => {
+    await exquisiteCorpsePo.filledWith('Mon tour est arrivé');
+    await exquisiteCorpsePo.submitText();
 });
-Then('I can fill with content and submit it', async ({ exerciseCurrentPo }: AllFixtures) => {
-    await exerciseCurrentPo.filledWith('Ce texte a été écrit par un ordinateur');
-});
-Given('I display the corresponding current exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
-    await exerciseCardPo.getExerciseCardTitle('Test d\'exercice owl-writey');
-    await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
-    await exerciseCurrentPo.shouldBeDisplayed();
-});
+
 When('I click to delete an exercise', async ({  page, exerciseCurrentPo, confirmDialogPo } : AllFixtures) => {
     await exerciseCurrentPo.deleteExerciseAction();
     
@@ -63,5 +68,26 @@ When('I click to delete an exercise', async ({  page, exerciseCurrentPo, confirm
     console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Display the dashboard page', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.shouldBeDisplayed();
+});
+
+When('I click to end an exercise', async ({ page, confirmDialogPo, exerciseCurrentPo } : AllFixtures) => {
+    await exerciseCurrentPo.finishExerciseAction();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/') && 
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
+    await confirmDialogPo.confirmDeleteExercise();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
+});
+Then('Redirect to the dashboard page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
 });

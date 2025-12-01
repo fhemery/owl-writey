@@ -7,31 +7,30 @@ export class ExerciseCurrentPo extends BasePo {
     get pageLocator(): Locator {
         return this.page.locator('.exercise-page');
     }
-    get takeTurnButton(): Locator {
-        return this.pageLocator.getByRole('button', {
-            name: this.translator.get('exercise.exquisiteCorpse.takeTurn.label'),
-        });
-    }
-    get submitTurnButton(): Locator {
-        return this.pageLocator.getByRole('button', {
-            name: this.translator.get('exercise.exquisiteCorpse.submitTurn.label'),
-        });
-    }
+    // get takeTurnButton(): Locator {
+    //     return this.pageLocator.getByRole('button', {
+    //         name: this.translator.get('exercise.exquisiteCorpse.takeTurn.label'),
+    //     });
+    // }
+    // get submitTurnButton(): Locator {
+    //     return this.pageLocator.getByRole('button', {
+    //         name: this.translator.get('exercise.exquisiteCorpse.submitTurn.label'),
+    //     });
+    // }
     get cancelTurnButton(): Locator {
         return this.pageLocator.getByRole('button', {
             name: this.translator.get('exercise.exquisiteCorpse.cancelTurn.label'),
         });
     }
-    get exerciseTextEditor(): Locator {
-        return this.pageLocator.locator('[data-testid="exercise-text-editor"]');
-    }
-
+    // get exerciseTextEditor(): Locator {
+    //     return this.pageLocator.locator('[data-testid="exercise-text-editor"]');
+    // }
     get deleteButton(): Locator {
         return this.pageLocator.locator('.exercise-toolbar__delete');
     }
-    // get confirmDeleteExerciseButton(): Locator {
-    //     return this.pageLocator.locator('.confirm-dialog__confirm-btn');
-    // }
+    get finishButton(): Locator {
+        return this.pageLocator.locator('.exercise-toolbar__finish');
+    }
 
     getPage(): Page {
         return this.page;
@@ -49,18 +48,24 @@ export class ExerciseCurrentPo extends BasePo {
         await expect(this.pageLocator).toBeVisible();
     }
 
-    async shouldDisplayTextEditor(): Promise<void> {
-        await this.takeTurnButton.click();
-        await expect(this.exerciseTextEditor).toBeVisible();
-    }
+    // async shouldTakeTurn(): Promise<void> {
+    //     await this.takeTurnButton.click();
+    //     await expect(this.exerciseTextEditor).toBeVisible();
+    // }
 
-    async filledWith(text: string): Promise<void> {
-        await this.exerciseTextEditor.fill(text);
-        await this.submitTurnButton.click();
+    // async submitText(): Promise<void> {
+    //     await this.submitTurnButton.click();
+    // }
+
+    async giveUpTurn(): Promise<void> {
+        await this.cancelTurnButton.click();
     }
     
     async deleteExerciseAction(): Promise<void> {
         await this.deleteButton.click();
-        // await this.confirmDeleteExerciseButton.click();
+    }
+
+    async finishExerciseAction(): Promise<void> {
+        await this.finishButton.click();
     }
 }

@@ -7,6 +7,7 @@ import { DashboardPo } from '../pages/dashboard.po';
 import { ExerciseCardPo } from '../pages/exerciseCard.po';
 import { ExerciseCreatePo } from '../pages/exerciseCreate.po';
 import { ExerciseCurrentPo } from '../pages/exerciseCurrent.po';
+import { ExquisiteCorpsePo } from '../pages/exquisiteCorpse.po';
 import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
@@ -19,6 +20,7 @@ interface Pages {
   commonPo: CommonPo;
   confirmDialogPo: ConfirmDialogPo;
   dashboardPo: DashboardPo;
+  exquisiteCorpsePo: ExquisiteCorpsePo;
   exerciseCardPo: ExerciseCardPo;
   exerciseCreatePo: ExerciseCreatePo;
   exerciseCurrentPo: ExerciseCurrentPo;
@@ -44,6 +46,9 @@ export const pageFixtures = base.extend<Pages>({
   },
   dashboardPo: async ({ page }, use) => {
     await use(new DashboardPo(page));
+  },
+  exquisiteCorpsePo: async ({ page }, use) => {
+    await use(new ExquisiteCorpsePo(page));
   },
   exerciseCardPo: async ({ page }, use) => {
     await use(new ExerciseCardPo(page));
