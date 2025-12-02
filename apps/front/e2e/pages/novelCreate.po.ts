@@ -17,6 +17,16 @@ export class NovelCreatePo extends BasePo {
       name: this.translator.get('novel.form.createButton.label'),
     });
   }
+  get editButton(): Locator {
+    return this.pageLocator.getByRole('button', {
+      name: this.translator.get('novel.form.editButton.label'),
+    });
+  }
+  get deleteButton(): Locator {
+    return this.pageLocator.getByRole('button', {
+      name: this.translator.get('novel.form.deleteButton.label'),
+    });
+  }
   getPage(): Page {
     return this.page;
   }
@@ -37,5 +47,19 @@ export class NovelCreatePo extends BasePo {
     await expect(this.nameInput).toBeVisible();
     await expect(this.descriptionArea).toBeVisible();
     await expect(this.submitButton).toBeVisible();
+  }
+
+  async createNovel(title: string): Promise<void> {
+    await this.nameInput.fill(title);
+    // await this.descriptionArea.fill(description);
+    await this.submitButton.click();
+  }
+
+  async updateNovel(title: string): Promise<void> {
+    await this.nameInput.fill(title);
+    await this.editButton.click();
+  }
+  async deleteNovel(): Promise<void> {
+    await this.deleteButton.click();
   }
 }

@@ -14,7 +14,6 @@ When('I click on a novel card', async ({ novelCardPo } : AllFixtures) => {
     await novelCardPo.getNovelCardTitle('Test d\'une application de romans');
     await novelCardPo.displayNovelCard('Test d\'une application de romans');
 });
-
 Then('Display the corresponding novel', async ({ page, novelCurrentPo }: AllFixtures) => {
      const getResponsePromise = page.waitForResponse(response => 
         response.url().includes('/api/novels/3bde73fb-7cc2-432f-825f-61fc325f8080') && 
@@ -29,4 +28,46 @@ Then('Display the corresponding novel', async ({ page, novelCurrentPo }: AllFixt
     console.log(`URL de la requête API: ${response.url()}`);
     console.log(`Méthode de la requête: ${response.request().method()}`);
     console.log(`Statut de la réponse: ${response.status()}`);
-})
+});
+
+Given('The current novel is displayed', async ({ novelCurrentPo, novelCardPo } : AllFixtures) => {
+    await novelCardPo.getNovelCardTitle('This novel is a test');
+    await novelCardPo.displayNovelCard('This novel is a test');
+    await novelCurrentPo.shouldBeDisplayed();
+});
+When('I delete a novel', async ({  page, novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
+    await novelHeaderPo.updateInfo();
+    await novelCreatePo.deleteNovel();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/novels/') && 
+        response.request().method() === 'DELETE' && 
+        response.status() === 204 
+    );
+
+    await confirmDialogPo.filledAs('This novel is a test');
+    await confirmDialogPo.confirmDeleteAction();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
+});
+Then('Display the dashboard', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.shouldBeDisplayed();
+});
+
+Given('A precise novel is displayed', async ({ novelCurrentPo, novelCardPo } : AllFixtures) => {
+    await novelCardPo.getNovelCardTitle('This novel is a test');
+    await novelCardPo.displayNovelCard('This novel is a test');
+    await novelCurrentPo.shouldBeDisplayed();
+});
+When('I update a novel', async ({ novelHeaderPo, novelCreatePo } : AllFixtures) => {
+    await novelHeaderPo.updateInfo();
+    await novelCreatePo.updateNovel('This is an amazing story');
+
+});
+Then('Display the novel form updated', async ({ novelCreatePo}: AllFixtures) => {
+    await novelCreatePo.shouldBeDisplayed();
+});

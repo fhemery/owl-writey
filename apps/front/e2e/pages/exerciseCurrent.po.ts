@@ -7,21 +7,6 @@ export class ExerciseCurrentPo extends BasePo {
     get pageLocator(): Locator {
         return this.page.locator('.exercise-page');
     }
-    // get takeTurnButton(): Locator {
-    //     return this.pageLocator.getByRole('button', {
-    //         name: this.translator.get('exercise.exquisiteCorpse.takeTurn.label'),
-    //     });
-    // }
-    // get submitTurnButton(): Locator {
-    //     return this.pageLocator.getByRole('button', {
-    //         name: this.translator.get('exercise.exquisiteCorpse.submitTurn.label'),
-    //     });
-    // }
-    get cancelTurnButton(): Locator {
-        return this.pageLocator.getByRole('button', {
-            name: this.translator.get('exercise.exquisiteCorpse.cancelTurn.label'),
-        });
-    }
     // get exerciseTextEditor(): Locator {
     //     return this.pageLocator.locator('[data-testid="exercise-text-editor"]');
     // }
@@ -47,19 +32,6 @@ export class ExerciseCurrentPo extends BasePo {
     async shouldBeDisplayed(): Promise<void> {
         await expect(this.pageLocator).toBeVisible();
     }
-
-    // async shouldTakeTurn(): Promise<void> {
-    //     await this.takeTurnButton.click();
-    //     await expect(this.exerciseTextEditor).toBeVisible();
-    // }
-
-    // async submitText(): Promise<void> {
-    //     await this.submitTurnButton.click();
-    // }
-
-    // async giveUpTurn(): Promise<void> {
-    //     await this.cancelTurnButton.click();
-    // }
     
     async deleteExerciseAction(): Promise<void> {
         await this.deleteButton.click();
