@@ -2,12 +2,14 @@ import { expect, Locator, Page } from '@playwright/test';
 
 import { BasePo } from './base.po';
 
-export class NovelHeaderPo extends BasePo {
+export class NovelOvervwNoChapPo extends BasePo {
     get pageLocator(): Locator {
-    return this.page.locator('.novel-header');
+        return this.page.locator('.novel-overview-no-chapter');
     }
-    get settingsButton(): Locator {
-        return this.pageLocator.locator("a:has(mat-icon:text('settings'))");
+    get addChapterButton(): Locator {
+        return this.pageLocator.getByRole('button', {
+            name: this.translator.get('novel.overview.noChapters.button'),
+        });
     }
 
     getPage(): Page {
@@ -19,12 +21,12 @@ export class NovelHeaderPo extends BasePo {
     async goTo(): Promise<void> {
         await this.page.goto('/novels');
     }
-    
+        
     async shouldBeDisplayed(): Promise<void> {
         await expect(this.pageLocator).toBeVisible();
     }
 
-    async updateInfo(): Promise<void> {
-        await this.settingsButton.click();
+    async addFirstChapter(): Promise<void> {
+        await this.addChapterButton.click();
     }
 }

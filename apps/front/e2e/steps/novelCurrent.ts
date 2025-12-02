@@ -10,6 +10,12 @@ Given('I am logged', async ({ loginPo, dashboardPo } : AllFixtures) => {
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
     await dashboardPo.shouldBeDisplayed();
 });
+Given('I display the corresponding current novel', async ({ novelCurrentPo, novelCardPo } : AllFixtures) => {
+    await novelCardPo.getNovelCardTitle('This novel is a test');
+    await novelCardPo.displayNovelCard('This novel is a test');
+    await novelCurrentPo.shouldBeDisplayed();
+});
+
 When('I click on a novel card', async ({ novelCardPo } : AllFixtures) => {
     await novelCardPo.getNovelCardTitle('Test d\'une application de romans');
     await novelCardPo.displayNovelCard('Test d\'une application de romans');
@@ -30,11 +36,6 @@ Then('Display the corresponding novel', async ({ page, novelCurrentPo }: AllFixt
     console.log(`Statut de la réponse: ${response.status()}`);
 });
 
-Given('The current novel is displayed', async ({ novelCurrentPo, novelCardPo } : AllFixtures) => {
-    await novelCardPo.getNovelCardTitle('This novel is a test');
-    await novelCardPo.displayNovelCard('This novel is a test');
-    await novelCurrentPo.shouldBeDisplayed();
-});
 When('I delete a novel', async ({  page, novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
     await novelCreatePo.deleteNovel();
@@ -58,16 +59,47 @@ Then('Display the dashboard', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
 });
 
-Given('A precise novel is displayed', async ({ novelCurrentPo, novelCardPo } : AllFixtures) => {
-    await novelCardPo.getNovelCardTitle('This novel is a test');
-    await novelCardPo.displayNovelCard('This novel is a test');
-    await novelCurrentPo.shouldBeDisplayed();
-});
-When('I update a novel', async ({ novelHeaderPo, novelCreatePo } : AllFixtures) => {
+When('I update a novel', async ({ page, novelHeaderPo, novelCreatePo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/novels/') && 
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
     await novelCreatePo.updateNovel('This is an amazing story');
 
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Display the novel form updated', async ({ novelCreatePo}: AllFixtures) => {
     await novelCreatePo.shouldBeDisplayed();
+});
+
+When('I click to add a first chapter', async ({ novelOvervwNoChapPo } : AllFixtures) => {
+    await novelOvervwNoChapPo.addFirstChapter();
+});
+Then('Display the novel detail to add it', async ({ page,novelOvervwChapCardPo, novelCorkboardPo }: AllFixtures) => {
+    await novelOvervwChapCardPo.shouldBeDisplayed();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/novels/') && 
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
+    await novelOvervwChapCardPo.fillChapterTitle('Testing chapter');
+
+    await novelOvervwChapCardPo.shouldBeDisplayed();
+    await novelCorkboardPo.addNewChapter();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });

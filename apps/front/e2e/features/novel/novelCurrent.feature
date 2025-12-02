@@ -2,6 +2,7 @@ Feature: NovelCurrent Feature
 
 Background:
     Given I am logged
+    And  I display the corresponding current novel
 
     @Automated
     Scenario: Display a novel
@@ -9,13 +10,18 @@ Background:
       Then Display the corresponding novel
 
     @Automated
+    Scenario: Update a novel
+      When I update a novel
+      Then Display the novel form updated
+
+    @Automated
+    Scenario: Create a new chapter in a current novel
+      When I click to add a first chapter
+      Then Display the novel detail to add it
+
+    @Automated
     Scenario: Delete a novel
-      Given The current novel is displayed
       When I delete a novel
       Then Display the dashboard
 
-    @Automated
-    Scenario: Update a novel
-      Given A precise novel is displayed
-      When I update a novel
-      Then Display the novel form updated
+    

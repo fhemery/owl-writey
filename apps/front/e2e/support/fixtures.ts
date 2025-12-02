@@ -12,9 +12,12 @@ import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
 import { LoginPo } from '../pages/login.po';
 import { NovelCardPo } from '../pages/novelCard.po';
+import { NovelCorkboardPo } from '../pages/novelCorkboard.po';
 import { NovelCreatePo } from '../pages/novelCreate.po';
 import { NovelCurrentPo } from '../pages/novelCurrent.po';
 import { NovelHeaderPo } from '../pages/novelHeader.po';
+import { NovelOvervwChapCardPo } from '../pages/novelOvervwChapCard.po';
+import { NovelOvervwNoChapPo } from '../pages/novelOvervwNoChap.po';
 import { RegisterPo } from '../pages/register.po';
 
 interface Pages {
@@ -29,9 +32,12 @@ interface Pages {
   homePo: HomePo;
   loginPo: LoginPo;
   novelCardPo: NovelCardPo;
+  novelCorkboardPo: NovelCorkboardPo;
   novelCreatePo: NovelCreatePo;
   novelCurrentPo: NovelCurrentPo;
   novelHeaderPo: NovelHeaderPo;
+  novelOvervwChapCardPo: NovelOvervwChapCardPo;
+  novelOvervwNoChapPo: NovelOvervwNoChapPo;
   registerPo: RegisterPo;
 }
 
@@ -73,6 +79,9 @@ export const pageFixtures = base.extend<Pages>({
   novelCardPo: async ({ page }, use) => {
     await use(new NovelCardPo(page));
   },
+  novelCorkboardPo: async ({ page }, use) => {
+    await use(new NovelCorkboardPo(page));
+  },
   novelCreatePo: async ({ page }, use) => {
     await use(new NovelCreatePo(page));
   },
@@ -81,6 +90,12 @@ export const pageFixtures = base.extend<Pages>({
   },
   novelHeaderPo: async ({ page }, use) => {
     await use(new NovelHeaderPo(page));
+  },
+  novelOvervwChapCardPo: async ({ page }, use) => {
+    await use(new NovelOvervwChapCardPo(page));
+  },
+  novelOvervwNoChapPo: async ({ page }, use) => {
+    await use(new NovelOvervwNoChapPo(page));
   },
   registerPo: async ({ page }, use) => {
     await use(new RegisterPo(page));
