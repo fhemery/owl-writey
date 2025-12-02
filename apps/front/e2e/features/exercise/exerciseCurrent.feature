@@ -15,6 +15,11 @@ Background:
       Then I can fill with content and submit it
 
     @Automated
+    Scenario: Cancel my turn to an exercise
+      When It is my turn
+      Then I click to cancel my turn
+
+    @Automated
     Scenario: End an exercise
     When I click to end an exercise
     Then Redirect to the dashboard page

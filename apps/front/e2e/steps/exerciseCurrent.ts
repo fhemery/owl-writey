@@ -42,7 +42,8 @@ Then('Display the current corresponding exercise', async ({ page, exerciseCurren
 //     await exerciseCurrentPo.shouldBeDisplayed();
 // });
 When('I click to take my turn', async ({ exquisiteCorpsePo } : AllFixtures) => {
-    // await exerciseCurrentPo.shouldTakeTurn
+    await exquisiteCorpsePo.shouldBeDisplayed();
+    await exquisiteCorpsePo.takePartToExercise();
     await exquisiteCorpsePo.shouldDisplayTextEditor();
 });
 Then('I can fill with content and submit it', async ({ exquisiteCorpsePo }: AllFixtures) => {
@@ -90,4 +91,36 @@ When('I click to end an exercise', async ({ page, confirmDialogPo, exerciseCurre
 });
 Then('Redirect to the dashboard page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
+});
+When('It is my turn', async ({  page, exquisiteCorpsePo } : AllFixtures) => {
+    await exquisiteCorpsePo.shouldBeDisplayed();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exquisite-corpse/') && 
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
+    await exquisiteCorpsePo.takePartToExercise();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
+});
+Then('I click to cancel my turn', async ({ page, exquisiteCorpsePo } : AllFixtures) => {
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exquisite-corpse/') && 
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
+    await exquisiteCorpsePo.giveUpTurn();
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });

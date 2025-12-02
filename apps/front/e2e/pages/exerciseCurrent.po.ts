@@ -57,9 +57,9 @@ export class ExerciseCurrentPo extends BasePo {
     //     await this.submitTurnButton.click();
     // }
 
-    async giveUpTurn(): Promise<void> {
-        await this.cancelTurnButton.click();
-    }
+    // async giveUpTurn(): Promise<void> {
+    //     await this.cancelTurnButton.click();
+    // }
     
     async deleteExerciseAction(): Promise<void> {
         await this.deleteButton.click();

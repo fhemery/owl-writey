@@ -19,6 +19,11 @@ export class ExquisiteCorpsePo extends BasePo {
             name: this.translator.get('exercise.exquisiteCorpse.submitTurn.label'),
         });
     }
+    get cancelTurnButton(): Locator {
+        return this.pageLocator.getByRole('button', {
+            name: this.translator.get('exercise.exquisiteCorpse.cancelTurn.label'),
+        });
+    }
 
     getPage(): Page {
         return this.page;
@@ -30,8 +35,13 @@ export class ExquisiteCorpsePo extends BasePo {
         await this.page.goto('/exercises');
     }
 
-    async shouldDisplayTextEditor(): Promise<void> {
+    async shouldBeDisplayed(): Promise<void> {
+        await expect(this.pageLocator).toBeVisible();
+    }
+    async takePartToExercise(): Promise<void> {
         await this.takeTurnButton.click();
+    }
+    async shouldDisplayTextEditor(): Promise<void> {
         await expect(this.takeTurnButton).toBeHidden();
         // await expect(this.exerciseTextEditor).toBeVisible();
     }
@@ -40,6 +50,9 @@ export class ExquisiteCorpsePo extends BasePo {
     }
     async submitText(): Promise<void> {
         await this.submitTurnButton.click();
+    }
+    async giveUpTurn(): Promise<void> {
+        await this.cancelTurnButton.click();
     }
 
 }
