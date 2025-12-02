@@ -12,7 +12,7 @@ export class ExquisiteCorpsePo extends BasePo {
         });
     }
     get exerciseTextEditor(): Locator {
-        return this.pageLocator.locator('[data-test-id="exercise-text-editor"]');
+        return this.pageLocator.locator('.NgxEditor [contenteditable="true"]');
     }
     get submitTurnButton(): Locator {
         return this.pageLocator.getByRole('button', {
