@@ -5,14 +5,55 @@ import { AllFixtures, pageFixtures } from "../support/fixtures";
 export const fixtures = pageFixtures;
 const { Given, When, Then } = createBdd(fixtures);
 
-Given('I am logged as a user', async ({ loginPo, dashboardPo } : AllFixtures) => {
+Given('I am logged as a user', async ({ page, loginPo, dashboardPo } : AllFixtures) => {
     await loginPo.goTo();
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/users/') && 
+        !response.url().includes('/events') &&
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
+    const eventsApiPromise = page.waitForResponse(response =>
+        response.url().includes('/api/users/') &&
+        response.url().includes('/events') &&
+        response.request().method() === 'GET' &&
+        response.status() === 200
+    );
+
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
+
+    const userResponse = await getResponsePromise;
+    const eventsResponse = await eventsApiPromise;
+
+    console.log(`URL de la requête API: ${userResponse.url()}`);
+    console.log(`Méthode de la requête: ${userResponse.request().method()}`);
+    console.log(`Statut de la réponse: ${userResponse.status()}`);
+    
+    console.log(`URL de la requête API: ${eventsResponse.url()}`);
+    console.log(`Méthode de la requête: ${eventsResponse.request().method()}`);
+    console.log(`Statut de la réponse: ${eventsResponse.status()}`);
+
     await dashboardPo.shouldBeDisplayed();
 });
-Given('I display the corresponding current exercise', async ({ exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
+Given('I display the corresponding current exercise', async ({ page, exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
     await exerciseCardPo.getExerciseCardTitle('Test d\'exercice owl-writey');
+
+    const getResponsePromise = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/') && 
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
     await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
+
+    const response = await getResponsePromise;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
+
     await exerciseCurrentPo.shouldBeDisplayed();
 });
 
