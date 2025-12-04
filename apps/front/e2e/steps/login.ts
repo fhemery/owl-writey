@@ -24,7 +24,7 @@ When('I fill the login form with valid data', async ({ loginPo }: AllFixtures) =
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
 });
 Then('I am redirected to the dashboard page from the login page', async ({ page, dashboardPo }: AllFixtures) => {
-    const getResponsePromise = page.waitForResponse(response => 
+    const getResponseExercise = page.waitForResponse(response => 
         response.url().includes('/api/exercises') && 
         response.request().method() === 'GET' && 
         response.status() === 200 
@@ -38,7 +38,7 @@ Then('I am redirected to the dashboard page from the login page', async ({ page,
 
     await dashboardPo.shouldBeDisplayed();
 
-    const response = await getResponsePromise;
+    const response = await getResponseExercise;
     const res = await getResponseNovel;
 
     console.log(`URL de la requête API: ${response.url()}`);

@@ -9,6 +9,9 @@ export class NovelOvervwChapCardPo extends BasePo {
     get chapterTitleField(): Locator {
         return this.pageLocator.locator('.chapter-card__title[contenteditable="true"]' );
     }
+    get moveDownButton(): Locator {
+        return this.pageLocator.locator('.chapter-card__move-down');
+    }
 
     getPage(): Page {
         return this.page;
@@ -24,5 +27,16 @@ export class NovelOvervwChapCardPo extends BasePo {
     }
     async fillChapterTitle(title: string): Promise<void> {
         await this.chapterTitleField.fill(title);
+    }
+
+    getChapterCardByName(chapterName: string): Locator {
+        return this.pageLocator.locator('.chapter-card:has-text("' + chapterName + '")');
+    }
+    async displayChapterCard(chapterName: string): Promise<void> {
+        const chapterCardName = this.getChapterCardByName(chapterName);
+        await expect(chapterCardName).toBeVisible();
+    }
+    async moveChapterDown(): Promise<void> {
+        await this.moveDownButton.click();
     }
 }

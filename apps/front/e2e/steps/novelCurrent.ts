@@ -93,10 +93,10 @@ Then('Display the novel detail to add it', async ({ page,novelOvervwChapCardPo, 
     );
 
     await novelOvervwChapCardPo.fillChapterTitle('Testing chapter');
-
+    
     await novelOvervwChapCardPo.shouldBeDisplayed();
     await novelCorkboardPo.addNewChapter();
-
+    
     const response = await getResponsePromise;
 
     console.log(`URL de la requête API: ${response.url()}`);
