@@ -6,5 +6,5 @@ Feature: E2E Feature
     @Automated
     Scenario: Whole exercise process
         When I log as a known user for creating an exercise
-        Then I can try to take a turn on it, submit, cancel my turn
+        Then I can try to take a turn on it, submit, cancel my turn, finish the exercise
         And I finally delete the exercise

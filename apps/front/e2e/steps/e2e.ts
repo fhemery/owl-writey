@@ -78,7 +78,7 @@ When ('I log as a known user for creating an exercise', async ({ page, loginPo, 
     console.log(`Méthode de la requête: ${exerciseCreationResponse.request().method()}`);
     console.log(`Statut de la réponse: ${exerciseCreationResponse.status()}`);
 });
-Then('I can try to take a turn on it, submit, cancel my turn', async ({ page, exerciseCurrentPo, exquisiteCorpsePo } : AllFixtures) => {
+Then('I can try to take a turn on it, submit, cancel my turn, finish the exercise', async ({ page, exerciseCurrentPo, exquisiteCorpsePo, confirmDialogPo } : AllFixtures) => {
     const getExerciseDisplayedResponse = page.waitForResponse(response => 
         response.url().includes('/api/exercises') && 
         response.request().method() === 'GET' && 
@@ -139,8 +139,45 @@ Then('I can try to take a turn on it, submit, cancel my turn', async ({ page, ex
     console.log(`URL de la requête API: ${cancelledResponse.url()}`);
     console.log(`Méthode de la requête: ${cancelledResponse.request().method()}`);
     console.log(`Statut de la réponse: ${cancelledResponse.status()}`);
+
+    await exerciseCurrentPo.finishExerciseAction();
+
+    const getFinishExerciseResponse = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/') && 
+        response.url().includes('/finish') &&
+        response.request().method() === 'POST' && 
+        response.status() === 204 
+    );
+
+    await confirmDialogPo.confirmDeleteAction();
+
+    const finishedExerciseResponse = await getFinishExerciseResponse;
+
+    console.log(`URL de la requête API: ${finishedExerciseResponse.url()}`);
+    console.log(`Méthode de la requête: ${finishedExerciseResponse.request().method()}`);
+    console.log(`Statut de la réponse: ${finishedExerciseResponse.status()}`);
 });
-Then('I finally delete the exercise', async ({ page, exerciseCurrentPo, confirmDialogPo, dashboardPo } : AllFixtures) => {
+Then('I finally delete the exercise', async ({ page, exerciseCurrentPo, confirmDialogPo, dashboardPo, exerciseCardPo } : AllFixtures) => {
+    await dashboardPo.shouldBeDisplayed();
+    await dashboardPo.displayEndedExercises();
+    await exerciseCardPo.getExerciseCardTitle('Test d\'exercice owl-writey');
+
+    const getExercisesEventsResponse = page.waitForResponse(response => 
+        response.url().includes('/api/exercises/') && 
+        response.url().includes('/events') &&
+        response.request().method() === 'GET' && 
+        response.status() === 200 
+    );
+
+    await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
+
+    const eventsResponse = await getExercisesEventsResponse;
+
+    console.log(`URL de la requête API: ${eventsResponse.url()}`);
+    console.log(`Méthode de la requête: ${eventsResponse.request().method()}`);
+    console.log(`Statut de la réponse: ${eventsResponse.status()}`);
+    
+    await exerciseCurrentPo.shouldBeDisplayed();
     await exerciseCurrentPo.deleteExerciseAction();
 
     const getExerciseDeleteResponse = page.waitForResponse(response => 
