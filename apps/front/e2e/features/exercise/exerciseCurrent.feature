@@ -28,3 +28,4 @@ Background:
     Scenario: Delete an exercise
       When I click to delete an exercise
       Then Display the dashboard page
+      Then Delete the user
