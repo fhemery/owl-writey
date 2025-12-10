@@ -1,0 +1,21 @@
+meta {
+  name: Update to beta tester
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api.url}}/users/xWP3rPLMZiMwxOVLSaQikvXMsdw2/roles
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjMwYjIyMWFiNjU2MTdiY2Y4N2VlMGY4NDYyZjc0ZTM2NTIyY2EyZTQiLCJ0eXAiOiJKV1QifQ.eyJyb2xlcyI6WyJBZG1pbiJdLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3dsLXdyaXRleSIsImF1ZCI6Im93bC13cml0ZXkiLCJhdXRoX3RpbWUiOjE3NDI0MDI0ODgsInVzZXJfaWQiOiJVdkNlcWlvczAxYTRPWXE0UWxVQTg4N2ZWMVMyIiwic3ViIjoiVXZDZXFpb3MwMWE0T1lxNFFsVUE4ODdmVjFTMiIsImlhdCI6MTc0MjQwMjQ4OCwiZXhwIjoxNzQyNDA2MDg4LCJlbWFpbCI6ImZoZW1lcnlAaGVtaXQuZnIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZmhlbWVyeUBoZW1pdC5mciJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.Yzvr9LFfF3Y1wbtgIUHswaZxahzzanZmCduulgUxEUsqpEvAa74425Bf8jyx9FX5mVMHJxzkF8K5AtI4wtXgcK8mvqBPQYClSzyckvz2EibnK4KodR0UFmCxSqdKkBm3k1YO8POp47ke_SaciF6REMnsKrb4Zk387SC8clroACBn4ZZtPaAWAa6Y8HKhOSvCYhTN647n5v8O1yu-16kTFDDmIBMFCajS6TYmJw0bKM2BTBVOeJJpBoRt6nje-eQv_zdV1yBHd7oB8846FFSFYCia1ylHhuEKDAggfYrLXmT8hj8Qs1VKgiE4fYpTP97mlk_2X5MC1Ljoakyi5eVHWg
+}
+
+body:json {
+  {
+    "role": "Beta"
+  }
+}
