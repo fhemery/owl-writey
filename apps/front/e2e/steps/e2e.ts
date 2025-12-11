@@ -136,7 +136,7 @@ When('I register as a new user', async ({ page, registerPo, dashboardPo } : AllF
         response.request().method() === 'POST' && 
         response.status() === 204
     );
-    await registerPo.registerAs('JohnDoe', 'ninavax428@lawior.com', 'Testapi!', 'Testapi!');
+    await registerPo.registerAs('Edward', 'owl-30@hemit.fr', 'password', 'password');
 
     const getNovelsDsiplayResponse= page.waitForResponse(response => 
         response.url().includes('/api/novels') && 
