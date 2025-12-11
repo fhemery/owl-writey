@@ -125,6 +125,7 @@ Then('I finally delete the exercise', async ({ page, exerciseCurrentPo, confirmD
 // Novel process
 When('I register as a new user', async ({ page, registerPo, dashboardPo } : AllFixtures) => {
     await registerPo.goTo();
+    await registerPo.shouldBeDisplayed();
 
     const apiResponsePromise = page.waitForResponse(response => 
         response.url().includes('/api/users') && 
@@ -136,9 +137,10 @@ When('I register as a new user', async ({ page, registerPo, dashboardPo } : AllF
         response.request().method() === 'POST' && 
         response.status() === 204
     );
-    await registerPo.registerAs('Edward', 'owl-30@hemit.fr', 'password', 'password');
+    
+    await registerPo.registerAs('Edward', 'owl-25@hemit.fr', 'password', 'password');
 
-    const getNovelsDsiplayResponse= page.waitForResponse(response => 
+    const getNovelsDisplayResponse = page.waitForResponse(response => 
         response.url().includes('/api/novels') && 
         response.request().method() === 'GET' && 
         response.status() === 200
@@ -154,7 +156,7 @@ Then('I can create, update a novel', async ({ page, novelCreatePo, novelCurrentP
         response.request().method() === 'POST' && 
         response.status() === 201
     );
-    await novelCreatePo.createNovel('This novel is a test');
+    await novelCreatePo.createNovel('Novel test 1');
 
     const getCurrentNovelDisplayResponse = page.waitForResponse(response => 
         response.url().includes('/api/novels') && 
@@ -171,7 +173,13 @@ Then('I can create, update a novel', async ({ page, novelCreatePo, novelCurrentP
         response.status() === 204 
     );
 
-    await novelCreatePo.updateNovel('This is an amazing story');
+    await novelCreatePo.updateNovel('Updated novel');
+
+    const response = await updateNovelInfoResponse;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('I can delete the current novel', async ({ page, novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
@@ -183,6 +191,12 @@ Then('I can delete the current novel', async ({ page, novelHeaderPo, novelCreate
         response.status() === 204 
     );
 
-    await confirmDialogPo.filledAs('This is an amazing story');
+    await confirmDialogPo.filledAs('Updated novel');
     await confirmDialogPo.confirmDeleteAction();
+
+    const response = await deleteNovelReponse;
+
+    console.log(`URL de la requête API: ${response.url()}`);
+    console.log(`Méthode de la requête: ${response.request().method()}`);
+    console.log(`Statut de la réponse: ${response.status()}`);
 });

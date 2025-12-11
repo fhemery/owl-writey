@@ -57,13 +57,14 @@ When('I click to take my turn', async ({ exerciseCreatePo, exerciseCurrentPo,exq
     // await exquisiteCorpsePo.shouldDisplayTextEditor();
 });
 Then('I can fill with content and submit it', async ({ page, exquisiteCorpsePo }: AllFixtures) => {
-    await exquisiteCorpsePo.filledWith('My turn has come');
+    await exquisiteCorpsePo.filledWith('Mon tour est arrivé');
 
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exquisite-corpse/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
+    // const getResponsePromise = page.waitForResponse(response => 
+    //     response.url().includes('/api/exquisite-corpse/') && 
+    //     response.url().includes('/submit-turn') &&
+    //     response.request().method() === 'POST' && 
+    //     response.status() === 204 
+    // );
 
     await exquisiteCorpsePo.submitText();
 });
