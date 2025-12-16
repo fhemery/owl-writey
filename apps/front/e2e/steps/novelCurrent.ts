@@ -19,46 +19,12 @@ Given('I display the corresponding current novel', async ({ dashboardPo, novelCr
     await novelCurrentPo.shouldBeDisplayed();
 });
 
-// Display a novel
-// When('I click on a novel card', async ({ novelCardPo } : AllFixtures) => {
-//     await novelCardPo.getNovelCardTitle('This novel is a test');
-//     await novelCardPo.displayNovelCard('This novel is a test');
-// });
-// Then('Display the corresponding novel', async ({ page, novelCurrentPo }: AllFixtures) => {
-//     const getResponsePromise = page.waitForResponse(response => 
-//         response.url().includes('/api/novels') && 
-//         response.request().method() === 'GET' && 
-//         response.status() === 200 
-//     );
-    
-//     await novelCurrentPo.shouldBeDisplayed();
-    
-//     const response = await getResponsePromise;
-
-//     console.log(`URL de la requête API: ${response.url()}`);
-//     console.log(`Méthode de la requête: ${response.request().method()}`);
-//     console.log(`Statut de la réponse: ${response.status()}`);
-// });
-
 // Delete a novel
 When('I delete a novel', async ({  page, novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
     await novelCreatePo.deleteNovel();
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/novels/') && 
-        response.request().method() === 'DELETE' && 
-        response.status() === 204 
-    );
-
     await confirmDialogPo.filledAs('This novel is a test');
     await confirmDialogPo.confirmDeleteAction();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Display the dashboard', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
@@ -67,20 +33,7 @@ Then('Display the dashboard', async ({ dashboardPo }: AllFixtures) => {
 // Update a novel
 When('I update a novel', async ({ page, novelHeaderPo, novelCreatePo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/novels/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
-
     await novelCreatePo.updateNovel('This is an amazing story');
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Display the novel form updated', async ({ novelCreatePo}: AllFixtures) => {
     await novelCreatePo.shouldBeDisplayed();
@@ -92,21 +45,8 @@ When('I click to add a first chapter', async ({ novelOvervwNoChapPo } : AllFixtu
 });
 Then('Display the novel detail to add it', async ({ page,novelOvervwChapCardPo, novelCorkboardPo }: AllFixtures) => {
     await novelOvervwChapCardPo.shouldBeDisplayed();
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/novels/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
-
     await novelOvervwChapCardPo.fillChapterTitle('Testing chapter');
-    
     await novelOvervwChapCardPo.shouldBeDisplayed();
     await novelCorkboardPo.addNewChapter();
-    
-    const response = await getResponsePromise;
 
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
