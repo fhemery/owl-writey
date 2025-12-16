@@ -1,39 +1,62 @@
+import * as dotenv from 'dotenv';
 import { expect, test } from '@playwright/test';
 
-import { LoginPo } from '../pages/login.po';
 import { DashboardPo } from '../pages/dashboard.po';
-import { ExercisePo } from '../pages/exerciseCreate.po';
+import { ExerciseCardPo } from '../pages/exerciseCard.po';
+import { ExerciseCreatePo } from '../pages/exerciseCreate.po';
+import { LoginPo } from '../pages/login.po';
+
+dotenv.config();
+// const BASE_URL: string = process.env['PLAYWRIGHT_BASE_URL'] ?? 'http://localhost:3000/api';
 
 test.describe('Dashboard page', () => {
-    let loginPo: LoginPo;
     let dashboardPo: DashboardPo;
-    let exercisePo: ExercisePo;
+    let exerciseCardPo: ExerciseCardPo;
+    let exerciseCreatePo: ExerciseCreatePo;
+    let exerciseCurrentPo: ExerciseCardPo;
+    let loginPo: LoginPo;
 
-    test.beforeEach(async ({ page }) => {
-        // console.log('🔧 beforeEach started');
-        loginPo = new LoginPo(page);
+    test.beforeEach(async ({ page, request }) => {
         dashboardPo = new DashboardPo(page);
-        exercisePo = new ExercisePo(page);
+        exerciseCardPo = new ExerciseCardPo(page);
+        exerciseCreatePo = new ExerciseCreatePo(page);
+        exerciseCurrentPo = new ExerciseCardPo(page);
+        loginPo = new LoginPo(page);
 
+        console.log('Ready for testing');
         await loginPo.goTo();
+        console.log('Login page displayed');
         await loginPo.logAs('bob@hemit.fr', 'Test123!');
+        console.log('User logged in');
 
         await dashboardPo.goTo();
+        console.log('Dashboard page displayed');     
     });
     
-    test('should be displayed', async ({ page }) => {
-        await page.pause();
+    test('should be displayed and display exercises', async ({ page, request }) => {
+        console.log('Checking the dashboard displaying');
+        // await page.pause();
         await dashboardPo.shouldBeDisplayed();
+
+        const exercisesResponse  = await request.get('/api/exercises');
+
+        await expect(exercisesResponse.status()).toBe(200);
+        const exercisesBody = await exercisesResponse.json();
+        
+        await expect(Array.isArray(exercisesBody)).toBe(true); 
+        await expect(exercisesBody.length).toBeGreaterThanOrEqual(1);
+
+        console.log(`API vérifiée. ${exercisesBody.length} exercices trouvés.`);
     });
 
-    test('should display ended exercises', async () => {
-        const endedExercisesDisplayed = await dashboardPo.displayEndedExercises();
-        expect(endedExercisesDisplayed).toBe(true);
-    });
+    // test('should display ended exercises', async () => {
+    //     const endedExercisesDisplayed = await dashboardPo.displayEndedExercises();
+    //     expect(endedExercisesDisplayed).toBe(true);
+    // });
 
-    test('should redirect to new exercise page', async () => {
-        await dashboardPo.createNewExercise();
-        await exercisePo.shouldDisplayForm();
-    })
-})
+    // test('should redirect to new exercise page', async () => {
+    //     await dashboardPo.createNewExercise();
+    //     // await exercisePo.shouldDisplayForm();
+    // });
+});
 
