@@ -22,7 +22,7 @@ Given('I display what it is needed to create an exercise', async ({ page, dashbo
 // Participate to an exercise
 When('I click to take my turn', async ({ exerciseCreatePo, exerciseCurrentPo,exquisiteCorpsePo } : AllFixtures) => {
     await exerciseCreatePo.createdAs(
-        'Exercise test 3', 
+        'Exercise test 1', 
         '4', 
         '5 minutes', 
         '4', 
@@ -42,7 +42,7 @@ Then('I can fill with content and submit it', async ({ page, exquisiteCorpsePo }
 // Cancel my turn to an exercise
 When('It is my turn', async ({  page, exerciseCreatePo, exerciseCurrentPo, exquisiteCorpsePo } : AllFixtures) => { 
     await exerciseCreatePo.createdAs(
-        'Exercise test 3', 
+        'Exercise test 2', 
         '4', 
         '5 minutes', 
         '4', 
