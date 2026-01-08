@@ -34,37 +34,29 @@
 // });
 
 import { expect, test } from '@playwright/test';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { getAuthToken } from '../tools/auth-helper';
 
-const FIREBASE_API_KEY = process.env['OWL_FIREBASE_API_KEY'];
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
 
 test.describe('Dashboard API with Firebase Auth', () => {
+    let idToken: string;
 
-    test('should authenticate via Google and fetch exercises', async ({ request }) => {
-        
-        // 1. Demander un token à Firebase (Google Identity Toolkit)
-        const firebaseResponse = await request.post(
-            `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${FIREBASE_API_KEY}`,
-            {
-                data: {
-                    email: 'bob@hemit.fr',
-                    password: 'Test123!',
-                    returnSecureToken: true
-                }
-            }
-        );
+    test.beforeAll(async ({ playwright }) => {
+        const requestContext = await playwright.request.newContext();
+        idToken = await getAuthToken(requestContext);
+    });
 
-        expect(firebaseResponse.ok(), "Authentification Firebase échouée").toBeTruthy();
-        const authData = await firebaseResponse.json();
-        const idToken = authData.idToken; // C'est votre précieux sésame
-
-        console.log('--- Auth Success ---');
-        console.log('User ID:', authData.localId);
-
+    test('should authenticate via Google and fetch exercises and novels', async ({ request }) => {
+    
         // 2. Utiliser ce token pour appeler VOTRE backend
         const exercisesResponse = await request.get(`${BASE_API_URL}/api/exercises`, {
+            headers: {
+                'Authorization': `Bearer ${idToken}`,
+                'Accept': 'application/json'
+            }
+        });
+
+        const novelsResponse = await request.get(`${BASE_API_URL}/api/novels`, {
             headers: {
                 'Authorization': `Bearer ${idToken}`,
                 'Accept': 'application/json'
@@ -86,6 +78,25 @@ test.describe('Dashboard API with Firebase Auth', () => {
         expect(exercisesList[0]).toHaveProperty('name');
         }
 
+
+        expect(novelsResponse.ok()).toBeTruthy();
+        expect(novelsResponse.status()).toBe(200);
+        const novelsResult = await novelsResponse.json();
+        
+        // console.log('--- Structure reçue pour novels ---');
+        // console.log(JSON.stringify(novelsResult, null, 2));
+
+        const novelsList = novelsResult.data;
+        expect(Array.isArray(novelsList)).toBe(true);
+        expect(novelsList.length).toBeGreaterThanOrEqual(0);
+        
+        if (novelsList.length > 0) {
+        console.log(`Premier roman rencontré : ${novelsList[0].title}`);
+        expect(novelsList[0]).toHaveProperty('id');
+        expect(novelsList[0]).toHaveProperty('title');
+        }
+
         console.log(`Result : ${exercisesList.length} exercises found.`);
+        console.log(`Result : ${novelsList.length} novels found.`);
     });
 });
