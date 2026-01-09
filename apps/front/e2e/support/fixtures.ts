@@ -46,6 +46,24 @@ export interface AllFixtures extends Pages {
 }
 
 export const pageFixtures = base.extend<Pages>({
+  page: async ({ page, browserName }, use) => {
+    if (browserName === 'webkit') {
+      await page.addInitScript(() => {
+        if (!window.requestIdleCallback) {
+          ( window as any ).requestIdleCallback = (cb: any) => {
+            const start = Date.now();
+            return setTimeout(() => {
+              cb({
+                didTimeout: false,
+                timeRemaining: () => Math.max(0, 50 - (Date.now() - start)),
+              });
+            }, 1);
+          };
+        }
+      });
+    }
+    await use(page);
+  },
   commonPo: async ({ page }, use) => {
     await use(new CommonPo(page));
   },

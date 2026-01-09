@@ -1,0 +1,23 @@
+meta {
+  name: [Firebase] Create account
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{fb.api.key}}
+  body: json
+  auth: none
+}
+
+params:query {
+  key: {{fb.api.key}}
+}
+
+body:json {
+  {
+    "email": "user@example.com",
+    "password": "PASSWORD",
+    "returnSecureToken": true
+  }
+}

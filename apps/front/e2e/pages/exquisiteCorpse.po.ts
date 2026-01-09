@@ -46,6 +46,8 @@ export class ExquisiteCorpsePo extends BasePo {
         // await expect(this.exerciseTextEditor).toBeVisible();
     }
     async filledWith(text: string): Promise<void> {
+        await this.exerciseTextEditor.waitFor({ state: 'attached' }); 
+        await this.exerciseTextEditor.waitFor({ state: 'visible' });
         await this.exerciseTextEditor.fill(text);
     }
     async submitText(): Promise<void> {

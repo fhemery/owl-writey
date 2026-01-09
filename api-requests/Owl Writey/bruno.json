@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "name": "Owl Writey",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0034914016723632812,
+  "filesCount": 9
+}

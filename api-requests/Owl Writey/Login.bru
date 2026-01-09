@@ -1,0 +1,23 @@
+meta {
+  name: Login
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={{fb.api.key}}
+  body: json
+  auth: none
+}
+
+params:query {
+  key: {{fb.api.key}}
+}
+
+body:json {
+  {
+    "email": "{{user.email}}",
+    "password": "{{user.password}}",
+    "returnSecureToken": true
+  }
+}

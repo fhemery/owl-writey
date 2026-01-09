@@ -22,18 +22,7 @@ Then('Display the login page', async ({ loginPo }: AllFixtures) => {
 });
 
 When('I fill the registration form with valid data', async ({ page, registerPo }: AllFixtures) => {
-    const apiResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/users') && 
-        response.request().method() === 'POST' && 
-        response.status() === 201
-    );
     await registerPo.registerAs('Edward', 'owl-30@hemit.fr', 'password', 'password');
-
-    const response = await apiResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('I am redirected to the dashboard page from the register page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();

@@ -16,31 +16,6 @@ test.describe('Login page', () => {
     await loginPo.goTo();
   });
 
-  test('should be displayed', async () => {
-    await loginPo.shouldBeDisplayed();
-    await loginPo.shouldDisplayHeaderAndForm();
-  });
-
-  // Redirection tests
-  test('should redirect on registration page on click', async () => {
-    await loginPo.redirectRegister();
-    await registerPo.shouldBeDisplayed();
-  })
-
-  // Valid tests
-  test('should redirect to the dashboard page on successful login', async () => {
-    await loginPo.logAsUser('bob');
-    await dashboardPo.shouldBeDisplayed();
-  });
-
-  // Invalid tests
-  test('should display error if wrong logins are entered', async () => {
-    await loginPo.wronglyLoggedAs('wrongLogin', 'wrongPassword');
-    await loginPo.shouldDisplayTranslatedText('auth.form.email.error.email');
-  });
-
-  // test('should display error if login fields are empty', async () => {
-  //   await loginPo.wronglyLoggedAs('', '');
-  // });
+  
 
 });

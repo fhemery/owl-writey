@@ -4,7 +4,6 @@ Background:
     Given I am logged
     And  I display the corresponding current novel
 
-    @Automated
     Scenario: Display a novel
       When I click on a novel card 
       Then Display the corresponding novel

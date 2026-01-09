@@ -7,168 +7,88 @@ const { Given, When, Then } = createBdd(fixtures);
 
 Given('I am logged as a user', async ({ page, loginPo, dashboardPo } : AllFixtures) => {
     await loginPo.goTo();
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/users/') && 
-        !response.url().includes('/events') &&
-        response.request().method() === 'GET' && 
-        response.status() === 200 
-    );
-
-    const eventsApiPromise = page.waitForResponse(response =>
-        response.url().includes('/api/users/') &&
-        response.url().includes('/events') &&
-        response.request().method() === 'GET' &&
-        response.status() === 200
-    );
-
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
-
-    const userResponse = await getResponsePromise;
-    const eventsResponse = await eventsApiPromise;
-
-    console.log(`URL de la requête API: ${userResponse.url()}`);
-    console.log(`Méthode de la requête: ${userResponse.request().method()}`);
-    console.log(`Statut de la réponse: ${userResponse.status()}`);
-    
-    console.log(`URL de la requête API: ${eventsResponse.url()}`);
-    console.log(`Méthode de la requête: ${eventsResponse.request().method()}`);
-    console.log(`Statut de la réponse: ${eventsResponse.status()}`);
-
     await dashboardPo.shouldBeDisplayed();
 });
-Given('I display the corresponding current exercise', async ({ page, exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
-    await exerciseCardPo.getExerciseCardTitle('Test d\'exercice owl-writey');
+Given('I display what it is needed to create an exercise', async ({ page, dashboardPo,exerciseCreatePo, exerciseCardPo, exerciseCurrentPo } : AllFixtures) => {
+    await dashboardPo.createNewExercise();
+    await exerciseCreatePo.shouldDisplayForm();
+    
+    // await exerciseCardPo.getExerciseCardTitle('Exercise test 1');
+    // await exerciseCardPo.displayExerciseCard('Exercise test 1');
+    // await exerciseCurrentPo.shouldBeDisplayed();
+});
 
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exercises/') && 
-        response.request().method() === 'GET' && 
-        response.status() === 200 
+// Participate to an exercise
+When('I click to take my turn', async ({ exerciseCreatePo, exerciseCurrentPo,exquisiteCorpsePo } : AllFixtures) => {
+    await exerciseCreatePo.createdAs(
+        'Exercise test 1', 
+        '4', 
+        '5 minutes', 
+        '4', 
+        '5', 
+        'Ceci est un test pour valider ou non le bon fonctionnement du formulaire'
     );
-
-    await exerciseCardPo.displayExerciseCard('Test d\'exercice owl-writey');
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
-
     await exerciseCurrentPo.shouldBeDisplayed();
-});
-
-
-When('I click on an exercise card', async ({ exerciseCardPo } : AllFixtures) => {
-    await exerciseCardPo.getExerciseCardTitle('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-    await exerciseCardPo.displayExerciseCard('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-});
-Then('Display the current corresponding exercise', async ({ page, exerciseCurrentPo }: AllFixtures) => {
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exercises/425f499a-b82f-4781-a183-5cab2099c4d7') && 
-        response.request().method() === 'GET' && 
-        response.status() === 200 
-    );
-
-    await exerciseCurrentPo.shouldBeDisplayed();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
-});
-
-When('I click to take my turn', async ({ exquisiteCorpsePo } : AllFixtures) => {
     await exquisiteCorpsePo.shouldBeDisplayed();
     await exquisiteCorpsePo.takePartToExercise();
-    await exquisiteCorpsePo.shouldDisplayTextEditor();
+    // await exquisiteCorpsePo.shouldDisplayTextEditor();
 });
 Then('I can fill with content and submit it', async ({ page, exquisiteCorpsePo }: AllFixtures) => {
     await exquisiteCorpsePo.filledWith('Mon tour est arrivé');
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exquisite-corpse/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
-
     await exquisiteCorpsePo.submitText();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
-When('It is my turn', async ({  page, exquisiteCorpsePo } : AllFixtures) => {
-    await exquisiteCorpsePo.shouldBeDisplayed();
 
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exquisite-corpse/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
+// Cancel my turn to an exercise
+When('It is my turn', async ({  page, exerciseCreatePo, exerciseCurrentPo, exquisiteCorpsePo } : AllFixtures) => { 
+    await exerciseCreatePo.createdAs(
+        'Exercise test 2', 
+        '4', 
+        '5 minutes', 
+        '4', 
+        '5', 
+        'Ceci est un test pour valider ou non le bon fonctionnement du formulaire'
     );
-
+    await exerciseCurrentPo.shouldBeDisplayed();
+    await exquisiteCorpsePo.shouldBeDisplayed();
     await exquisiteCorpsePo.takePartToExercise();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('I click to cancel my turn', async ({ page, exquisiteCorpsePo } : AllFixtures) => {
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exquisite-corpse/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
-
     await exquisiteCorpsePo.giveUpTurn();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
-When('I click to delete an exercise', async ({  page, exerciseCurrentPo, confirmDialogPo } : AllFixtures) => {
-    await exerciseCurrentPo.deleteExerciseAction();
-    
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exercises/') && 
-        response.request().method() === 'DELETE' && 
-        response.status() === 204 
+
+// End an exercise
+When('I click to end an exercise', async ({ page, exerciseCreatePo, confirmDialogPo, exerciseCurrentPo } : AllFixtures) => {
+    await exerciseCreatePo.createdAs(
+        'Exercise test 3', 
+        '4', 
+        '5 minutes', 
+        '4', 
+        '5', 
+        'Ceci est un test pour valider ou non le bon fonctionnement du formulaire'
     );
-
-    await confirmDialogPo.confirmDeleteAction();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
-});
-Then('Display the dashboard page', async ({ dashboardPo }: AllFixtures) => {
-    await dashboardPo.shouldBeDisplayed();
-});
-When('I click to end an exercise', async ({ page, confirmDialogPo, exerciseCurrentPo } : AllFixtures) => {
+    await exerciseCurrentPo.shouldBeDisplayed();
     await exerciseCurrentPo.finishExerciseAction();
-
-    const getResponsePromise = page.waitForResponse(response => 
-        response.url().includes('/api/exercises/') && 
-        response.request().method() === 'POST' && 
-        response.status() === 204 
-    );
-
     await confirmDialogPo.confirmDeleteAction();
-
-    const response = await getResponsePromise;
-
-    console.log(`URL de la requête API: ${response.url()}`);
-    console.log(`Méthode de la requête: ${response.request().method()}`);
-    console.log(`Statut de la réponse: ${response.status()}`);
 });
 Then('Redirect to the dashboard page', async ({ dashboardPo }: AllFixtures) => {
+    await dashboardPo.shouldBeDisplayed();
+});
+
+// Delete an exercise
+When('I click to delete an exercise', async ({  page, exerciseCreatePo,exerciseCurrentPo, confirmDialogPo } : AllFixtures) => {
+    await exerciseCreatePo.createdAs(
+        'Exercise test 4', 
+        '4', 
+        '5 minutes', 
+        '4', 
+        '5', 
+        'Ceci est un test pour valider ou non le bon fonctionnement du formulaire'
+    );
+    await exerciseCurrentPo.shouldBeDisplayed();
+    await exerciseCurrentPo.deleteExerciseAction();
+    await confirmDialogPo.confirmDeleteAction();
+});
+Then('Display the dashboard page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
 });

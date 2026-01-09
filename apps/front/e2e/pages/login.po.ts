@@ -6,7 +6,7 @@ import { BasePo } from './base.po';
 export class LoginPo extends BasePo {
   private auth = new Auth();
   get pageLocator(): Locator {
-    return this.page.locator('.login-page');
+    return this.page.locator('.login-page__form');
   }
   get loginInput(): Locator {
     return this.pageLocator.locator('input[name=login]');
