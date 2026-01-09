@@ -23,7 +23,7 @@ Then('Display registration page', async({ registerPo }: AllFixtures) => {
 When('I fill the login form with valid data', async ({ loginPo }: AllFixtures) => {
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
 });
-Then('I am redirected to the dashboard page from the login page', async ({ page, dashboardPo }: AllFixtures) => {
+Then('I am redirected to the dashboard page from the login page', async ({ dashboardPo }: AllFixtures) => {
     await dashboardPo.shouldBeDisplayed();
 });
 

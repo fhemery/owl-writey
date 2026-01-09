@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+
 import { getAuthToken } from '../tools/auth-helper';
 
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
@@ -19,6 +20,6 @@ test.describe('API config', () => {
             }
         });
         expect(configResponse.status()).toBe(200);
-        const configBody = await configResponse.json();
+        await configResponse.json();
     });
 });

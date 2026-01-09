@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+
 import { getAuthToken } from '../tools/auth-helper';
 
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
@@ -58,11 +59,8 @@ test.describe('API exercises', () => {
         // 3. Tes vérifications fonctionnent maintenant sur 'createdBody' !
         expect(createdBody).toBeDefined();
         
-        if (createdBody) {
-            // console.log("Structure réelle de l'exercice reçu :", JSON.stringify(createdBody, null, 2));
-            expect(createdBody.name).toBe(exerciseData.name);
-            expect(createdBody.type).toBe(exerciseData.type);
-        }
+        expect(createdBody?.name).toBe(exerciseData.name);
+        expect(createdBody?.type).toBe(exerciseData.type);
     });
 
     test('should delete an exercise', async ({ request }) => {
@@ -95,7 +93,7 @@ test.describe('API exercises', () => {
         const exercisesList = result.exercises as Exercise[]; 
 
         const exerciseToDelete = exercisesList.find(ex => ex.name === exerciseData.name);
-        const exerciseId = exerciseToDelete!.id;
+        const exerciseId = exerciseToDelete?.id;
 
         // Delete an exercise
         const deleteResponse = await request.delete(`${BASE_API_URL}/api/exercises/${exerciseId}`, {

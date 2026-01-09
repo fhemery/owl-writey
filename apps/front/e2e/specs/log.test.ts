@@ -26,6 +26,7 @@ test.describe('API log', () => {
             data: logData
         });
 
+        // eslint-disable-next-line playwright/no-conditional-in-test
         if (logResponse.status() !== 204) {
             console.log("Détails de l'erreur :", await logResponse.json());
         }

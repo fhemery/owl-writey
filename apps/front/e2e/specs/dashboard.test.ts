@@ -1,42 +1,9 @@
-// import * as dotenv from 'dotenv';
-// import { expect, test } from '@playwright/test';
-
-// dotenv.config();
-
-// const API_URL = `${process.env['PLAYWRIGHT_BASE_URL']}/api/exercises`;
-// const API_KEY = process.env['OWL_FIREBASE_API_KEY'];
-
-// test.describe('Dashboard page', () => {
-    
-//     test('should be displayed and display exercises', async ({ request }) => {
-    
-//         const loginResponse = await request.post(`${process.env['PLAYWRIGHT_BASE_URL']}/api/login`, {
-//             data: {
-//                 email: 'bob@hemit.fr',
-//                 password: 'Test123!'
-//             }
-//         });
-//         const loginBody = await loginResponse.json();
-//         const token = loginBody.token;
-
-//         const exercisesResponse  = await request.get(API_URL, {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//                 'Accept': 'application/json'
-//             }
-//         });
-//         expect(exercisesResponse.status()).toBe(200);
-//         const exercisesBody = await exercisesResponse.json();
-//         expect(Array.isArray(exercisesBody)).toBe(true); 
-//         expect(exercisesBody.length).toBeGreaterThanOrEqual(0);
-//         console.log(`API checked. ${exercisesBody.length} exercises found.`);
-//     });
-// });
-
 import { expect, test } from '@playwright/test';
-import { getAuthToken } from '../tools/auth-helper';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
+//const API_KEY = process.env['OWL_FIREBASE_API_KEY'];
 
 test.describe('Dashboard API with Firebase Auth', () => {
     let idToken: string;
@@ -72,9 +39,12 @@ test.describe('Dashboard API with Firebase Auth', () => {
         expect(Array.isArray(exercisesList)).toBe(true);
         expect(exercisesList.length).toBeGreaterThanOrEqual(0);
         
+        // eslint-disable-next-line playwright/no-conditional-in-test
         if (exercisesList.length > 0) {
         console.log(`Premier exercice trouvé : ${exercisesList[0].name}`);
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(exercisesList[0]).toHaveProperty('id');
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(exercisesList[0]).toHaveProperty('name');
         }
 
@@ -90,9 +60,12 @@ test.describe('Dashboard API with Firebase Auth', () => {
         expect(Array.isArray(novelsList)).toBe(true);
         expect(novelsList.length).toBeGreaterThanOrEqual(0);
         
+        // eslint-disable-next-line playwright/no-conditional-in-test
         if (novelsList.length > 0) {
         console.log(`Premier roman rencontré : ${novelsList[0].title}`);
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(novelsList[0]).toHaveProperty('id');
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(novelsList[0]).toHaveProperty('title');
         }
 

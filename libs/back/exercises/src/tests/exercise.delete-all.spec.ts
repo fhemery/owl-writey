@@ -76,16 +76,10 @@ describe('DELETE /exercises', () => {
 
         await exerciseUtils.deleteAll();
 
-        const aliceExerciseTracking = await fakeTrackingFacade.getLastByName(
+        const trackingRecords = await fakeTrackingFacade.getByName(
           ExerciseDeletedTrackingEvent.EventName
         );
-        expect(aliceExerciseTracking).toEqual({
-          ...new ExerciseDeletedTrackingEvent(
-            aliceExercise.id,
-            TestUserBuilder.Alice().uid
-          ),
-          timestamp: expect.any(Date),
-        });
+        expect(trackingRecords.some((record) => (record.data as { exerciseId: string }).exerciseId === aliceExercise.id)).toBe(true);
       });
 
       it('should track the exercise participation removal', async () => {

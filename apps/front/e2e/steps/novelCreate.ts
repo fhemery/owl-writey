@@ -16,7 +16,7 @@ Given('Display a new novel form', async ({ novelCreatePo } : AllFixtures) => {
     await novelCreatePo.shouldDisplayForm();
 });
 
-When('I fill a new novel form with valid data', async ({ page, novelCreatePo } : AllFixtures) => {
+When('I fill a new novel form with valid data', async ({ novelCreatePo } : AllFixtures) => {
     await novelCreatePo.createNovel('This novel is a test');
 });
 Then('I am redirected to the current novel', async ({ novelCurrentPo } : AllFixtures) => {

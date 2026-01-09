@@ -1,17 +1,7 @@
 import { expect, test } from '@playwright/test';
+
 import { getAuthToken } from '../tools/auth-helper';
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
-
-interface Exercise {
-    id: string;
-    type: string;
-    name?: string; // Le '?' signifie que c'est optionnel
-    config: {
-        nbIterations: number;
-        initialText: string;
-        // ajoute les autres champs si besoin
-    };
-}
 
 test.describe('API exercises', () => {
     let idToken: string;
@@ -78,7 +68,7 @@ test.describe('API exercises', () => {
         const exerciseId  = listResult.exercises[0].id;
 
 
-        const takeTurnResponse = await request.post(`${BASE_API_URL}/api/exquisite-corpse/${exerciseId}/take-turn`, {
+        await request.post(`${BASE_API_URL}/api/exquisite-corpse/${exerciseId}/take-turn`, {
             headers: {
                 'Authorization': `Bearer ${idToken}`,
             },
@@ -118,16 +108,12 @@ test.describe('API exercises', () => {
         const exerciseId  = listResult.exercises[0].id;
 
 
-        const takeTurnResponse = await request.post(`${BASE_API_URL}/api/exquisite-corpse/${exerciseId}/take-turn`, {
+        await request.post(`${BASE_API_URL}/api/exquisite-corpse/${exerciseId}/take-turn`, {
             headers: {
                 'Authorization': `Bearer ${idToken}`,
             },
         });
         
-        const submitData = {
-            "content": "Once upon a time, in a world of APIs..."
-        }; 
-
         const cancelTurnResponse = await request.post(`${BASE_API_URL}/api/exquisite-corpse/${exerciseId}/submit-turn`, {
             headers: {
                 'Authorization': `Bearer ${idToken}`,

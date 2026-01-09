@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-import { HeaderPo } from '../pages/header.po';
-import { LoginPo } from '../pages/login.po';
 import { DashboardPo } from '../pages/dashboard.po';
-import { RegisterPo } from '../pages/register.po';
+import { HeaderPo } from '../pages/header.po';
 import { HomePo } from '../pages/home.po';
+import { LoginPo } from '../pages/login.po';
+import { RegisterPo } from '../pages/register.po';
 
 test.describe('Header', () => {
     let headerPo: HeaderPo;

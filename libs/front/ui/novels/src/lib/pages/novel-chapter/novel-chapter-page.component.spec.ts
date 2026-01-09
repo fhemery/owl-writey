@@ -1,7 +1,6 @@
 import { signal, WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestUtils } from '@owl/front/test-utils';
@@ -66,7 +65,6 @@ describe('NovelChapterPageComponent', () => {
       imports: [
         NovelChapterPageComponent,
         TranslateModule.forRoot(),
-        NoopAnimationsModule,
         MatDialogModule,
       ],
       providers: [

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+
 import { getAuthToken } from '../tools/auth-helper';
 
 const BASE_API_URL = process.env['PLAYWRIGHT_BASE_URL'] || 'http://localhost:3000';
@@ -47,10 +48,7 @@ test.describe('API novel', () => {
         const createdBody = novelList.find(n => n.title === novelData.title);
 
         expect(createdBody).toBeDefined();
-        if(createdBody) {
-            // console.log("Structure réelle de l'exercice reçu :", JSON.stringify(createdBody, null, 2));
-            expect(createdBody.title).toBe(novelData.title);
-            expect(createdBody.description).toBe(novelData.description);
-        }
+        expect(createdBody?.title).toBe(novelData.title);
+        expect(createdBody?.description).toBe(novelData.description);
     });
 });

@@ -10,7 +10,7 @@ Given('I am logged', async ({ loginPo, dashboardPo } : AllFixtures) => {
     await loginPo.logAs('bob@hemit.fr', 'Test123!');
     await dashboardPo.shouldBeDisplayed();
 });
-Given('I display the corresponding current novel', async ({ dashboardPo, novelCreatePo, novelCurrentPo, novelCardPo } : AllFixtures) => {
+Given('I display the corresponding current novel', async ({ dashboardPo, novelCreatePo, novelCurrentPo } : AllFixtures) => {
     await dashboardPo.createNewNovel();
     await novelCreatePo.shouldDisplayForm();
     await novelCreatePo.createNovel('This novel is a test');
@@ -20,7 +20,7 @@ Given('I display the corresponding current novel', async ({ dashboardPo, novelCr
 });
 
 // Delete a novel
-When('I delete a novel', async ({  page, novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
+When('I delete a novel', async ({ novelHeaderPo, novelCreatePo, confirmDialogPo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
     await novelCreatePo.deleteNovel();
     await confirmDialogPo.filledAs('This novel is a test');
@@ -31,7 +31,7 @@ Then('Display the dashboard', async ({ dashboardPo }: AllFixtures) => {
 });
 
 // Update a novel
-When('I update a novel', async ({ page, novelHeaderPo, novelCreatePo } : AllFixtures) => {
+When('I update a novel', async ({ novelHeaderPo, novelCreatePo } : AllFixtures) => {
     await novelHeaderPo.updateInfo();
     await novelCreatePo.updateNovel('This is an amazing story');
 });
@@ -43,7 +43,7 @@ Then('Display the novel form updated', async ({ novelCreatePo}: AllFixtures) => 
 When('I click to add a first chapter', async ({ novelOvervwNoChapPo } : AllFixtures) => {
     await novelOvervwNoChapPo.addFirstChapter();
 });
-Then('Display the novel detail to add it', async ({ page,novelOvervwChapCardPo, novelCorkboardPo }: AllFixtures) => {
+Then('Display the novel detail to add it', async ({ novelOvervwChapCardPo, novelCorkboardPo }: AllFixtures) => {
     await novelOvervwChapCardPo.shouldBeDisplayed();
     await novelOvervwChapCardPo.fillChapterTitle('Testing chapter');
     await novelOvervwChapCardPo.shouldBeDisplayed();

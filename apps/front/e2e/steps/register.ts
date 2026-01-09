@@ -21,7 +21,7 @@ Then('Display the login page', async ({ loginPo }: AllFixtures) => {
     await loginPo.shouldBeDisplayed();
 });
 
-When('I fill the registration form with valid data', async ({ page, registerPo }: AllFixtures) => {
+When('I fill the registration form with valid data', async ({ registerPo }: AllFixtures) => {
     await registerPo.registerAs('Edward', 'owl-30@hemit.fr', 'password', 'password');
 });
 Then('I am redirected to the dashboard page from the register page', async ({ dashboardPo }: AllFixtures) => {

@@ -24,7 +24,7 @@ Then('{string} should be the selected duration', async ({exerciseCreatePo} : All
   await exerciseCreatePo.shouldDisplayDuration(durationValue);
 });
 
-When('I fill a new exercise form with valid data', async ({ page, exerciseCreatePo } : AllFixtures) => {
+When('I fill a new exercise form with valid data', async ({ exerciseCreatePo } : AllFixtures) => {
     await exerciseCreatePo.createdAs(
         'Test d\'exercice owl-writey', 
         '4', 

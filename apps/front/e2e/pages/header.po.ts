@@ -40,6 +40,10 @@ export class HeaderPo extends BasePo {
         await this.loginBtn.click();
     }
 
+    async redirectLogout(): Promise<void>{
+        await this.logoutBtn.click();
+    }
+
     async redirectRegister(): Promise<void> {
         await this.registerBtn.click();
     }
