@@ -65,7 +65,7 @@ export class ContentEditableDirective implements OnInit {
   }
 
   @HostListener('keydown.enter', ['$event'])
-  onEnterKeydown(event: KeyboardEvent): void {
+  onEnterKeydown(event: Event): void {
     if (!this.multiLine()) {
       event.preventDefault();
       this.elementRef.nativeElement.blur();
@@ -74,8 +74,7 @@ export class ContentEditableDirective implements OnInit {
 
   @HostListener('keydown.shift.enter', ['$event'])
   onShiftEnterKeydown(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
+    event.preventDefault();
     this.elementRef.nativeElement.blur();
   }
 }
