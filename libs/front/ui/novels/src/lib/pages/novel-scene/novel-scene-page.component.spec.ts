@@ -1,12 +1,14 @@
+import { Location } from '@angular/common';
 import { signal, WritableSignal } from '@angular/core';
 import {
-    ComponentFixture,
-    fakeAsync,
-    TestBed,
-    tick,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestUtils } from '@owl/front/test-utils';
 import { NotificationService } from '@owl/front/ui/common';
@@ -118,16 +120,18 @@ describe('NovelScenePageComponent', () => {
   });
 
   describe('Navigation', () => {
-    it('should display home icon and navigate to novel', () => {
+    it('should display home icon and navigate to novel', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
       testUtils.setInput(() => component.sceneId, 'scene-1', true);
       fixture.detectChanges();
 
       expect(testUtils.hasElement('#homeLink')).toBeTruthy();
       testUtils.clickElementAt('#homeLink');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(`/novels/${novel.id}`);
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(`/novels/${novel.id}`);
+      });
+    }));
 
     it('should display chapter title', () => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
@@ -139,15 +143,17 @@ describe('NovelScenePageComponent', () => {
       ).toContain('Chapter 1');
     });
 
-    it('should redirect to chapter page when clicking on chapter title', () => {
+    it('should redirect to chapter page when clicking on chapter title', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
       testUtils.setInput(() => component.sceneId, 'scene-1', true);
       fixture.detectChanges();
 
       testUtils.clickElementAt('.scene-page__title--chapter');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(`/novels/${novel.id}/chapters/chapter-1`);
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(`/novels/${novel.id}/chapters/chapter-1`);
+      });
+    }));
 
     it('should display the previous scene link if the scene has a previous scene', () => {
       testUtils.setInput(() => component.chapterId, 'chapter-1');
@@ -201,49 +207,57 @@ describe('NovelScenePageComponent', () => {
       expect(testUtils.hasElement('#nextSceneLink')).toBeFalsy();
     });
 
-    it('should navigate to the previous scene', () => {
+    it('should navigate to the previous scene', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', false);
       testUtils.setInput(() => component.sceneId, 'scene-2', true);
 
       testUtils.clickElementAt('#previousSceneLink');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(
-        `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
-      );
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(
+          `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
+        );
+      });
+    }));
 
-    it('should navigate to the previous scene in the previous chapter', () => {
+    it('should navigate to the previous scene in the previous chapter', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-2', false);
       testUtils.setInput(() => component.sceneId, 'scene-4', true);
 
       testUtils.clickElementAt('#previousSceneLink');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(
-        `/novels/${novel.id}/chapters/chapter-1/scenes/scene-3`
-      );
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(
+          `/novels/${novel.id}/chapters/chapter-1/scenes/scene-3`
+        );
+      });
+    }));
 
-    it('should navigate to the next scene', () => {
+    it('should navigate to the next scene', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
       testUtils.setInput(() => component.sceneId, 'scene-1', true);
       fixture.detectChanges();
 
       testUtils.clickElementAt('#nextSceneLink');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(
-        `/novels/${novel.id}/chapters/chapter-1/scenes/scene-2`
-      );
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(
+          `/novels/${novel.id}/chapters/chapter-1/scenes/scene-2`
+        );
+      });
+    }));
 
-    it('should navigate to the next scene in the next chapter', () => {
+    it('should navigate to the next scene in the next chapter', waitForAsync(() => {
       testUtils.setInput(() => component.chapterId, 'chapter-1', true);
       testUtils.setInput(() => component.sceneId, 'scene-3', true);
 
       testUtils.clickElementAt('#nextSceneLink');
-      const router = TestBed.inject(Router);
-      expect(router.url).toBe(
-        `/novels/${novel.id}/chapters/chapter-2/scenes/scene-4`
-      );
-    });
+      fixture.whenStable().then(() => {
+        const location = TestBed.inject(Location);
+        expect(location.path()).toBe(
+          `/novels/${novel.id}/chapters/chapter-2/scenes/scene-4`
+        );
+      });
+    }));
   });
 });

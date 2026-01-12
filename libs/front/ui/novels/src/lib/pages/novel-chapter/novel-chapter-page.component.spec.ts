@@ -1,7 +1,9 @@
+import { Location } from '@angular/common';
 import { signal, WritableSignal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { provideRouter, Router } from '@angular/router';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestUtils } from '@owl/front/test-utils';
 import {
@@ -66,6 +68,7 @@ describe('NovelChapterPageComponent', () => {
         NovelChapterPageComponent,
         TranslateModule.forRoot(),
         MatDialogModule,
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: NovelStore, useValue: mockNovelStore },
@@ -74,10 +77,10 @@ describe('NovelChapterPageComponent', () => {
         { provide: ConfirmDialogService, useValue: mockConfirmDialogService },
         { provide: NotificationService, useValue: mockNotificationService },
         provideRouter([
-          {
-            path: '**',
-            component: NovelChapterPageComponent,
-          },
+          { path: 'novels/:id', component: NovelChapterPageComponent },
+          { path: 'novels/:id/chapters/:chapterId', component: NovelChapterPageComponent },
+          { path: 'novels/:id/chapters/:chapterId/scenes/:sceneId', component: NovelChapterPageComponent },
+          { path: '**', component: NovelChapterPageComponent },
         ]),
       ],
     }).compileComponents();
@@ -112,12 +115,14 @@ describe('NovelChapterPageComponent', () => {
         expect(testUtils.getTextForElementAt('h2')).toBe('Chapter 1');
       });
 
-      it('should display a home icon to navigate to the novel', () => {
+      it('should display a home icon to navigate to the novel', waitForAsync(() => {
         expect(testUtils.hasElement('#homeLink')).toBeTruthy();
         testUtils.clickElementAt('#homeLink');
-        const router = TestBed.inject(Router);
-        expect(router.url).toBe(`/novels/${novel.id}`);
-      });
+        fixture.whenStable().then(() => {
+          const location = TestBed.inject(Location);
+          expect(location.path()).toBe(`/novels/${novel.id}`);
+        });
+      }));
 
       it('should display the number of scenes', () => {
         expect(
@@ -158,19 +163,23 @@ describe('NovelChapterPageComponent', () => {
         expect(testUtils.hasElement('#previousChapterLink')).toBeFalsy();
       });
 
-      it('should navigate to the previous chapter if previous chapter link is clicked', () => {
+      it('should navigate to the previous chapter if previous chapter link is clicked', waitForAsync(() => {
         testUtils.setInput(() => component.chapterId, 'chapter-2', true);
         testUtils.clickElementAt('#previousChapterLink');
-        const router = TestBed.inject(Router);
-        expect(router.url).toBe(`/novels/${novel.id}/chapters/chapter-1`);
-      });
+        fixture.whenStable().then(() => {
+          const location = TestBed.inject(Location);
+          expect(location.path()).toBe(`/novels/${novel.id}/chapters/chapter-1`);
+        });
+      }));
 
-      it('should navigate to the next chapter if next chapter link is clicked', () => {
+      it('should navigate to the next chapter if next chapter link is clicked', waitForAsync(() => {
         testUtils.setInput(() => component.chapterId, 'chapter-2', true);
         testUtils.clickElementAt('#nextChapterLink');
-        const router = TestBed.inject(Router);
-        expect(router.url).toBe(`/novels/${novel.id}/chapters/chapter-3`);
-      });
+        fixture.whenStable().then(() => {
+          const location = TestBed.inject(Location);
+          expect(location.path()).toBe(`/novels/${novel.id}/chapters/chapter-3`);
+        });
+      }));
     });
 
     describe('Regarding scenes', () => {
@@ -217,7 +226,7 @@ describe('NovelChapterPageComponent', () => {
             testUtils
               .getElementAt('owl-novel-scene-card .chapter-scene')
               .getAttribute('style')
-          ).toBeNull();
+          ).not.toContain('color');
         });
 
         it('should display the POV if one is selected', () => {
@@ -382,25 +391,29 @@ describe('NovelChapterPageComponent', () => {
       });
 
       describe('Regarding navigation', () => {
-        it('should navigate to the scene if scene card is double-clicked', () => {
+        it('should navigate to the scene if scene card is double-clicked', waitForAsync(() => {
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
           testUtils.doubleClickElementAt('owl-novel-scene-card .chapter-scene');
-          const router = TestBed.inject(Router);
-          expect(router.url).toBe(
-            `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
-          );
-        });
+          fixture.whenStable().then(() => {
+            const location = TestBed.inject(Location);
+            expect(location.path()).toBe(
+              `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
+            );
+          });
+        }));
 
-        it('should navigate to the scene if scene goto button is clicked', () => {
+        it('should navigate to the scene if scene goto button is clicked', waitForAsync(() => {
           testUtils.setInput(() => component.chapterId, 'chapter-1', true);
           testUtils.clickElementAt(
             'owl-novel-scene-card .chapter-scene__action--go'
           );
-          const router = TestBed.inject(Router);
-          expect(router.url).toBe(
-            `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
-          );
-        });
+          fixture.whenStable().then(() => {
+            const location = TestBed.inject(Location);
+            expect(location.path()).toBe(
+              `/novels/${novel.id}/chapters/chapter-1/scenes/scene-1`
+            );
+          });
+        }));
       });
     });
   });

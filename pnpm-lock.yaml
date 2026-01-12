@@ -126,16 +126,16 @@ importers:
         specifier: ^4.17.1
         version: 4.18.0
       prosemirror-inputrules:
-        specifier: ^1.5.0
+        specifier: ^1.5.1
         version: 1.5.1
       prosemirror-model:
-        specifier: ^1.25.1
+        specifier: 1.25.4
         version: 1.25.4
       prosemirror-schema-basic:
-        specifier: ^1.2.4
+        specifier: 1.2.4
         version: 1.2.4
       prosemirror-state:
-        specifier: ^1.4.3
+        specifier: 1.4.4
         version: 1.4.4
       reflect-metadata:
         specifier: ^0.1.13
